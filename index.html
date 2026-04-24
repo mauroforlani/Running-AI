@@ -105,6 +105,7 @@ header { display: flex; align-items: center; justify-content: space-between; pad
 .act-card-type-bar.interval-type { background: var(--yellow); }
 .act-card-type-bar.long-type     { background: var(--green); }
 .act-card-type-bar.recovery-type { background: var(--muted2); }
+.act-card-type-bar.base-type     { background: var(--muted2); }
 .act-card-icon { font-size: 26px; line-height: 1; margin-right: 10px; flex-shrink: 0; }
 .act-card-title-wrap { flex: 1; min-width: 0; }
 .act-card-title { font-weight: 700; font-size: 14px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -221,6 +222,7 @@ select.form-input { cursor: pointer; }
   <div class="header-btns">
     <input type="file" id="csv-file" accept=".csv" style="display:none">
     <button class="btn btn-import" onclick="document.getElementById('csv-file').click()">⬆ Importa CSV</button>
+    <button class="btn btn-secondary" onclick="exportHTMLWithData()" title="Salva HTML con tutti i dati">💾 Salva</button>
     <button class="btn btn-secondary" onclick="openModal('garmin-modal')">⌚ Garmin</button>
     <button class="btn btn-primary" onclick="openModal('workout-modal')">+ Allenamento</button>
   </div>
@@ -236,7 +238,7 @@ select.form-input { cursor: pointer; }
 <!-- ═══════════════ DASHBOARD + ANALYTICS ══ -->
 <div id="tab-dashboard" class="section">
 
-  <!-- KPI row -->
+  <!-- KPI row globale -->
   <div class="stats-grid" id="stats-row"></div>
 
   <!-- Quick filters for dashboard -->
@@ -247,14 +249,6 @@ select.form-input { cursor: pointer; }
     <button class="filter-pill" data-period="90" onclick="setDashPeriod(90,this)">3 mesi</button>
     <button class="filter-pill" data-period="365" onclick="setDashPeriod(365,this)">1 anno</button>
     <button class="filter-pill" data-period="0" onclick="setDashPeriod(0,this)">Tutto</button>
-    <div class="filter-sep-v"></div>
-    <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">TIPO:</span>
-    <button class="filter-pill" data-dtype="all" onclick="setDashType('all',this)" style="background:var(--accent);color:#fff;border-color:var(--accent)">Tutti</button>
-    <button class="filter-pill" data-dtype="running" onclick="setDashType('running',this)">🏃 Running</button>
-    <button class="filter-pill trail-pill" data-dtype="trail" onclick="setDashType('trail',this)">🏔 Trail</button>
-    <button class="filter-pill interval-pill" data-dtype="interval" onclick="setDashType('interval',this)">⚡ Interval</button>
-    <button class="filter-pill long-pill" data-dtype="long" onclick="setDashType('long',this)">🛣 Long</button>
-    <button class="filter-pill recovery-pill" data-dtype="recovery" onclick="setDashType('recovery',this)">🧘 Recovery</button>
   </div>
 
   <!-- Garmin + Recenti -->
@@ -269,39 +263,66 @@ select.form-input { cursor: pointer; }
     </div>
   </div>
 
-  <!-- Charts row -->
+  <!-- ── RUNNING SECTION ── -->
+  <div style="margin:20px 0 8px;padding:10px 14px;background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0">
+    <div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--accent)">🏃 Running</div>
+    <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">Road running, interval, long run, base</div>
+  </div>
+  <div class="stats-grid" id="stats-running" style="grid-template-columns:repeat(5,1fr)"></div>
+
   <div class="dash-two-col">
     <div class="card">
-      <div class="card-title">📅 Volume settimanale (km)</div>
+      <div class="card-title">📅 Volume settimanale — Running (km)</div>
       <div id="weekly-chart" style="height:130px;display:flex;align-items:flex-end;gap:5px;margin-top:6px"></div>
     </div>
     <div class="card">
-      <div class="card-title">📈 Km per settimana — 12 settimane</div>
-      <div id="chart-weekly-km" style="height:130px"></div>
-    </div>
-  </div>
-
-  <div class="dash-two-col">
-    <div class="card">
-      <div class="card-title">♥ FC Media nel tempo</div>
+      <div class="card-title">♥ FC Media nel tempo — Running</div>
       <div id="chart-hr" style="height:130px"></div>
     </div>
+  </div>
+  <div class="dash-two-col">
     <div class="card">
-      <div class="card-title">⏱ Passo Medio nel tempo</div>
+      <div class="card-title">⏱ Passo Medio nel tempo — Running</div>
       <div id="chart-pace" style="height:130px"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏆 Top Performances — Running</div>
+      <div id="top-perf" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div>
     </div>
   </div>
 
-  <!-- Top perf + distribuzione -->
+  <!-- ── TRAIL RUNNING SECTION ── -->
+  <div style="margin:20px 0 8px;padding:10px 14px;background:var(--trail-bg);border-left:4px solid var(--trail);border-radius:0 var(--radius) var(--radius) 0">
+    <div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--trail)">🏔 Trail Running</div>
+    <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">Off-road, montagna, dislivello</div>
+  </div>
+  <div class="stats-grid" id="stats-trail" style="grid-template-columns:repeat(5,1fr)"></div>
+
   <div class="dash-two-col">
     <div class="card">
-      <div class="card-title">🏆 Top Performances</div>
-      <div id="top-perf" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div>
+      <div class="card-title">📅 Volume settimanale — Trail (km)</div>
+      <div id="weekly-chart-trail" style="height:130px;display:flex;align-items:flex-end;gap:5px;margin-top:6px"></div>
     </div>
     <div class="card">
-      <div class="card-title">📆 Distribuzione attività</div>
-      <div id="activity-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div>
+      <div class="card-title">🏔 Dislivello settimanale — Trail (m+)</div>
+      <div id="chart-weekly-elev" style="height:130px"></div>
     </div>
+  </div>
+  <div class="dash-two-col">
+    <div class="card">
+      <div class="card-title">⏱ Passo Medio nel tempo — Trail</div>
+      <div id="chart-pace-trail" style="height:130px"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏆 Top Performances — Trail</div>
+      <div id="top-perf-trail" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div>
+    </div>
+  </div>
+
+  <!-- Distribuzione globale -->
+  <div class="card" style="margin-top:0">
+    <div class="card-title">📆 Distribuzione attività</div>
+    <div id="activity-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div>
   </div>
 
 </div>
@@ -317,6 +338,7 @@ select.form-input { cursor: pointer; }
     <button class="filter-pill trail-pill" data-ftype="trail" onclick="setTypeFilter('trail',this)">🏔 Trail</button>
     <button class="filter-pill interval-pill" data-ftype="interval" onclick="setTypeFilter('interval',this)">⚡ Interval</button>
     <button class="filter-pill long-pill" data-ftype="long" onclick="setTypeFilter('long',this)">🛣 Long</button>
+    <button class="filter-pill recovery-pill" data-ftype="base" onclick="setTypeFilter('base',this)">🏃 Base</button>
     <button class="filter-pill recovery-pill" data-ftype="recovery" onclick="setTypeFilter('recovery',this)">🧘 Recovery</button>
     <div class="filter-sep-v"></div>
     <button class="adv-toggle btn btn-secondary btn-sm" onclick="toggleAdvFilter()">⚙ Filtri avanzati</button>
@@ -422,7 +444,7 @@ select.form-input { cursor: pointer; }
     <h3>🏃 Nuovo Allenamento</h3>
     <div class="form-grid">
       <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="date" id="w-date"></div>
-      <div class="form-group"><label class="form-label">Tipo</label><select class="form-input" id="w-type"><option value="running">Running</option><option value="trail">Trail Running</option><option value="interval">Interval</option><option value="long">Long Run</option><option value="recovery">Recovery</option></select></div>
+      <div class="form-group"><label class="form-label">Tipo</label><select class="form-input" id="w-type"><option value="running">Running</option><option value="trail">Trail Running</option><option value="interval">Interval</option><option value="long">Long Run</option><option value="base">Base</option><option value="recovery">Recovery</option></select></div>
       <div class="form-group"><label class="form-label">Titolo</label><input class="form-input" type="text" id="w-title" placeholder="es. Milan - Base"></div>
       <div class="form-group"><label class="form-label">Distanza (km)</label><input class="form-input" type="number" id="w-distance" placeholder="12.5" step="0.01"></div>
       <div class="form-group"><label class="form-label">Durata (min)</label><input class="form-input" type="number" id="w-duration" placeholder="65"></div>
@@ -455,6 +477,8 @@ select.form-input { cursor: pointer; }
   </div>
 </div>
 
+<script type="application/json" id="embedded-state">{}</script>
+
 <div id="toast" class="toast" style="display:none"></div>
 
 <script>
@@ -470,10 +494,26 @@ let advFilterOpen = false;
 
 // ══════════════════════════════════════ PERSIST ══
 function loadState() {
-  try { const r = localStorage.getItem(DB_KEY); if (r) state = JSON.parse(r); } catch {}
+  // Prima prova il localStorage (dati più recenti)
+  try { const r = localStorage.getItem(DB_KEY); if (r) { state = JSON.parse(r); return; } } catch {}
+  // Fallback ai dati embedded nell'HTML
+  try { const emb = document.getElementById('embedded-state'); if (emb && emb.textContent.trim()) { state = JSON.parse(emb.textContent); } } catch {}
 }
 function saveState() {
   try { localStorage.setItem(DB_KEY, JSON.stringify(state)); } catch {}
+  // Aggiorna anche i dati embedded nell'HTML per portabilità
+  try {
+    const emb = document.getElementById('embedded-state');
+    if (emb) emb.textContent = JSON.stringify(state);
+  } catch {}
+}
+function exportHTMLWithData() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'runai-backup.html'; a.click();
+  URL.revokeObjectURL(a.href);
+  toast('✓ HTML esportato con tutti i dati', 'ok');
 }
 
 // ══════════════════════════════════════ HELPERS ══
@@ -522,12 +562,13 @@ function detectType(typeRaw, title) {
   if (t.includes('trail')) return 'trail';
   if (ti.includes('vo2') || ti.includes('interval') || ti.includes('sprint')) return 'interval';
   if (ti.includes('long')) return 'long';
-  if (ti.includes('recovery') || ti.includes('base')) return 'recovery';
+  if (ti.includes('recovery')) return 'recovery';
+  if (ti.includes('base')) return 'base';
   return 'running';
 }
-const TYPE_ICON  = { running:'🏃', trail:'🏔', interval:'⚡', long:'🛣', recovery:'🧘' };
-const TYPE_LABEL = { running:'Running', trail:'Trail Running', interval:'Interval', long:'Long Run', recovery:'Recovery' };
-const TYPE_COLOR = { running:'var(--accent)', trail:'var(--trail)', interval:'var(--yellow)', long:'var(--green)', recovery:'var(--muted)' };
+const TYPE_ICON  = { running:'🏃', trail:'🏔', interval:'⚡', long:'🛣', recovery:'🧘', base:'🏃' };
+const TYPE_LABEL = { running:'Running', trail:'Trail Running', interval:'Interval', long:'Long Run', recovery:'Recovery', base:'Base' };
+const TYPE_COLOR = { running:'var(--accent)', trail:'var(--trail)', interval:'var(--yellow)', long:'var(--green)', recovery:'var(--muted)', base:'var(--muted2)' };
 
 // ══════════════════════════════════════ CSV IMPORT ══
 document.getElementById('csv-file').addEventListener('change', function(e) {
@@ -652,11 +693,11 @@ function setDashType(t, btn) {
   renderStats(); renderWeeklyChart(); renderAnalytics();
 }
 
-function dashWorkouts() {
+function dashWorkouts(typeFilter) {
   const now = Date.now();
   return state.workouts.filter(w => {
     const ok_period = dashPeriod === 0 || (now - new Date(w.date)) / 86400000 <= dashPeriod;
-    const ok_type = dashType === 'all' || w.type === dashType;
+    const ok_type = !typeFilter || typeFilter === 'all' || w.type === typeFilter;
     return ok_period && ok_type;
   });
 }
@@ -749,17 +790,52 @@ function renderStats() {
   const ws = dashWorkouts();
   const km = ws.reduce((s,w) => s+(w.distance||0), 0);
   const elev = ws.reduce((s,w) => s+(w.elevGain||0), 0);
-  const trails = ws.filter(w=>w.type==='trail').length;
   const totalMin = ws.reduce((s,w) => s+(w.duration||0), 0);
   const avgPaceWs = ws.filter(w=>w.paceSeconds&&w.paceSeconds<900);
   const avgPace = avgPaceWs.length ? Math.round(avgPaceWs.reduce((s,w)=>s+w.paceSeconds,0)/avgPaceWs.length) : null;
+  const avgHRWs = ws.filter(w=>w.avgHR);
+  const avgHR = avgHRWs.length ? Math.round(avgHRWs.reduce((s,w)=>s+w.avgHR,0)/avgHRWs.length) : null;
 
   document.getElementById('stats-row').innerHTML = `
-    <div class="stat-card"><div class="stat-val">${km.toFixed(1)}<span class="unit"> km</span></div><div class="stat-label">Km nel periodo</div></div>
+    <div class="stat-card"><div class="stat-val">${km.toFixed(1)}<span class="unit"> km</span></div><div class="stat-label">Km totali</div></div>
     <div class="stat-card ${elev>500?'green':''}"><div class="stat-val">${elev>0?(elev/1000).toFixed(1)+'k':'0'}<span class="unit"> m+</span></div><div class="stat-label">Dislivello</div></div>
     <div class="stat-card"><div class="stat-val">${ws.length}</div><div class="stat-label">Allenamenti</div></div>
-    <div class="stat-card trail-c"><div class="stat-val">${trails}</div><div class="stat-label">Trail Run</div></div>
+    <div class="stat-card"><div class="stat-val">${fmtDuration(totalMin)}</div><div class="stat-label">Ore totali</div></div>
     <div class="stat-card"><div class="stat-val">${avgPace?secondsToPace(avgPace):'--'}<span class="unit">/km</span></div><div class="stat-label">Passo medio</div></div>
+  `;
+
+  // KPI Running (road: running, interval, long, base, recovery)
+  const runTypes = ['running','interval','long','base','recovery'];
+  const wsRun = dashWorkouts().filter(w => runTypes.includes(w.type));
+  const kmRun = wsRun.reduce((s,w) => s+(w.distance||0), 0);
+  const elevRun = wsRun.reduce((s,w) => s+(w.elevGain||0), 0);
+  const minRun = wsRun.reduce((s,w) => s+(w.duration||0), 0);
+  const paceRunWs = wsRun.filter(w=>w.paceSeconds&&w.paceSeconds<900);
+  const avgPaceRun = paceRunWs.length ? Math.round(paceRunWs.reduce((s,w)=>s+w.paceSeconds,0)/paceRunWs.length) : null;
+  const teRunWs = wsRun.filter(w=>w.aerobicTE);
+  const avgTERun = teRunWs.length ? (teRunWs.reduce((s,w)=>s+(+w.aerobicTE),0)/teRunWs.length).toFixed(1) : null;
+  document.getElementById('stats-running').innerHTML = `
+    <div class="stat-card"><div class="stat-val">${kmRun.toFixed(1)}<span class="unit"> km</span></div><div class="stat-label">Km Running</div></div>
+    <div class="stat-card"><div class="stat-val">${wsRun.length}</div><div class="stat-label">Sessioni</div></div>
+    <div class="stat-card"><div class="stat-val">${fmtDuration(minRun)}</div><div class="stat-label">Ore in movimento</div></div>
+    <div class="stat-card"><div class="stat-val">${avgPaceRun?secondsToPace(avgPaceRun):'--'}<span class="unit">/km</span></div><div class="stat-label">Passo medio</div></div>
+    <div class="stat-card"><div class="stat-val">${avgTERun||'--'}</div><div class="stat-label">Training Effect</div></div>
+  `;
+
+  // KPI Trail
+  const wsTrail = dashWorkouts().filter(w => w.type === 'trail');
+  const kmTrail = wsTrail.reduce((s,w) => s+(w.distance||0), 0);
+  const elevTrail = wsTrail.reduce((s,w) => s+(w.elevGain||0), 0);
+  const minTrail = wsTrail.reduce((s,w) => s+(w.duration||0), 0);
+  const paceTrailWs = wsTrail.filter(w=>w.paceSeconds&&w.paceSeconds<900);
+  const avgPaceTrail = paceTrailWs.length ? Math.round(paceTrailWs.reduce((s,w)=>s+w.paceSeconds,0)/paceTrailWs.length) : null;
+  const elevPerKmTrail = kmTrail > 0 ? (elevTrail/kmTrail).toFixed(0) : '--';
+  document.getElementById('stats-trail').innerHTML = `
+    <div class="stat-card trail-c"><div class="stat-val">${kmTrail.toFixed(1)}<span class="unit"> km</span></div><div class="stat-label">Km Trail</div></div>
+    <div class="stat-card trail-c"><div class="stat-val">${wsTrail.length}</div><div class="stat-label">Sessioni</div></div>
+    <div class="stat-card green"><div class="stat-val">${elevTrail>0?(elevTrail/1000).toFixed(1)+'k':'0'}<span class="unit"> m+</span></div><div class="stat-label">Dislivello</div></div>
+    <div class="stat-card"><div class="stat-val">${fmtDuration(minTrail)}</div><div class="stat-label">Ore in movimento</div></div>
+    <div class="stat-card"><div class="stat-val">${elevPerKmTrail}<span class="unit"> m/km</span></div><div class="stat-label">D+ per km</div></div>
   `;
 }
 
@@ -806,21 +882,45 @@ function renderRecentWorkouts() {
 }
 
 function renderWeeklyChart() {
-  const weeks={}, now=new Date(); now.setHours(0,0,0,0);
-  for (let i=7;i>=0;i--) { const d=new Date(now); d.setDate(d.getDate()-i*7); const k='w'+i; weeks[k]={label:fmtDateShort(d.toISOString()),km:0,trail:false}; }
-  const ws = dashType==='all' ? state.workouts : state.workouts.filter(w=>w.type===dashType);
-  ws.forEach(w => {
+  const runTypes = ['running','interval','long','base','recovery'];
+  const wsRun = state.workouts.filter(w => runTypes.includes(w.type));
+  const wsTrail = state.workouts.filter(w => w.type === 'trail');
+
+  // Running weekly chart (8 weeks bar)
+  const weeksRun={}, now=new Date(); now.setHours(0,0,0,0);
+  for (let i=7;i>=0;i--) { const d=new Date(now); d.setDate(d.getDate()-i*7); weeksRun['w'+i]={label:fmtDateShort(d.toISOString()),km:0}; }
+  wsRun.forEach(w => {
     const d=new Date(w.date); if(isNaN(d)) return;
     const daysAgo=(now-d)/86400000; if(daysAgo>56) return;
     const k='w'+Math.floor(daysAgo/7);
-    if(weeks[k]) { weeks[k].km+=(w.distance||0); if(w.type==='trail') weeks[k].trail=true; }
+    if(weeksRun[k]) weeksRun[k].km+=(w.distance||0);
   });
-  const vals=Object.values(weeks), maxKm=Math.max(...vals.map(v=>v.km),1);
-  document.getElementById('weekly-chart').innerHTML = vals.map(v=>`
+  const valsRun=Object.values(weeksRun), maxKmRun=Math.max(...valsRun.map(v=>v.km),1);
+  document.getElementById('weekly-chart').innerHTML = valsRun.map(v=>`
     <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
       <div style="font-size:9px;color:var(--muted);font-family:var(--font-mono)">${v.km>0?v.km.toFixed(0):''}</div>
       <div style="flex:1;width:100%;display:flex;align-items:flex-end">
-        <div style="width:100%;height:${Math.max((v.km/maxKm)*90,v.km>0?2:0)}px;background:${v.trail?'var(--trail-bg)':'var(--accent-light)'};border-top:${v.km>0?'2px':'0'} solid ${v.trail?'var(--trail)':'var(--accent)'};border-radius:2px 2px 0 0;transition:height .4s"></div>
+        <div style="width:100%;height:${Math.max((v.km/maxKmRun)*90,v.km>0?2:0)}px;background:var(--accent-light);border-top:${v.km>0?'2px':'0'} solid var(--accent);border-radius:2px 2px 0 0;transition:height .4s"></div>
+      </div>
+      <div style="font-size:9px;color:var(--muted)">${v.label}</div>
+    </div>`).join('');
+
+  // Trail weekly chart
+  const weeksTrail={};
+  for (let i=7;i>=0;i--) { const d=new Date(now); d.setDate(d.getDate()-i*7); weeksTrail['w'+i]={label:fmtDateShort(d.toISOString()),km:0}; }
+  wsTrail.forEach(w => {
+    const d=new Date(w.date); if(isNaN(d)) return;
+    const daysAgo=(now-d)/86400000; if(daysAgo>56) return;
+    const k='w'+Math.floor(daysAgo/7);
+    if(weeksTrail[k]) weeksTrail[k].km+=(w.distance||0);
+  });
+  const valsTrail=Object.values(weeksTrail), maxKmTrail=Math.max(...valsTrail.map(v=>v.km),1);
+  const elTrail=document.getElementById('weekly-chart-trail');
+  if(elTrail) elTrail.innerHTML = valsTrail.map(v=>`
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div style="font-size:9px;color:var(--muted);font-family:var(--font-mono)">${v.km>0?v.km.toFixed(0):''}</div>
+      <div style="flex:1;width:100%;display:flex;align-items:flex-end">
+        <div style="width:100%;height:${Math.max((v.km/maxKmTrail)*90,v.km>0?2:0)}px;background:var(--trail-bg);border-top:${v.km>0?'2px':'0'} solid var(--trail);border-radius:2px 2px 0 0;transition:height .4s"></div>
       </div>
       <div style="font-size:9px;color:var(--muted)">${v.label}</div>
     </div>`).join('');
@@ -872,12 +972,21 @@ function deleteWorkout(id) {
 
 // ══════════════════════════════════════ ANALYTICS ══
 function renderAnalytics() {
-  const ws = dashWorkouts();
-  renderBarChart('chart-weekly-km', getWeeklyData('km', ws), 'var(--accent)', 'var(--accent-light)', v=>v.toFixed(0)+'km');
-  renderLineScatter('chart-hr', ws.filter(w=>w.avgHR).slice(0,24).reverse(), w=>w.avgHR, 'var(--red)', 'bpm');
-  renderLineScatter('chart-pace', ws.filter(w=>w.paceSeconds&&w.paceSeconds<900).slice(0,24).reverse(), w=>w.paceSeconds, 'var(--green)', 'passo');
-  renderTopPerf(ws);
-  renderActivityDistrib(ws);
+  const runTypes = ['running','interval','long','base','recovery'];
+  const wsRun = dashWorkouts().filter(w => runTypes.includes(w.type));
+  const wsTrail = dashWorkouts().filter(w => w.type === 'trail');
+
+  // Running charts
+  renderLineScatter('chart-hr', wsRun.filter(w=>w.avgHR).slice(0,24).reverse(), w=>w.avgHR, 'var(--red)', 'bpm');
+  renderLineScatter('chart-pace', wsRun.filter(w=>w.paceSeconds&&w.paceSeconds<900).slice(0,24).reverse(), w=>w.paceSeconds, 'var(--green)', 'passo');
+  renderTopPerf(wsRun, 'top-perf');
+
+  // Trail charts
+  renderLineScatter('chart-pace-trail', wsTrail.filter(w=>w.paceSeconds&&w.paceSeconds<900).slice(0,24).reverse(), w=>w.paceSeconds, 'var(--trail)', 'passo');
+  renderBarChart('chart-weekly-elev', getWeeklyData('elev', wsTrail), 'var(--trail)', 'var(--trail-bg)', v=>v.toFixed(0)+'m');
+  renderTopPerf(wsTrail, 'top-perf-trail');
+
+  renderActivityDistrib(dashWorkouts());
 }
 
 function getWeeklyData(mode, ws) {
@@ -917,8 +1026,8 @@ function renderLineScatter(id, items, valFn, color, unit) {
   </svg>`;
 }
 
-function renderTopPerf(ws) {
-  const el=document.getElementById('top-perf'); if(!el) return;
+function renderTopPerf(ws, containerId) {
+  const el=document.getElementById(containerId||'top-perf'); if(!el) return;
   const runs=(ws||state.workouts).filter(w=>w.distance!=null&&w.distance>0);
   const longest=runs.sort((a,b)=>(b.distance||0)-(a.distance||0))[0];
   const fastest=runs.filter(w=>w.paceSeconds).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
@@ -997,19 +1106,47 @@ async function runAIAnalysis() {
   if (!apiKey) { document.getElementById('ai-result').style.display='block'; document.getElementById('ai-result').innerHTML=`<div style="color:#b85c00;background:#fff4eb;border:1.5px solid #f5c9a0;border-radius:8px;padding:14px;font-size:13px">⚠ Inserisci la tua Anthropic API Key nel campo sopra e clicca Salva.</div>`; return; }
   const btn=document.getElementById('analyze-btn');
   btn.disabled=true; btn.innerHTML='<span class="spin"></span> Analisi in corso...';
-  const recent=state.workouts.slice(0,14), recentG=state.garminReadings.slice(0,7);
-  const prompt=`Sei un coach esperto di running e trail running. Analizza i dati dell'atleta.
+  const recent=state.workouts.slice(0,14);
+  const recentRun=recent.filter(w=>w.type!=='trail');
+  const recentTrail=recent.filter(w=>w.type==='trail');
+  const allG=state.garminReadings.slice(0,14);
+  const recentG=allG.slice(0,7);
+  const olderG=allG.slice(7,14);
 
-ALLENAMENTI (ultimi 14):
-${recent.length===0?'Nessuno':recent.map(w=>`- ${fmtDate(w.date)}: ${w.activityType||w.type} | "${w.title}" | ${w.distance!=null?w.distance.toFixed(1)+'km':''} in ${fmtDuration(w.duration)} | D+${w.elevGain||0}m | FC ${w.avgHR||'?'}/${w.maxHR||'?'} bpm | pace ${w.avgPace||'?'}/km | TE ${w.aerobicTE||'?'} | cad ${w.avgCadence||'?'}spm | RPE ${w.perceivedEffort||'?'}`).join('\n')}
+  // Calcola trend Garmin: confronta media ultima settimana vs settimana precedente
+  const avgG=(arr,key)=>{const v=arr.filter(g=>g[key]).map(g=>+g[key]);return v.length?+(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1):null;};
+  const garminTrend = allG.length>=2 ? {
+    hrv_recente: avgG(recentG,'hrv'), hrv_prev: avgG(olderG,'hrv'),
+    readiness_recente: avgG(recentG,'trainingReadiness'), readiness_prev: avgG(olderG,'trainingReadiness'),
+    sleep_recente: avgG(recentG,'sleepScore'), sleep_prev: avgG(olderG,'sleepScore'),
+    stress_recente: avgG(recentG,'stressLevel'), stress_prev: avgG(olderG,'stressLevel'),
+    resthr_recente: avgG(recentG,'restingHR'), resthr_prev: avgG(olderG,'restingHR'),
+  } : null;
 
-DATI GARMIN (ultimi 7):
-${recentG.length===0?'Nessuno — analizza solo gli allenamenti':recentG.map(g=>`- ${fmtDate(g.date)}: HRV ${g.hrv||'?'}ms | Readiness ${g.trainingReadiness||'?'} | Load ${g.trainingLoad||'?'} | Battery ${g.bodyBattery||'?'}% | FC rest ${g.restingHR||'?'} | Sleep ${g.sleepScore||'?'} | Stress ${g.stressLevel||'?'}`).join('\n')}
+  const prompt=`Sei un coach esperto di running e trail running. Analizza i dati dell'atleta in modo approfondito.
+
+ALLENAMENTI RUNNING (road, ultimi 14):
+${recentRun.length===0?'Nessuno':recentRun.map(w=>`- ${fmtDate(w.date)}: ${w.activityType||w.type} | "${w.title}" | ${w.distance!=null?w.distance.toFixed(1)+'km':''} in ${fmtDuration(w.duration)} | FC ${w.avgHR||'?'}/${w.maxHR||'?'} bpm | pace ${w.avgPace||'?'}/km | TE ${w.aerobicTE||'?'} | cad ${w.avgCadence||'?'}spm | RPE ${w.perceivedEffort||'?'}`).join('\n')}
+
+ALLENAMENTI TRAIL RUNNING (ultimi 14):
+${recentTrail.length===0?'Nessuno':recentTrail.map(w=>`- ${fmtDate(w.date)}: "${w.title}" | ${w.distance!=null?w.distance.toFixed(1)+'km':''} in ${fmtDuration(w.duration)} | D+${w.elevGain||0}m | FC ${w.avgHR||'?'}/${w.maxHR||'?'} bpm | pace ${w.avgPace||'?'}/km | RPE ${w.perceivedEffort||'?'}`).join('\n')}
+
+DATI GARMIN RECENTI (ultimi 7 giorni):
+${recentG.length===0?'Nessuno':recentG.map(g=>`- ${fmtDate(g.date)}: HRV ${g.hrv||'?'}ms | Readiness ${g.trainingReadiness||'?'} | Load ${g.trainingLoad||'?'} | Battery ${g.bodyBattery||'?'}% | FC rest ${g.restingHR||'?'} | Sleep ${g.sleepScore||'?'} | Stress ${g.stressLevel||'?'}`).join('\n')}
+
+${garminTrend?`EVOLUZIONE GARMIN (confronto ultimi 7 gg vs 7 gg precedenti):
+- HRV: ${garminTrend.hrv_prev??'?'} → ${garminTrend.hrv_recente??'?'} ms ${garminTrend.hrv_recente&&garminTrend.hrv_prev?(garminTrend.hrv_recente>garminTrend.hrv_prev?'↑ migliorato':'↓ peggiorato'):''}
+- Training Readiness: ${garminTrend.readiness_prev??'?'} → ${garminTrend.readiness_recente??'?'} ${garminTrend.readiness_recente&&garminTrend.readiness_prev?(garminTrend.readiness_recente>garminTrend.readiness_prev?'↑':'↓'):''}
+- Sleep Score: ${garminTrend.sleep_prev??'?'} → ${garminTrend.sleep_recente??'?'} ${garminTrend.sleep_recente&&garminTrend.sleep_prev?(garminTrend.sleep_recente>garminTrend.sleep_prev?'↑':'↓'):''}
+- Stress Level: ${garminTrend.stress_prev??'?'} → ${garminTrend.stress_recente??'?'} ${garminTrend.stress_recente&&garminTrend.stress_prev?(garminTrend.stress_recente<garminTrend.stress_prev?'↑ migliorato':'↓ aumentato'):''}
+- FC Riposo: ${garminTrend.resthr_prev??'?'} → ${garminTrend.resthr_recente??'?'} bpm`:''}
+
+Analizza: 1) bilanciamento running vs trail, 2) segnali di recupero/affaticamento dai dati Garmin e la loro evoluzione nel tempo, 3) progressione del passo e della FC, 4) eventuali warning su overtraining o recupero insufficiente.
 
 Rispondi SOLO con JSON valido, nessun testo extra, nessun markdown:
-{"fitnessScore":<0-100>,"status":"<Ottima forma|Buona forma|Recupero|Riposo necessario>","summary":"<2-3 frasi>","insights":["<1>","<2>","<3>"],"recommendation":"<raccomandazione prossimo allenamento>","warnings":[],"weeklyVolume":"<km>","trend":"<miglioramento|stabile|peggioramento>"}`;
+{"fitnessScore":<0-100>,"status":"<Ottima forma|Buona forma|Recupero|Riposo necessario>","summary":"<2-3 frasi>","insights":["<insight 1>","<insight 2>","<insight 3>","<insight garmin trend se disponibile>"],"recommendation":"<raccomandazione specifica prossimo allenamento con tipo running o trail>","warnings":[],"weeklyVolume":"<km totali>","weeklyVolumeRun":"<km solo road>","weeklyVolumeTrail":"<km solo trail>","trend":"<miglioramento|stabile|peggioramento>","garminTrend":"<miglioramento|stabile|peggioramento|dati insufficienti>"}`;
   try {
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1024,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
     if (!res.ok) { const err=await res.json().catch(()=>({error:{message:res.statusText}})); throw new Error(err?.error?.message||`HTTP ${res.status}`); }
     const data=await res.json();
     const text=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
@@ -1026,13 +1163,21 @@ function renderAIResult(a) {
   const col=scoreColor(a.fitnessScore);
   const tCol=a.trend==='miglioramento'?'var(--green)':a.trend==='peggioramento'?'var(--red)':'var(--yellow)';
   const tArr=a.trend==='miglioramento'?'↑':a.trend==='peggioramento'?'↓':'→';
+  const gTrend=a.garminTrend||'dati insufficienti';
+  const gCol=gTrend==='miglioramento'?'var(--green)':gTrend==='peggioramento'?'var(--red)':gTrend==='stabile'?'var(--yellow)':'var(--muted)';
+  const gArr=gTrend==='miglioramento'?'↑':gTrend==='peggioramento'?'↓':gTrend==='stabile'?'→':'—';
   el.innerHTML=`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:18px">
     <div class="ai-score-row">
       ${radialGauge(a.fitnessScore,100,'Fitness Score',col)}
       <div>
         <div class="ai-status" style="color:${col}">${a.status}</div>
-        <div class="ai-trend">Trend: <span style="color:${tCol}">${tArr} ${a.trend}</span></div>
-        <div style="font-size:11px;color:var(--muted);margin-top:3px">Vol. stimato: ~${a.weeklyVolume}</div>
+        <div class="ai-trend">Trend forma: <span style="color:${tCol}">${tArr} ${a.trend}</span></div>
+        <div class="ai-trend" style="margin-top:3px">Trend Garmin: <span style="color:${gCol}">⌚ ${gArr} ${gTrend}</span></div>
+        <div style="display:flex;gap:12px;margin-top:6px;flex-wrap:wrap">
+          ${a.weeklyVolumeRun?`<span style="font-size:11px;color:var(--muted)">🏃 Road: <strong style="color:var(--accent)">${a.weeklyVolumeRun}</strong></span>`:''}
+          ${a.weeklyVolumeTrail?`<span style="font-size:11px;color:var(--muted)">🏔 Trail: <strong style="color:var(--trail)">${a.weeklyVolumeTrail}</strong></span>`:''}
+          ${a.weeklyVolume?`<span style="font-size:11px;color:var(--muted)">Totale: <strong>${a.weeklyVolume}</strong></span>`:''}
+        </div>
       </div>
     </div>
     <p class="ai-summary">${a.summary}</p>
