@@ -480,6 +480,27 @@ select.form-input{cursor:pointer;}
   </div>
 </div>
 
+<div class="modal-overlay" id="github-modal" style="display:none" onclick="if(event.target===this)closeModal('github-modal')">
+  <div class="modal"><h3>⚙ Configurazione GitHub Sync</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">I tuoi dati verranno salvati come file JSON in un repository GitHub ad ogni import CSV o salvataggio Garmin. Usa un <strong>Personal Access Token</strong> con permesso <code>repo</code>.</p>
+    <div class="form-grid">
+      <div class="form-group full"><label class="form-label">GitHub Token (PAT)</label><input class="form-input" type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"></div>
+      <div class="form-group"><label class="form-label">Owner (utente o org)</label><input class="form-input" type="text" id="gh-owner" placeholder="tuo-username"></div>
+      <div class="form-group"><label class="form-label">Repository</label><input class="form-input" type="text" id="gh-repo" placeholder="runai-data"></div>
+      <div class="form-group full"><label class="form-label">Path file nel repo</label><input class="form-input" type="text" id="gh-path" placeholder="data/runai-state.json" value="data/runai-state.json"></div>
+    </div>
+    <div style="background:var(--yellow-bg);border:1px solid #f0d89a;border-radius:8px;padding:12px 14px;margin-top:12px;font-size:12px;color:var(--yellow)">
+      ⚠ Il token viene salvato solo nel tuo browser (localStorage). Non condividere questo file HTML con il token attivo.
+    </div>
+    <div id="gh-status" style="margin-top:10px;font-size:12px;font-family:var(--font-mono);color:var(--muted)"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('github-modal')">Annulla</button>
+      <button class="btn btn-secondary" onclick="testGitHubConnection()">🔗 Testa connessione</button>
+      <button class="btn btn-primary" onclick="saveGitHubConfig()">Salva</button>
+    </div>
+  </div>
+</div>
+
 <script type="application/json" id="embedded-state">{}</script>
 <div id="toast" class="toast" style="display:none"></div>
 
@@ -559,6 +580,7 @@ function renderHeaderBtns(){
   const el=document.getElementById('header-btns');
   if(cur==='home'){
     el.innerHTML=`<button class="btn btn-secondary" onclick="openModal('garmin-modal')">⌚ + Garmin</button>
+    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()" title="Configura GitHub sync">⚙ GitHub</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }else if(cur==='running'){
     el.innerHTML=`<span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px">
@@ -567,6 +589,7 @@ function renderHeaderBtns(){
     <input type="file" id="csv-run" accept=".csv" style="display:none" onchange="handleRunCSV(this)">
     <button class="btn btn-import" onclick="document.getElementById('csv-run').click()">⬆ Importa CSV</button>
     <button class="btn btn-secondary" onclick="openModal('workout-modal')">+ Allenamento</button>
+    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()" title="Configura GitHub sync">⚙</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }else{
     el.innerHTML=`<span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px">
@@ -575,6 +598,7 @@ function renderHeaderBtns(){
     <input type="file" id="csv-hike" accept=".csv" style="display:none" onchange="handleHikeCSV(this)">
     <button class="btn btn-import-hike" onclick="document.getElementById('csv-hike').click()">⬆ Importa CSV</button>
     <button class="btn btn-hike" onclick="openModal('hike-modal')">+ Escursione</button>
+    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()" title="Configura GitHub sync">⚙</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }
 }
@@ -589,6 +613,7 @@ function switchTab(sect,name,el){
 }
 
 // ══ MODALS ══
+function openGitHubModal(){openModal('github-modal');loadGitHubConfig();}
 function openModal(id){
   document.getElementById(id).style.display='flex';
   if(id==='workout-modal'){
@@ -627,7 +652,7 @@ function saveWorkout(){
     perceivedEffort:parseInt(document.getElementById('w-rpe').value),
     notes:document.getElementById('w-notes').value,source:'manual',
   }].sort((a,b)=>b.date.localeCompare(a.date));
-  saveState();closeModal('workout-modal');renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
+  saveState();closeModal('workout-modal');syncToGitHub();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
   toast('✓ Allenamento salvato','ok');
 }
 
@@ -651,7 +676,7 @@ function saveHike(){
     perceivedEffort:parseInt(document.getElementById('h-rpe').value),
     notes:document.getElementById('h-notes').value,source:'manual',
   }].sort((a,b)=>b.date.localeCompare(a.date));
-  saveState();closeModal('hike-modal');renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
+  saveState();closeModal('hike-modal');syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
   toast('✓ Escursione salvata','ok');
 }
 
@@ -668,7 +693,7 @@ function saveGarmin(){
     sleepScore:document.getElementById('g-sleep').value||null,
     stressLevel:document.getElementById('g-stress').value||null,
   }].sort((a,b)=>b.date.localeCompare(a.date));
-  saveState();closeModal('garmin-modal');renderHome();renderGarminInSection('run');renderGarminInSection('hike');
+  saveState();closeModal('garmin-modal');syncToGitHub();renderHome();renderGarminInSection('run');renderGarminInSection('hike');
   toast('✓ Dati Garmin salvati','ok');
 }
 
@@ -701,11 +726,42 @@ function handleRunCSV(input){
       const ex=new Set(state.workouts.map(w=>w.date+'|'+(w.title||'')));
       const newOnes=parsed.filter(p=>!ex.has(p.date+'|'+(p.title||'')));
       state.workouts=[...state.workouts,...newOnes].sort((a,b)=>b.date.localeCompare(a.date));
-      saveState();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
+      saveState();syncToGitHub();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
       toast(`✓ ${newOnes.length} attività importate — ${parsed.length-newOnes.length} già presenti`,'ok');
     }catch(err){toast('Errore CSV: '+err.message,'err');}
   };
   r.readAsText(file);input.value='';
+}
+function parseGarminDate(raw){
+  if(!raw)return'';
+  const clean=raw.trim();
+  if(/^\d{4}-\d{2}-\d{2}/.test(clean))return clean.split(' ')[0];
+  const m=clean.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+  if(!m)return'';
+  let[,mo,dy,yr]=m;
+  if(yr.length===2)yr=+yr<50?'20'+yr:'19'+yr;
+  return`${yr}-${mo.padStart(2,'0')}-${dy.padStart(2,'0')}`;
+}
+function parseGarminNum(s){
+  if(!s||s==='--'||s==='')return null;
+  const clean=String(s).trim();
+  const dotCount=(clean.match(/\./g)||[]).length;
+  const commaCount=(clean.match(/,/g)||[]).length;
+  let norm;
+  if(commaCount===1&&dotCount===0){norm=clean.replace(',','.');}
+  else if(dotCount===1&&commaCount===0){norm=clean;}
+  else if(dotCount>1&&commaCount===0){norm=clean.replace(/\./g,'');}
+  else{norm=clean.replace(/\./g,'').replace(',','.');}
+  const n=parseFloat(norm);return isNaN(n)?null:n;
+}
+function parseGarminPace(s){
+  if(!s||s==='--')return null;
+  const clean=s.trim();
+  if(/AM|PM/i.test(clean))return null;
+  const parts=clean.split(':').map(Number);
+  if(parts.length===2&&!isNaN(parts[0])&&!isNaN(parts[1]))return`${parts[0]}:${String(parts[1]).padStart(2,'0')}`;
+  if(parts.length===3&&!isNaN(parts[0])&&parts[0]<60)return`${parts[0]}:${String(parts[1]).padStart(2,'0')}`;
+  return null;
 }
 function handleHikeCSV(input){
   const file=input.files[0];if(!file)return;
@@ -714,26 +770,42 @@ function handleHikeCSV(input){
     try{
       const lines=ev.target.result.trim().split(/\r?\n/);
       if(lines.length<2){toast('CSV vuoto','err');return;}
-      const headers=lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,''));
+      const headers=lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,'').replace(/\s+/g,' '));
       const parsed=lines.slice(1).map(line=>{
-        const cols=parseCSVRow(line);const row={};headers.forEach((h,i)=>{row[h]=(cols[i]||'').replace(/^"|"$/g,'');});
-        return{id:'h-'+(row['Date']||Date.now())+'-'+Math.random().toString(36).slice(2,5),
-          date:row['Date']?row['Date'].split(' ')[0]:'',
-          type:'hike',activityType:row['Activity Type']||'',title:row['Title']||'',
-          distance:parseNum(row['Distance']),duration:parseDuration(row['Time']),
-          elevGain:parseNum(row['Total Ascent']),elevLoss:parseNum(row['Total Descent']),
-          avgHR:parseNum(row['Avg HR']),
-          avgPace:row['Avg Pace']||null,paceSeconds:p2s(row['Avg Pace']),
-          calories:parseNum(row['Calories']),
-          bodyBatteryDrain:parseNum(row['Body Battery Drain']),
-          perceivedEffort:null,notes:'',source:'garmin_import'};
-      }).filter(h=>h.date);
+        const cols=parseCSVRow(line);
+        const row={};headers.forEach((h,i)=>{row[h]=(cols[i]||'').replace(/^"|"$/g,'').trim();});
+        const dateISO=parseGarminDate(row['Date']);
+        if(!dateISO)return null;
+        const paceRaw=parseGarminPace(row['Avg Pace']);
+        const calRaw=row['Calories']||'';
+        const cal=calRaw?parseFloat(calRaw.replace(/\./g,'').replace(',','.'))||null:null;
+        return{
+          id:'h-'+dateISO+'-'+Math.random().toString(36).slice(2,6),
+          date:dateISO,type:'hike',
+          activityType:row['Activity Type']||'Hiking',
+          title:row['Title']||'Escursione',
+          distance:parseGarminNum(row['Distance']),
+          duration:parseDuration(row['Time']),
+          elevGain:parseGarminNum(row['Ascent'])||parseGarminNum(row['Total Ascent']),
+          elevLoss:parseGarminNum(row['Total Descent']),
+          maxAlt:parseGarminNum(row['Max Elevation']),
+          minAlt:parseGarminNum(row['Min Elevation']),
+          avgHR:parseGarminNum(row['Avg HR']),
+          maxHR:parseGarminNum(row['Max HR']),
+          avgPace:paceRaw||null,paceSeconds:p2s(paceRaw),
+          calories:cal,
+          aerobicTE:parseGarminNum(row['Aerobic TE']),
+          avgCadence:parseGarminNum(row['Avg Cadence']),
+          bodyBatteryDrain:parseGarminNum(row['Body Battery Drain']),
+          perceivedEffort:null,notes:'',source:'garmin_import',
+        };
+      }).filter(h=>h&&h.date);
       const ex=new Set(state.hikes.map(h=>h.date+'|'+(h.title||'')));
       const newOnes=parsed.filter(p=>!ex.has(p.date+'|'+(p.title||'')));
       state.hikes=[...state.hikes,...newOnes].sort((a,b)=>b.date.localeCompare(a.date));
-      saveState();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
-      toast(`✓ ${newOnes.length} escursioni importate`,'ok');
-    }catch(err){toast('Errore CSV: '+err.message,'err');}
+      saveState();syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
+      toast(`✓ ${newOnes.length} escursioni importate — ${parsed.length-newOnes.length} già presenti`,'ok');
+    }catch(err){toast('Errore CSV: '+err.message,'err');console.error(err);}
   };
   r.readAsText(file);input.value='';
 }
@@ -1271,6 +1343,64 @@ function renderAIResult(a){
     <div style="background:var(--bg2);border-radius:8px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--green)"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:700;font-family:var(--font-mono);color:var(--green)">Raccomandazione</div><div style="color:var(--text2);font-size:13px;line-height:1.6">${a.recommendation}</div></div>
     ${a.warnings?.filter(Boolean).length?`<div style="background:var(--bg2);border-radius:8px;padding:14px 16px;border-left:3px solid var(--yellow)"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:700;font-family:var(--font-mono);color:var(--yellow)">⚠ Attenzione</div>${a.warnings.filter(Boolean).map(w=>`<div style="color:var(--text2);font-size:13px">${w}</div>`).join('')}</div>`:''}
   </div>`;
+}
+
+// ══ GITHUB SYNC ══
+function loadGitHubConfig(){
+  const cfg=JSON.parse(localStorage.getItem('runai-github')||'{}');
+  const ti=document.getElementById('gh-token');if(ti&&cfg.token)ti.value='••••'+cfg.token.slice(-4);
+  const oi=document.getElementById('gh-owner');if(oi)oi.value=cfg.owner||'';
+  const ri=document.getElementById('gh-repo');if(ri)ri.value=cfg.repo||'';
+  const pi=document.getElementById('gh-path');if(pi)pi.value=cfg.path||'data/runai-state.json';
+}
+function saveGitHubConfig(){
+  const tokenRaw=document.getElementById('gh-token').value.trim();
+  const owner=document.getElementById('gh-owner').value.trim();
+  const repo=document.getElementById('gh-repo').value.trim();
+  const path=document.getElementById('gh-path').value.trim()||'data/runai-state.json';
+  if(!owner||!repo){toast('Inserisci owner e repo','err');return;}
+  const existing=JSON.parse(localStorage.getItem('runai-github')||'{}');
+  const token=tokenRaw.startsWith('••••')?existing.token:tokenRaw;
+  if(!token){toast('Inserisci il token','err');return;}
+  localStorage.setItem('runai-github',JSON.stringify({token,owner,repo,path}));
+  closeModal('github-modal');toast('✓ Config GitHub salvata','ok');
+}
+function getGitHubConfig(){
+  return JSON.parse(localStorage.getItem('runai-github')||'{}');
+}
+async function testGitHubConnection(){
+  const cfg=getGitHubConfig();
+  const tokenRaw=document.getElementById('gh-token').value.trim();
+  const token=tokenRaw.startsWith('••••')?cfg.token:tokenRaw;
+  const owner=document.getElementById('gh-owner').value.trim()||cfg.owner;
+  const repo=document.getElementById('gh-repo').value.trim()||cfg.repo;
+  const st=document.getElementById('gh-status');
+  if(!token||!owner||!repo){st.textContent='⚠ Compila tutti i campi';st.style.color='var(--yellow)';return;}
+  st.textContent='⏳ Test connessione…';st.style.color='var(--muted)';
+  try{
+    const res=await fetch(`https://api.github.com/repos/${owner}/${repo}`,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+    if(res.ok){const d=await res.json();st.textContent=`✓ Connesso: ${d.full_name} (${d.private?'privato':'pubblico'})`;st.style.color='var(--green)';}
+    else{const e=await res.json();st.textContent=`✗ Errore ${res.status}: ${e.message}`;st.style.color='var(--red)';}
+  }catch(e){st.textContent='✗ Errore di rete: '+e.message;st.style.color='var(--red)';}
+}
+async function syncToGitHub(){
+  const cfg=getGitHubConfig();
+  if(!cfg.token||!cfg.owner||!cfg.repo)return; // silently skip if not configured
+  const path=cfg.path||'data/runai-state.json';
+  const content=JSON.stringify(state,null,2);
+  const b64=btoa(unescape(encodeURIComponent(content)));
+  try{
+    // Get current file SHA (needed for update)
+    let sha=null;
+    const getRes=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`,{headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json'}});
+    if(getRes.ok){const d=await getRes.json();sha=d.sha;}
+    // Push new content
+    const body={message:`RunAI sync ${new Date().toISOString().slice(0,16).replace('T',' ')}`,content:b64};
+    if(sha)body.sha=sha;
+    const putRes=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`,{method:'PUT',headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(putRes.ok){toast('✓ Sincronizzato su GitHub','ok');}
+    else{const e=await putRes.json();toast('GitHub: '+e.message,'err');}
+  }catch(e){console.warn('GitHub sync failed:',e.message);}
 }
 
 // ══ TOAST ══
