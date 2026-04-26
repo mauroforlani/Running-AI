@@ -517,11 +517,25 @@ let runFiltered=[], hikeFiltered=[];
 let runAdvOpen=false, hikeAdvOpen=false;
 
 // ══ PERSIST ══
+function normalizeDates(hikes){
+  return (hikes||[]).map(h=>{
+    if(!h.date)return h;
+    // Already ISO YYYY-MM-DD
+    if(/^\d{4}-\d{2}-\d{2}/.test(h.date))return h;
+    // US format M/D/YY or M/D/YYYY — fix it
+    const m=h.date.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+    if(m){
+      let[,mo,dy,yr]=m;
+      if(yr.length===2)yr=+yr<50?'20'+yr:'19'+yr;
+      return{...h,date:`${yr}-${mo.padStart(2,'0')}-${dy.padStart(2,'0')}`};
+    }
+    return h;
+  });
+}
 function loadState(){
-  try{const r=localStorage.getItem(DB_KEY);if(r){state=JSON.parse(r);return;}}catch{}
-  // migrate from v4
+  try{const r=localStorage.getItem(DB_KEY);if(r){state=JSON.parse(r);state.hikes=normalizeDates(state.hikes);return;}}catch{}
   try{const r=localStorage.getItem('runai-v4');if(r){const o=JSON.parse(r);state.workouts=o.workouts||[];state.garminReadings=o.garminReadings||[];}}catch{}
-  try{const e=document.getElementById('embedded-state');if(e&&e.textContent.trim()&&e.textContent.trim()!=='{}')state=JSON.parse(e.textContent);}catch{}
+  try{const e=document.getElementById('embedded-state');if(e&&e.textContent.trim()&&e.textContent.trim()!=='{}'){state=JSON.parse(e.textContent);state.hikes=normalizeDates(state.hikes);}}catch{}
   if(!state.hikes)state.hikes=[];
 }
 function saveState(){
@@ -538,9 +552,15 @@ function exportHTML(){
 function parseNum(s){if(!s||s==='--')return null;const n=parseFloat(String(s).replace(/\./g,'').replace(',','.'));return isNaN(n)?null:n;}
 function parseDuration(s){if(!s||s==='--')return null;const p=s.split(':').map(Number);if(p.length===3)return p[0]*60+p[1]+p[2]/60;if(p.length===2)return p[0]+p[1]/60;return null;}
 function fmtDur(min){if(min==null)return'--';const h=Math.floor(min/60),m=Math.round(min%60);return h>0?`${h}h ${m}m`:`${m}m`;}
-function parseLocalDate(iso){if(!iso)return new Date(NaN);const p=iso.split('T')[0].split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
-function fmtDate(iso){if(!iso)return'--';return parseLocalDate(iso).toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'});}
-function fmtShort(iso){if(!iso)return'--';return parseLocalDate(iso).toLocaleDateString('it-IT',{day:'2-digit',month:'short'});}
+function parseLocalDate(iso){
+  if(!iso)return new Date(NaN);
+  const s=String(iso).split('T')[0].split(' ')[0]; // handle both ISO and "YYYY-MM-DD HH:MM"
+  const p=s.split('-');
+  if(p.length!==3||p[0].length!==4)return new Date(NaN);
+  return new Date(+p[0],+p[1]-1,+p[2]);
+}
+function fmtDate(iso){if(!iso)return'--';const d=parseLocalDate(iso);if(isNaN(d))return iso||'--';return d.toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtShort(iso){if(!iso)return'--';const d=parseLocalDate(iso);if(isNaN(d))return'--';return d.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});}
 function scoreColor(v){if(v>=75)return'var(--green)';if(v>=50)return'var(--yellow)';if(v>=30)return'var(--accent)';return'var(--red)';}
 function p2s(pace){if(!pace||pace==='--')return null;const p=String(pace).split(':');if(p.length<2)return null;return parseInt(p[0])*60+parseInt(p[1]);}
 function s2p(sec){if(!sec)return'--';return`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;}
