@@ -538,8 +538,9 @@ function exportHTML(){
 function parseNum(s){if(!s||s==='--')return null;const n=parseFloat(String(s).replace(/\./g,'').replace(',','.'));return isNaN(n)?null:n;}
 function parseDuration(s){if(!s||s==='--')return null;const p=s.split(':').map(Number);if(p.length===3)return p[0]*60+p[1]+p[2]/60;if(p.length===2)return p[0]+p[1]/60;return null;}
 function fmtDur(min){if(min==null)return'--';const h=Math.floor(min/60),m=Math.round(min%60);return h>0?`${h}h ${m}m`:`${m}m`;}
-function fmtDate(iso){if(!iso)return'--';return new Date(iso).toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'});}
-function fmtShort(iso){return new Date(iso).toLocaleDateString('it-IT',{day:'2-digit',month:'short'});}
+function parseLocalDate(iso){if(!iso)return new Date(NaN);const p=iso.split('T')[0].split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function fmtDate(iso){if(!iso)return'--';return parseLocalDate(iso).toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtShort(iso){if(!iso)return'--';return parseLocalDate(iso).toLocaleDateString('it-IT',{day:'2-digit',month:'short'});}
 function scoreColor(v){if(v>=75)return'var(--green)';if(v>=50)return'var(--yellow)';if(v>=30)return'var(--accent)';return'var(--red)';}
 function p2s(pace){if(!pace||pace==='--')return null;const p=String(pace).split(':');if(p.length<2)return null;return parseInt(p[0])*60+parseInt(p[1]);}
 function s2p(sec){if(!sec)return'--';return`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;}
@@ -675,7 +676,7 @@ function saveHike(){
     difficulty:document.getElementById('h-diff').value||null,
     perceivedEffort:parseInt(document.getElementById('h-rpe').value),
     notes:document.getElementById('h-notes').value,source:'manual',
-  }].sort((a,b)=>b.date.localeCompare(a.date));
+  }].sort((a,b)=>(b.datetime||b.date).localeCompare(a.datetime||a.date));
   saveState();closeModal('hike-modal');syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
   toast('✓ Escursione salvata','ok');
 }
@@ -733,14 +734,18 @@ function handleRunCSV(input){
   r.readAsText(file);input.value='';
 }
 function parseGarminDate(raw){
-  if(!raw)return'';
+  if(!raw)return{date:'',datetime:''};
   const clean=raw.trim();
-  if(/^\d{4}-\d{2}-\d{2}/.test(clean))return clean.split(' ')[0];
-  const m=clean.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
-  if(!m)return'';
-  let[,mo,dy,yr]=m;
+  // Already ISO
+  if(/^\d{4}-\d{2}-\d{2}/.test(clean))return{date:clean.split('T')[0],datetime:clean};
+  // Garmin: M/D/YY H:MM
+  const m=clean.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})(?:\s+(\d{1,2}):(\d{2}))?/);
+  if(!m)return{date:'',datetime:''};
+  let[,mo,dy,yr,hh='00',mm='00']=m;
   if(yr.length===2)yr=+yr<50?'20'+yr:'19'+yr;
-  return`${yr}-${mo.padStart(2,'0')}-${dy.padStart(2,'0')}`;
+  const date=`${yr}-${mo.padStart(2,'0')}-${dy.padStart(2,'0')}`;
+  const datetime=`${date}T${hh.padStart(2,'0')}:${mm}:00`;
+  return{date,datetime};
 }
 function parseGarminNum(s){
   if(!s||s==='--'||s==='')return null;
@@ -774,14 +779,15 @@ function handleHikeCSV(input){
       const parsed=lines.slice(1).map(line=>{
         const cols=parseCSVRow(line);
         const row={};headers.forEach((h,i)=>{row[h]=(cols[i]||'').replace(/^"|"$/g,'').trim();});
-        const dateISO=parseGarminDate(row['Date']);
+        const {date:dateISO, datetime} = parseGarminDate(row['Date']);
         if(!dateISO)return null;
         const paceRaw=parseGarminPace(row['Avg Pace']);
         const calRaw=row['Calories']||'';
         const cal=calRaw?parseFloat(calRaw.replace(/\./g,'').replace(',','.'))||null:null;
         return{
-          id:'h-'+dateISO+'-'+Math.random().toString(36).slice(2,6),
-          date:dateISO,type:'hike',
+          id:'h-'+datetime.replace(/[^0-9]/g,'')+'-'+Math.random().toString(36).slice(2,6),
+          date:dateISO,
+          datetime,type:'hike',
           activityType:row['Activity Type']||'Hiking',
           title:row['Title']||'Escursione',
           distance:parseGarminNum(row['Distance']),
@@ -802,7 +808,7 @@ function handleHikeCSV(input){
       }).filter(h=>h&&h.date);
       const ex=new Set(state.hikes.map(h=>h.date+'|'+(h.title||'')));
       const newOnes=parsed.filter(p=>!ex.has(p.date+'|'+(p.title||'')));
-      state.hikes=[...state.hikes,...newOnes].sort((a,b)=>b.date.localeCompare(a.date));
+      state.hikes=[...state.hikes,...newOnes].sort((a,b)=>(b.datetime||b.date).localeCompare(a.datetime||a.date));
       saveState();syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
       toast(`✓ ${newOnes.length} escursioni importate — ${parsed.length-newOnes.length} già presenti`,'ok');
     }catch(err){toast('Errore CSV: '+err.message,'err');console.error(err);}
@@ -1124,7 +1130,7 @@ function setHikeSort(key,btn){
 function toggleHikeSortDir(){hikeSortDir*=-1;const d=document.getElementById('hike-sort-dir');if(d)d.textContent=hikeSortDir===-1?'↓ Recenti':'↑ Vecchi';sortHikeActivities();}
 function sortHikeActivities(){
   const sorted=[...hikeFiltered].sort((a,b)=>{
-    if(hikeSortKey==='date')return hikeSortDir*a.date.localeCompare(b.date);
+    if(hikeSortKey==='date')return hikeSortDir*(b.datetime||b.date).localeCompare(a.datetime||a.date);
     return hikeSortDir*((a[hikeSortKey]??-Infinity)-(b[hikeSortKey]??-Infinity));
   });
   renderCards(sorted,'hike-grid',HIKE_ICON,HIKE_LBL,'hike');
