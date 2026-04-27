@@ -186,6 +186,27 @@ select.form-input{cursor:pointer;}
 .section{margin-top:14px;}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.admin-table{width:100%;border-collapse:collapse;font-size:13px;}
+.admin-table th{text-align:left;padding:8px 10px;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;border-bottom:2px solid var(--border);font-weight:600;white-space:nowrap;}
+.admin-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.admin-table tr:hover td{background:var(--bg2);}
+.admin-table tr.selected td{background:var(--accent-light);}
+.admin-table tr.selected-hike td{background:var(--hike-bg);}
+.admin-cb{width:15px;height:15px;cursor:pointer;accent-color:var(--accent);}
+.admin-cb-hike{accent-color:var(--hike);}
+.admin-search{background:var(--bg2);border:1.5px solid var(--border);border-radius:6px;color:var(--text);padding:7px 11px;font-family:var(--font-body);font-size:13px;outline:none;width:220px;}
+.admin-search:focus{border-color:var(--accent);background:var(--surface);}
+.admin-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.admin-count{font-size:12px;color:var(--muted);font-family:var(--font-mono);}
+.admin-scroll{max-height:55vh;overflow-y:auto;border:1.5px solid var(--border);border-radius:var(--radius);}
+.admin-tabs{display:flex;border-bottom:1.5px solid var(--border);margin-bottom:14px;}
+.admin-tab{background:none;border:none;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;}
+.admin-tab.at-run{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
+.admin-tab.at-hike{color:var(--hike);border-bottom-color:var(--hike);font-weight:600;}
+.modal-wide{max-width:820px;}
+.btn-danger{background:var(--red-bg);color:var(--red);border:1.5px solid #f0b8c4;}
+.btn-danger:hover{background:var(--red);color:#fff;}
+
 ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--bg2);} ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 </style>
 </head>
@@ -480,6 +501,84 @@ select.form-input{cursor:pointer;}
   </div>
 </div>
 
+<div class="modal-overlay" id="admin-modal" style="display:none" onclick="if(event.target===this)closeModal('admin-modal')">
+  <div class="modal modal-wide">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="margin-bottom:0">🛠 Admin — Gestione Attività</h3>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('admin-modal')">✕ Chiudi</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab at-run" id="at-run" onclick="switchAdminTab('run',this)">🏃 Running (<span id="admin-run-count">0</span>)</button>
+      <button class="admin-tab" id="at-hike" onclick="switchAdminTab('hike',this)">🥾 Hiking (<span id="admin-hike-count">0</span>)</button>
+    </div>
+    <div id="admin-panel-run">
+      <div class="admin-toolbar">
+        <input class="admin-search" type="text" id="admin-run-search" placeholder="🔍 Cerca titolo, tipo…" oninput="renderAdminTable('run')">
+        <select class="filter-input" id="admin-run-type" onchange="renderAdminTable('run')" style="width:auto">
+          <option value="">Tutti i tipi</option>
+          <option value="running">Running</option>
+          <option value="trail">Trail</option>
+          <option value="interval">Interval</option>
+          <option value="long">Long</option>
+          <option value="base">Base</option>
+          <option value="recovery">Recovery</option>
+        </select>
+        <input class="filter-input" type="date" id="admin-run-from" onchange="renderAdminTable('run')" style="width:130px">
+        <span style="font-size:12px;color:var(--muted)">→</span>
+        <input class="filter-input" type="date" id="admin-run-to" onchange="renderAdminTable('run')" style="width:130px">
+        <button class="btn btn-secondary btn-sm" onclick="adminSelectAll('run')">☑ Seleziona tutti</button>
+        <button class="btn btn-secondary btn-sm" onclick="adminDeselectAll('run')">☐ Deseleziona</button>
+        <span class="admin-count" id="admin-run-sel">0 selezionati</span>
+      </div>
+      <div class="admin-scroll">
+        <table class="admin-table">
+          <thead><tr>
+            <th><input type="checkbox" class="admin-cb" id="admin-run-checkall" onchange="adminToggleAll('run',this)"></th>
+            <th>Data</th><th>Tipo</th><th>Titolo</th><th>Km</th><th>Passo</th><th>FC</th><th>D+</th><th>Fonte</th>
+          </tr></thead>
+          <tbody id="admin-run-tbody"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;align-items:center">
+        <span id="admin-run-info" style="font-size:12px;color:var(--muted);font-family:var(--font-mono)"></span>
+        <button class="btn btn-danger" onclick="adminDeleteSelected('run')">🗑 Elimina selezionati</button>
+        <button class="btn btn-danger" onclick="adminDeleteAll('run')" style="opacity:.7">⚠ Elimina TUTTI</button>
+      </div>
+    </div>
+    <div id="admin-panel-hike" style="display:none">
+      <div class="admin-toolbar">
+        <input class="admin-search" type="text" id="admin-hike-search" placeholder="🔍 Cerca titolo…" oninput="renderAdminTable('hike')">
+        <select class="filter-input" id="admin-hike-type" onchange="renderAdminTable('hike')" style="width:auto">
+          <option value="">Tutti i tipi</option>
+          <option value="hike">Escursione</option>
+          <option value="hike-multi">Trekking</option>
+          <option value="hike-alpine">Alpinismo</option>
+        </select>
+        <input class="filter-input" type="date" id="admin-hike-from" onchange="renderAdminTable('hike')" style="width:130px">
+        <span style="font-size:12px;color:var(--muted)">→</span>
+        <input class="filter-input" type="date" id="admin-hike-to" onchange="renderAdminTable('hike')" style="width:130px">
+        <button class="btn btn-secondary btn-sm" onclick="adminSelectAll('hike')">☑ Seleziona tutti</button>
+        <button class="btn btn-secondary btn-sm" onclick="adminDeselectAll('hike')">☐ Deseleziona</button>
+        <span class="admin-count" id="admin-hike-sel">0 selezionati</span>
+      </div>
+      <div class="admin-scroll">
+        <table class="admin-table">
+          <thead><tr>
+            <th><input type="checkbox" class="admin-cb admin-cb-hike" id="admin-hike-checkall" onchange="adminToggleAll('hike',this)"></th>
+            <th>Data</th><th>Tipo</th><th>Titolo</th><th>Km</th><th>D+</th><th>Quota</th><th>FC</th><th>Fonte</th>
+          </tr></thead>
+          <tbody id="admin-hike-tbody"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;align-items:center">
+        <span id="admin-hike-info" style="font-size:12px;color:var(--muted);font-family:var(--font-mono)"></span>
+        <button class="btn btn-danger" onclick="adminDeleteSelected('hike')">🗑 Elimina selezionati</button>
+        <button class="btn btn-danger" onclick="adminDeleteAll('hike')" style="opacity:.7">⚠ Elimina TUTTI</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="github-modal" style="display:none" onclick="if(event.target===this)closeModal('github-modal')">
   <div class="modal"><h3>⚙ Configurazione GitHub Sync</h3>
     <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">I tuoi dati verranno salvati come file JSON in un repository GitHub ad ogni import CSV o salvataggio Garmin. Usa un <strong>Personal Access Token</strong> con permesso <code>repo</code>.</p>
@@ -601,7 +700,8 @@ function renderHeaderBtns(){
   const el=document.getElementById('header-btns');
   if(cur==='home'){
     el.innerHTML=`<button class="btn btn-secondary" onclick="openModal('garmin-modal')">⌚ + Garmin</button>
-    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()" title="Configura GitHub sync">⚙ GitHub</button>
+    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
+    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙ GitHub</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }else if(cur==='running'){
     el.innerHTML=`<span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px">
@@ -610,7 +710,8 @@ function renderHeaderBtns(){
     <input type="file" id="csv-run" accept=".csv" style="display:none" onchange="handleRunCSV(this)">
     <button class="btn btn-import" onclick="document.getElementById('csv-run').click()">⬆ Importa CSV</button>
     <button class="btn btn-secondary" onclick="openModal('workout-modal')">+ Allenamento</button>
-    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()" title="Configura GitHub sync">⚙</button>
+    <button class="btn btn-secondary btn-sm" onclick="openAdminModal('run')">🛠 Admin</button>
+    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }else{
     el.innerHTML=`<span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px">
@@ -619,7 +720,8 @@ function renderHeaderBtns(){
     <input type="file" id="csv-hike" accept=".csv" style="display:none" onchange="handleHikeCSV(this)">
     <button class="btn btn-import-hike" onclick="document.getElementById('csv-hike').click()">⬆ Importa CSV</button>
     <button class="btn btn-hike" onclick="openModal('hike-modal')">+ Escursione</button>
-    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()" title="Configura GitHub sync">⚙</button>
+    <button class="btn btn-secondary btn-sm" onclick="openAdminModal('hike')">🛠 Admin</button>
+    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }
 }
@@ -972,13 +1074,13 @@ function renderRunDashboard(){
     {val:kmT>0?(elevT/kmT).toFixed(0):'--',unit:' m/km',lbl:'D+ per km'},
   ]);
 
-  weeklyBarChart('run-chart-road-vol',wsR,'var(--accent)','var(--accent-light)');
-  lineChart('run-chart-hr',wsR.filter(w=>w.avgHR).slice(0,24).reverse(),w=>w.avgHR,'var(--red)','bpm');
-  lineChart('run-chart-pace',wsR.filter(w=>w.paceSeconds&&w.paceSeconds<900).slice(0,24).reverse(),w=>w.paceSeconds,'var(--green)','passo');
+  weeklyBarChart('run-chart-road-vol',wsR,'var(--accent)','var(--accent-light)',runPeriod);
+  lineChart('run-chart-hr',wsR.filter(w=>w.avgHR).slice(0,60).reverse(),w=>w.avgHR,'var(--red)','bpm');
+  lineChart('run-chart-pace',wsR.filter(w=>w.paceSeconds&&w.paceSeconds<900).slice(0,60).reverse(),w=>w.paceSeconds,'var(--green)','passo');
   topPerf(wsR,'run-top-road','var(--accent)');
-  weeklyBarChart('run-chart-trail-vol',wsT,'var(--trail)','var(--trail-bg)');
-  weeklyElevChart('run-chart-trail-elev',wsT,'var(--trail)','var(--trail-bg)');
-  lineChart('run-chart-trail-pace',wsT.filter(w=>w.paceSeconds&&w.paceSeconds<900).slice(0,24).reverse(),w=>w.paceSeconds,'var(--trail)','passo');
+  weeklyBarChart('run-chart-trail-vol',wsT,'var(--trail)','var(--trail-bg)',runPeriod);
+  weeklyElevChart('run-chart-trail-elev',wsT,'var(--trail)','var(--trail-bg)',runPeriod);
+  lineChart('run-chart-trail-pace',wsT.filter(w=>w.paceSeconds&&w.paceSeconds<900).slice(0,60).reverse(),w=>w.paceSeconds,'var(--trail)','passo');
   topPerf(wsT,'run-top-trail','var(--trail)');
   distribChart(getDashRun(),'run-distrib',RUN_ICON,RUN_LBL,RUN_COL);
 }
@@ -1094,10 +1196,10 @@ function renderHikeDashboard(){
     {val:maxAlt?.maxAlt||'--',unit:' m',lbl:'Quota max raggiunta'},
   ]);
 
-  weeklyBarChart('hike-chart-vol',hs,'var(--hike)','var(--hike-bg)');
-  weeklyElevChart('hike-chart-elev',hs,'var(--hike)','var(--hike-bg)');
-  lineChart('hike-chart-hr',hs.filter(h=>h.avgHR).slice(0,24).reverse(),h=>h.avgHR,'var(--red)','bpm');
-  lineChart('hike-chart-pace',hs.filter(h=>h.paceSeconds&&h.paceSeconds<1800).slice(0,24).reverse(),h=>h.paceSeconds,'var(--hike)','passo');
+  weeklyBarChart('hike-chart-vol',hs,'var(--hike)','var(--hike-bg)',hikePeriod);
+  weeklyElevChart('hike-chart-elev',hs,'var(--hike)','var(--hike-bg)',hikePeriod);
+  lineChart('hike-chart-hr',hs.filter(h=>h.avgHR).slice(0,60).reverse(),h=>h.avgHR,'var(--red)','bpm');
+  lineChart('hike-chart-pace',hs.filter(h=>h.paceSeconds&&h.paceSeconds<1800).slice(0,60).reverse(),h=>h.paceSeconds,'var(--hike)','passo');
   hikeTopPerf(hs);
   distribChart(hs,'hike-distrib',HIKE_ICON,HIKE_LBL,HIKE_COL);
 }
@@ -1216,29 +1318,49 @@ function radialGauge(value,max,label,color){
 function kpiCards(items){
   return items.map(i=>`<div class="stat-card ${i.cls||''}"><div class="stat-val">${i.val}${i.unit?`<span class="unit">${i.unit}</span>`:''}</div><div class="stat-label">${i.lbl}</div></div>`).join('');
 }
-function weeklyBarChart(id,ws,color,colorDim){
+function weeklyBarChart(id,ws,color,colorDim,periodDays){
   const el=document.getElementById(id);if(!el)return;
+  // Determine number of weeks to show based on period
+  const p=periodDays||0;
+  const numWeeks=p===0?Math.ceil(ws.length>0?(new Date()-parseLocalDate(ws[ws.length-1]?.date||new Date().toISOString()))/86400000/7+1:12):
+    p<=30?Math.ceil(p/7)+1:p<=90?Math.ceil(p/7)+1:p<=365?Math.ceil(p/7):Math.ceil(p/7);
+  const cappedWeeks=Math.min(Math.max(numWeeks,4),52);
   const weeks={},now=new Date();now.setHours(0,0,0,0);
-  for(let i=7;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i*7);weeks['w'+i]={label:fmtShort(d.toISOString()),km:0};}
-  ws.forEach(w=>{const d=new Date(w.date);if(isNaN(d))return;const da=(now-d)/86400000;if(da>56)return;const k='w'+Math.floor(da/7);if(weeks[k])weeks[k].km+=(w.distance||0);});
+  for(let i=cappedWeeks-1;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i*7);weeks['w'+i]={label:fmtShort(d.toISOString()),km:0};}
+  ws.forEach(w=>{
+    const d=parseLocalDate(w.date);if(isNaN(d))return;
+    const da=(now-d)/86400000;if(da<0||da>cappedWeeks*7)return;
+    const k='w'+Math.floor(da/7);if(weeks[k])weeks[k].km+=(w.distance||0);
+  });
   const vals=Object.values(weeks),maxK=Math.max(...vals.map(v=>v.km),1);
+  // Hide labels if too many bars
+  const showLabel=cappedWeeks<=16;
   el.innerHTML=vals.map(v=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
     <div style="font-size:9px;color:var(--muted);font-family:var(--font-mono)">${v.km>0?v.km.toFixed(0):''}</div>
     <div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:${Math.max((v.km/maxK)*90,v.km>0?2:0)}px;background:${colorDim};border-top:${v.km>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0;transition:height .4s"></div></div>
-    <div style="font-size:9px;color:var(--muted)">${v.label}</div>
+    ${showLabel?`<div style="font-size:9px;color:var(--muted)">${v.label}</div>`:''}
   </div>`).join('');
 }
-function weeklyElevChart(id,ws,color,colorDim){
+function weeklyElevChart(id,ws,color,colorDim,periodDays){
   const el=document.getElementById(id);if(!el)return;
+  const p=periodDays||0;
+  const numWeeks=p===0?Math.ceil(ws.length>0?(new Date()-parseLocalDate(ws[ws.length-1]?.date||new Date().toISOString()))/86400000/7+1:12):
+    Math.ceil(p/7)+1;
+  const cappedWeeks=Math.min(Math.max(numWeeks,4),52);
   const weeks={},now=new Date();now.setHours(0,0,0,0);
-  for(let i=11;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i*7);weeks['w'+i]={label:fmtShort(d.toISOString()),val:0};}
-  ws.forEach(w=>{const d=new Date(w.date);if(isNaN(d))return;const da=(now-d)/86400000;if(da>84)return;const k='w'+Math.floor(da/7);if(weeks[k])weeks[k].val+=(w.elevGain||0);});
+  for(let i=cappedWeeks-1;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i*7);weeks['w'+i]={label:fmtShort(d.toISOString()),val:0};}
+  ws.forEach(w=>{
+    const d=parseLocalDate(w.date);if(isNaN(d))return;
+    const da=(now-d)/86400000;if(da<0||da>cappedWeeks*7)return;
+    const k='w'+Math.floor(da/7);if(weeks[k])weeks[k].val+=(w.elevGain||0);
+  });
   const data=Object.values(weeks),maxV=Math.max(...data.map(d=>d.val),1);
-  el.innerHTML=`<div style="display:flex;align-items:flex-end;gap:3px;height:100%;padding-bottom:18px">`+
+  const showLabel=cappedWeeks<=16;
+  el.innerHTML=`<div style="display:flex;align-items:flex-end;gap:3px;height:100%;padding-bottom:${showLabel?18:4}px">`+
     data.map(d=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%">
       <div style="font-size:9px;color:var(--muted);height:14px;display:flex;align-items:flex-end">${d.val>0?d.val.toFixed(0)+'m':''}</div>
       <div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="width:100%;height:${Math.max((d.val/maxV)*85,d.val>0?2:0)}%;background:${colorDim};border-top:${d.val>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0"></div></div>
-      <div style="font-size:9px;color:var(--muted);white-space:nowrap">${d.label}</div>
+      ${showLabel?`<div style="font-size:9px;color:var(--muted);white-space:nowrap">${d.label}</div>`:''}
     </div>`).join('')+'</div>';
 }
 function lineChart(id,items,valFn,color,unit){
@@ -1369,6 +1491,184 @@ function renderAIResult(a){
     <div style="background:var(--bg2);border-radius:8px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--green)"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:700;font-family:var(--font-mono);color:var(--green)">Raccomandazione</div><div style="color:var(--text2);font-size:13px;line-height:1.6">${a.recommendation}</div></div>
     ${a.warnings?.filter(Boolean).length?`<div style="background:var(--bg2);border-radius:8px;padding:14px 16px;border-left:3px solid var(--yellow)"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:700;font-family:var(--font-mono);color:var(--yellow)">⚠ Attenzione</div>${a.warnings.filter(Boolean).map(w=>`<div style="color:var(--text2);font-size:13px">${w}</div>`).join('')}</div>`:''}
   </div>`;
+}
+
+// ══ ADMIN ══
+let adminTab='run';
+let adminRunFiltered=[];
+let adminHikeFiltered=[];
+let adminRunSelected=new Set();
+let adminHikeSelected=new Set();
+
+function openAdminModal(tab){
+  adminTab=tab||'run';
+  adminRunSelected=new Set();
+  adminHikeSelected=new Set();
+  openModal('admin-modal');
+  document.getElementById('admin-run-count').textContent=state.workouts.length;
+  document.getElementById('admin-hike-count').textContent=state.hikes.length;
+  // reset filters
+  ['admin-run-search','admin-hike-search'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  ['admin-run-type','admin-hike-type'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  ['admin-run-from','admin-run-to','admin-hike-from','admin-hike-to'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  switchAdminTab(adminTab, document.getElementById('at-'+adminTab));
+}
+
+function switchAdminTab(tab, btn){
+  adminTab=tab;
+  document.querySelectorAll('.admin-tab').forEach(b=>{b.classList.remove('at-run','at-hike');});
+  btn.classList.add('at-'+tab);
+  document.getElementById('admin-panel-run').style.display=tab==='run'?'block':'none';
+  document.getElementById('admin-panel-hike').style.display=tab==='hike'?'block':'none';
+  renderAdminTable(tab);
+}
+
+function renderAdminTable(tab){
+  if(tab==='run') renderAdminRun();
+  else renderAdminHike();
+}
+
+function renderAdminRun(){
+  const search=(document.getElementById('admin-run-search')?.value||'').toLowerCase();
+  const type=document.getElementById('admin-run-type')?.value||'';
+  const from=document.getElementById('admin-run-from')?.value||'';
+  const to=document.getElementById('admin-run-to')?.value||'';
+  adminRunFiltered=state.workouts.filter(w=>{
+    if(type&&w.type!==type)return false;
+    if(from&&w.date<from)return false;
+    if(to&&w.date>to)return false;
+    if(search&&!(w.title||'').toLowerCase().includes(search)&&!w.type.includes(search))return false;
+    return true;
+  });
+  const tbody=document.getElementById('admin-run-tbody');
+  if(!adminRunFiltered.length){tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:24px">Nessuna attività</td></tr>`;updateAdminInfo('run');return;}
+  tbody.innerHTML=adminRunFiltered.map(w=>{
+    const sel=adminRunSelected.has(String(w.id));
+    const typeColor={running:'var(--accent)',trail:'var(--trail)',interval:'var(--yellow)',long:'var(--green)',base:'var(--muted2)',recovery:'var(--muted2)'}[w.type]||'var(--muted)';
+    return`<tr class="${sel?'selected':''}" onclick="adminToggleRow('run','${w.id}',event)">
+      <td><input type="checkbox" class="admin-cb" ${sel?'checked':''} onchange="adminToggleRow('run','${w.id}',event)" onclick="event.stopPropagation()"></td>
+      <td style="font-family:var(--font-mono);font-size:11px;white-space:nowrap">${fmtDate(w.date)}</td>
+      <td><span style="font-size:11px;color:${typeColor};font-weight:600">${(w.type||'').toUpperCase()}</span></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${w.title||'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${w.distance!=null?w.distance.toFixed(1):'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${w.avgPace||'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${w.avgHR||'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${w.elevGain||'—'}</td>
+      <td><span style="font-size:10px;color:var(--muted)">${w.source==='garmin_import'?'GARMIN':'manual'}</span></td>
+    </tr>`;
+  }).join('');
+  updateAdminInfo('run');
+}
+
+function renderAdminHike(){
+  const search=(document.getElementById('admin-hike-search')?.value||'').toLowerCase();
+  const type=document.getElementById('admin-hike-type')?.value||'';
+  const from=document.getElementById('admin-hike-from')?.value||'';
+  const to=document.getElementById('admin-hike-to')?.value||'';
+  adminHikeFiltered=state.hikes.filter(h=>{
+    if(type&&h.type!==type)return false;
+    if(from&&h.date<from)return false;
+    if(to&&h.date>to)return false;
+    if(search&&!(h.title||'').toLowerCase().includes(search))return false;
+    return true;
+  });
+  const tbody=document.getElementById('admin-hike-tbody');
+  if(!adminHikeFiltered.length){tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:24px">Nessuna escursione</td></tr>`;updateAdminInfo('hike');return;}
+  tbody.innerHTML=adminHikeFiltered.map(h=>{
+    const sel=adminHikeSelected.has(String(h.id));
+    return`<tr class="${sel?'selected-hike':''}" onclick="adminToggleRow('hike','${h.id}',event)">
+      <td><input type="checkbox" class="admin-cb admin-cb-hike" ${sel?'checked':''} onchange="adminToggleRow('hike','${h.id}',event)" onclick="event.stopPropagation()"></td>
+      <td style="font-family:var(--font-mono);font-size:11px;white-space:nowrap">${fmtDate(h.date)}</td>
+      <td><span style="font-size:11px;color:var(--hike);font-weight:600">${(HIKE_LBL[h.type]||h.type||'').toUpperCase()}</span></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h.title||'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${h.distance!=null?h.distance.toFixed(1):'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${h.elevGain||'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${h.maxAlt||'—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px">${h.avgHR||'—'}</td>
+      <td><span style="font-size:10px;color:var(--muted)">${h.source==='garmin_import'?'GARMIN':'manual'}</span></td>
+    </tr>`;
+  }).join('');
+  updateAdminInfo('hike');
+}
+
+function adminToggleRow(tab,id,event){
+  // Don't toggle if click came from checkbox directly (it handles itself)
+  if(event.target.tagName==='INPUT')return;
+  const sel=tab==='run'?adminRunSelected:adminHikeSelected;
+  const sid=String(id);
+  if(sel.has(sid))sel.delete(sid);else sel.add(sid);
+  renderAdminTable(tab);
+}
+
+function adminToggleAll(tab,cb){
+  const sel=tab==='run'?adminRunSelected:adminHikeSelected;
+  const filtered=tab==='run'?adminRunFiltered:adminHikeFiltered;
+  if(cb.checked)filtered.forEach(w=>sel.add(String(w.id)));
+  else sel.clear();
+  renderAdminTable(tab);
+}
+
+function adminSelectAll(tab){
+  const sel=tab==='run'?adminRunSelected:adminHikeSelected;
+  const filtered=tab==='run'?adminRunFiltered:adminHikeFiltered;
+  filtered.forEach(w=>sel.add(String(w.id)));
+  renderAdminTable(tab);
+}
+
+function adminDeselectAll(tab){
+  if(tab==='run')adminRunSelected.clear();
+  else adminHikeSelected.clear();
+  renderAdminTable(tab);
+}
+
+function updateAdminInfo(tab){
+  if(tab==='run'){
+    const sel=adminRunSelected.size;
+    const tot=adminRunFiltered.length;
+    document.getElementById('admin-run-sel').textContent=`${sel} selezionati`;
+    document.getElementById('admin-run-info').textContent=`${tot} attività visibili su ${state.workouts.length} totali`;
+    document.getElementById('admin-run-count').textContent=state.workouts.length;
+  }else{
+    const sel=adminHikeSelected.size;
+    const tot=adminHikeFiltered.length;
+    document.getElementById('admin-hike-sel').textContent=`${sel} selezionate`;
+    document.getElementById('admin-hike-info').textContent=`${tot} escursioni visibili su ${state.hikes.length} totali`;
+    document.getElementById('admin-hike-count').textContent=state.hikes.length;
+  }
+}
+
+function adminDeleteSelected(tab){
+  const sel=tab==='run'?adminRunSelected:adminHikeSelected;
+  if(!sel.size){toast('Nessuna attività selezionata','err');return;}
+  if(!confirm(`Eliminare ${sel.size} ${tab==='run'?'allenamenti':'escursioni'} selezionati?`))return;
+  if(tab==='run'){
+    state.workouts=state.workouts.filter(w=>!sel.has(String(w.id)));
+    adminRunSelected.clear();
+    saveState();syncToGitHub();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
+  }else{
+    state.hikes=state.hikes.filter(h=>!sel.has(String(h.id)));
+    adminHikeSelected.clear();
+    saveState();syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
+  }
+  renderAdminTable(tab);
+  renderHome();
+  toast(`✓ ${sel.size} attività eliminate`,'ok');
+}
+
+function adminDeleteAll(tab){
+  const total=tab==='run'?state.workouts.length:state.hikes.length;
+  if(!total){toast('Nessuna attività da eliminare','err');return;}
+  if(!confirm(`⚠ ATTENZIONE: eliminare TUTTI i ${total} ${tab==='run'?'allenamenti':'escursioni'}? Questa operazione non è reversibile.`))return;
+  if(tab==='run'){
+    state.workouts=[];adminRunSelected.clear();
+    saveState();syncToGitHub();renderRunDashboard();runFiltered=[];applyRunFilters();
+  }else{
+    state.hikes=[];adminHikeSelected.clear();
+    saveState();syncToGitHub();renderHikeDashboard();hikeFiltered=[];applyHikeFilters();
+  }
+  renderAdminTable(tab);
+  renderHome();
+  toast(`✓ Tutte le attività eliminate`,'ok');
 }
 
 // ══ GITHUB SYNC ══
