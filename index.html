@@ -237,14 +237,8 @@ select.form-input{cursor:pointer;}
       <div class="home-card-desc">Escursionismo, trekking multi-giorno e alpinismo. Dashboard e attività.</div>
       <div class="home-card-arrow">→</div>
     </div>
-    <div class="home-card home-card-run" onclick="openSection('hybrid')">
-      <span class="home-card-emoji">🏔</span>
-      <div class="home-card-title">Hiking + Trail</div>
-      <div class="home-card-desc">Escursioni + Trail running combinati.</div>
-      <div class="home-card-arrow">→</div>
-    </div>
   </div>
-  <div class="home-strip id="home-strip"></div>
+  <div class="home-strip" id="home-strip"></div>
 
   <!-- Garmin nella home -->
   <div style="margin-top:24px">
@@ -316,7 +310,109 @@ select.form-input{cursor:pointer;}
   <!-- RUN ACTIVITIES -->
   <div id="run-tab-activities" class="section" style="display:none">
     <div class="filter-pill-bar">
-      
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">TIPO:</span>
+      <button class="filter-pill pill-active" data-rt="" onclick="setRunTypeFilter('',this)">Tutti</button>
+      <button class="filter-pill" data-rt="running" onclick="setRunTypeFilter('running',this)">🏃 Running</button>
+      <button class="filter-pill" data-rt="trail" onclick="setRunTypeFilter('trail',this)">🏔 Trail</button>
+      <button class="filter-pill" data-rt="interval" onclick="setRunTypeFilter('interval',this)">⚡ Interval</button>
+      <button class="filter-pill" data-rt="long" onclick="setRunTypeFilter('long',this)">🛣 Long</button>
+      <button class="filter-pill" data-rt="base" onclick="setRunTypeFilter('base',this)">🏃 Base</button>
+      <button class="filter-pill" data-rt="recovery" onclick="setRunTypeFilter('recovery',this)">🧘 Recovery</button>
+      <div class="filter-sep-v"></div>
+      <button class="btn btn-secondary btn-sm" onclick="toggleAdv('run')">⚙ Filtri avanzati</button>
+      <span id="run-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
+    </div>
+    <div class="adv-filter" id="run-adv" style="display:none">
+      <div class="adv-filter-grid">
+        <div class="filter-group"><div class="filter-label">Distanza (km)</div><div class="filter-range"><input class="filter-input" type="number" id="rf-dmin" placeholder="min" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="rf-dmax" placeholder="max" oninput="applyRunFilters()"></div></div>
+        <div class="filter-group"><div class="filter-label">Passo (min/km)</div><div class="filter-range"><input class="filter-input" type="text" id="rf-pmin" placeholder="4:00" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="text" id="rf-pmax" placeholder="8:00" oninput="applyRunFilters()"></div></div>
+        <div class="filter-group"><div class="filter-label">Dislivello (m)</div><div class="filter-range"><input class="filter-input" type="number" id="rf-emin" placeholder="min" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="rf-emax" placeholder="max" oninput="applyRunFilters()"></div></div>
+        <div class="filter-group"><div class="filter-label">FC (bpm)</div><div class="filter-range"><input class="filter-input" type="number" id="rf-hmin" placeholder="min" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="rf-hmax" placeholder="max" oninput="applyRunFilters()"></div></div>
+        <div class="filter-group"><div class="filter-label">Data</div><div class="filter-range"><input class="filter-input" type="date" id="rf-dfrom" oninput="applyRunFilters()" style="width:120px"><span class="filter-sep-c">—</span><input class="filter-input" type="date" id="rf-dto" oninput="applyRunFilters()" style="width:120px"></div></div>
+        <div class="filter-group"><div class="filter-label">Cerca titolo</div><input class="filter-input wide" type="text" id="rf-search" placeholder="es. VO2, Monte…" oninput="applyRunFilters()"></div>
+        <div class="filter-group" style="align-self:flex-end"><button class="btn btn-secondary btn-sm" onclick="resetRunFilters()">✕ Reset</button></div>
+      </div>
+      <div class="filter-summary" id="run-filter-sum"></div>
+    </div>
+    <div class="sort-bar">
+      <span class="sort-bar-label">ORDINA:</span>
+      <button class="btn btn-secondary btn-sm active-sort" onclick="setRunSort('date',this)">Data</button>
+      <button class="btn btn-secondary btn-sm" onclick="setRunSort('distance',this)">Distanza</button>
+      <button class="btn btn-secondary btn-sm" onclick="setRunSort('paceSeconds',this)">Passo</button>
+      <button class="btn btn-secondary btn-sm" onclick="setRunSort('elevGain',this)">Dislivello</button>
+      <button class="btn btn-secondary btn-sm" onclick="setRunSort('avgHR',this)">FC</button>
+      <span id="run-sort-dir" style="cursor:pointer;color:var(--accent);font-size:12px;margin-left:2px" onclick="toggleRunSortDir()">↓ Recenti</span>
+    </div>
+    <div class="activity-grid" id="run-grid"></div>
+  </div>
+
+  <!-- AI COACH -->
+  <div id="run-tab-coach" class="section" style="display:none">
+    <div class="card">
+      <div class="card-title">🤖 AI Coach — Analisi Stato di Forma</div>
+      <div class="api-key-section">
+        <div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px">
+          <button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button>
+        </div>
+        <div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div>
+      </div>
+      <button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button>
+      <div id="ai-result" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HIKING ═══ -->
+<div id="page-hiking" style="display:none">
+  <div class="tabs" id="hike-tabs">
+    <button class="tab active-hike" onclick="switchTab('hike','dashboard',this)">📊 Dashboard</button>
+    <button class="tab" onclick="switchTab('hike','activities',this)">🥾 Attività</button>
+  </div>
+
+  <!-- HIKE DASHBOARD -->
+  <div id="hike-tab-dashboard" class="section">
+    <div class="stats-grid" id="hike-kpi-global"></div>
+    <div class="filter-pill-bar" id="hike-period-pills">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">PERIODO:</span>
+      <button class="filter-pill pill-active-hike" data-hp="7"  onclick="setHikePeriod(7,this)">7 giorni</button>
+      <button class="filter-pill" data-hp="30" onclick="setHikePeriod(30,this)">30 giorni</button>
+      <button class="filter-pill" data-hp="90" onclick="setHikePeriod(90,this)">3 mesi</button>
+      <button class="filter-pill" data-hp="365" onclick="setHikePeriod(365,this)">1 anno</button>
+      <button class="filter-pill" data-hp="0" onclick="setHikePeriod(0,this)">Tutto</button>
+    </div>
+    <div class="dash-two-col" id="hike-garmin-wrap">
+      <div class="card" id="hike-garmin-card" style="display:none">
+        <div class="card-title">⌚ Ultimo Garmin — <span id="hike-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
+        <div class="gauges-row" id="hike-garmin-gauges"></div>
+      </div>
+      <div class="card"><div class="card-title">🕐 Ultime escursioni</div><div id="hike-recent"></div></div>
+    </div>
+    <div class="sec-hdr-hike"><div class="sec-title" style="color:var(--hike)">🥾 Escursionismo</div><div class="sec-sub">Hiking, trekking, alpinismo</div></div>
+    <div class="stats-grid" id="hike-kpi-main"></div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">📅 Km settimanali</div><div id="hike-chart-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="hike-chart-elev" style="height:160px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="hike-chart-hr" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="hike-chart-pace" style="height:130px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="hike-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="hike-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
+    </div>
+  </div>
+
+  <!-- HIKE ACTIVITIES -->
+  <div id="hike-tab-activities" class="section" style="display:none">
+    <div class="filter-pill-bar">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">TIPO:</span>
+      <button class="filter-pill pill-active-hike" data-ht="" onclick="setHikeTypeFilter('',this)">Tutti</button>
+      <button class="filter-pill" data-ht="hike" onclick="setHikeTypeFilter('hike',this)">🥾 Escursione</button>
+      <button class="filter-pill" data-ht="hike-multi" onclick="setHikeTypeFilter('hike-multi',this)">🎒 Trekking</button>
+      <button class="filter-pill" data-ht="hike-alpine" onclick="setHikeTypeFilter('hike-alpine',this)">🧗 Alpinismo</button>
       <div class="filter-sep-v"></div>
       <button class="btn btn-secondary btn-sm" onclick="toggleAdv('hike')">⚙ Filtri avanzati</button>
       <span id="hike-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
@@ -513,27 +609,36 @@ select.form-input{cursor:pointer;}
 
 <script type="application/json" id="embedded-state">{}
 function renderHybrid(){
+  const grid = document.getElementById('hybrid-grid');
+  if(!grid) return;
+
   const all = [
     ...state.workouts.filter(w => detectRunType(w.type, w.title)==='trail')
       .map(w => ({...w, source:'trail'})),
     ...state.hikes.map(h => ({...h, source:'hike'}))
   ];
 
-  const grid = document.getElementById('hybrid-grid');
-  if(!grid) return;
   grid.innerHTML='';
+
+  if(all.length===0){
+    grid.innerHTML = '<div class="empty"><div class="empty-title">Nessuna attività</div></div>';
+    return;
+  }
 
   all.sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(a=>{
     const div=document.createElement('div');
     div.className='act-card';
+
     div.innerHTML=`
+      <div class="act-card-type-bar ${a.source==='trail'?'trail-type':'hike-type'}"></div>
       <div class="act-card-header">
-        <div>
+        <div class="act-card-title-wrap">
           <div class="act-card-title">${a.title||'—'}</div>
           <div class="act-card-date">${fmtDate(a.date)}</div>
         </div>
       </div>
     `;
+
     grid.appendChild(div);
   });
 }
@@ -625,11 +730,33 @@ function goHome(){
 }
 function openSection(s){
   cur=s;
+
   hide('page-home');
-  show('page-running',s==='running');show('page-hiking',s==='hiking');
+  hide('page-running');
+  hide('page-hiking');
+  hide('page-hybrid');
+
+  if(s==='running'){
+    show('page-running');
+    renderRunDashboard();
+    runFiltered=[...state.workouts];
+    applyRunFilters();
+    loadApiKey();
+  }
+
+  if(s==='hiking'){
+    show('page-hiking');
+    renderHikeDashboard();
+    hikeFiltered=[...state.hikes];
+    applyHikeFilters();
+  }
+
+  if(s==='hybrid'){
+    show('page-hybrid');
+    renderHybrid();
+  }
+
   renderHeaderBtns();
-  if(s==='running'){renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();loadApiKey();}
-  if(s==='hiking'){renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();}
 }
 function show(id,cond=true){document.getElementById(id).style.display=cond?'block':'none';}
 function hide(id){document.getElementById(id).style.display='none';}
@@ -1721,27 +1848,36 @@ renderHeaderBtns();
 renderHome();
 
 function renderHybrid(){
+  const grid = document.getElementById('hybrid-grid');
+  if(!grid) return;
+
   const all = [
     ...state.workouts.filter(w => detectRunType(w.type, w.title)==='trail')
       .map(w => ({...w, source:'trail'})),
     ...state.hikes.map(h => ({...h, source:'hike'}))
   ];
 
-  const grid = document.getElementById('hybrid-grid');
-  if(!grid) return;
   grid.innerHTML='';
+
+  if(all.length===0){
+    grid.innerHTML = '<div class="empty"><div class="empty-title">Nessuna attività</div></div>';
+    return;
+  }
 
   all.sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(a=>{
     const div=document.createElement('div');
     div.className='act-card';
+
     div.innerHTML=`
+      <div class="act-card-type-bar ${a.source==='trail'?'trail-type':'hike-type'}"></div>
       <div class="act-card-header">
-        <div>
+        <div class="act-card-title-wrap">
           <div class="act-card-title">${a.title||'—'}</div>
           <div class="act-card-date">${fmtDate(a.date)}</div>
         </div>
       </div>
     `;
+
     grid.appendChild(div);
   });
 }
