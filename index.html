@@ -369,7 +369,6 @@ select.form-input{cursor:pointer;}
   <div class="tabs" id="hike-tabs">
     <button class="tab active-hike" onclick="switchTab('hike','dashboard',this)">📊 Dashboard</button>
     <button class="tab" onclick="switchTab('hike','activities',this)">🥾 Attività</button>
-    <button class="tab" onclick="switchTab('hike','combined',this)">🏔+🥾 Hiking + Trail</button>
   </div>
 
   <!-- HIKE DASHBOARD -->
@@ -382,12 +381,6 @@ select.form-input{cursor:pointer;}
       <button class="filter-pill" data-hp="90" onclick="setHikePeriod(90,this)">3 mesi</button>
       <button class="filter-pill" data-hp="365" onclick="setHikePeriod(365,this)">1 anno</button>
       <button class="filter-pill" data-hp="0" onclick="setHikePeriod(0,this)">Tutto</button>
-      <div class="filter-sep-v"></div>
-      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">DATE:</span>
-      <input class="filter-input" type="date" id="hike-custom-from" onchange="setHikeCustomPeriod()" style="width:130px">
-      <span style="font-size:12px;color:var(--muted2)">→</span>
-      <input class="filter-input" type="date" id="hike-custom-to" onchange="setHikeCustomPeriod()" style="width:130px">
-      <button class="btn btn-secondary btn-sm" onclick="resetHikeCustomPeriod()">✕</button>
     </div>
     <div class="dash-two-col" id="hike-garmin-wrap">
       <div class="card" id="hike-garmin-card" style="display:none">
@@ -408,22 +401,18 @@ select.form-input{cursor:pointer;}
     </div>
     <div class="dash-two-col">
       <div class="card"><div class="card-title">🏆 Top Performances</div><div id="hike-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
-      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="hike-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">📊 Statistiche medie</div><div id="hike-avg-kpi" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:2px"></div></div>
     </div>
   </div>
 
-  <!-- HIKE ACTIVITIES — no type filter, custom dates in bar -->
+  <!-- HIKE ACTIVITIES -->
   <div id="hike-tab-activities" class="section" style="display:none">
     <div class="filter-pill-bar">
-      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">DATE:</span>
-      <button class="filter-pill pill-active-hike" data-hap="0" onclick="setHikeActPeriod(0,this)">Tutto</button>
-      <button class="filter-pill" data-hap="30" onclick="setHikeActPeriod(30,this)">30 giorni</button>
-      <button class="filter-pill" data-hap="90" onclick="setHikeActPeriod(90,this)">3 mesi</button>
-      <button class="filter-pill" data-hap="365" onclick="setHikeActPeriod(365,this)">1 anno</button>
-      <div class="filter-sep-v"></div>
-      <input class="filter-input" type="date" id="haf-custom-from" onchange="applyHikeFilters()" style="width:130px">
-      <span style="font-size:12px;color:var(--muted2)">→</span>
-      <input class="filter-input" type="date" id="haf-custom-to" onchange="applyHikeFilters()" style="width:130px">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">TIPO:</span>
+      <button class="filter-pill pill-active-hike" data-ht="" onclick="setHikeTypeFilter('',this)">Tutti</button>
+      <button class="filter-pill" data-ht="hike" onclick="setHikeTypeFilter('hike',this)">🥾 Escursione</button>
+      <button class="filter-pill" data-ht="hike-multi" onclick="setHikeTypeFilter('hike-multi',this)">🎒 Trekking</button>
+      <button class="filter-pill" data-ht="hike-alpine" onclick="setHikeTypeFilter('hike-alpine',this)">🧗 Alpinismo</button>
       <div class="filter-sep-v"></div>
       <button class="btn btn-secondary btn-sm" onclick="toggleAdv('hike')">⚙ Filtri avanzati</button>
       <span id="hike-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
@@ -433,6 +422,7 @@ select.form-input{cursor:pointer;}
         <div class="filter-group"><div class="filter-label">Distanza (km)</div><div class="filter-range"><input class="filter-input" type="number" id="hf-dmin" placeholder="min" oninput="applyHikeFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="hf-dmax" placeholder="max" oninput="applyHikeFilters()"></div></div>
         <div class="filter-group"><div class="filter-label">Dislivello (m)</div><div class="filter-range"><input class="filter-input" type="number" id="hf-emin" placeholder="min" oninput="applyHikeFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="hf-emax" placeholder="max" oninput="applyHikeFilters()"></div></div>
         <div class="filter-group"><div class="filter-label">Durata (ore)</div><div class="filter-range"><input class="filter-input" type="number" id="hf-durmin" placeholder="min" oninput="applyHikeFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="hf-durmax" placeholder="max" oninput="applyHikeFilters()"></div></div>
+        <div class="filter-group"><div class="filter-label">Data</div><div class="filter-range"><input class="filter-input" type="date" id="hf-dfrom" oninput="applyHikeFilters()" style="width:120px"><span class="filter-sep-c">—</span><input class="filter-input" type="date" id="hf-dto" oninput="applyHikeFilters()" style="width:120px"></div></div>
         <div class="filter-group"><div class="filter-label">Cerca titolo</div><input class="filter-input wide" type="text" id="hf-search" placeholder="es. Resegone…" oninput="applyHikeFilters()"></div>
         <div class="filter-group" style="align-self:flex-end"><button class="btn btn-secondary btn-sm" onclick="resetHikeFilters()">✕ Reset</button></div>
       </div>
@@ -447,62 +437,6 @@ select.form-input{cursor:pointer;}
       <span id="hike-sort-dir" style="cursor:pointer;color:var(--hike);font-size:12px;margin-left:2px" onclick="toggleHikeSortDir()">↓ Recenti</span>
     </div>
     <div class="activity-grid" id="hike-grid"></div>
-  </div>
-
-  <!-- HIKING + TRAIL COMBINED -->
-  <div id="hike-tab-combined" class="section" style="display:none">
-    <div class="filter-pill-bar" id="comb-period-pills">
-      <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">PERIODO:</span>
-      <button class="filter-pill pill-active-hike" data-cp="0" onclick="setCombPeriod(0,this)">Tutto</button>
-      <button class="filter-pill" data-cp="30" onclick="setCombPeriod(30,this)">30 giorni</button>
-      <button class="filter-pill" data-cp="90" onclick="setCombPeriod(90,this)">3 mesi</button>
-      <button class="filter-pill" data-cp="365" onclick="setCombPeriod(365,this)">1 anno</button>
-      <div class="filter-sep-v"></div>
-      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">DATE:</span>
-      <input class="filter-input" type="date" id="comb-custom-from" onchange="setCombCustomPeriod()" style="width:130px">
-      <span style="font-size:12px;color:var(--muted2)">→</span>
-      <input class="filter-input" type="date" id="comb-custom-to" onchange="setCombCustomPeriod()" style="width:130px">
-      <button class="btn btn-secondary btn-sm" onclick="resetCombCustomPeriod()">✕</button>
-      <div class="filter-sep-v"></div>
-      <button class="btn btn-secondary btn-sm" onclick="toggleAdv('comb')">⚙ Filtri avanzati</button>
-      <span id="comb-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
-    </div>
-    <div class="adv-filter" id="comb-adv" style="display:none">
-      <div class="adv-filter-grid">
-        <div class="filter-group"><div class="filter-label">Tipo</div>
-          <select class="filter-input" id="cf-type" onchange="applyCombFilters()" style="width:auto">
-            <option value="">Tutti</option>
-            <option value="trail">🏔 Trail Running</option>
-            <option value="hike">🥾 Escursione</option>
-            <option value="hike-multi">🎒 Trekking</option>
-            <option value="hike-alpine">🧗 Alpinismo</option>
-          </select>
-        </div>
-        <div class="filter-group"><div class="filter-label">Distanza (km)</div><div class="filter-range"><input class="filter-input" type="number" id="cf-dmin" placeholder="min" oninput="applyCombFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="cf-dmax" placeholder="max" oninput="applyCombFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Dislivello (m)</div><div class="filter-range"><input class="filter-input" type="number" id="cf-emin" placeholder="min" oninput="applyCombFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="cf-emax" placeholder="max" oninput="applyCombFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Cerca titolo</div><input class="filter-input wide" type="text" id="cf-search" placeholder="es. Monte, Trail…" oninput="applyCombFilters()"></div>
-        <div class="filter-group" style="align-self:flex-end"><button class="btn btn-secondary btn-sm" onclick="resetCombFilters()">✕ Reset</button></div>
-      </div>
-      <div class="filter-summary" id="comb-filter-sum"></div>
-    </div>
-    <div class="stats-grid" id="comb-kpi" style="grid-template-columns:repeat(5,1fr);margin-bottom:14px"></div>
-    <div class="dash-two-col">
-      <div class="card"><div class="card-title">📅 Volume settimanale combinato (km)</div><div id="comb-chart-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
-      <div class="card"><div class="card-title">🏔 Dislivello settimanale combinato (m+)</div><div id="comb-chart-elev" style="height:160px"></div></div>
-    </div>
-    <div class="dash-two-col">
-      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="comb-chart-hr" style="height:130px"></div></div>
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="comb-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
-    </div>
-    <div class="card" style="margin-bottom:14px"><div class="card-title">📆 Distribuzione attività</div><div id="comb-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
-    <div class="sort-bar">
-      <span class="sort-bar-label">ORDINA:</span>
-      <button class="btn btn-secondary btn-sm active-sort" onclick="setCombSort('date',this)">Data</button>
-      <button class="btn btn-secondary btn-sm" onclick="setCombSort('distance',this)">Distanza</button>
-      <button class="btn btn-secondary btn-sm" onclick="setCombSort('elevGain',this)">Dislivello</button>
-      <span id="comb-sort-dir" style="cursor:pointer;color:var(--hike);font-size:12px;margin-left:2px" onclick="toggleCombSortDir()">↓ Recenti</span>
-    </div>
-    <div class="activity-grid" id="comb-grid"></div>
   </div>
 </div>
 
@@ -679,7 +613,7 @@ let runTypeFilter='', hikeTypeFilter='';
 let runSortKey='date', runSortDir=-1;
 let hikeSortKey='date', hikeSortDir=-1;
 let runFiltered=[], hikeFiltered=[];
-let runAdvOpen=false, hikeAdvOpen=false, combAdvOpen=false;
+let runAdvOpen=false, hikeAdvOpen=false;
 
 // ══ PERSIST ══
 function normalizeDates(hikes){
@@ -799,7 +733,6 @@ function switchTab(sect,name,el){
   document.querySelectorAll(`#${prefix}-tabs .tab`).forEach(t=>{t.classList.remove('active-run');t.classList.remove('active-hike');});
   document.getElementById(`${prefix}-tab-${name}`).style.display='block';
   el.classList.add(sect==='run'?'active-run':'active-hike');
-  if(name==='combined')renderCombined();
 }
 
 // ══ MODALS ══
@@ -1160,8 +1093,7 @@ function setRunTypeFilter(t,btn){
 }
 function toggleAdv(which){
   if(which==='run'){runAdvOpen=!runAdvOpen;document.getElementById('run-adv').style.display=runAdvOpen?'block':'none';}
-  else if(which==='hike'){hikeAdvOpen=!hikeAdvOpen;document.getElementById('hike-adv').style.display=hikeAdvOpen?'block':'none';}
-  else{combAdvOpen=!combAdvOpen;const el=document.getElementById('comb-adv');if(el)el.style.display=combAdvOpen?'block':'none';}
+  else{hikeAdvOpen=!hikeAdvOpen;document.getElementById('hike-adv').style.display=hikeAdvOpen?'block':'none';}
 }
 function applyRunFilters(){
   const dmin=parseFloat(document.getElementById('rf-dmin')?.value);
@@ -1217,49 +1149,14 @@ function sortRunActivities(){
 }
 
 // ══ HIKING DASHBOARD ══
-let hikeCustomFrom='', hikeCustomTo='';
-let hikeActPeriod=0;
-let combPeriod=0, combCustomFrom='', combCustomTo='';
-let combFiltered=[], combSortKey='date', combSortDir=-1;
-
 function getDashHike(){
-  return state.hikes.filter(h=>{
-    if(hikeCustomFrom&&h.date<hikeCustomFrom)return false;
-    if(hikeCustomTo&&h.date>hikeCustomTo)return false;
-    if(!hikeCustomFrom&&!hikeCustomTo&&hikePeriod>0){
-      if((Date.now()-parseLocalDate(h.date))/86400000>hikePeriod)return false;
-    }
-    return true;
-  });
+  const now=Date.now();
+  return state.hikes.filter(h=>hikePeriod===0||(now-new Date(h.date))/86400000<=hikePeriod);
 }
 function setHikePeriod(p,btn){
-  hikePeriod=p; hikeCustomFrom=''; hikeCustomTo='';
-  const df=document.getElementById('hike-custom-from'); if(df)df.value='';
-  const dt=document.getElementById('hike-custom-to');   if(dt)dt.value='';
+  hikePeriod=p;
   document.querySelectorAll('#hike-period-pills [data-hp]').forEach(b=>{b.classList.remove('pill-active-hike');b.classList.remove('pill-active');});
-  btn.classList.add('pill-active-hike');
-  renderHikeDashboard();
-}
-function setHikeCustomPeriod(){
-  hikeCustomFrom=document.getElementById('hike-custom-from')?.value||'';
-  hikeCustomTo  =document.getElementById('hike-custom-to')?.value||'';
-  if(hikeCustomFrom||hikeCustomTo)
-    document.querySelectorAll('#hike-period-pills [data-hp]').forEach(b=>b.classList.remove('pill-active-hike'));
-  renderHikeDashboard();
-}
-function resetHikeCustomPeriod(){
-  hikeCustomFrom=''; hikeCustomTo='';
-  const df=document.getElementById('hike-custom-from'); if(df)df.value='';
-  const dt=document.getElementById('hike-custom-to');   if(dt)dt.value='';
-  renderHikeDashboard();
-}
-function setHikeActPeriod(p,btn){
-  hikeActPeriod=p;
-  document.querySelectorAll('[data-hap]').forEach(b=>b.classList.remove('pill-active-hike'));
-  btn.classList.add('pill-active-hike');
-  const df=document.getElementById('haf-custom-from'); if(df)df.value='';
-  const dt=document.getElementById('haf-custom-to');   if(dt)dt.value='';
-  applyHikeFilters();
+  btn.classList.add('pill-active-hike');renderHikeDashboard();
 }
 function renderHikeDashboard(){
   renderGarminInSection('hike');
@@ -1273,6 +1170,7 @@ function renderHikeDashboard(){
         ${h.distance!=null?`<span class="tag hike">${h.distance.toFixed(1)}km</span>`:''}
         ${h.elevGain?`<span class="tag green">${h.elevGain}m+</span>`:''}
       </div></div>`).join('');
+
   const hs=getDashHike();
   const km=hs.reduce((s,h)=>s+(h.distance||0),0);
   const elev=hs.reduce((s,h)=>s+(h.elevGain||0),0);
@@ -1284,63 +1182,66 @@ function renderHikeDashboard(){
     {val:fmtDur(min),lbl:'Ore totali'},
     {val:km>0?(elev/km).toFixed(0):'--',unit:' m/km',lbl:'D+ per km'},
   ]);
+
   const ap=hs.filter(h=>h.paceSeconds&&h.paceSeconds<1800);
   const avgP=ap.length?Math.round(ap.reduce((s,h)=>s+h.paceSeconds,0)/ap.length):null;
-  const hrH=hs.filter(h=>h.avgHR); const avgHR=hrH.length?Math.round(hrH.reduce((s,h)=>s+h.avgHR,0)/hrH.length):null;
+  const hrH=hs.filter(h=>h.avgHR);const avgHR=hrH.length?Math.round(hrH.reduce((s,h)=>s+h.avgHR,0)/hrH.length):null;
+  const cal=hs.reduce((s,h)=>s+(h.calories||0),0);
   const maxAlt=hs.filter(h=>h.maxAlt).sort((a,b)=>(b.maxAlt||0)-(a.maxAlt||0))[0];
   document.getElementById('hike-kpi-main').innerHTML=kpiCards([
     {val:km.toFixed(1),unit:' km',lbl:'Km',cls:'hike-c'},
     {val:elev>0?(elev/1000).toFixed(2)+'k':'0',unit:' m+',lbl:'Dislivello tot.',cls:'green'},
     {val:avgP?s2p(avgP):'--',unit:'/km',lbl:'Passo medio'},
     {val:avgHR||'--',unit:' bpm',lbl:'FC media'},
-    {val:maxAlt?.maxAlt||'--',unit:' m',lbl:'Quota max'},
+    {val:maxAlt?.maxAlt||'--',unit:' m',lbl:'Quota max raggiunta'},
   ]);
+
   weeklyBarChart('hike-chart-vol',hs,'var(--hike)','var(--hike-bg)',hikePeriod);
   weeklyElevChart('hike-chart-elev',hs,'var(--hike)','var(--hike-bg)',hikePeriod);
   lineChart('hike-chart-hr',hs.filter(h=>h.avgHR).slice(0,60).reverse(),h=>h.avgHR,'var(--red)','bpm');
   lineChart('hike-chart-pace',hs.filter(h=>h.paceSeconds&&h.paceSeconds<1800).slice(0,60).reverse(),h=>h.paceSeconds,'var(--hike)','passo');
   hikeTopPerf(hs);
-  distribChart(hs,'hike-distrib',HIKE_ICON,HIKE_LBL,HIKE_COL);
+  hikeAvgKpi(hs,'hike-avg-kpi');
 }
 
 // ══ HIKING ACTIVITIES ══
+function setHikeTypeFilter(t,btn){
+  hikeTypeFilter=t;
+  document.querySelectorAll('[data-ht]').forEach(b=>{b.classList.remove('pill-active-hike');b.classList.remove('pill-active');});
+  btn.classList.add('pill-active-hike');applyHikeFilters();
+}
 function applyHikeFilters(){
-  const custFrom=document.getElementById('haf-custom-from')?.value||'';
-  const custTo  =document.getElementById('haf-custom-to')?.value||'';
   const dmin=parseFloat(document.getElementById('hf-dmin')?.value);
   const dmax=parseFloat(document.getElementById('hf-dmax')?.value);
   const emin=parseFloat(document.getElementById('hf-emin')?.value);
   const emax=parseFloat(document.getElementById('hf-emax')?.value);
   const durmin=parseFloat(document.getElementById('hf-durmin')?.value);
   const durmax=parseFloat(document.getElementById('hf-durmax')?.value);
+  const dfrom=document.getElementById('hf-dfrom')?.value;
+  const dto=document.getElementById('hf-dto')?.value;
   const search=(document.getElementById('hf-search')?.value||'').toLowerCase().trim();
-  const now=Date.now();
   hikeFiltered=state.hikes.filter(h=>{
-    if(custFrom&&h.date<custFrom)return false;
-    if(custTo&&h.date>custTo)return false;
-    if(!custFrom&&!custTo&&hikeActPeriod>0&&(now-parseLocalDate(h.date))/86400000>hikeActPeriod)return false;
+    if(hikeTypeFilter&&h.type!==hikeTypeFilter)return false;
     if(!isNaN(dmin)&&(h.distance==null||h.distance<dmin))return false;
     if(!isNaN(dmax)&&(h.distance==null||h.distance>dmax))return false;
     if(!isNaN(emin)&&(h.elevGain==null||h.elevGain<emin))return false;
     if(!isNaN(emax)&&(h.elevGain==null||h.elevGain>emax))return false;
     if(!isNaN(durmin)&&(h.duration==null||h.duration<durmin*60))return false;
     if(!isNaN(durmax)&&(h.duration==null||h.duration>durmax*60))return false;
+    if(dfrom&&h.date<dfrom)return false;
+    if(dto&&h.date>dto)return false;
     if(search&&!(h.title||'').toLowerCase().includes(search))return false;
     return true;
   });
   sortHikeActivities();
   const km=hikeFiltered.reduce((s,h)=>s+(h.distance||0),0);
   const elev=hikeFiltered.reduce((s,h)=>s+(h.elevGain||0),0);
-  const su=document.getElementById('hike-filter-sum');
-  if(su)su.innerHTML=`<span>${hikeFiltered.length}</span> di ${state.hikes.length} — <span>${km.toFixed(1)} km</span> — <span>${elev.toFixed(0)} m+</span>`;
+  const s=document.getElementById('hike-filter-sum');
+  if(s)s.innerHTML=`<span>${hikeFiltered.length}</span> di ${state.hikes.length} — <span>${km.toFixed(1)} km</span> — <span>${elev.toFixed(0)} m+</span>`;
   const c=document.getElementById('hike-count');
   if(c)c.textContent=`${hikeFiltered.length} escursioni`;
 }
-function resetHikeFilters(){
-  ['hf-dmin','hf-dmax','hf-emin','hf-emax','hf-durmin','hf-durmax','hf-search','haf-custom-from','haf-custom-to'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  applyHikeFilters();
-}
-function setHikeTypeFilter(){} // kept to avoid errors from any stale references
+function resetHikeFilters(){['hf-dmin','hf-dmax','hf-emin','hf-emax','hf-durmin','hf-durmax','hf-dfrom','hf-dto','hf-search'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});applyHikeFilters();}
 function setHikeSort(key,btn){
   if(hikeSortKey===key)hikeSortDir*=-1;else{hikeSortKey=key;hikeSortDir=-1;}
   document.querySelectorAll('#hike-tab-activities .sort-bar .btn').forEach(b=>b.classList.remove('active-sort'));
@@ -1355,110 +1256,6 @@ function sortHikeActivities(){
     return hikeSortDir*((a[hikeSortKey]??-Infinity)-(b[hikeSortKey]??-Infinity));
   });
   renderCards(sorted,'hike-grid',HIKE_ICON,HIKE_LBL,'hike');
-}
-
-// ══ COMBINED HIKING + TRAIL ══
-const COMB_ICON={...HIKE_ICON,trail:'🏔'};
-const COMB_LBL={...HIKE_LBL,trail:'Trail Running'};
-const COMB_COL={...HIKE_COL,trail:'var(--trail)'};
-
-function getCombBase(){
-  const trails=state.workouts.filter(w=>w.type==='trail');
-  const all=[...state.hikes,...trails].sort((a,b)=>(b.datetime||b.date).localeCompare(a.datetime||a.date));
-  const now=Date.now();
-  return all.filter(a=>{
-    if(combCustomFrom&&a.date<combCustomFrom)return false;
-    if(combCustomTo&&a.date>combCustomTo)return false;
-    if(!combCustomFrom&&!combCustomTo&&combPeriod>0&&(now-parseLocalDate(a.date))/86400000>combPeriod)return false;
-    return true;
-  });
-}
-function setCombPeriod(p,btn){
-  combPeriod=p; combCustomFrom=''; combCustomTo='';
-  const df=document.getElementById('comb-custom-from'); if(df)df.value='';
-  const dt=document.getElementById('comb-custom-to');   if(dt)dt.value='';
-  document.querySelectorAll('#comb-period-pills [data-cp]').forEach(b=>b.classList.remove('pill-active-hike'));
-  btn.classList.add('pill-active-hike');
-  renderCombined();
-}
-function setCombCustomPeriod(){
-  combCustomFrom=document.getElementById('comb-custom-from')?.value||'';
-  combCustomTo  =document.getElementById('comb-custom-to')?.value||'';
-  if(combCustomFrom||combCustomTo)
-    document.querySelectorAll('#comb-period-pills [data-cp]').forEach(b=>b.classList.remove('pill-active-hike'));
-  renderCombined();
-}
-function resetCombCustomPeriod(){
-  combCustomFrom=''; combCustomTo='';
-  const df=document.getElementById('comb-custom-from'); if(df)df.value='';
-  const dt=document.getElementById('comb-custom-to');   if(dt)dt.value='';
-  renderCombined();
-}
-function applyCombFilters(){
-  const type  =document.getElementById('cf-type')?.value||'';
-  const dmin  =parseFloat(document.getElementById('cf-dmin')?.value);
-  const dmax  =parseFloat(document.getElementById('cf-dmax')?.value);
-  const emin  =parseFloat(document.getElementById('cf-emin')?.value);
-  const emax  =parseFloat(document.getElementById('cf-emax')?.value);
-  const search=(document.getElementById('cf-search')?.value||'').toLowerCase().trim();
-  const base=getCombBase();
-  combFiltered=base.filter(a=>{
-    if(type&&a.type!==type)return false;
-    if(!isNaN(dmin)&&(a.distance==null||a.distance<dmin))return false;
-    if(!isNaN(dmax)&&(a.distance==null||a.distance>dmax))return false;
-    if(!isNaN(emin)&&(a.elevGain==null||a.elevGain<emin))return false;
-    if(!isNaN(emax)&&(a.elevGain==null||a.elevGain>emax))return false;
-    if(search&&!(a.title||'').toLowerCase().includes(search))return false;
-    return true;
-  });
-  sortCombActivities();
-  const km=combFiltered.reduce((s,a)=>s+(a.distance||0),0);
-  const elev=combFiltered.reduce((s,a)=>s+(a.elevGain||0),0);
-  const su=document.getElementById('comb-filter-sum');
-  if(su)su.innerHTML=`<span>${combFiltered.length}</span> attività — <span>${km.toFixed(1)} km</span> — <span>${elev.toFixed(0)} m+</span>`;
-  const c=document.getElementById('comb-count'); if(c)c.textContent=`${combFiltered.length} attività`;
-}
-function resetCombFilters(){
-  ['cf-type','cf-dmin','cf-dmax','cf-emin','cf-emax','cf-search'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  applyCombFilters();
-}
-function setCombSort(key,btn){
-  if(combSortKey===key)combSortDir*=-1;else{combSortKey=key;combSortDir=-1;}
-  document.querySelectorAll('#hike-tab-combined .sort-bar .btn').forEach(b=>b.classList.remove('active-sort'));
-  btn.classList.add('active-sort');
-  const d=document.getElementById('comb-sort-dir'); if(d)d.textContent=combSortDir===-1?'↓ Recenti':'↑ Vecchi';
-  sortCombActivities();
-}
-function toggleCombSortDir(){combSortDir*=-1;const d=document.getElementById('comb-sort-dir');if(d)d.textContent=combSortDir===-1?'↓ Recenti':'↑ Vecchi';sortCombActivities();}
-function sortCombActivities(){
-  const sorted=[...combFiltered].sort((a,b)=>{
-    if(combSortKey==='date')return combSortDir*(b.datetime||b.date).localeCompare(a.datetime||a.date);
-    return combSortDir*((a[combSortKey]??-Infinity)-(b[combSortKey]??-Infinity));
-  });
-  renderCards(sorted,'comb-grid',COMB_ICON,COMB_LBL,'hike');
-}
-function renderCombined(){
-  const base=getCombBase();
-  combFiltered=[...base];
-  const km=base.reduce((s,a)=>s+(a.distance||0),0);
-  const elev=base.reduce((s,a)=>s+(a.elevGain||0),0);
-  const min=base.reduce((s,a)=>s+(a.duration||0),0);
-  const trailCnt=base.filter(a=>a.type==='trail').length;
-  const hikeCnt=base.filter(a=>a.type!=='trail').length;
-  document.getElementById('comb-kpi').innerHTML=kpiCards([
-    {val:km.toFixed(1),unit:' km',lbl:'Km totali',cls:'hike-c'},
-    {val:elev>0?(elev/1000).toFixed(1)+'k':'0',unit:' m+',lbl:'Dislivello',cls:'green'},
-    {val:base.length,lbl:'Attività totali'},
-    {val:trailCnt,lbl:'Trail Run',cls:'trail-c'},
-    {val:hikeCnt,lbl:'Escursioni',cls:'hike-c'},
-  ]);
-  weeklyBarChart('comb-chart-vol',base,'var(--hike)','var(--hike-bg)',combPeriod);
-  weeklyElevChart('comb-chart-elev',base,'var(--hike)','var(--hike-bg)',combPeriod);
-  lineChart('comb-chart-hr',base.filter(a=>a.avgHR).slice(0,60).reverse(),a=>a.avgHR,'var(--red)','bpm');
-  topPerf(base,'comb-top','var(--hike)');
-  distribChart(base,'comb-distrib',COMB_ICON,COMB_LBL,COMB_COL);
-  sortCombActivities();
-  const c=document.getElementById('comb-count'); if(c)c.textContent=`${base.length} attività`;
 }
 
 // ══ CARDS ══
@@ -1525,19 +1322,16 @@ function weeklyBarChart(id,ws,color,colorDim,periodDays){
   const el=document.getElementById(id);if(!el)return;
   const p=periodDays||0;
   const now=new Date();now.setHours(0,0,0,0);
-  // Determine date range
   let startDate;
   if(p===0){
-    // Show all data: from oldest activity
     const oldest=ws.length?ws[ws.length-1]:null;
     startDate=oldest?parseLocalDate(oldest.date):new Date(now);
   }else{
     startDate=new Date(now);startDate.setDate(startDate.getDate()-p);
   }
-  // Build week buckets from startDate to now
   const weeks=[];
   let cursor=new Date(now);
-  cursor.setDate(cursor.getDate()-cursor.getDay()+1); // align to Monday
+  cursor.setDate(cursor.getDate()-cursor.getDay()+1);
   while(cursor>=startDate){
     weeks.unshift({label:fmtShort(cursor.toISOString()),km:0,weekStart:new Date(cursor)});
     cursor.setDate(cursor.getDate()-7);
@@ -1546,26 +1340,25 @@ function weeklyBarChart(id,ws,color,colorDim,periodDays){
   ws.forEach(w=>{
     const d=parseLocalDate(w.date);if(isNaN(d))return;
     for(let i=weeks.length-1;i>=0;i--){
-      const ws2=weeks[i].weekStart;
-      const we=new Date(ws2);we.setDate(we.getDate()+6);
+      const ws2=weeks[i].weekStart,we=new Date(ws2);we.setDate(we.getDate()+6);
       if(d>=ws2&&d<=we){weeks[i].km+=(w.distance||0);break;}
     }
   });
   const maxK=Math.max(...weeks.map(v=>v.km),1);
-  const BAR_W=36; // fixed px per bar
-  const totalW=Math.max(weeks.length*BAR_W, el.clientWidth||300);
-  el.style.overflowX='auto';el.style.overflowY='hidden';
-  el.innerHTML=`<div style="display:flex;align-items:flex-end;gap:0;min-width:${totalW}px;height:100%;padding-bottom:18px;padding-top:16px">
+  const BAR_W=38, H=140;
+  const totalW=weeks.length*BAR_W;
+  // Wrapper with explicit height and overflow — never bleeds outside
+  el.style.cssText='overflow-x:auto;overflow-y:hidden;width:100%;height:'+H+'px;display:block';
+  el.innerHTML=`<div style="display:flex;align-items:flex-end;width:${totalW}px;height:${H}px;padding:12px 0 18px;box-sizing:border-box">
     ${weeks.map(v=>`<div style="width:${BAR_W}px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%">
       <div style="font-size:9px;color:var(--muted);font-family:var(--font-mono);height:13px;display:flex;align-items:flex-end;justify-content:center">${v.km>0?v.km.toFixed(0):''}</div>
       <div style="flex:1;width:100%;display:flex;align-items:flex-end;padding:0 3px">
-        <div style="width:100%;height:${Math.max((v.km/maxK)*85,v.km>0?3:0)}%;background:${colorDim};border-top:${v.km>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0;transition:height .3s"></div>
+        <div style="width:100%;height:${Math.max((v.km/maxK)*80,v.km>0?3:0)}%;background:${colorDim};border-top:${v.km>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0"></div>
       </div>
       <div style="font-size:9px;color:var(--muted);white-space:nowrap">${v.label}</div>
     </div>`).join('')}
   </div>`;
-  // Scroll to right (most recent)
-  el.scrollLeft=el.scrollWidth;
+  setTimeout(()=>el.scrollLeft=el.scrollWidth,0);
 }
 
 function weeklyElevChart(id,ws,color,colorDim,periodDays){
@@ -1590,25 +1383,24 @@ function weeklyElevChart(id,ws,color,colorDim,periodDays){
   ws.forEach(w=>{
     const d=parseLocalDate(w.date);if(isNaN(d))return;
     for(let i=weeks.length-1;i>=0;i--){
-      const ws2=weeks[i].weekStart;
-      const we=new Date(ws2);we.setDate(we.getDate()+6);
+      const ws2=weeks[i].weekStart,we=new Date(ws2);we.setDate(we.getDate()+6);
       if(d>=ws2&&d<=we){weeks[i].val+=(w.elevGain||0);break;}
     }
   });
   const maxV=Math.max(...weeks.map(d=>d.val),1);
-  const BAR_W=36;
-  const totalW=Math.max(weeks.length*BAR_W, el.clientWidth||300);
-  el.style.overflowX='auto';el.style.overflowY='hidden';
-  el.innerHTML=`<div style="display:flex;align-items:flex-end;gap:0;min-width:${totalW}px;height:100%;padding-bottom:18px;padding-top:16px">
+  const BAR_W=38, H=140;
+  const totalW=weeks.length*BAR_W;
+  el.style.cssText='overflow-x:auto;overflow-y:hidden;width:100%;height:'+H+'px;display:block';
+  el.innerHTML=`<div style="display:flex;align-items:flex-end;width:${totalW}px;height:${H}px;padding:12px 0 18px;box-sizing:border-box">
     ${weeks.map(d=>`<div style="width:${BAR_W}px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%">
       <div style="font-size:9px;color:var(--muted);font-family:var(--font-mono);height:13px;display:flex;align-items:flex-end;justify-content:center">${d.val>0?d.val.toFixed(0)+'m':''}</div>
       <div style="flex:1;width:100%;display:flex;align-items:flex-end;padding:0 3px">
-        <div style="width:100%;height:${Math.max((d.val/maxV)*85,d.val>0?3:0)}%;background:${colorDim};border-top:${d.val>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0"></div>
+        <div style="width:100%;height:${Math.max((d.val/maxV)*80,d.val>0?3:0)}%;background:${colorDim};border-top:${d.val>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0"></div>
       </div>
       <div style="font-size:9px;color:var(--muted);white-space:nowrap">${d.label}</div>
     </div>`).join('')}
   </div>`;
-  el.scrollLeft=el.scrollWidth;
+  setTimeout(()=>el.scrollLeft=el.scrollWidth,0);
 }
 function lineChart(id,items,valFn,color,unit){
   const el=document.getElementById(id);if(!el||!items.length){if(el)el.innerHTML='';return;}
@@ -1655,6 +1447,35 @@ function hikeTopPerf(hs){
     <div style="font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:.5px">${p.label}</div>
     <div style="font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--hike)">${p.val}</div>
     <div style="font-size:10px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.sub||''}</div>
+  </div>`).join('');
+}
+function hikeAvgKpi(hs,containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  const withDist=hs.filter(h=>h.distance>0);
+  const withElev=hs.filter(h=>h.elevGain>0);
+  const withPace=hs.filter(h=>h.paceSeconds&&h.paceSeconds<1800);
+  const withHR=hs.filter(h=>h.avgHR);
+  const withDur=hs.filter(h=>h.duration>0);
+  const withAlt=hs.filter(h=>h.maxAlt>0);
+  const avg=(arr,fn)=>arr.length?arr.reduce((s,h)=>s+fn(h),0)/arr.length:null;
+  const avgDist=avg(withDist,h=>h.distance);
+  const avgElev=avg(withElev,h=>h.elevGain);
+  const avgPace=avg(withPace,h=>h.paceSeconds);
+  const avgHR=avg(withHR,h=>h.avgHR);
+  const avgDur=avg(withDur,h=>h.duration);
+  const avgAlt=avg(withAlt,h=>h.maxAlt);
+  const items=[
+    {icon:'📏',label:'Distanza media',val:avgDist?avgDist.toFixed(1)+' km':'—'},
+    {icon:'🏔',label:'Dislivello medio',val:avgElev?Math.round(avgElev)+' m+':'—'},
+    {icon:'⏱',label:'Passo medio',val:avgPace?s2p(Math.round(avgPace))+'/km':'—'},
+    {icon:'♥',label:'FC media',val:avgHR?Math.round(avgHR)+' bpm':'—'},
+    {icon:'⏳',label:'Durata media',val:avgDur?fmtDur(avgDur):'—'},
+    {icon:'⛰',label:'Quota media max',val:avgAlt?Math.round(avgAlt)+' m':'—'},
+  ];
+  el.innerHTML=items.map(i=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center">
+    <div style="font-size:16px;margin-bottom:4px">${i.icon}</div>
+    <div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--hike);line-height:1.1">${i.val}</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.3px">${i.label}</div>
   </div>`).join('');
 }
 function distribChart(ws,id,icons,labels,colors){
