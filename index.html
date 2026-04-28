@@ -287,21 +287,21 @@ select.form-input{cursor:pointer;}
     <div class="sec-hdr-run"><div class="sec-title" style="color:var(--accent)">🏃 Road Running</div><div class="sec-sub">Running, interval, long run, base</div></div>
     <div class="stats-grid" id="run-kpi-road"></div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">📅 Volume settimanale</div><div id="run-chart-road-vol"></div></div>
-      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="run-chart-hr" style="height:110px"></div></div>
+      <div class="card"><div class="card-title">📅 Volume settimanale</div><div id="run-chart-road-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="run-chart-hr" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">⏱ Passo Medio nel tempo</div><div id="run-chart-pace" style="height:110px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo Medio nel tempo</div><div id="run-chart-pace" style="height:130px"></div></div>
       <div class="card"><div class="card-title">🏆 Top Performances</div><div id="run-top-road" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
     </div>
     <div class="sec-hdr-trail"><div class="sec-title" style="color:var(--trail)">🏔 Trail Running</div><div class="sec-sub">Off-road, montagna, dislivello</div></div>
     <div class="stats-grid" id="run-kpi-trail"></div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">📅 Volume settimanale — Trail</div><div id="run-chart-trail-vol"></div></div>
-      <div class="card"><div class="card-title">🏔 Dislivello settimanale</div><div id="run-chart-trail-elev"></div></div>
+      <div class="card"><div class="card-title">📅 Volume settimanale — Trail</div><div id="run-chart-trail-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale</div><div id="run-chart-trail-elev" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">⏱ Passo Medio — Trail</div><div id="run-chart-trail-pace" style="height:110px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo Medio — Trail</div><div id="run-chart-trail-pace" style="height:130px"></div></div>
       <div class="card"><div class="card-title">🏆 Top Performances — Trail</div><div id="run-top-trail" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
     </div>
     <div class="card"><div class="card-title">📆 Distribuzione attività</div><div id="run-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
@@ -392,16 +392,16 @@ select.form-input{cursor:pointer;}
     <div class="sec-hdr-hike"><div class="sec-title" style="color:var(--hike)">🥾 Escursionismo</div><div class="sec-sub">Hiking, trekking, alpinismo</div></div>
     <div class="stats-grid" id="hike-kpi-main"></div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">📅 Km settimanali</div><div id="hike-chart-vol"></div></div>
-      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="hike-chart-elev"></div></div>
+      <div class="card"><div class="card-title">📅 Km settimanali</div><div id="hike-chart-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="hike-chart-elev" style="height:160px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="hike-chart-hr" style="height:110px"></div></div>
-      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="hike-chart-pace" style="height:110px"></div></div>
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="hike-chart-hr" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="hike-chart-pace" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
       <div class="card"><div class="card-title">🏆 Top Performances</div><div id="hike-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
-      <div class="card"><div class="card-title">📊 Statistiche medie</div><div id="hike-avg-kpi" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:2px"></div></div>
+      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="hike-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
     </div>
   </div>
 
@@ -1201,7 +1201,7 @@ function renderHikeDashboard(){
   lineChart('hike-chart-hr',hs.filter(h=>h.avgHR).slice(0,60).reverse(),h=>h.avgHR,'var(--red)','bpm');
   lineChart('hike-chart-pace',hs.filter(h=>h.paceSeconds&&h.paceSeconds<1800).slice(0,60).reverse(),h=>h.paceSeconds,'var(--hike)','passo');
   hikeTopPerf(hs);
-  hikeAvgKpi(hs,'hike-avg-kpi');
+  distribChart(hs,'hike-distrib',HIKE_ICON,HIKE_LBL,HIKE_COL);
 }
 
 // ══ HIKING ACTIVITIES ══
@@ -1318,58 +1318,46 @@ function radialGauge(value,max,label,color){
 function kpiCards(items){
   return items.map(i=>`<div class="stat-card ${i.cls||''}"><div class="stat-val">${i.val}${i.unit?`<span class="unit">${i.unit}</span>`:''}</div><div class="stat-label">${i.lbl}</div></div>`).join('');
 }
-function weeklyBarChart(id,ws,color,colorDim,periodDays){
-  const el=document.getElementById(id);if(!el)return;
-  const p=periodDays||0;
-  const now=new Date();now.setHours(0,0,0,0);
-  let startDate;
-  if(p===0){const oldest=ws.length?ws[ws.length-1]:null;startDate=oldest?parseLocalDate(oldest.date):new Date(now);}
-  else{startDate=new Date(now);startDate.setDate(startDate.getDate()-p);}
-  const weeks=[];let cursor=new Date(now);cursor.setDate(cursor.getDate()-cursor.getDay()+1);
-  while(cursor>=startDate){weeks.unshift({label:fmtShort(cursor.toISOString()),km:0,weekStart:new Date(cursor)});cursor.setDate(cursor.getDate()-7);}
-  if(!weeks.length)return;
-  ws.forEach(w=>{
-    const d=parseLocalDate(w.date);if(isNaN(d))return;
-    for(let i=weeks.length-1;i>=0;i--){const ws2=weeks[i].weekStart,we=new Date(ws2);we.setDate(we.getDate()+6);if(d>=ws2&&d<=we){weeks[i].km+=(w.distance||0);break;}}
-  });
-  const maxK=Math.max(...weeks.map(v=>v.km),1);
-  const BAR_W=38, CH=130;
-  const bars=weeks.map(v=>`<div style="width:${BAR_W}px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0;height:${CH}px">
-    <div style="font-size:9px;color:var(--muted);font-family:var(--font-mono);height:14px;line-height:14px;text-align:center">${v.km>0?v.km.toFixed(0):''}</div>
-    <div style="flex:1;width:100%;display:flex;align-items:flex-end;padding:0 3px">
-      <div style="width:100%;height:${Math.max((v.km/maxK)*80,v.km>0?3:0)}%;background:${colorDim};border-top:${v.km>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0"></div>
-    </div>
-    <div style="font-size:9px;color:var(--muted);white-space:nowrap;height:14px;line-height:14px">${v.label}</div>
-  </div>`).join('');
-  el.innerHTML=`<div style="overflow-x:auto;overflow-y:hidden;width:100%;margin-top:8px"><div style="display:flex;align-items:flex-end;width:${weeks.length*BAR_W}px">${bars}</div></div>`;
-  setTimeout(()=>{const sc=el.querySelector('div');if(sc)sc.scrollLeft=sc.scrollWidth;},0);
-}
-
-function weeklyElevChart(id,ws,color,colorDim,periodDays){
-  const el=document.getElementById(id);if(!el)return;
-  const p=periodDays||0;
+function buildWeekBuckets(ws,p,valFn){
   const now=new Date();now.setHours(0,0,0,0);
   let startDate;
   if(p===0){const oldest=ws.length?ws[ws.length-1]:null;startDate=oldest?parseLocalDate(oldest.date):new Date(now);}
   else{startDate=new Date(now);startDate.setDate(startDate.getDate()-p);}
   const weeks=[];let cursor=new Date(now);cursor.setDate(cursor.getDate()-cursor.getDay()+1);
   while(cursor>=startDate){weeks.unshift({label:fmtShort(cursor.toISOString()),val:0,weekStart:new Date(cursor)});cursor.setDate(cursor.getDate()-7);}
-  if(!weeks.length)return;
   ws.forEach(w=>{
     const d=parseLocalDate(w.date);if(isNaN(d))return;
-    for(let i=weeks.length-1;i>=0;i--){const ws2=weeks[i].weekStart,we=new Date(ws2);we.setDate(we.getDate()+6);if(d>=ws2&&d<=we){weeks[i].val+=(w.elevGain||0);break;}}
+    for(let i=weeks.length-1;i>=0;i--){
+      const ws2=weeks[i].weekStart,we=new Date(ws2);we.setDate(we.getDate()+6);
+      if(d>=ws2&&d<=we){weeks[i].val+=valFn(w);break;}
+    }
   });
-  const maxV=Math.max(...weeks.map(d=>d.val),1);
-  const BAR_W=38, CH=130;
-  const bars=weeks.map(d=>`<div style="width:${BAR_W}px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0;height:${CH}px">
-    <div style="font-size:9px;color:var(--muted);font-family:var(--font-mono);height:14px;line-height:14px;text-align:center">${d.val>0?d.val.toFixed(0)+'m':''}</div>
-    <div style="flex:1;width:100%;display:flex;align-items:flex-end;padding:0 3px">
-      <div style="width:100%;height:${Math.max((d.val/maxV)*80,d.val>0?3:0)}%;background:${colorDim};border-top:${d.val>0?'2px':'0'} solid ${color};border-radius:2px 2px 0 0"></div>
-    </div>
-    <div style="font-size:9px;color:var(--muted);white-space:nowrap;height:14px;line-height:14px">${d.label}</div>
-  </div>`).join('');
-  el.innerHTML=`<div style="overflow-x:auto;overflow-y:hidden;width:100%;margin-top:8px"><div style="display:flex;align-items:flex-end;width:${weeks.length*BAR_W}px">${bars}</div></div>`;
-  setTimeout(()=>{const sc=el.querySelector('div');if(sc)sc.scrollLeft=sc.scrollWidth;},0);
+  return weeks;
+}
+function svgBarChart(id,weeks,color,colorDim,labelFn){
+  const el=document.getElementById(id);if(!el||!weeks.length)return;
+  const W=600,H=130,PAD_L=4,PAD_R=4,PAD_T=18,PAD_B=20;
+  const chartW=W-PAD_L-PAD_R,chartH=H-PAD_T-PAD_B;
+  const maxV=Math.max(...weeks.map(v=>v.val),1);
+  const n=weeks.length,bw=chartW/n,gap=Math.max(1,bw*0.15);
+  const rects=weeks.map((v,i)=>{
+    const bh=Math.max((v.val/maxV)*chartH,v.val>0?2:0);
+    const x=PAD_L+i*bw+gap/2,y=PAD_T+chartH-bh,w=bw-gap;
+    const lbl=labelFn(v.val);
+    return`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${bh.toFixed(1)}" fill="${colorDim}" rx="2"/>
+    ${v.val>0?`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${(x+w).toFixed(1)}" y2="${y.toFixed(1)}" stroke="${color}" stroke-width="2"/>`:``}
+    ${lbl?`<text x="${(x+w/2).toFixed(1)}" y="${(PAD_T-3).toFixed(1)}" text-anchor="middle" fill="var(--muted)" font-size="8.5" font-family="DM Mono,monospace">${lbl}</text>`:''}
+    <text x="${(x+w/2).toFixed(1)}" y="${H-3}" text-anchor="middle" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace">${v.label}</text>`;
+  }).join('');
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:130px;display:block">${rects}</svg>`;
+}
+function weeklyBarChart(id,ws,color,colorDim,periodDays){
+  const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.distance||0);
+  svgBarChart(id,weeks,color,colorDim,v=>v>0?v.toFixed(0):'');
+}
+function weeklyElevChart(id,ws,color,colorDim,periodDays){
+  const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.elevGain||0);
+  svgBarChart(id,weeks,color,colorDim,v=>v>0?Math.round(v)+'m':'');
 }
 function lineChart(id,items,valFn,color,unit){
   const el=document.getElementById(id);if(!el||!items.length){if(el)el.innerHTML='';return;}
@@ -1416,35 +1404,6 @@ function hikeTopPerf(hs){
     <div style="font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:.5px">${p.label}</div>
     <div style="font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--hike)">${p.val}</div>
     <div style="font-size:10px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.sub||''}</div>
-  </div>`).join('');
-}
-function hikeAvgKpi(hs,containerId){
-  const el=document.getElementById(containerId);if(!el)return;
-  const withDist=hs.filter(h=>h.distance>0);
-  const withElev=hs.filter(h=>h.elevGain>0);
-  const withPace=hs.filter(h=>h.paceSeconds&&h.paceSeconds<1800);
-  const withHR=hs.filter(h=>h.avgHR);
-  const withDur=hs.filter(h=>h.duration>0);
-  const withAlt=hs.filter(h=>h.maxAlt>0);
-  const avg=(arr,fn)=>arr.length?arr.reduce((s,h)=>s+fn(h),0)/arr.length:null;
-  const avgDist=avg(withDist,h=>h.distance);
-  const avgElev=avg(withElev,h=>h.elevGain);
-  const avgPace=avg(withPace,h=>h.paceSeconds);
-  const avgHR=avg(withHR,h=>h.avgHR);
-  const avgDur=avg(withDur,h=>h.duration);
-  const avgAlt=avg(withAlt,h=>h.maxAlt);
-  const items=[
-    {icon:'📏',label:'Distanza media',val:avgDist?avgDist.toFixed(1)+' km':'—'},
-    {icon:'🏔',label:'Dislivello medio',val:avgElev?Math.round(avgElev)+' m+':'—'},
-    {icon:'⏱',label:'Passo medio',val:avgPace?s2p(Math.round(avgPace))+'/km':'—'},
-    {icon:'♥',label:'FC media',val:avgHR?Math.round(avgHR)+' bpm':'—'},
-    {icon:'⏳',label:'Durata media',val:avgDur?fmtDur(avgDur):'—'},
-    {icon:'⛰',label:'Quota media max',val:avgAlt?Math.round(avgAlt)+' m':'—'},
-  ];
-  el.innerHTML=items.map(i=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center">
-    <div style="font-size:16px;margin-bottom:4px">${i.icon}</div>
-    <div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--hike);line-height:1.1">${i.val}</div>
-    <div style="font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.3px">${i.label}</div>
   </div>`).join('');
 }
 function distribChart(ws,id,icons,labels,colors){
