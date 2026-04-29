@@ -50,6 +50,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:22p
 .tab:hover{color:var(--text2);}
 .tab.active-run{color:var(--accent)!important;border-bottom-color:var(--accent)!important;font-weight:600;}
 .tab.active-hike{color:var(--hike)!important;border-bottom-color:var(--hike)!important;font-weight:600;}
+.tab.active-trail{color:var(--trail)!important;border-bottom-color:var(--trail)!important;font-weight:600;}
+.filter-pill.pill-active-trail{background:var(--trail);color:#fff;border-color:var(--trail);}
 
 .card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);}
 .card-title{font-size:11px;font-weight:600;letter-spacing:1.2px;color:var(--muted);margin-bottom:14px;text-transform:uppercase;}
@@ -75,30 +77,45 @@ header{display:flex;align-items:center;justify-content:space-between;padding:22p
 .tag.hike{background:var(--hike-bg);color:var(--hike);border-color:var(--hike-mid);}
 .badge-garmin{background:var(--blue-bg);color:var(--blue);border:1px solid #b8d4f0;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:.5px;margin-left:6px;vertical-align:middle;font-family:var(--font-mono);}
 
-.activity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:10px;}
-.act-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .15s,transform .15s;display:flex;flex-direction:column;}
-.act-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
-.act-card-type-bar{height:4px;}
-.act-card-type-bar.running-type{background:var(--accent);}
-.act-card-type-bar.trail-type{background:var(--trail);}
-.act-card-type-bar.interval-type{background:var(--yellow);}
-.act-card-type-bar.long-type{background:var(--green);}
-.act-card-type-bar.recovery-type,.act-card-type-bar.base-type{background:var(--muted2);}
-.act-card-type-bar.hike-type{background:var(--hike);}
-.act-card-type-bar.hike-multi-type{background:#4caf50;}
-.act-card-type-bar.hike-alpine-type{background:#1565c0;}
-.act-card-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;}
-.act-card-icon{font-size:26px;line-height:1;margin-right:10px;flex-shrink:0;}
-.act-card-title-wrap{flex:1;min-width:0;}
-.act-card-title{font-weight:700;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.act-card-date{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:2px;}
-.act-card-body{padding:12px 16px;flex:1;}
-.act-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.act-stat-val{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.5px;line-height:1;}
-.act-stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:1px;}
-.act-card-footer{padding:8px 16px 12px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid var(--border);}
-.act-card-delete{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px;transition:color .1s;flex-shrink:0;margin-left:auto;}
-.act-card-delete:hover{color:var(--red);}
+.activity-list{display:flex;flex-direction:column;gap:0;margin-top:6px;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface);}
+.act-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);transition:background .12s;}
+.act-row:last-child{border-bottom:none;}
+.act-row:hover{background:var(--bg2);}
+.act-row-bar{width:3px;height:36px;border-radius:2px;flex-shrink:0;}
+.act-row-bar.running-type{background:var(--accent);}
+.act-row-bar.trail-type{background:var(--trail);}
+.act-row-bar.interval-type{background:var(--yellow);}
+.act-row-bar.long-type{background:var(--green);}
+.act-row-bar.recovery-type,.act-row-bar.base-type{background:var(--muted2);}
+.act-row-bar.hike-type{background:var(--hike);}
+.act-row-bar.hike-multi-type{background:#4caf50;}
+.act-row-bar.hike-alpine-type{background:#1565c0;}
+.act-row-icon{font-size:17px;flex-shrink:0;width:22px;text-align:center;}
+.act-row-main{flex:1;min-width:0;}
+.act-row-title{font-weight:600;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.act-row-meta{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:1px;}
+.act-row-stats{display:flex;gap:16px;flex-shrink:0;align-items:center;}
+.act-row-stat{text-align:right;min-width:44px;}
+.act-row-stat-val{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.3px;line-height:1;}
+.act-row-stat-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+.act-row-tags{display:flex;gap:4px;flex-shrink:0;align-items:center;flex-wrap:wrap;max-width:130px;}
+.act-row-delete{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:12px;padding:4px 6px;transition:color .1s;flex-shrink:0;}
+.act-row-delete:hover{color:var(--red);}
+/* KPI avanzati */
+.kpi-adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:4px 0 16px;}
+@media(max-width:700px){.kpi-adv-grid{grid-template-columns:repeat(2,1fr);}}
+.kpi-adv{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+.kpi-adv::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi-adv.kpi-red::before{background:#e05050;}
+.kpi-adv.kpi-green::before{background:var(--green);}
+.kpi-adv.kpi-trail::before{background:var(--trail);}
+.kpi-adv.kpi-blue::before{background:var(--blue);}
+.kpi-adv-val{font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.5px;line-height:1;}
+.kpi-adv-lbl{font-size:11px;color:var(--muted);margin-top:5px;font-weight:500;}
+.kpi-adv-sub{font-size:10px;color:var(--muted2);margin-top:3px;font-family:var(--font-mono);}
+/* keep grid for backward compat */
+.activity-grid{display:contents;}
+.act-card{display:none;}
 
 .filter-pill-bar{background:var(--surface);border:1.5px solid var(--border);border-radius:50px;padding:6px 12px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;box-shadow:var(--shadow-sm);}
 .filter-pill{background:var(--bg2);border:1.5px solid var(--border);border-radius:50px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
@@ -224,17 +241,35 @@ select.form-input{cursor:pointer;}
     <h1>RUN<span style="color:var(--accent)">AI</span></h1>
     <p>Il tuo monitor di forma personale. Scegli la disciplina per iniziare.</p>
   </div>
-  <div class="home-cards">
-    <div class="home-card home-card-run" onclick="openSection('running')">
-      <span class="home-card-emoji">🏃</span>
-      <div class="home-card-title">Running</div>
-      <div class="home-card-desc">Road running, trail, interval e long run. Dashboard, attività e AI Coach.</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;max-width:900px;margin:0 auto 28px">
+    <div class="home-card home-card-run" onclick="openSection('road')" style="border-radius:12px;padding:24px 20px">
+      <span class="home-card-emoji" style="font-size:36px">🏃</span>
+      <div class="home-card-title" style="font-size:20px">Running</div>
+      <div class="home-card-desc">Road, interval, long run</div>
       <div class="home-card-arrow">→</div>
     </div>
-    <div class="home-card home-card-hike" onclick="openSection('hiking')">
-      <span class="home-card-emoji">🥾</span>
-      <div class="home-card-title">Hiking</div>
-      <div class="home-card-desc">Escursionismo, trekking multi-giorno e alpinismo. Dashboard e attività.</div>
+    <div class="home-card" onclick="openSection('trail')" style="border-radius:12px;padding:24px 20px;background:linear-gradient(135deg,var(--trail-bg) 0%,#e0d4f8 100%);border-color:#d0bef8">
+      <span class="home-card-emoji" style="font-size:36px">🏔</span>
+      <div class="home-card-title" style="font-size:20px;color:var(--trail)">Trail Running</div>
+      <div class="home-card-desc">Off-road, montagna</div>
+      <div class="home-card-arrow" style="color:var(--trail)">→</div>
+    </div>
+    <div class="home-card home-card-hike" onclick="openSection('hiking')" style="border-radius:12px;padding:24px 20px">
+      <span class="home-card-emoji" style="font-size:36px">🥾</span>
+      <div class="home-card-title" style="font-size:20px">Hiking</div>
+      <div class="home-card-desc">Escursioni, trekking</div>
+      <div class="home-card-arrow">→</div>
+    </div>
+    <div class="home-card" onclick="openSection('roadtrail')" style="border-radius:12px;padding:24px 20px;background:linear-gradient(135deg,#fff0eb 0%,var(--trail-bg) 100%);border-color:var(--accent-mid)">
+      <span class="home-card-emoji" style="font-size:36px">🏃🏔</span>
+      <div class="home-card-title" style="font-size:18px;color:var(--accent)">Run + Trail</div>
+      <div class="home-card-desc">Tutto il running</div>
+      <div class="home-card-arrow">→</div>
+    </div>
+    <div class="home-card" onclick="openSection('trailhike')" style="border-radius:12px;padding:24px 20px;background:linear-gradient(135deg,var(--trail-bg) 0%,var(--hike-bg) 100%);border-color:#c0d8b0">
+      <span class="home-card-emoji" style="font-size:36px">🏔🥾</span>
+      <div class="home-card-title" style="font-size:18px;color:var(--trail)">Trail + Hike</div>
+      <div class="home-card-desc">Montagna totale</div>
       <div class="home-card-arrow">→</div>
     </div>
   </div>
@@ -258,188 +293,355 @@ select.form-input{cursor:pointer;}
   </div>
 </div>
 
-<!-- ═══ RUNNING ═══ -->
-<div id="page-running" style="display:none">
-  <div class="tabs" id="run-tabs">
-    <button class="tab active-run" onclick="switchTab('run','dashboard',this)">📊 Dashboard</button>
-    <button class="tab" onclick="switchTab('run','activities',this)">🏃 Attività</button>
-    <button class="tab" onclick="switchTab('run','coach',this)">🤖 AI Coach</button>
+<!-- ═══ SECTION: ROAD ═══ -->
+<div id="page-road" style="display:none">
+  <div class="tabs" id="road-tabs">
+    <button class="tab active-run" id="road-tab-btn-dash" onclick="switchTab('road','dashboard',this)">📊 Dashboard</button>
+    <button class="tab" id="road-tab-btn-act" onclick="switchTab('road','activities',this)">🏃 Attività</button>
+    <button class="tab" id="road-tab-btn-coach" onclick="switchTab('" + sid + "','coach',this)">🤖 AI Coach</button>
   </div>
-
-  <!-- RUN DASHBOARD -->
-  <div id="run-tab-dashboard" class="section">
-    <div class="stats-grid" id="run-kpi-global"></div>
-    <div class="filter-pill-bar" id="run-period-pills">
+  <!-- DASHBOARD -->
+  <div id="road-tab-dashboard" class="section">
+    <div class="stats-grid" id="road-kpi-global"></div>
+    <div class="filter-pill-bar" id="road-period-pills">
       <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">PERIODO:</span>
-      <button class="filter-pill pill-active" data-rp="7"  onclick="setRunPeriod(7,this)">7 giorni</button>
-      <button class="filter-pill" data-rp="30" onclick="setRunPeriod(30,this)">30 giorni</button>
-      <button class="filter-pill" data-rp="90" onclick="setRunPeriod(90,this)">3 mesi</button>
-      <button class="filter-pill" data-rp="365" onclick="setRunPeriod(365,this)">1 anno</button>
-      <button class="filter-pill" data-rp="0" onclick="setRunPeriod(0,this)">Tutto</button>
-    </div>
-    <div class="dash-two-col" id="run-garmin-wrap">
-      <div class="card" id="run-garmin-card" style="display:none">
-        <div class="card-title">⌚ Ultimo Garmin — <span id="run-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
-        <div class="gauges-row" id="run-garmin-gauges"></div>
-      </div>
-      <div class="card"><div class="card-title">🕐 Ultimi allenamenti</div><div id="run-recent"></div></div>
-    </div>
-    <div class="sec-hdr-run"><div class="sec-title" style="color:var(--accent)">🏃 Road Running</div><div class="sec-sub">Running, interval, long run, base</div></div>
-    <div class="stats-grid" id="run-kpi-road"></div>
-    <div class="dash-two-col">
-      <div class="card"><div class="card-title">📅 Volume settimanale</div><div id="run-chart-road-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
-      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="run-chart-hr" style="height:130px"></div></div>
-    </div>
-    <div class="dash-two-col">
-      <div class="card"><div class="card-title">⏱ Passo Medio nel tempo</div><div id="run-chart-pace" style="height:130px"></div></div>
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="run-top-road" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
-    </div>
-    <div class="sec-hdr-trail"><div class="sec-title" style="color:var(--trail)">🏔 Trail Running</div><div class="sec-sub">Off-road, montagna, dislivello</div></div>
-    <div class="stats-grid" id="run-kpi-trail"></div>
-    <div class="dash-two-col">
-      <div class="card"><div class="card-title">📅 Volume settimanale — Trail</div><div id="run-chart-trail-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
-      <div class="card"><div class="card-title">🏔 Dislivello settimanale</div><div id="run-chart-trail-elev" style="height:130px"></div></div>
-    </div>
-    <div class="dash-two-col">
-      <div class="card"><div class="card-title">⏱ Passo Medio — Trail</div><div id="run-chart-trail-pace" style="height:130px"></div></div>
-      <div class="card"><div class="card-title">🏆 Top Performances — Trail</div><div id="run-top-trail" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
-    </div>
-    <div class="card"><div class="card-title">📆 Distribuzione attività</div><div id="run-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
-  </div>
-
-  <!-- RUN ACTIVITIES -->
-  <div id="run-tab-activities" class="section" style="display:none">
-    <div class="filter-pill-bar">
-      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">TIPO:</span>
-      <button class="filter-pill pill-active" data-rt="" onclick="setRunTypeFilter('',this)">Tutti</button>
-      <button class="filter-pill" data-rt="running" onclick="setRunTypeFilter('running',this)">🏃 Running</button>
-      <button class="filter-pill" data-rt="trail" onclick="setRunTypeFilter('trail',this)">🏔 Trail</button>
-      <button class="filter-pill" data-rt="interval" onclick="setRunTypeFilter('interval',this)">⚡ Interval</button>
-      <button class="filter-pill" data-rt="long" onclick="setRunTypeFilter('long',this)">🛣 Long</button>
-      <button class="filter-pill" data-rt="base" onclick="setRunTypeFilter('base',this)">🏃 Base</button>
-      <button class="filter-pill" data-rt="recovery" onclick="setRunTypeFilter('recovery',this)">🧘 Recovery</button>
+      <button class="filter-pill pill-active" data-period="30" onclick="setSectionPeriod('road',30,this)">30 gg</button>
+      <button class="filter-pill" data-period="90" onclick="setSectionPeriod('road',90,this)">3 mesi</button>
+      <button class="filter-pill" data-period="180" onclick="setSectionPeriod('road',180,this)">6 mesi</button>
+      <button class="filter-pill" data-period="365" onclick="setSectionPeriod('road',365,this)">1 anno</button>
+      <button class="filter-pill" data-period="0" onclick="setSectionPeriod('road',0,this)">Tutto</button>
       <div class="filter-sep-v"></div>
-      <button class="btn btn-secondary btn-sm" onclick="toggleAdv('run')">⚙ Filtri avanzati</button>
-      <span id="run-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="road-dfrom" onchange="setSectionPeriod('road','custom',null)" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="road-dto" onchange="setSectionPeriod('road','custom',null)" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
     </div>
-    <div class="adv-filter" id="run-adv" style="display:none">
-      <div class="adv-filter-grid">
-        <div class="filter-group"><div class="filter-label">Distanza (km)</div><div class="filter-range"><input class="filter-input" type="number" id="rf-dmin" placeholder="min" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="rf-dmax" placeholder="max" oninput="applyRunFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Passo (min/km)</div><div class="filter-range"><input class="filter-input" type="text" id="rf-pmin" placeholder="4:00" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="text" id="rf-pmax" placeholder="8:00" oninput="applyRunFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Dislivello (m)</div><div class="filter-range"><input class="filter-input" type="number" id="rf-emin" placeholder="min" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="rf-emax" placeholder="max" oninput="applyRunFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">FC (bpm)</div><div class="filter-range"><input class="filter-input" type="number" id="rf-hmin" placeholder="min" oninput="applyRunFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="rf-hmax" placeholder="max" oninput="applyRunFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Data</div><div class="filter-range"><input class="filter-input" type="date" id="rf-dfrom" oninput="applyRunFilters()" style="width:120px"><span class="filter-sep-c">—</span><input class="filter-input" type="date" id="rf-dto" oninput="applyRunFilters()" style="width:120px"></div></div>
-        <div class="filter-group"><div class="filter-label">Cerca titolo</div><input class="filter-input wide" type="text" id="rf-search" placeholder="es. VO2, Monte…" oninput="applyRunFilters()"></div>
-        <div class="filter-group" style="align-self:flex-end"><button class="btn btn-secondary btn-sm" onclick="resetRunFilters()">✕ Reset</button></div>
+    <div class="dash-two-col" id="road-garmin-wrap">
+      <div class="card" id="road-garmin-card" style="display:none">
+        <div class="card-title">⌚ Ultimo Garmin — <span id="road-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
+        <div class="gauges-row" id="road-garmin-gauges"></div>
       </div>
-      <div class="filter-summary" id="run-filter-sum"></div>
+      <div class="card"><div class="card-title">🕐 Recenti</div><div id="road-recent"></div></div>
+    </div>
+    <div id="road-kpi-extra"></div>
+    <div class="kpi-adv-grid" id="road-kpi-adv"></div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">📅 Volume settimanale (km)</div><div id="road-chart-vol" style="height:160px;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="road-chart-elev" style="height:160px;margin-top:6px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="road-chart-hr" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="road-chart-pace" style="height:130px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="road-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="road-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
+    </div>
+  </div>
+  <!-- ACTIVITIES -->
+  <div id="road-tab-activities" class="section" style="display:none">
+    <div class="filter-pill-bar">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="road-act-dfrom" oninput="applyActFilters('road')" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="road-act-dto" oninput="applyActFilters('road')" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
+      <div class="filter-sep-v"></div>
+      <input class="filter-input" type="text" id="road-act-search" placeholder="🔍 Cerca…" oninput="applyActFilters('road')" style="width:140px;padding:5px 8px;font-size:11px">
+      <button class="btn btn-secondary btn-sm" onclick="resetActFilters('road')">✕ Reset</button>
+      <span id="road-act-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
     </div>
     <div class="sort-bar">
       <span class="sort-bar-label">ORDINA:</span>
-      <button class="btn btn-secondary btn-sm active-sort" onclick="setRunSort('date',this)">Data</button>
-      <button class="btn btn-secondary btn-sm" onclick="setRunSort('distance',this)">Distanza</button>
-      <button class="btn btn-secondary btn-sm" onclick="setRunSort('paceSeconds',this)">Passo</button>
-      <button class="btn btn-secondary btn-sm" onclick="setRunSort('elevGain',this)">Dislivello</button>
-      <button class="btn btn-secondary btn-sm" onclick="setRunSort('avgHR',this)">FC</button>
-      <span id="run-sort-dir" style="cursor:pointer;color:var(--accent);font-size:12px;margin-left:2px" onclick="toggleRunSortDir()">↓ Recenti</span>
+      <button class="btn btn-secondary btn-sm active-sort" onclick="setActSort('road','date',this)">Data</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('road','distance',this)">Distanza</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('road','elevGain',this)">Dislivello</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('road','avgHR',this)">FC</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('road','paceSeconds',this)">Passo</button>
+      <span id="road-sort-dir" style="cursor:pointer;color:var(--accent);font-size:12px;margin-left:4px" onclick="toggleActSortDir('road')">↓ Recenti</span>
     </div>
-    <div class="activity-grid" id="run-grid"></div>
+    <div id="road-act-grid"></div>
   </div>
-
-  <!-- AI COACH -->
-  <div id="run-tab-coach" class="section" style="display:none">
-    <div class="card">
-      <div class="card-title">🤖 AI Coach — Analisi Stato di Forma</div>
-      <div class="api-key-section">
-        <div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px">
-          <button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button>
-        </div>
-        <div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div>
-      </div>
-      <button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button>
-      <div id="ai-result" style="display:none"></div>
-    </div>
-  </div>
+  <!-- AI COACH --><div id="road-tab-coach" class="section" style="display:none"><div class="card"><div class="card-title">🤖 AI Coach — Analisi Stato di Forma</div><div class="api-key-section"><div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div><div style="display:flex;gap:8px;align-items:center"><input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px"><button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button></div><div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div></div><button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button><div id="ai-result" style="display:none"></div></div></div>
 </div>
-
-<!-- ═══ HIKING ═══ -->
+<!-- ═══ SECTION: TRAIL ═══ -->
+<div id="page-trail" style="display:none">
+  <div class="tabs" id="trail-tabs">
+    <button class="tab active-trail" id="trail-tab-btn-dash" onclick="switchTab('trail','dashboard',this)">📊 Dashboard</button>
+    <button class="tab" id="trail-tab-btn-act" onclick="switchTab('trail','activities',this)">🏔 Attività</button>
+    
+  </div>
+  <!-- DASHBOARD -->
+  <div id="trail-tab-dashboard" class="section">
+    <div class="stats-grid" id="trail-kpi-global"></div>
+    <div class="filter-pill-bar" id="trail-period-pills">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">PERIODO:</span>
+      <button class="filter-pill pill-active" data-period="30" onclick="setSectionPeriod('trail',30,this)">30 gg</button>
+      <button class="filter-pill" data-period="90" onclick="setSectionPeriod('trail',90,this)">3 mesi</button>
+      <button class="filter-pill" data-period="180" onclick="setSectionPeriod('trail',180,this)">6 mesi</button>
+      <button class="filter-pill" data-period="365" onclick="setSectionPeriod('trail',365,this)">1 anno</button>
+      <button class="filter-pill" data-period="0" onclick="setSectionPeriod('trail',0,this)">Tutto</button>
+      <div class="filter-sep-v"></div>
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="trail-dfrom" onchange="setSectionPeriod('trail','custom',null)" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="trail-dto" onchange="setSectionPeriod('trail','custom',null)" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
+    </div>
+    <div class="dash-two-col" id="trail-garmin-wrap">
+      <div class="card" id="trail-garmin-card" style="display:none">
+        <div class="card-title">⌚ Ultimo Garmin — <span id="trail-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
+        <div class="gauges-row" id="trail-garmin-gauges"></div>
+      </div>
+      <div class="card"><div class="card-title">🕐 Recenti</div><div id="trail-recent"></div></div>
+    </div>
+    <div id="trail-kpi-extra"></div>
+    <div class="kpi-adv-grid" id="trail-kpi-adv"></div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">📅 Volume settimanale (km)</div><div id="trail-chart-vol" style="height:160px;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="trail-chart-elev" style="height:160px;margin-top:6px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="trail-chart-hr" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="trail-chart-pace" style="height:130px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="trail-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="trail-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
+    </div>
+  </div>
+  <!-- ACTIVITIES -->
+  <div id="trail-tab-activities" class="section" style="display:none">
+    <div class="filter-pill-bar">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="trail-act-dfrom" oninput="applyActFilters('trail')" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="trail-act-dto" oninput="applyActFilters('trail')" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
+      <div class="filter-sep-v"></div>
+      <input class="filter-input" type="text" id="trail-act-search" placeholder="🔍 Cerca…" oninput="applyActFilters('trail')" style="width:140px;padding:5px 8px;font-size:11px">
+      <button class="btn btn-secondary btn-sm" onclick="resetActFilters('trail')">✕ Reset</button>
+      <span id="trail-act-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
+    </div>
+    <div class="sort-bar">
+      <span class="sort-bar-label">ORDINA:</span>
+      <button class="btn btn-secondary btn-sm active-sort" onclick="setActSort('trail','date',this)">Data</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trail','distance',this)">Distanza</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trail','elevGain',this)">Dislivello</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trail','avgHR',this)">FC</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trail','paceSeconds',this)">Passo</button>
+      <span id="trail-sort-dir" style="cursor:pointer;color:var(--trail);font-size:12px;margin-left:4px" onclick="toggleActSortDir('trail')">↓ Recenti</span>
+    </div>
+    <div id="trail-act-grid"></div>
+  </div>
+  
+</div>
+<!-- ═══ SECTION: HIKING ═══ -->
 <div id="page-hiking" style="display:none">
-  <div class="tabs" id="hike-tabs">
-    <button class="tab active-hike" onclick="switchTab('hike','dashboard',this)">📊 Dashboard</button>
-    <button class="tab" onclick="switchTab('hike','activities',this)">🥾 Attività</button>
+  <div class="tabs" id="hiking-tabs">
+    <button class="tab active-hike" id="hiking-tab-btn-dash" onclick="switchTab('hiking','dashboard',this)">📊 Dashboard</button>
+    <button class="tab" id="hiking-tab-btn-act" onclick="switchTab('hiking','activities',this)">🥾 Attività</button>
+    
   </div>
-
-  <!-- HIKE DASHBOARD -->
-  <div id="hike-tab-dashboard" class="section">
-    <div class="stats-grid" id="hike-kpi-global"></div>
-    <div class="filter-pill-bar" id="hike-period-pills">
+  <!-- DASHBOARD -->
+  <div id="hiking-tab-dashboard" class="section">
+    <div class="stats-grid" id="hiking-kpi-global"></div>
+    <div class="filter-pill-bar" id="hiking-period-pills">
       <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">PERIODO:</span>
-      <button class="filter-pill pill-active-hike" data-hp="7"  onclick="setHikePeriod(7,this)">7 giorni</button>
-      <button class="filter-pill" data-hp="30" onclick="setHikePeriod(30,this)">30 giorni</button>
-      <button class="filter-pill" data-hp="90" onclick="setHikePeriod(90,this)">3 mesi</button>
-      <button class="filter-pill" data-hp="365" onclick="setHikePeriod(365,this)">1 anno</button>
-      <button class="filter-pill" data-hp="0" onclick="setHikePeriod(0,this)">Tutto</button>
+      <button class="filter-pill pill-active" data-period="30" onclick="setSectionPeriod('hiking',30,this)">30 gg</button>
+      <button class="filter-pill" data-period="90" onclick="setSectionPeriod('hiking',90,this)">3 mesi</button>
+      <button class="filter-pill" data-period="180" onclick="setSectionPeriod('hiking',180,this)">6 mesi</button>
+      <button class="filter-pill" data-period="365" onclick="setSectionPeriod('hiking',365,this)">1 anno</button>
+      <button class="filter-pill" data-period="0" onclick="setSectionPeriod('hiking',0,this)">Tutto</button>
+      <div class="filter-sep-v"></div>
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="hiking-dfrom" onchange="setSectionPeriod('hiking','custom',null)" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="hiking-dto" onchange="setSectionPeriod('hiking','custom',null)" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
     </div>
-    <div class="dash-two-col" id="hike-garmin-wrap">
-      <div class="card" id="hike-garmin-card" style="display:none">
-        <div class="card-title">⌚ Ultimo Garmin — <span id="hike-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
-        <div class="gauges-row" id="hike-garmin-gauges"></div>
+    <div class="dash-two-col" id="hiking-garmin-wrap">
+      <div class="card" id="hiking-garmin-card" style="display:none">
+        <div class="card-title">⌚ Ultimo Garmin — <span id="hiking-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
+        <div class="gauges-row" id="hiking-garmin-gauges"></div>
       </div>
-      <div class="card"><div class="card-title">🕐 Ultime escursioni</div><div id="hike-recent"></div></div>
+      <div class="card"><div class="card-title">🕐 Recenti</div><div id="hiking-recent"></div></div>
     </div>
-    <div class="sec-hdr-hike"><div class="sec-title" style="color:var(--hike)">🥾 Escursionismo</div><div class="sec-sub">Hiking, trekking, alpinismo</div></div>
-    <div class="stats-grid" id="hike-kpi-main"></div>
+    <div id="hiking-kpi-extra"></div>
+    <div class="kpi-adv-grid" id="hiking-kpi-adv"></div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">📅 Km settimanali</div><div id="hike-chart-vol" style="height:160px;display:flex;align-items:flex-end;gap:0;margin-top:6px"></div></div>
-      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="hike-chart-elev" style="height:160px"></div></div>
-    </div>
-    <div class="dash-two-col">
-      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="hike-chart-hr" style="height:130px"></div></div>
-      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="hike-chart-pace" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">📅 Volume settimanale (km)</div><div id="hiking-chart-vol" style="height:160px;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="hiking-chart-elev" style="height:160px;margin-top:6px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="hike-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
-      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="hike-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="hiking-chart-hr" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="hiking-chart-pace" style="height:130px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="hiking-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="hiking-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
     </div>
   </div>
-
-  <!-- HIKE ACTIVITIES -->
-  <div id="hike-tab-activities" class="section" style="display:none">
+  <!-- ACTIVITIES -->
+  <div id="hiking-tab-activities" class="section" style="display:none">
     <div class="filter-pill-bar">
-      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">TIPO:</span>
-      <button class="filter-pill pill-active-hike" data-ht="" onclick="setHikeTypeFilter('',this)">Tutti</button>
-      <button class="filter-pill" data-ht="hike" onclick="setHikeTypeFilter('hike',this)">🥾 Escursione</button>
-      <button class="filter-pill" data-ht="hike-multi" onclick="setHikeTypeFilter('hike-multi',this)">🎒 Trekking</button>
-      <button class="filter-pill" data-ht="hike-alpine" onclick="setHikeTypeFilter('hike-alpine',this)">🧗 Alpinismo</button>
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="hiking-act-dfrom" oninput="applyActFilters('hiking')" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="hiking-act-dto" oninput="applyActFilters('hiking')" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
       <div class="filter-sep-v"></div>
-      <button class="btn btn-secondary btn-sm" onclick="toggleAdv('hike')">⚙ Filtri avanzati</button>
-      <span id="hike-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
-    </div>
-    <div class="adv-filter" id="hike-adv" style="display:none">
-      <div class="adv-filter-grid">
-        <div class="filter-group"><div class="filter-label">Distanza (km)</div><div class="filter-range"><input class="filter-input" type="number" id="hf-dmin" placeholder="min" oninput="applyHikeFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="hf-dmax" placeholder="max" oninput="applyHikeFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Dislivello (m)</div><div class="filter-range"><input class="filter-input" type="number" id="hf-emin" placeholder="min" oninput="applyHikeFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="hf-emax" placeholder="max" oninput="applyHikeFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Durata (ore)</div><div class="filter-range"><input class="filter-input" type="number" id="hf-durmin" placeholder="min" oninput="applyHikeFilters()"><span class="filter-sep-c">—</span><input class="filter-input" type="number" id="hf-durmax" placeholder="max" oninput="applyHikeFilters()"></div></div>
-        <div class="filter-group"><div class="filter-label">Data</div><div class="filter-range"><input class="filter-input" type="date" id="hf-dfrom" oninput="applyHikeFilters()" style="width:120px"><span class="filter-sep-c">—</span><input class="filter-input" type="date" id="hf-dto" oninput="applyHikeFilters()" style="width:120px"></div></div>
-        <div class="filter-group"><div class="filter-label">Cerca titolo</div><input class="filter-input wide" type="text" id="hf-search" placeholder="es. Resegone…" oninput="applyHikeFilters()"></div>
-        <div class="filter-group" style="align-self:flex-end"><button class="btn btn-secondary btn-sm" onclick="resetHikeFilters()">✕ Reset</button></div>
-      </div>
-      <div class="filter-summary" id="hike-filter-sum"></div>
+      <input class="filter-input" type="text" id="hiking-act-search" placeholder="🔍 Cerca…" oninput="applyActFilters('hiking')" style="width:140px;padding:5px 8px;font-size:11px">
+      <button class="btn btn-secondary btn-sm" onclick="resetActFilters('hiking')">✕ Reset</button>
+      <span id="hiking-act-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
     </div>
     <div class="sort-bar">
       <span class="sort-bar-label">ORDINA:</span>
-      <button class="btn btn-secondary btn-sm active-sort" onclick="setHikeSort('date',this)">Data</button>
-      <button class="btn btn-secondary btn-sm" onclick="setHikeSort('distance',this)">Distanza</button>
-      <button class="btn btn-secondary btn-sm" onclick="setHikeSort('elevGain',this)">Dislivello</button>
-      <button class="btn btn-secondary btn-sm" onclick="setHikeSort('duration',this)">Durata</button>
-      <span id="hike-sort-dir" style="cursor:pointer;color:var(--hike);font-size:12px;margin-left:2px" onclick="toggleHikeSortDir()">↓ Recenti</span>
+      <button class="btn btn-secondary btn-sm active-sort" onclick="setActSort('hiking','date',this)">Data</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('hiking','distance',this)">Distanza</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('hiking','elevGain',this)">Dislivello</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('hiking','avgHR',this)">FC</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('hiking','paceSeconds',this)">Passo</button>
+      <span id="hiking-sort-dir" style="cursor:pointer;color:var(--hike);font-size:12px;margin-left:4px" onclick="toggleActSortDir('hiking')">↓ Recenti</span>
     </div>
-    <div class="activity-grid" id="hike-grid"></div>
+    <div id="hiking-act-grid"></div>
   </div>
+  
 </div>
-
+<!-- ═══ SECTION: ROADTRAIL ═══ -->
+<div id="page-roadtrail" style="display:none">
+  <div class="tabs" id="roadtrail-tabs">
+    <button class="tab active-run" id="roadtrail-tab-btn-dash" onclick="switchTab('roadtrail','dashboard',this)">📊 Dashboard</button>
+    <button class="tab" id="roadtrail-tab-btn-act" onclick="switchTab('roadtrail','activities',this)">🏃🏔 Attività</button>
+    <button class="tab" id="roadtrail-tab-btn-coach" onclick="switchTab('" + sid + "','coach',this)">🤖 AI Coach</button>
+  </div>
+  <!-- DASHBOARD -->
+  <div id="roadtrail-tab-dashboard" class="section">
+    <div class="stats-grid" id="roadtrail-kpi-global"></div>
+    <div class="filter-pill-bar" id="roadtrail-period-pills">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">PERIODO:</span>
+      <button class="filter-pill pill-active" data-period="30" onclick="setSectionPeriod('roadtrail',30,this)">30 gg</button>
+      <button class="filter-pill" data-period="90" onclick="setSectionPeriod('roadtrail',90,this)">3 mesi</button>
+      <button class="filter-pill" data-period="180" onclick="setSectionPeriod('roadtrail',180,this)">6 mesi</button>
+      <button class="filter-pill" data-period="365" onclick="setSectionPeriod('roadtrail',365,this)">1 anno</button>
+      <button class="filter-pill" data-period="0" onclick="setSectionPeriod('roadtrail',0,this)">Tutto</button>
+      <div class="filter-sep-v"></div>
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="roadtrail-dfrom" onchange="setSectionPeriod('roadtrail','custom',null)" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="roadtrail-dto" onchange="setSectionPeriod('roadtrail','custom',null)" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
+    </div>
+    <div class="dash-two-col" id="roadtrail-garmin-wrap">
+      <div class="card" id="roadtrail-garmin-card" style="display:none">
+        <div class="card-title">⌚ Ultimo Garmin — <span id="roadtrail-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
+        <div class="gauges-row" id="roadtrail-garmin-gauges"></div>
+      </div>
+      <div class="card"><div class="card-title">🕐 Recenti</div><div id="roadtrail-recent"></div></div>
+    </div>
+    <div id="roadtrail-kpi-extra"></div>
+    <div class="kpi-adv-grid" id="roadtrail-kpi-adv"></div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">📅 Volume settimanale (km)</div><div id="roadtrail-chart-vol" style="height:160px;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="roadtrail-chart-elev" style="height:160px;margin-top:6px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="roadtrail-chart-hr" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="roadtrail-chart-pace" style="height:130px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="roadtrail-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="roadtrail-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
+    </div>
+  </div>
+  <!-- ACTIVITIES -->
+  <div id="roadtrail-tab-activities" class="section" style="display:none">
+    <div class="filter-pill-bar">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="roadtrail-act-dfrom" oninput="applyActFilters('roadtrail')" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="roadtrail-act-dto" oninput="applyActFilters('roadtrail')" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
+      <div class="filter-sep-v"></div>
+      <input class="filter-input" type="text" id="roadtrail-act-search" placeholder="🔍 Cerca…" oninput="applyActFilters('roadtrail')" style="width:140px;padding:5px 8px;font-size:11px">
+      <button class="btn btn-secondary btn-sm" onclick="resetActFilters('roadtrail')">✕ Reset</button>
+      <span id="roadtrail-act-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
+    </div>
+    <div class="sort-bar">
+      <span class="sort-bar-label">ORDINA:</span>
+      <button class="btn btn-secondary btn-sm active-sort" onclick="setActSort('roadtrail','date',this)">Data</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('roadtrail','distance',this)">Distanza</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('roadtrail','elevGain',this)">Dislivello</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('roadtrail','avgHR',this)">FC</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('roadtrail','paceSeconds',this)">Passo</button>
+      <span id="roadtrail-sort-dir" style="cursor:pointer;color:var(--accent);font-size:12px;margin-left:4px" onclick="toggleActSortDir('roadtrail')">↓ Recenti</span>
+    </div>
+    <div id="roadtrail-act-grid"></div>
+  </div>
+  
+</div>
+<!-- ═══ SECTION: TRAILHIKE ═══ -->
+<div id="page-trailhike" style="display:none">
+  <div class="tabs" id="trailhike-tabs">
+    <button class="tab active-trail" id="trailhike-tab-btn-dash" onclick="switchTab('trailhike','dashboard',this)">📊 Dashboard</button>
+    <button class="tab" id="trailhike-tab-btn-act" onclick="switchTab('trailhike','activities',this)">🏔🥾 Attività</button>
+    
+  </div>
+  <!-- DASHBOARD -->
+  <div id="trailhike-tab-dashboard" class="section">
+    <div class="stats-grid" id="trailhike-kpi-global"></div>
+    <div class="filter-pill-bar" id="trailhike-period-pills">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;white-space:nowrap">PERIODO:</span>
+      <button class="filter-pill pill-active" data-period="30" onclick="setSectionPeriod('trailhike',30,this)">30 gg</button>
+      <button class="filter-pill" data-period="90" onclick="setSectionPeriod('trailhike',90,this)">3 mesi</button>
+      <button class="filter-pill" data-period="180" onclick="setSectionPeriod('trailhike',180,this)">6 mesi</button>
+      <button class="filter-pill" data-period="365" onclick="setSectionPeriod('trailhike',365,this)">1 anno</button>
+      <button class="filter-pill" data-period="0" onclick="setSectionPeriod('trailhike',0,this)">Tutto</button>
+      <div class="filter-sep-v"></div>
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="trailhike-dfrom" onchange="setSectionPeriod('trailhike','custom',null)" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="trailhike-dto" onchange="setSectionPeriod('trailhike','custom',null)" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
+    </div>
+    <div class="dash-two-col" id="trailhike-garmin-wrap">
+      <div class="card" id="trailhike-garmin-card" style="display:none">
+        <div class="card-title">⌚ Ultimo Garmin — <span id="trailhike-garmin-date" style="text-transform:none;letter-spacing:0;font-weight:400"></span></div>
+        <div class="gauges-row" id="trailhike-garmin-gauges"></div>
+      </div>
+      <div class="card"><div class="card-title">🕐 Recenti</div><div id="trailhike-recent"></div></div>
+    </div>
+    <div id="trailhike-kpi-extra"></div>
+    <div class="kpi-adv-grid" id="trailhike-kpi-adv"></div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">📅 Volume settimanale (km)</div><div id="trailhike-chart-vol" style="height:160px;margin-top:6px"></div></div>
+      <div class="card"><div class="card-title">🏔 Dislivello settimanale (m+)</div><div id="trailhike-chart-elev" style="height:160px;margin-top:6px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">♥ FC Media nel tempo</div><div id="trailhike-chart-hr" style="height:130px"></div></div>
+      <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="trailhike-chart-pace" style="height:130px"></div></div>
+    </div>
+    <div class="dash-two-col">
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="trailhike-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="trailhike-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
+    </div>
+  </div>
+  <!-- ACTIVITIES -->
+  <div id="trailhike-tab-activities" class="section" style="display:none">
+    <div class="filter-pill-bar">
+      <span style="font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap">📅</span>
+      <input class="filter-input" type="date" id="trailhike-act-dfrom" oninput="applyActFilters('trailhike')" title="Da data" style="width:118px;padding:5px 7px;font-size:11px">
+      <span style="font-size:11px;color:var(--muted2)">—</span>
+      <input class="filter-input" type="date" id="trailhike-act-dto" oninput="applyActFilters('trailhike')" title="A data" style="width:118px;padding:5px 7px;font-size:11px">
+      <div class="filter-sep-v"></div>
+      <input class="filter-input" type="text" id="trailhike-act-search" placeholder="🔍 Cerca…" oninput="applyActFilters('trailhike')" style="width:140px;padding:5px 8px;font-size:11px">
+      <button class="btn btn-secondary btn-sm" onclick="resetActFilters('trailhike')">✕ Reset</button>
+      <span id="trailhike-act-count" style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-left:4px"></span>
+    </div>
+    <div class="sort-bar">
+      <span class="sort-bar-label">ORDINA:</span>
+      <button class="btn btn-secondary btn-sm active-sort" onclick="setActSort('trailhike','date',this)">Data</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trailhike','distance',this)">Distanza</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trailhike','elevGain',this)">Dislivello</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trailhike','avgHR',this)">FC</button>
+      <button class="btn btn-secondary btn-sm" onclick="setActSort('trailhike','paceSeconds',this)">Passo</button>
+      <span id="trailhike-sort-dir" style="cursor:pointer;color:var(--trail);font-size:12px;margin-left:4px" onclick="toggleActSortDir('trailhike')">↓ Recenti</span>
+    </div>
+    <div id="trailhike-act-grid"></div>
+  </div>
+  
 </div>
 
 <!-- MODALS -->
@@ -539,7 +741,7 @@ select.form-input{cursor:pointer;}
           <tbody id="admin-run-tbody"></tbody>
         </table>
       </div>
-      <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;align-items:center">
+    <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;align-items:center">
         <span id="admin-run-info" style="font-size:12px;color:var(--muted);font-family:var(--font-mono)"></span>
         <button class="btn btn-danger" onclick="adminDeleteSelected('run')">🗑 Elimina selezionati</button>
         <button class="btn btn-danger" onclick="adminDeleteAll('run')" style="opacity:.7">⚠ Elimina TUTTI</button>
@@ -576,6 +778,17 @@ select.form-input{cursor:pointer;}
         <button class="btn btn-danger" onclick="adminDeleteAll('hike')" style="opacity:.7">⚠ Elimina TUTTI</button>
       </div>
     </div>
+    <!-- Cache section -->
+    <div style="margin-top:18px;padding-top:14px;border-top:1.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">🧹 Gestione Cache</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-secondary btn-sm" onclick="adminClearCache('all')">🧹 Pulisci tutta la cache</button>
+        <button class="btn btn-secondary btn-sm" onclick="adminClearCache('github')">🔑 Reset config GitHub</button>
+        <button class="btn btn-secondary btn-sm" onclick="adminClearCache('apikey')">🤖 Reset API key</button>
+        <span id="admin-cache-info" style="font-size:11px;color:var(--muted);font-family:var(--font-mono)"></span>
+      </div>
+      <div id="admin-cache-detail" style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--font-mono)"></div>
+    </div>
   </div>
 </div>
 
@@ -608,7 +821,27 @@ select.form-input{cursor:pointer;}
 const DB_KEY='runai-v5';
 let state={workouts:[],hikes:[],garminReadings:[]};
 let cur='home';
-let runPeriod=7, hikePeriod=7;
+// ── Per-section state ──
+const SECTIONS=['road','trail','hiking','roadtrail','trailhike'];
+// Types per section
+const SECT_TYPES={
+  road:['running','interval','long','base','recovery'],
+  trail:['trail'],
+  hiking:['hike','hike-multi','hike-alpine'],
+  roadtrail:['running','interval','long','base','recovery','trail'],
+  trailhike:['trail','hike','hike-multi','hike-alpine'],
+};
+const SECT_COLOR={road:'var(--accent)',trail:'var(--trail)',hiking:'var(--hike)',roadtrail:'var(--accent)',trailhike:'var(--trail)'};
+const SECT_LABEL={road:'Running',trail:'Trail Running',hiking:'Hiking',roadtrail:'Run + Trail',trailhike:'Trail + Hike'};
+const SECT_ICON={road:'🏃',trail:'🏔',hiking:'🥾',roadtrail:'🏃🏔',trailhike:'🏔🥾'};
+const SECT_ISRUN={road:true,trail:true,hiking:false,roadtrail:true,trailhike:false};
+// period: days (0=all, 'custom'=use dfrom/dto)
+const sectPeriod={road:30,trail:30,hiking:30,roadtrail:30,trailhike:30};
+const sectSortKey={road:'date',trail:'date',hiking:'date',roadtrail:'date',trailhike:'date'};
+const sectSortDir={road:-1,trail:-1,hiking:-1,roadtrail:-1,trailhike:-1};
+const sectFiltered={road:[],trail:[],hiking:[],roadtrail:[],trailhike:[]};
+// legacy compat
+let runPeriod=30, hikePeriod=30;
 let runTypeFilter='', hikeTypeFilter='';
 let runSortKey='date', runSortDir=-1;
 let hikeSortKey='date', hikeSortDir=-1;
@@ -653,10 +886,17 @@ function parseDuration(s){if(!s||s==='--')return null;const p=s.split(':').map(N
 function fmtDur(min){if(min==null)return'--';const h=Math.floor(min/60),m=Math.round(min%60);return h>0?`${h}h ${m}m`:`${m}m`;}
 function parseLocalDate(iso){
   if(!iso)return new Date(NaN);
-  const s=String(iso).split('T')[0].split(' ')[0]; // handle both ISO and "YYYY-MM-DD HH:MM"
-  const p=s.split('-');
-  if(p.length!==3||p[0].length!==4)return new Date(NaN);
-  return new Date(+p[0],+p[1]-1,+p[2]);
+  const s=String(iso).split('T')[0].split(' ')[0];
+  // YYYY-MM-DD
+  const dash=s.split('-');
+  if(dash.length===3&&dash[0].length===4)return new Date(+dash[0],+dash[1]-1,+dash[2]);
+  // M/D/YYYY or M/D/YY
+  const slash=s.split('/');
+  if(slash.length===3){
+    let yr=+slash[2];if(yr<100)yr+=yr<50?2000:1900;
+    return new Date(yr,+slash[0]-1,+slash[1]);
+  }
+  return new Date(NaN);
 }
 function fmtDate(iso){if(!iso)return'--';const d=parseLocalDate(iso);if(isNaN(d))return iso||'--';return d.toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'});}
 function fmtShort(iso){if(!iso)return'--';const d=parseLocalDate(iso);if(isNaN(d))return'--';return d.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});}
@@ -682,19 +922,20 @@ const HIKE_COL={'hike':'var(--hike)','hike-multi':'#4caf50','hike-alpine':'#1565
 // ══ NAVIGATION ══
 function goHome(){
   cur='home';
-  show('page-home');hide('page-running');hide('page-hiking');
+  document.getElementById('page-home').style.display='block';
+  ['road','trail','hiking','roadtrail','trailhike'].forEach(s=>{const el=document.getElementById('page-'+s);if(el)el.style.display='none';});
   renderHeaderBtns();renderHome();
 }
 function openSection(s){
   cur=s;
-  hide('page-home');
-  show('page-running',s==='running');show('page-hiking',s==='hiking');
+  document.getElementById('page-home').style.display='none';
+  ['road','trail','hiking','roadtrail','trailhike'].forEach(id=>{const el=document.getElementById('page-'+id);if(el)el.style.display=id===s?'block':'none';});
   renderHeaderBtns();
-  if(s==='running'){renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();loadApiKey();}
-  if(s==='hiking'){renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();}
+  renderSection(s);
+  if(s==='road'||s==='roadtrail')loadApiKey();
 }
-function show(id,cond=true){document.getElementById(id).style.display=cond?'block':'none';}
-function hide(id){document.getElementById(id).style.display='none';}
+function show(id,cond=true){const el=document.getElementById(id);if(el)el.style.display=cond?'block':'none';}
+function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
 
 function renderHeaderBtns(){
   const el=document.getElementById('header-btns');
@@ -703,36 +944,34 @@ function renderHeaderBtns(){
     <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
     <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙ GitHub</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
-  }else if(cur==='running'){
+  } else {
+    const isHike=cur==='hiking'||cur==='trailhike';
+    const color=SECT_COLOR[cur]||'var(--accent)';
+    const lbl=SECT_LABEL[cur]||cur;
     el.innerHTML=`<span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px">
-      <span style="cursor:pointer;color:var(--accent);font-weight:600" onclick="goHome()">Home</span> › Running
+      <span style="cursor:pointer;color:${color};font-weight:600" onclick="goHome()">Home</span> › ${lbl}
     </span>
     <input type="file" id="csv-run" accept=".csv" style="display:none" onchange="handleRunCSV(this)">
-    <button class="btn btn-import" onclick="document.getElementById('csv-run').click()">⬆ Importa CSV</button>
-    <button class="btn btn-secondary" onclick="openModal('workout-modal')">+ Allenamento</button>
-    <button class="btn btn-secondary btn-sm" onclick="openAdminModal('run')">🛠 Admin</button>
-    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
-    <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
-  }else{
-    el.innerHTML=`<span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px">
-      <span style="cursor:pointer;color:var(--hike);font-weight:600" onclick="goHome()">Home</span> › Hiking
-    </span>
     <input type="file" id="csv-hike" accept=".csv" style="display:none" onchange="handleHikeCSV(this)">
-    <button class="btn btn-import-hike" onclick="document.getElementById('csv-hike').click()">⬆ Importa CSV</button>
-    <button class="btn btn-hike" onclick="openModal('hike-modal')">+ Escursione</button>
-    <button class="btn btn-secondary btn-sm" onclick="openAdminModal('hike')">🛠 Admin</button>
+    ${!isHike?`<button class="btn btn-import" onclick="document.getElementById('csv-run').click()">⬆ CSV Running</button>`:''}
+    ${isHike||cur==='trailhike'?`<button class="btn btn-import-hike" onclick="document.getElementById('csv-hike').click()">⬆ CSV Hiking</button>`:''}
+    <button class="btn btn-secondary" onclick="openModal('workout-modal')">+ Run</button>
+    <button class="btn btn-hike" onclick="openModal('hike-modal')">+ Hike</button>
+    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
     <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }
 }
 
 // ══ TABS ══
-function switchTab(sect,name,el){
-  const prefix=sect==='run'?'run':'hike';
-  document.querySelectorAll(`[id^="${prefix}-tab-"]`).forEach(t=>t.style.display='none');
-  document.querySelectorAll(`#${prefix}-tabs .tab`).forEach(t=>{t.classList.remove('active-run');t.classList.remove('active-hike');});
-  document.getElementById(`${prefix}-tab-${name}`).style.display='block';
-  el.classList.add(sect==='run'?'active-run':'active-hike');
+function switchTab(sid,name,el){
+  // generic section tabs
+  document.querySelectorAll(`#${sid}-tabs .tab`).forEach(t=>t.classList.remove('active-run','active-hike','active-trail'));
+  [`${sid}-tab-dashboard`,`${sid}-tab-activities`,`${sid}-tab-coach`].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
+  const target=document.getElementById(`${sid}-tab-${name}`);if(target)target.style.display='block';
+  const cls=sid==='hiking'||sid==='trailhike'?'active-hike':sid==='trail'?'active-trail':'active-run';
+  el.classList.add(cls);
+  if(name==='activities'){applyActFilters(sid);}
 }
 
 // ══ MODALS ══
@@ -774,8 +1013,8 @@ function saveWorkout(){
     calories:parseFloat(document.getElementById('w-cal').value)||null,
     perceivedEffort:parseInt(document.getElementById('w-rpe').value),
     notes:document.getElementById('w-notes').value,source:'manual',
-  }].sort((a,b)=>b.date.localeCompare(a.date));
-  saveState();closeModal('workout-modal');syncToGitHub();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
+  }].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
+  saveState();closeModal('workout-modal');syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
   toast('✓ Allenamento salvato','ok');
 }
 
@@ -798,8 +1037,8 @@ function saveHike(){
     difficulty:document.getElementById('h-diff').value||null,
     perceivedEffort:parseInt(document.getElementById('h-rpe').value),
     notes:document.getElementById('h-notes').value,source:'manual',
-  }].sort((a,b)=>(b.datetime||b.date).localeCompare(a.datetime||a.date));
-  saveState();closeModal('hike-modal');syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
+  }].sort((a,b)=>parseLocalDate(b.datetime||b.date)-parseLocalDate(a.datetime||a.date));
+  saveState();closeModal('hike-modal');syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
   toast('✓ Escursione salvata','ok');
 }
 
@@ -815,7 +1054,7 @@ function saveGarmin(){
     restingHR:document.getElementById('g-resthr').value||null,
     sleepScore:document.getElementById('g-sleep').value||null,
     stressLevel:document.getElementById('g-stress').value||null,
-  }].sort((a,b)=>b.date.localeCompare(a.date));
+  }].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
   saveState();closeModal('garmin-modal');syncToGitHub();renderHome();renderGarminInSection('run');renderGarminInSection('hike');
   toast('✓ Dati Garmin salvati','ok');
 }
@@ -848,8 +1087,8 @@ function handleRunCSV(input){
       }).filter(w=>w.date);
       const ex=new Set(state.workouts.map(w=>w.date+'|'+(w.title||'')));
       const newOnes=parsed.filter(p=>!ex.has(p.date+'|'+(p.title||'')));
-      state.workouts=[...state.workouts,...newOnes].sort((a,b)=>b.date.localeCompare(a.date));
-      saveState();syncToGitHub();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
+      state.workouts=[...state.workouts,...newOnes].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
+      saveState();syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
       toast(`✓ ${newOnes.length} attività importate — ${parsed.length-newOnes.length} già presenti`,'ok');
     }catch(err){toast('Errore CSV: '+err.message,'err');}
   };
@@ -930,8 +1169,8 @@ function handleHikeCSV(input){
       }).filter(h=>h&&h.date);
       const ex=new Set(state.hikes.map(h=>h.date+'|'+(h.title||'')));
       const newOnes=parsed.filter(p=>!ex.has(p.date+'|'+(p.title||'')));
-      state.hikes=[...state.hikes,...newOnes].sort((a,b)=>(b.datetime||b.date).localeCompare(a.datetime||a.date));
-      saveState();syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
+      state.hikes=[...state.hikes,...newOnes].sort((a,b)=>parseLocalDate(b.datetime||b.date)-parseLocalDate(a.datetime||a.date));
+      saveState();syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
       toast(`✓ ${newOnes.length} escursioni importate — ${parsed.length-newOnes.length} già presenti`,'ok');
     }catch(err){toast('Errore CSV: '+err.message,'err');console.error(err);}
   };
@@ -990,18 +1229,218 @@ function deleteGarmin(id){
 
 function renderGarminInSection(prefix){
   const g=state.garminReadings[0];
-  const card=document.getElementById(`${prefix}-garmin-card`);
-  const wrap=document.getElementById(`${prefix}-garmin-wrap`);
+  const card=document.getElementById(prefix+'-garmin-card');
+  const wrap=document.getElementById(prefix+'-garmin-wrap');
   if(!card||!wrap)return;
   if(!g){card.style.display='none';wrap.style.gridTemplateColumns='1fr';return;}
   card.style.display='block';wrap.style.gridTemplateColumns='1fr 1fr';
-  document.getElementById(`${prefix}-garmin-date`).textContent=fmtDate(g.date);
+  const dateEl=document.getElementById(prefix+'-garmin-date');if(dateEl)dateEl.textContent=fmtDate(g.date);
   let html='';
   if(g.trainingReadiness)html+=radialGauge(+g.trainingReadiness,100,'Readiness',scoreColor(+g.trainingReadiness));
   if(g.bodyBattery)html+=radialGauge(+g.bodyBattery,100,'Body Battery',scoreColor(+g.bodyBattery));
   if(g.sleepScore)html+=radialGauge(+g.sleepScore,100,'Sleep',scoreColor(+g.sleepScore));
   if(g.hrv)html+=radialGauge(+g.hrv,80,'HRV ms','var(--accent)');
-  document.getElementById(`${prefix}-garmin-gauges`).innerHTML=html;
+  const gEl=document.getElementById(prefix+'-garmin-gauges');if(gEl)gEl.innerHTML=html;
+}
+
+// ══════════════════════════════════════════════
+// ══ GENERIC SECTION ENGINE ══
+// ══════════════════════════════════════════════
+function getItemsForSection(sid){
+  // Returns all items (workouts + hikes) relevant to this section
+  const types=SECT_TYPES[sid]||[];
+  const isRunType=t=>['running','interval','long','base','recovery','trail'].includes(t);
+  const all=[
+    ...state.workouts.filter(w=>types.includes(w.type)),
+    ...state.hikes.filter(h=>types.includes(h.type)),
+  ];
+  return all;
+}
+
+function filterByPeriod(items, sid){
+  const p=sectPeriod[sid];
+  if(p==='custom'){
+    const df=document.getElementById(sid+'-dfrom')?.value;
+    const dt=document.getElementById(sid+'-dto')?.value;
+    return items.filter(w=>{
+      const d=parseLocalDate(w.date);
+      if(df&&d<parseLocalDate(df))return false;
+      if(dt&&d>parseLocalDate(dt))return false;
+      return true;
+    });
+  }
+  if(p===0)return items;
+  const cutoff=Date.now()-p*86400000;
+  return items.filter(w=>parseLocalDate(w.date).getTime()>=cutoff);
+}
+
+function setSectionPeriod(sid,p,btn){
+  sectPeriod[sid]=p;
+  if(btn){
+    document.querySelectorAll(`#${sid}-period-pills [data-period]`).forEach(b=>b.classList.remove('pill-active','pill-active-hike','pill-active-trail'));
+    const cls=sid==='hiking'||sid==='trailhike'?'pill-active-hike':sid==='trail'?'pill-active-trail':'pill-active';
+    btn.classList.add(cls);
+  }
+  renderSectionDashboard(sid);
+}
+
+function renderSection(sid){
+  renderSectionDashboard(sid);
+  applyActFilters(sid);
+}
+
+function renderSectionDashboard(sid){
+  renderGarminInSection(sid);
+  const allItems=getItemsForSection(sid);
+  const items=filterByPeriod(allItems,sid);
+  const isHikeType=t=>t.startsWith('hike');
+  const ICONS={...RUN_ICON,...HIKE_ICON};
+  const LBLS={...RUN_LBL,...HIKE_LBL};
+  const COLS={...RUN_COL,...HIKE_COL};
+  const color=SECT_COLOR[sid];
+
+  // Recent list
+  const recEl=document.getElementById(sid+'-recent');
+  if(recEl){
+    const sorted=[...allItems].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date)).slice(0,6);
+    recEl.innerHTML=!sorted.length?'<div style="color:var(--muted);padding:16px 0;text-align:center;font-size:13px">Nessuna attività</div>':
+      sorted.map(w=>`<div style="display:flex;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:16px">${ICONS[w.type]||'🏃'}</span>
+        <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${w.title||LBLS[w.type]}</div>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--font-mono)">${fmtDate(w.date)}</div></div>
+        <div style="display:flex;gap:4px;flex-shrink:0">
+          ${w.distance!=null?`<span class="tag" style="font-size:10px">${w.distance.toFixed(1)}km</span>`:''}
+          ${w.elevGain?`<span class="tag green" style="font-size:10px">${w.elevGain}m+</span>`:''}
+        </div></div>`).join('');
+  }
+
+  // Global KPIs
+  const km=items.reduce((s,w)=>s+(w.distance||0),0);
+  const elev=items.reduce((s,w)=>s+(w.elevGain||0),0);
+  const dur=items.reduce((s,w)=>s+(w.duration||0),0);
+  const hrItems=items.filter(w=>w.avgHR);
+  const avgHR=hrItems.length?Math.round(hrItems.reduce((s,w)=>s+w.avgHR,0)/hrItems.length):null;
+  const pItems=items.filter(w=>w.paceSeconds&&w.paceSeconds<1200);
+  const avgP=pItems.length?Math.round(pItems.reduce((s,w)=>s+w.paceSeconds,0)/pItems.length):null;
+  const maxAlt=items.filter(w=>w.maxAlt).sort((a,b)=>(b.maxAlt||0)-(a.maxAlt||0))[0];
+  const kpiEl=document.getElementById(sid+'-kpi-global');
+  if(kpiEl){
+    const cards=[
+      {val:km.toFixed(1),unit:' km',lbl:'Km totali'},
+      {val:elev>0?(elev/1000).toFixed(1)+'k':'0',unit:' m+',lbl:'Dislivello',cls:'green'},
+      {val:items.length,lbl:'Attività'},
+      {val:fmtDur(dur),lbl:'Ore totali'},
+      {val:avgHR||'--',unit:' bpm',lbl:'FC media'},
+    ];
+    if(avgP)cards.push({val:s2p(avgP),unit:'/km',lbl:'Passo medio'});
+    if(maxAlt)cards.push({val:maxAlt.maxAlt,unit:' m',lbl:'Quota max'});
+    kpiEl.innerHTML=kpiCards(cards.slice(0,5));
+  }
+
+  // Advanced KPIs
+  const advEl=document.getElementById(sid+'-kpi-adv');
+  if(advEl){
+    const hrPaceItems=items.filter(w=>w.avgHR&&w.paceSeconds&&w.paceSeconds<1200);
+    const avgEff=hrPaceItems.length?(hrPaceItems.reduce((s,w)=>s+(w.paceSeconds/w.avgHR*100),0)/hrPaceItems.length).toFixed(1):null;
+    const daysInPeriod=sectPeriod[sid]===0||sectPeriod[sid]==='custom'?90:(sectPeriod[sid]||90);
+    const freqPerWeek=items.length>0?(items.length/(daysInPeriod/7)).toFixed(1):null;
+    const bestPaceItem=items.filter(w=>w.paceSeconds&&w.paceSeconds<900).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
+    const maxElevItem=items.filter(w=>w.elevGain).sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
+    advEl.innerHTML=`
+      <div class="kpi-adv kpi-red">
+        <div class="kpi-adv-val">${avgEff||'--'}</div>
+        <div class="kpi-adv-lbl">⚡ Efficienza Cardiaca</div>
+        <div class="kpi-adv-sub">sec/km per bpm ×100</div>
+      </div>
+      <div class="kpi-adv kpi-green">
+        <div class="kpi-adv-val">${freqPerWeek||'--'}<span style="font-size:12px;font-weight:400;color:var(--muted)"> /sett</span></div>
+        <div class="kpi-adv-lbl">📅 Frequenza</div>
+        <div class="kpi-adv-sub">${items.length} attività nel periodo</div>
+      </div>
+      <div class="kpi-adv">
+        <div class="kpi-adv-val">${bestPaceItem?s2p(bestPaceItem.paceSeconds):'--'}</div>
+        <div class="kpi-adv-lbl">🏅 Passo migliore</div>
+        <div class="kpi-adv-sub" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${bestPaceItem?.title||'—'}</div>
+      </div>
+      <div class="kpi-adv kpi-trail">
+        <div class="kpi-adv-val">${maxElevItem?.elevGain?maxElevItem.elevGain+'m':'--'}</div>
+        <div class="kpi-adv-lbl">🏔 Dislivello max</div>
+        <div class="kpi-adv-sub" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${maxElevItem?.title||'—'}</div>
+      </div>`;
+  }
+
+  // Charts
+  const p=sectPeriod[sid]==='custom'?0:(sectPeriod[sid]||0);
+  weeklyBarChart(sid+'-chart-vol',items,color,color+'33',p);
+  weeklyElevChart(sid+'-chart-elev',items,color,color+'22',p);
+  const hrChartItems=items.filter(w=>w.avgHR).sort((a,b)=>parseLocalDate(a.date)-parseLocalDate(b.date)).slice(-60);
+  lineChart(sid+'-chart-hr',hrChartItems,w=>w.avgHR,'#c0203a','bpm');
+  const paceMax=sid==='hiking'||sid==='trailhike'?1800:900;
+  const paceChartItems=items.filter(w=>w.paceSeconds&&w.paceSeconds<paceMax).sort((a,b)=>parseLocalDate(a.date)-parseLocalDate(b.date)).slice(-60);
+  lineChart(sid+'-chart-pace',paceChartItems,w=>w.paceSeconds,color,'passo');
+
+  // Top performances
+  const topEl=document.getElementById(sid+'-top');
+  if(topEl){
+    const withDist=items.filter(w=>w.distance>0);
+    const longest=withDist.sort((a,b)=>(b.distance||0)-(a.distance||0))[0];
+    const fastest=items.filter(w=>w.paceSeconds&&w.paceSeconds<900).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
+    const mostElev=items.filter(w=>w.elevGain).sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
+    topEl.innerHTML=[
+      {icon:'🛣',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
+      {icon:'⚡',label:'Passo Migliore',val:fastest?s2p(fastest.paceSeconds)+'/km':'--',sub:fastest?.title},
+      {icon:'🏔',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
+    ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:18px;margin-bottom:4px">${p.icon}</div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:.5px">${p.label}</div>
+      <div style="font-family:var(--font-head);font-size:20px;font-weight:700;color:${color}">${p.val}</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.sub||''}</div>
+    </div>`).join('');
+  }
+
+  // Distrib chart
+  distribChart(items,sid+'-distrib',ICONS,LBLS,COLS);
+}
+
+// ══ ACTIVITIES FILTERS (generic) ══
+function applyActFilters(sid){
+  const dfrom=document.getElementById(sid+'-act-dfrom')?.value;
+  const dto=document.getElementById(sid+'-act-dto')?.value;
+  const search=(document.getElementById(sid+'-act-search')?.value||'').toLowerCase().trim();
+  const allItems=getItemsForSection(sid);
+  sectFiltered[sid]=allItems.filter(w=>{
+    if(dfrom&&parseLocalDate(w.date)<parseLocalDate(dfrom))return false;
+    if(dto&&parseLocalDate(w.date)>parseLocalDate(dto))return false;
+    if(search&&!(w.title||'').toLowerCase().includes(search))return false;
+    return true;
+  });
+  sortActActivities(sid);
+  const cnt=document.getElementById(sid+'-act-count');
+  if(cnt)cnt.textContent=`${sectFiltered[sid].length} attività`;
+}
+function resetActFilters(sid){
+  ['act-dfrom','act-dto','act-search'].forEach(s=>{const e=document.getElementById(sid+'-'+s);if(e)e.value='';});
+  applyActFilters(sid);
+}
+function setActSort(sid,key,btn){
+  if(sectSortKey[sid]===key)sectSortDir[sid]*=-1;else{sectSortKey[sid]=key;sectSortDir[sid]=-1;}
+  document.querySelectorAll(`#${sid}-tab-activities .sort-bar .btn`).forEach(b=>b.classList.remove('active-sort'));
+  btn.classList.add('active-sort');
+  const d=document.getElementById(sid+'-sort-dir');if(d)d.textContent=sectSortDir[sid]===-1?'↓ Recenti':'↑ Vecchi';
+  sortActActivities(sid);
+}
+function toggleActSortDir(sid){sectSortDir[sid]*=-1;const d=document.getElementById(sid+'-sort-dir');if(d)d.textContent=sectSortDir[sid]===-1?'↓ Recenti':'↑ Vecchi';sortActActivities(sid);}
+function sortActActivities(sid){
+  const key=sectSortKey[sid],dir=sectSortDir[sid];
+  const sorted=[...sectFiltered[sid]].sort((a,b)=>{
+    if(key==='date')return dir*(parseLocalDate(a.date)-parseLocalDate(b.date));
+    if(key==='paceSeconds'){const va=a.paceSeconds||9999,vb=b.paceSeconds||9999;return dir*(va-vb);}
+    return dir*((a[key]??-Infinity)-(b[key]??-Infinity));
+  });
+  const ICONS={...RUN_ICON,...HIKE_ICON};
+  const LBLS={...RUN_LBL,...HIKE_LBL};
+  const isRun=SECT_ISRUN[sid];
+  renderCards(sorted,sid+'-act-grid',ICONS,LBLS,isRun?'run':'hike');
 }
 
 // ══ RUNNING DASHBOARD ══
@@ -1023,7 +1462,7 @@ function renderRunDashboard(){
   // recent
   const el=document.getElementById('run-recent');
   el.innerHTML=!state.workouts.length?'<div style="color:var(--muted);padding:16px 0;text-align:center">Nessun allenamento</div>':
-    state.workouts.slice(0,6).map(w=>`<div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+    [...state.workouts].filter(w=>!String(w.type||'').startsWith('hike')).sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date)).slice(0,6).map(w=>`<div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
       <span style="font-size:18px">${RUN_ICON[w.type]||'🏃'}</span>
       <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${w.title||RUN_LBL[w.type]}</div>
       <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">${fmtDate(w.date)}</div></div>
@@ -1059,6 +1498,38 @@ function renderRunDashboard(){
     {val:avgPR?s2p(avgPR):'--',unit:'/km',lbl:'Passo medio'},
     {val:avgTE||'--',lbl:'Training Effect'},
   ]);
+
+  // Advanced KPIs
+  const hrWsR=wsR.filter(w=>w.avgHR&&w.paceSeconds&&w.paceSeconds<900);
+  const avgEff=hrWsR.length?(hrWsR.reduce((s,w)=>s+(w.paceSeconds/w.avgHR*100),0)/hrWsR.length).toFixed(1):null;
+  const prevWsR=state.workouts.filter(w=>{const d=(Date.now()-parseLocalDate(w.date))/86400000;return d>runPeriod&&d<=runPeriod*2&&['running','interval','long','base','recovery'].includes(w.type);});
+  const prevKmR=prevWsR.reduce((s,w)=>s+(w.distance||0),0);
+  const kmTrend=prevKmR>0?((kmR-prevKmR)/prevKmR*100).toFixed(0):null;
+  const allSessions=wsR.length;const daysInPeriod=runPeriod||90;const freqPerWeek=allSessions>0?(allSessions/(daysInPeriod/7)).toFixed(1):null;
+  const hrPaceWs=hrWsR.slice().sort((a,b)=>a.paceSeconds-b.paceSeconds);
+  const bestEffW=hrPaceWs[0];
+  const el_adv=document.getElementById('run-kpi-adv');
+  if(el_adv)el_adv.innerHTML=`
+    <div class="kpi-adv kpi-red">
+      <div class="kpi-adv-val">${avgEff||'--'}</div>
+      <div class="kpi-adv-lbl">⚡ Efficienza Cardiaca</div>
+      <div class="kpi-adv-sub">sec/km per bpm ×100 — più basso = meglio</div>
+    </div>
+    <div class="kpi-adv kpi-green">
+      <div class="kpi-adv-val">${freqPerWeek||'--'}<span style="font-size:13px;font-family:var(--font-body);font-weight:400;color:var(--muted)"> /sett</span></div>
+      <div class="kpi-adv-lbl">📅 Frequenza allenamenti</div>
+      <div class="kpi-adv-sub">${allSessions} sessioni nel periodo</div>
+    </div>
+    <div class="kpi-adv kpi-blue">
+      <div class="kpi-adv-val">${kmTrend!=null?(+kmTrend>=0?'↑':'↓')+Math.abs(kmTrend)+'%':'--'}</div>
+      <div class="kpi-adv-lbl">📈 Volume vs periodo prec.</div>
+      <div class="kpi-adv-sub">${kmR.toFixed(1)} km (prec. ${prevKmR.toFixed(1)} km)</div>
+    </div>
+    <div class="kpi-adv">
+      <div class="kpi-adv-val">${bestEffW?s2p(bestEffW.paceSeconds):'--'}</div>
+      <div class="kpi-adv-lbl">🏅 Passo migliore (periodo)</div>
+      <div class="kpi-adv-sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${bestEffW?.title||'—'}</div>
+    </div>`;
 
   const wsT=getDashRun().filter(w=>w.type==='trail');
   const kmT=wsT.reduce((s,w)=>s+(w.distance||0),0);
@@ -1141,7 +1612,7 @@ function setRunSort(key,btn){
 function toggleRunSortDir(){runSortDir*=-1;const d=document.getElementById('run-sort-dir');if(d)d.textContent=runSortDir===-1?'↓ Recenti':'↑ Vecchi';sortRunActivities();}
 function sortRunActivities(){
   const sorted=[...runFiltered].sort((a,b)=>{
-    if(runSortKey==='date')return runSortDir*a.date.localeCompare(b.date);
+    if(runSortKey==='date')return runSortDir*(parseLocalDate(a.date)-parseLocalDate(b.date));
     if(runSortKey==='paceSeconds'){const va=a.paceSeconds||9999,vb=b.paceSeconds||9999;return runSortDir*(va-vb);}
     return runSortDir*((a[runSortKey]??-Infinity)-(b[runSortKey]??-Infinity));
   });
@@ -1162,7 +1633,7 @@ function renderHikeDashboard(){
   renderGarminInSection('hike');
   const el=document.getElementById('hike-recent');
   el.innerHTML=!state.hikes.length?'<div style="color:var(--muted);padding:16px 0;text-align:center">Nessuna escursione</div>':
-    state.hikes.slice(0,6).map(h=>`<div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+    [...state.hikes].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date)).slice(0,6).map(h=>`<div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
       <span style="font-size:18px">${HIKE_ICON[h.type]||'🥾'}</span>
       <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${h.title||HIKE_LBL[h.type]}</div>
       <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">${fmtDate(h.date)}</div></div>
@@ -1252,56 +1723,50 @@ function setHikeSort(key,btn){
 function toggleHikeSortDir(){hikeSortDir*=-1;const d=document.getElementById('hike-sort-dir');if(d)d.textContent=hikeSortDir===-1?'↓ Recenti':'↑ Vecchi';sortHikeActivities();}
 function sortHikeActivities(){
   const sorted=[...hikeFiltered].sort((a,b)=>{
-    if(hikeSortKey==='date')return hikeSortDir*(b.datetime||b.date).localeCompare(a.datetime||a.date);
+    if(hikeSortKey==='date')return hikeSortDir*(parseLocalDate(b.datetime||b.date)-parseLocalDate(a.datetime||a.date));
     return hikeSortDir*((a[hikeSortKey]??-Infinity)-(b[hikeSortKey]??-Infinity));
   });
   renderCards(sorted,'hike-grid',HIKE_ICON,HIKE_LBL,'hike');
 }
 
-// ══ CARDS ══
+// ══ ACTIVITY LIST ROWS ══
 function renderCards(list,containerId,icons,labels,sect){
   const el=document.getElementById(containerId);if(!el)return;
-  if(!list.length){el.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🔍</div><div class="empty-title">Nessuna attività trovata</div></div>`;return;}
-  el.innerHTML=list.map(w=>{
+  if(!list.length){el.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">Nessuna attività trovata</div></div>`;return;}
+  const isRun=sect==='run';
+  el.innerHTML=`<div class="activity-list">`+list.map(w=>{
     const rpeC=w.perceivedEffort?(w.perceivedEffort>=8?'red':w.perceivedEffort>=6?'orange':w.perceivedEffort>=4?'yellow':'green'):'';
-    return`<div class="act-card">
-      <div class="act-card-type-bar ${w.type}-type"></div>
-      <div class="act-card-header">
-        <div style="display:flex;align-items:flex-start;flex:1;min-width:0">
-          <span class="act-card-icon">${icons[w.type]||'🏃'}</span>
-          <div class="act-card-title-wrap">
-            <div class="act-card-title">${w.title||labels[w.type]}</div>
-            <div class="act-card-date">${fmtDate(w.date)}${w.source==='garmin_import'?'<span class="badge-garmin">GARMIN</span>':''}</div>
-          </div>
-        </div>
-        <button class="act-card-delete" onclick="deleteAct('${sect}','${w.id}')">✕</button>
+    // Efficienza cardiaca: secondi/km per bpm — lower = better
+    const effRaw=(w.paceSeconds&&w.avgHR&&w.paceSeconds<1200)?((w.paceSeconds/w.avgHR)*100).toFixed(1):null;
+    const typeTag=`<span class="tag ${isRun?'accent':'hike'}" style="font-size:9px;padding:2px 5px">${(labels[w.type]||w.type||'').toUpperCase()}</span>`;
+    return`<div class="act-row">
+      <div class="act-row-bar ${w.type}-type"></div>
+      <span class="act-row-icon">${icons[w.type]||'🏃'}</span>
+      <div class="act-row-main">
+        <div class="act-row-title">${w.title||labels[w.type]||'—'}</div>
+        <div class="act-row-meta">${fmtDate(w.date)}${w.source==='garmin_import'?' · <span class="badge-garmin">GARMIN</span>':''}</div>
       </div>
-      <div class="act-card-body">
-        <div class="act-card-stats">
-          ${w.distance!=null?`<div><div class="act-stat-val">${w.distance.toFixed(2)}<span style="font-size:13px;color:var(--muted);font-weight:400"> km</span></div><div class="act-stat-lbl">Distanza</div></div>`:''}
-          ${w.avgPace?`<div><div class="act-stat-val">${w.avgPace}<span style="font-size:13px;color:var(--muted);font-weight:400">/km</span></div><div class="act-stat-lbl">Passo</div></div>`:''}
-          ${w.duration!=null?`<div><div class="act-stat-val" style="font-size:16px">${fmtDur(w.duration)}</div><div class="act-stat-lbl">Durata</div></div>`:''}
-          ${w.avgHR!=null?`<div><div class="act-stat-val">${w.avgHR}<span style="font-size:13px;color:var(--muted);font-weight:400"> bpm</span></div><div class="act-stat-lbl">FC Media</div></div>`:''}
-          ${w.elevGain!=null&&w.elevGain>0?`<div><div class="act-stat-val">${w.elevGain}<span style="font-size:13px;color:var(--muted);font-weight:400"> m+</span></div><div class="act-stat-lbl">Dislivello</div></div>`:''}
-          ${w.maxAlt!=null?`<div><div class="act-stat-val">${w.maxAlt}<span style="font-size:13px;color:var(--muted);font-weight:400"> m</span></div><div class="act-stat-lbl">Quota Max</div></div>`:''}
-          ${w.calories!=null?`<div><div class="act-stat-val" style="font-size:16px">${w.calories}</div><div class="act-stat-lbl">Kcal</div></div>`:''}
-        </div>
-        ${w.notes?`<div style="margin-top:10px;font-size:12px;color:var(--muted);font-style:italic">${w.notes}</div>`:''}
+      <div class="act-row-stats">
+        ${w.distance!=null?`<div class="act-row-stat"><div class="act-row-stat-val">${w.distance.toFixed(1)}</div><div class="act-row-stat-lbl">km</div></div>`:''}
+        ${w.avgPace?`<div class="act-row-stat"><div class="act-row-stat-val">${w.avgPace}</div><div class="act-row-stat-lbl">/km</div></div>`:''}
+        ${w.avgHR!=null?`<div class="act-row-stat"><div class="act-row-stat-val" style="color:#c0203a">${w.avgHR}</div><div class="act-row-stat-lbl">bpm</div></div>`:''}
+        ${w.elevGain!=null&&w.elevGain>0?`<div class="act-row-stat"><div class="act-row-stat-val" style="color:var(--green)">${w.elevGain}</div><div class="act-row-stat-lbl">m+</div></div>`:''}
+        ${w.duration!=null?`<div class="act-row-stat"><div class="act-row-stat-val" style="font-size:13px">${fmtDur(w.duration)}</div><div class="act-row-stat-lbl">durata</div></div>`:''}
       </div>
-      <div class="act-card-footer">
-        ${w.aerobicTE!=null?`<span class="tag ${+w.aerobicTE>=4?'green':+w.aerobicTE>=3?'yellow':''}">TE ${w.aerobicTE}</span>`:''}
-        ${w.avgCadence!=null?`<span class="tag">${w.avgCadence} spm</span>`:''}
-        ${w.bestPace?`<span class="tag">🏅 ${w.bestPace}/km</span>`:''}
-        ${w.difficulty?`<span class="tag hike">⬆ ${w.difficulty}</span>`:''}
-        ${w.bodyBatteryDrain!=null?`<span class="tag red">🔋-${Math.abs(w.bodyBatteryDrain)}</span>`:''}
-        ${w.perceivedEffort!=null?`<span class="tag ${rpeC}">RPE ${w.perceivedEffort}</span>`:''}
+      <div class="act-row-tags">
+        ${w.perceivedEffort!=null?`<span class="tag ${rpeC}" style="font-size:9px;padding:2px 5px">RPE ${w.perceivedEffort}</span>`:''}
+        ${w.aerobicTE!=null?`<span class="tag ${+w.aerobicTE>=4?'green':+w.aerobicTE>=3?'yellow':''}" style="font-size:9px;padding:2px 5px">TE ${w.aerobicTE}</span>`:''}
+        ${effRaw?`<span class="tag" style="font-size:9px;padding:2px 5px" title="Efficienza: passo/FC">⚡${effRaw}</span>`:''}
       </div>
+      <button class="act-row-delete" onclick="deleteAct('${sect}','${w.id}')">✕</button>
     </div>`;
-  }).join('');
+  }).join('')+'</div>';
 }
 function deleteAct(sect,id){
-  if(sect==='run'){state.workouts=state.workouts.filter(w=>String(w.id)!==String(id));saveState();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();}
-  else{state.hikes=state.hikes.filter(h=>String(h.id)!==String(id));saveState();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();}
+  if(sect==='run'){state.workouts=state.workouts.filter(w=>String(w.id)!==String(id));}
+  else{state.hikes=state.hikes.filter(h=>String(h.id)!==String(id));}
+  saveState();syncToGitHub();renderHome();
+  SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});
   toast('Attività eliminata','ok');
 }
 
@@ -1336,20 +1801,33 @@ function buildWeekBuckets(ws,p,valFn){
 }
 function svgBarChart(id,weeks,color,colorDim,labelFn){
   const el=document.getElementById(id);if(!el||!weeks.length)return;
-  const W=600,H=130,PAD_L=4,PAD_R=4,PAD_T=18,PAD_B=20;
+  const W=600,H=140,PAD_L=4,PAD_R=4,PAD_T=22,PAD_B=28;
   const chartW=W-PAD_L-PAD_R,chartH=H-PAD_T-PAD_B;
   const maxV=Math.max(...weeks.map(v=>v.val),1);
   const n=weeks.length,bw=chartW/n,gap=Math.max(1,bw*0.15);
+  // Smart label skip: show only every N-th date label to avoid overlap
+  const minLabelSpacing=38; // px minimum between labels
+  const labelStep=Math.max(1,Math.ceil(minLabelSpacing/bw));
   const rects=weeks.map((v,i)=>{
     const bh=Math.max((v.val/maxV)*chartH,v.val>0?2:0);
     const x=PAD_L+i*bw+gap/2,y=PAD_T+chartH-bh,w=bw-gap;
-    const lbl=labelFn(v.val);
+    const valLbl=labelFn(v.val);
+    const showDate=i%labelStep===0||(i===n-1);
+    // For value labels, only show if bar is wide enough
+    const showValLbl=valLbl&&w>18;
     return`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${bh.toFixed(1)}" fill="${colorDim}" rx="2"/>
     ${v.val>0?`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${(x+w).toFixed(1)}" y2="${y.toFixed(1)}" stroke="${color}" stroke-width="2"/>`:``}
-    ${lbl?`<text x="${(x+w/2).toFixed(1)}" y="${(PAD_T-3).toFixed(1)}" text-anchor="middle" fill="var(--muted)" font-size="8.5" font-family="DM Mono,monospace">${lbl}</text>`:''}
-    <text x="${(x+w/2).toFixed(1)}" y="${H-3}" text-anchor="middle" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace">${v.label}</text>`;
+    ${showValLbl?`<text x="${(x+w/2).toFixed(1)}" y="${(PAD_T-5).toFixed(1)}" text-anchor="middle" fill="var(--muted)" font-size="8.5" font-family="DM Mono,monospace">${valLbl}</text>`:''}
+    ${showDate?`<text x="${(x+w/2).toFixed(1)}" y="${H-6}" text-anchor="middle" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace" transform="rotate(-30,${(x+w/2).toFixed(1)},${H-6})">${v.label}</text>`:''}`;
   }).join('');
-  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:130px;display:block">${rects}</svg>`;
+  // Average reference line
+  const nonZero=weeks.filter(v=>v.val>0);
+  const avgLine=nonZero.length?nonZero.reduce((s,v)=>s+v.val,0)/nonZero.length:0;
+  const avgLineY=avgLine>0?(PAD_T+chartH-(avgLine/maxV)*chartH).toFixed(1):null;
+  const avgLineSvg=avgLineY?`
+    <line x1="${PAD_L}" y1="${avgLineY}" x2="${W-PAD_R}" y2="${avgLineY}" stroke="var(--text2)" stroke-width="1" stroke-dasharray="5 3" opacity="0.3"/>
+    <text x="${W-PAD_R-2}" y="${(+avgLineY-3).toFixed(1)}" text-anchor="end" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace" opacity="0.7">⌀ ${avgLine.toFixed(1)}</text>`:'';
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block;overflow:visible">${rects}${avgLineSvg}</svg>`;
 }
 function weeklyBarChart(id,ws,color,colorDim,periodDays){
   const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.distance||0);
@@ -1362,14 +1840,38 @@ function weeklyElevChart(id,ws,color,colorDim,periodDays){
 function lineChart(id,items,valFn,color,unit){
   const el=document.getElementById(id);if(!el||!items.length){if(el)el.innerHTML='';return;}
   const vals=items.map(valFn),minV=Math.min(...vals),maxV=Math.max(...vals),range=maxV-minV||1;
-  const W=400,H=110,P=12;
-  const pts=items.map((w,i)=>`${P+(i/(items.length-1||1))*(W-P*2)},${P+((maxV-valFn(w))/range)*(H-P*2)}`);
+  const avgV=vals.reduce((a,b)=>a+b,0)/vals.length;
+  const W=400,H=120,PAD_L=32,PAD_R=8,PAD_T=14,PAD_B=22;
+  const cW=W-PAD_L-PAD_R,cH=H-PAD_T-PAD_B;
   const inv=unit==='passo';
-  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:100%">
-    <polyline points="${pts.join(' ')}" fill="none" stroke="${color}" stroke-width="2" opacity="0.6"/>
-    ${items.map((w,i)=>{const[x,y]=pts[i].split(',');return`<circle cx="${x}" cy="${y}" r="3.5" fill="${color}" opacity="0.85"><title>${w.title||''} — ${inv?s2p(valFn(w)):valFn(w)} (${fmtDate(w.date)})</title></circle>`;}).join('')}
-    <text x="${P}" y="${H-3}" fill="var(--muted)" font-size="9" font-family="DM Mono,monospace">${inv?s2p(maxV):minV.toFixed(0)}</text>
-    <text x="${W-P}" y="${H-3}" fill="var(--muted)" font-size="9" font-family="DM Mono,monospace" text-anchor="end">${fmtShort(items[items.length-1]?.date||'')}</text>
+  const xOf=(i)=>PAD_L+(i/(items.length-1||1))*cW;
+  const yOf=(v)=>PAD_T+((maxV-v)/range)*cH;
+  const avgY=yOf(avgV);
+  const pts=items.map((w,i)=>`${xOf(i).toFixed(1)},${yOf(valFn(w)).toFixed(1)}`);
+  // Y axis labels: min, avg, max
+  const yLabels=[
+    {v:maxV,y:PAD_T},
+    {v:avgV,y:avgY},
+    {v:minV,y:PAD_T+cH},
+  ];
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block">
+    <!-- grid lines -->
+    <line x1="${PAD_L}" y1="${PAD_T}" x2="${W-PAD_R}" y2="${PAD_T}" stroke="var(--border)" stroke-width="1"/>
+    <line x1="${PAD_L}" y1="${PAD_T+cH}" x2="${W-PAD_R}" y2="${PAD_T+cH}" stroke="var(--border)" stroke-width="1"/>
+    <!-- avg reference line -->
+    <line x1="${PAD_L}" y1="${avgY.toFixed(1)}" x2="${W-PAD_R}" y2="${avgY.toFixed(1)}" stroke="${color}" stroke-width="1" stroke-dasharray="4 3" opacity="0.45"/>
+    <text x="${PAD_L-3}" y="${(avgY+3.5).toFixed(1)}" text-anchor="end" fill="${color}" font-size="8.5" font-family="DM Mono,monospace" opacity="0.75">⌀${inv?s2p(Math.round(avgV)):Math.round(avgV)}</text>
+    <!-- y axis labels -->
+    ${yLabels.filter((_,i)=>i!==1).map(l=>`<text x="${PAD_L-3}" y="${(l.y+3.5).toFixed(1)}" text-anchor="end" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace">${inv?s2p(Math.round(l.v)):Math.round(l.v)}</text>`).join('')}
+    <!-- area fill -->
+    <polygon points="${PAD_L},${PAD_T+cH} ${pts.join(' ')} ${(W-PAD_R).toFixed(1)},${PAD_T+cH}" fill="${color}" opacity="0.07"/>
+    <!-- line -->
+    <polyline points="${pts.join(' ')}" fill="none" stroke="${color}" stroke-width="2" opacity="0.75"/>
+    <!-- dots -->
+    ${items.map((w,i)=>{const[x,y]=pts[i].split(',');return`<circle cx="${x}" cy="${y}" r="3" fill="${color}" opacity="0.9"><title>${w.title||''} — ${inv?s2p(valFn(w)):valFn(w)} ${unit} (${fmtDate(w.date)})</title></circle>`;}).join('')}
+    <!-- x axis: first and last date -->
+    <text x="${PAD_L}" y="${H-4}" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace">${fmtShort(items[0]?.date||'')}</text>
+    <text x="${W-PAD_R}" y="${H-4}" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace" text-anchor="end">${fmtShort(items[items.length-1]?.date||'')}</text>
   </svg>`;
 }
 function topPerf(ws,id,color){
@@ -1508,6 +2010,7 @@ function openAdminModal(tab){
   ['admin-run-type','admin-hike-type'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   ['admin-run-from','admin-run-to','admin-hike-from','admin-hike-to'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
   switchAdminTab(adminTab, document.getElementById('at-'+adminTab));
+  updateCacheInfo();
 }
 
 function switchAdminTab(tab, btn){
@@ -1640,11 +2143,11 @@ function adminDeleteSelected(tab){
   if(tab==='run'){
     state.workouts=state.workouts.filter(w=>!sel.has(String(w.id)));
     adminRunSelected.clear();
-    saveState();syncToGitHub();renderRunDashboard();runFiltered=[...state.workouts];applyRunFilters();
+    saveState();syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
   }else{
     state.hikes=state.hikes.filter(h=>!sel.has(String(h.id)));
     adminHikeSelected.clear();
-    saveState();syncToGitHub();renderHikeDashboard();hikeFiltered=[...state.hikes];applyHikeFilters();
+    saveState();syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
   }
   renderAdminTable(tab);
   renderHome();
@@ -1657,14 +2160,44 @@ function adminDeleteAll(tab){
   if(!confirm(`⚠ ATTENZIONE: eliminare TUTTI i ${total} ${tab==='run'?'allenamenti':'escursioni'}? Questa operazione non è reversibile.`))return;
   if(tab==='run'){
     state.workouts=[];adminRunSelected.clear();
-    saveState();syncToGitHub();renderRunDashboard();runFiltered=[];applyRunFilters();
+    saveState();syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
   }else{
     state.hikes=[];adminHikeSelected.clear();
-    saveState();syncToGitHub();renderHikeDashboard();hikeFiltered=[];applyHikeFilters();
+    saveState();syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
   }
   renderAdminTable(tab);
   renderHome();
   toast(`✓ Tutte le attività eliminate`,'ok');
+}
+
+function adminClearCache(what){
+  if(what==='all'){
+    if(!confirm('⚠ Cancellare TUTTA la cache del browser (dati, API key, config GitHub)? I dati non salvati come HTML andranno persi.'))return;
+    localStorage.clear();
+    state={workouts:[],hikes:[],garminReadings:[]};
+    runFiltered=[];hikeFiltered=[];
+    renderHome();renderHeaderBtns();
+    toast('✓ Cache svuotata completamente','ok');
+    closeModal('admin-modal');
+  }else if(what==='github'){
+    if(!confirm('Rimuovere la configurazione GitHub Sync?'))return;
+    localStorage.removeItem('runai-github');
+    toast('✓ Config GitHub rimossa','ok');
+  }else if(what==='apikey'){
+    if(!confirm('Rimuovere la API key di Anthropic?'))return;
+    localStorage.removeItem('runai-apikey');
+    toast('✓ API key rimossa','ok');
+  }
+  updateCacheInfo();
+}
+function updateCacheInfo(){
+  const el=document.getElementById('admin-cache-detail');if(!el)return;
+  let total=0,keys=[];
+  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);keys.push(k);total+=localStorage.getItem(k).length;}
+  const kb=(total/1024).toFixed(1);
+  const hasGh=!!localStorage.getItem('runai-github');
+  const hasKey=!!localStorage.getItem('runai-apikey');
+  el.innerHTML=`Cache: <strong>${kb} KB</strong> in ${keys.length} chiavi — GitHub: ${hasGh?'✓ configurato':'non impostato'} — API key: ${hasKey?'✓ salvata':'non impostata'}`;
 }
 
 // ══ GITHUB SYNC ══
@@ -1733,6 +2266,8 @@ function toast(msg,type='ok'){const el=document.getElementById('toast');el.textC
 loadState();
 renderHeaderBtns();
 renderHome();
+// pre-init section states
+SECTIONS.forEach(s=>{sectFiltered[s]=getItemsForSection?.(s)||[];});
 </script>
 </body>
 </html>
