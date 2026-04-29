@@ -959,6 +959,7 @@ function renderHeaderBtns(){
     <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
     <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙ GitHub</button>
     <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">☁ Sync</button>
+    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">⬇ Carica</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   } else {
     const isHike=cur==='hiking'||cur==='trailhike';
@@ -976,6 +977,7 @@ function renderHeaderBtns(){
     <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
     <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
     <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">☁ Sync</button>
+    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">⬇ Carica</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }
 }
@@ -2267,6 +2269,37 @@ async function manualSync(){
   if(btn){btn.textContent='⏳ Sync…';btn.disabled=true;}
   await syncToGitHub();
   if(btn){btn.textContent='☁ Sync';btn.disabled=false;}
+}
+async function loadFromGitHub(){
+  const cfg=getGitHubConfig();
+  if(!cfg.token||!cfg.owner||!cfg.repo){
+    toast('⚠ GitHub non configurato — vai su ⚙ GitHub','err');
+    return;
+  }
+  const btn=document.getElementById('load-btn');
+  if(btn){btn.textContent='⏳ Carico…';btn.disabled=true;}
+  try{
+    const path=cfg.path||'data/runai-state.json';
+    const res=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`,{headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json'}});
+    if(!res.ok){const e=await res.json();throw new Error(e.message||`HTTP ${res.status}`);}
+    const d=await res.json();
+    const content=decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
+    const loaded=JSON.parse(content);
+    if(!loaded.workouts&&!loaded.hikes){throw new Error('File non valido o vuoto');}
+    if(!confirm(`Trovati ${(loaded.workouts||[]).length} allenamenti e ${(loaded.hikes||[]).length} escursioni su GitHub.\nSostituire i dati locali?`))return;
+    state=loaded;
+    state.hikes=normalizeDates(state.hikes||[]);
+    state.workouts=state.workouts||[];
+    state.garminReadings=state.garminReadings||[];
+    saveState();
+    SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});
+    renderHome();renderHeaderBtns();
+    toast(`✓ Caricati ${state.workouts.length} allenamenti e ${state.hikes.length} escursioni da GitHub`,'ok');
+  }catch(e){
+    toast('Errore caricamento: '+e.message,'err');
+  }finally{
+    if(btn){btn.textContent='⬇ Carica';btn.disabled=false;}
+  }
 }
 async function syncToGitHub(){
   const cfg=getGitHubConfig();
