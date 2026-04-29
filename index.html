@@ -1365,7 +1365,15 @@ function renderSectionDashboard(sid){
   if(advEl){
     const hrPaceItems=items.filter(w=>w.avgHR&&w.paceSeconds&&w.paceSeconds<1200);
     const avgEff=hrPaceItems.length?(hrPaceItems.reduce((s,w)=>s+(w.paceSeconds/w.avgHR*100),0)/hrPaceItems.length).toFixed(1):null;
-    const daysInPeriod=sectPeriod[sid]===0||sectPeriod[sid]==='custom'?90:(sectPeriod[sid]||90);
+    const daysInPeriod=(()=>{
+      if(sectPeriod[sid]==='custom'){
+        const df=document.getElementById(sid+'-dfrom')?.value;
+        const dt=document.getElementById(sid+'-dto')?.value;
+        if(df&&dt){const d=(parseLocalDate(dt)-parseLocalDate(df))/86400000;return Math.max(d,1);}
+        return 90;
+      }
+      return sectPeriod[sid]===0?Math.max((Date.now()-parseLocalDate(items[items.length-1]?.date||new Date().toISOString()))/86400000,1):(sectPeriod[sid]||90);
+    })();
     const freqPerWeek=items.length>0?(items.length/(daysInPeriod/7)).toFixed(1):null;
     const bestPaceItem=items.filter(w=>w.paceSeconds&&w.paceSeconds<900).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
     const maxElevItem=items.filter(w=>w.elevGain).sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
@@ -1393,9 +1401,12 @@ function renderSectionDashboard(sid){
   }
 
   // Charts
-  const p=sectPeriod[sid]==='custom'?0:(sectPeriod[sid]||0);
-  weeklyBarChart(sid+'-chart-vol',items,color,color+'33',p);
-  weeklyElevChart(sid+'-chart-elev',items,color,color+'22',p);
+  const isCustom=sectPeriod[sid]==='custom';
+  const chartP=isCustom?0:(sectPeriod[sid]||0);
+  const chartFrom=isCustom?document.getElementById(sid+'-dfrom')?.value||null:null;
+  const chartTo=isCustom?document.getElementById(sid+'-dto')?.value||null:null;
+  weeklyBarChart(sid+'-chart-vol',items,color,color+'33',chartP,chartFrom,chartTo);
+  weeklyElevChart(sid+'-chart-elev',items,color,color+'22',chartP,chartFrom,chartTo);
   const hrChartItems=items.filter(w=>w.avgHR).sort((a,b)=>parseLocalDate(a.date)-parseLocalDate(b.date)).slice(-60);
   lineChart(sid+'-chart-hr',hrChartItems,w=>w.avgHR,'#c0203a','bpm');
   const paceMax=sid==='hiking'||sid==='trailhike'?1800:900;
@@ -1806,17 +1817,18 @@ function radialGauge(value,max,label,color){
 function kpiCards(items){
   return items.map(i=>`<div class="stat-card ${i.cls||''}"><div class="stat-val">${i.val}${i.unit?`<span class="unit">${i.unit}</span>`:''}</div><div class="stat-label">${i.lbl}</div></div>`).join('');
 }
-function buildWeekBuckets(ws,p,valFn){
-  const now=new Date();now.setHours(0,0,0,0);
+function buildWeekBuckets(ws,p,valFn,fromDate,toDate){
+  const now=toDate?new Date(toDate):new Date();now.setHours(23,59,59,999);
   let startDate;
-  if(p===0){const oldest=ws.length?ws[ws.length-1]:null;startDate=oldest?parseLocalDate(oldest.date):new Date(now);}
-  else{startDate=new Date(now);startDate.setDate(startDate.getDate()-p);}
-  const weeks=[];let cursor=new Date(now);cursor.setDate(cursor.getDate()-cursor.getDay()+1);
+  if(fromDate){startDate=new Date(fromDate);startDate.setHours(0,0,0,0);}
+  else if(p===0){const oldest=ws.length?ws[ws.length-1]:null;startDate=oldest?parseLocalDate(oldest.date):new Date(now);}
+  else{startDate=new Date();startDate.setHours(0,0,0,0);startDate.setDate(startDate.getDate()-p);}
+  const weeks=[];let cursor=new Date(now);cursor.setDate(cursor.getDate()-cursor.getDay()+1);cursor.setHours(0,0,0,0);
   while(cursor>=startDate){weeks.unshift({label:fmtShort(cursor.toISOString()),val:0,weekStart:new Date(cursor)});cursor.setDate(cursor.getDate()-7);}
   ws.forEach(w=>{
     const d=parseLocalDate(w.date);if(isNaN(d))return;
     for(let i=weeks.length-1;i>=0;i--){
-      const ws2=weeks[i].weekStart,we=new Date(ws2);we.setDate(we.getDate()+6);
+      const ws2=weeks[i].weekStart,we=new Date(ws2);we.setDate(we.getDate()+6);we.setHours(23,59,59,999);
       if(d>=ws2&&d<=we){weeks[i].val+=valFn(w);break;}
     }
   });
@@ -1855,12 +1867,12 @@ function svgBarChart(id,weeks,color,colorDim,labelFn){
     </linearGradient></defs>
     ${rects}${avgLineSvg}</svg>`;
 }
-function weeklyBarChart(id,ws,color,colorDim,periodDays){
-  const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.distance||0);
+function weeklyBarChart(id,ws,color,colorDim,periodDays,fromDate,toDate){
+  const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.distance||0,fromDate,toDate);
   svgBarChart(id,weeks,color,colorDim,v=>v>0?v.toFixed(0):'');
 }
-function weeklyElevChart(id,ws,color,colorDim,periodDays){
-  const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.elevGain||0);
+function weeklyElevChart(id,ws,color,colorDim,periodDays,fromDate,toDate){
+  const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.elevGain||0,fromDate,toDate);
   svgBarChart(id,weeks,color,colorDim,v=>v>0?Math.round(v)+'m':'');
 }
 function lineChart(id,items,valFn,color,unit){
