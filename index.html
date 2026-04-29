@@ -1824,29 +1824,32 @@ function svgBarChart(id,weeks,color,colorDim,labelFn){
   const chartW=W-PAD_L-PAD_R,chartH=H-PAD_T-PAD_B;
   const maxV=Math.max(...weeks.map(v=>v.val),1);
   const n=weeks.length,bw=chartW/n,gap=Math.max(1,bw*0.15);
-  // Smart label skip: show only every N-th date label to avoid overlap
-  const minLabelSpacing=38; // px minimum between labels
+  const minLabelSpacing=38;
   const labelStep=Math.max(1,Math.ceil(minLabelSpacing/bw));
+  const gradId=id.replace(/[^a-z0-9]/gi,'_')+'_grad';
   const rects=weeks.map((v,i)=>{
     const bh=Math.max((v.val/maxV)*chartH,v.val>0?2:0);
     const x=PAD_L+i*bw+gap/2,y=PAD_T+chartH-bh,w=bw-gap;
     const valLbl=labelFn(v.val);
     const showDate=i%labelStep===0||(i===n-1);
-    // For value labels, only show if bar is wide enough
     const showValLbl=valLbl&&w>18;
-    return`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${bh.toFixed(1)}" fill="${colorDim}" rx="2"/>
-    ${v.val>0?`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${(x+w).toFixed(1)}" y2="${y.toFixed(1)}" stroke="${color}" stroke-width="2"/>`:``}
+    return`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${bh.toFixed(1)}" fill="url(#${gradId})" rx="2"/>
+    ${v.val>0?`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${(x+w).toFixed(1)}" y2="${y.toFixed(1)}" stroke="${color}" stroke-width="2.5"/>`:``}
     ${showValLbl?`<text x="${(x+w/2).toFixed(1)}" y="${(PAD_T-5).toFixed(1)}" text-anchor="middle" fill="var(--muted)" font-size="8.5" font-family="DM Mono,monospace">${valLbl}</text>`:''}
     ${showDate?`<text x="${(x+w/2).toFixed(1)}" y="${H-6}" text-anchor="middle" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace" transform="rotate(-30,${(x+w/2).toFixed(1)},${H-6})">${v.label}</text>`:''}`;
   }).join('');
-  // Average reference line
   const nonZero=weeks.filter(v=>v.val>0);
   const avgLine=nonZero.length?nonZero.reduce((s,v)=>s+v.val,0)/nonZero.length:0;
   const avgLineY=avgLine>0?(PAD_T+chartH-(avgLine/maxV)*chartH).toFixed(1):null;
   const avgLineSvg=avgLineY?`
     <line x1="${PAD_L}" y1="${avgLineY}" x2="${W-PAD_R}" y2="${avgLineY}" stroke="var(--text2)" stroke-width="1" stroke-dasharray="5 3" opacity="0.3"/>
     <text x="${W-PAD_R-2}" y="${(+avgLineY-3).toFixed(1)}" text-anchor="end" fill="var(--muted)" font-size="8" font-family="DM Mono,monospace" opacity="0.7">⌀ ${avgLine.toFixed(1)}</text>`:'';
-  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block;overflow:visible">${rects}${avgLineSvg}</svg>`;
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block;overflow:visible">
+    <defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="0.08"/>
+    </linearGradient></defs>
+    ${rects}${avgLineSvg}</svg>`;
 }
 function weeklyBarChart(id,ws,color,colorDim,periodDays){
   const weeks=buildWeekBuckets(ws,periodDays||0,w=>w.distance||0);
