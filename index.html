@@ -300,6 +300,7 @@ select.form-input{cursor:pointer;}
     <button class="tab active-run" id="road-tab-btn-dash" onclick="switchTab('road','dashboard',this)">📈 Dashboard</button>
     <button class="tab" id="road-tab-btn-act" onclick="switchTab('road','activities',this)">🏃‍♂️ Attività</button>
     <button class="tab" id="road-tab-btn-coach" onclick="switchTab('road','coach',this)">✨ AI Coach</button>
+    <button class="tab" id="road-tab-btn-compare" onclick="switchTab('road','compare',this)">⚖️ Confronta</button>
   </div>
   <!-- DASHBOARD -->
   <div id="road-tab-dashboard" class="section">
@@ -363,13 +364,14 @@ select.form-input{cursor:pointer;}
     <div id="road-act-grid"></div>
   </div>
   <!-- AI COACH --><div id="road-tab-coach" class="section" style="display:none"><div class="card"><div class="card-title">✨ AI Coach — Analisi Stato di Forma</div><div class="api-key-section"><div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div><div style="display:flex;gap:8px;align-items:center"><input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px"><button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button></div><div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div></div><button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button><div id="ai-result" style="display:none"></div></div></div>
+  <!-- CONFRONTA --><div id="road-tab-compare" class="section" style="display:none"><div id="road-compare-content"></div></div>
 </div>
 <!-- ═══ SECTION: TRAIL ═══ -->
 <div id="page-trail" style="display:none">
   <div class="tabs" id="trail-tabs">
     <button class="tab active-trail" id="trail-tab-btn-dash" onclick="switchTab('trail','dashboard',this)">📈 Dashboard</button>
     <button class="tab" id="trail-tab-btn-act" onclick="switchTab('trail','activities',this)">🏔️ Attività</button>
-    
+    <button class="tab" id="trail-tab-btn-compare" onclick="switchTab('trail','compare',this)">⚖️ Confronta</button>
   </div>
   <!-- DASHBOARD -->
   <div id="trail-tab-dashboard" class="section">
@@ -432,14 +434,14 @@ select.form-input{cursor:pointer;}
     </div>
     <div id="trail-act-grid"></div>
   </div>
-  
+  <!-- CONFRONTA --><div id="trail-tab-compare" class="section" style="display:none"><div id="trail-compare-content"></div></div>
 </div>
 <!-- ═══ SECTION: HIKING ═══ -->
 <div id="page-hiking" style="display:none">
   <div class="tabs" id="hiking-tabs">
     <button class="tab active-hike" id="hiking-tab-btn-dash" onclick="switchTab('hiking','dashboard',this)">📈 Dashboard</button>
     <button class="tab" id="hiking-tab-btn-act" onclick="switchTab('hiking','activities',this)">🥾 Attività</button>
-    
+    <button class="tab" id="hiking-tab-btn-compare" onclick="switchTab('hiking','compare',this)">⚖️ Confronta</button>
   </div>
   <!-- DASHBOARD -->
   <div id="hiking-tab-dashboard" class="section">
@@ -502,7 +504,7 @@ select.form-input{cursor:pointer;}
     </div>
     <div id="hiking-act-grid"></div>
   </div>
-  
+  <!-- CONFRONTA --><div id="hiking-tab-compare" class="section" style="display:none"><div id="hiking-compare-content"></div></div>
 </div>
 <!-- ═══ SECTION: ROADTRAIL ═══ -->
 <div id="page-roadtrail" style="display:none">
@@ -510,6 +512,7 @@ select.form-input{cursor:pointer;}
     <button class="tab active-run" id="roadtrail-tab-btn-dash" onclick="switchTab('roadtrail','dashboard',this)">📈 Dashboard</button>
     <button class="tab" id="roadtrail-tab-btn-act" onclick="switchTab('roadtrail','activities',this)">🏃🏔️ Attività</button>
     <button class="tab" id="roadtrail-tab-btn-coach" onclick="switchTab('roadtrail','coach',this)">✨ AI Coach</button>
+    <button class="tab" id="roadtrail-tab-btn-compare" onclick="switchTab('roadtrail','compare',this)">⚖️ Confronta</button>
   </div>
   <!-- DASHBOARD -->
   <div id="roadtrail-tab-dashboard" class="section">
@@ -588,13 +591,14 @@ select.form-input{cursor:pointer;}
       <div id="ai-result-rt" style="display:none"></div>
     </div>
   </div>
+  <!-- CONFRONTA --><div id="roadtrail-tab-compare" class="section" style="display:none"><div id="roadtrail-compare-content"></div></div>
 </div>
 <!-- ═══ SECTION: TRAILHIKE ═══ -->
 <div id="page-trailhike" style="display:none">
   <div class="tabs" id="trailhike-tabs">
     <button class="tab active-trail" id="trailhike-tab-btn-dash" onclick="switchTab('trailhike','dashboard',this)">📈 Dashboard</button>
     <button class="tab" id="trailhike-tab-btn-act" onclick="switchTab('trailhike','activities',this)">🏔️🥾 Attività</button>
-    
+    <button class="tab" id="trailhike-tab-btn-compare" onclick="switchTab('trailhike','compare',this)">⚖️ Confronta</button>
   </div>
   <!-- DASHBOARD -->
   <div id="trailhike-tab-dashboard" class="section">
@@ -657,7 +661,7 @@ select.form-input{cursor:pointer;}
     </div>
     <div id="trailhike-act-grid"></div>
   </div>
-  
+  <!-- CONFRONTA --><div id="trailhike-tab-compare" class="section" style="display:none"><div id="trailhike-compare-content"></div></div>
 </div>
 
 <!-- MODALS -->
@@ -790,6 +794,31 @@ select.form-input{cursor:pointer;}
         <button class="btn btn-danger" onclick="adminDeleteAll('hike')" style="opacity:.7">⚠️ Elimina TUTTI</button>
       </div>
     </div>
+    <!-- Tools section -->
+    <div style="margin-top:18px;padding-top:14px;border-top:1.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">🔧 Strumenti & Dati</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:12px">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.3px">☁ GITHUB SYNC</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="btn btn-secondary btn-sm" onclick="openGitHubModal();closeModal('admin-modal')">⚙️ Configura GitHub</button>
+            <button class="btn btn-secondary btn-sm" id="admin-sync-btn" onclick="adminManualSync()">↑ Carica su GitHub</button>
+            <button class="btn btn-secondary btn-sm" id="admin-load-btn" onclick="adminLoadFromGitHub()">↓ Carica da GitHub</button>
+          </div>
+        </div>
+        <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:12px">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.3px">📥 IMPORTA / ESPORTA</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <input type="file" id="csv-run-admin" accept=".csv" style="display:none" onchange="handleRunCSV(this)">
+            <input type="file" id="csv-hike-admin" accept=".csv" style="display:none" onchange="handleHikeCSV(this)">
+            <button class="btn btn-import btn-sm" onclick="document.getElementById('csv-run-admin').click()">⬆ Importa CSV Running</button>
+            <button class="btn btn-import-hike btn-sm" onclick="document.getElementById('csv-hike-admin').click()">⬆ Importa CSV Hiking</button>
+            <button class="btn btn-secondary btn-sm" onclick="openModal('garmin-modal');closeModal('admin-modal')">⌚ Dati Garmin</button>
+            <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Esporta HTML</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Cache section -->
     <div style="margin-top:18px;padding-top:14px;border-top:1.5px solid var(--border)">
       <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">🧹 Gestione Cache</div>
@@ -876,14 +905,28 @@ function normalizeDates(hikes){
     return h;
   });
 }
+function migrateElevGain(){
+  let fixed=0;
+  const fixArr=arr=>{(arr||[]).forEach(w=>{
+    // valori come 1.056 invece di 1056 — se elevGain < 20 e non intero, era in km
+    if(w.elevGain!=null&&w.elevGain>0&&w.elevGain<20&&!Number.isInteger(w.elevGain)){
+      w.elevGain=Math.round(w.elevGain*1000);fixed++;
+    }
+    if(w.elevLoss!=null&&w.elevLoss>0&&w.elevLoss<20&&!Number.isInteger(w.elevLoss)){
+      w.elevLoss=Math.round(w.elevLoss*1000);fixed++;
+    }
+  });};
+  fixArr(state.workouts);fixArr(state.hikes);
+  if(fixed>0){console.log(`migrateElevGain: corretti ${fixed} valori`);saveState();}
+}
 function migrateRunTypes(){
   const legacy=['interval','long','base','recovery'];
   (state.workouts||[]).forEach(w=>{if(legacy.includes(w.type))w.type='running';});
 }
 function loadState(){
-  try{const r=localStorage.getItem(DB_KEY);if(r){state=JSON.parse(r);state.hikes=normalizeDates(state.hikes);migrateRunTypes();return;}}catch{}
+  try{const r=localStorage.getItem(DB_KEY);if(r){state=JSON.parse(r);state.hikes=normalizeDates(state.hikes);migrateRunTypes();migrateElevGain();return;}}catch{}
   try{const r=localStorage.getItem('runai-v4');if(r){const o=JSON.parse(r);state.workouts=o.workouts||[];state.garminReadings=o.garminReadings||[];}}catch{}
-  try{const e=document.getElementById('embedded-state');if(e&&e.textContent.trim()&&e.textContent.trim()!=='{}'){state=JSON.parse(e.textContent);state.hikes=normalizeDates(state.hikes);migrateRunTypes();}}catch{}
+  try{const e=document.getElementById('embedded-state');if(e&&e.textContent.trim()&&e.textContent.trim()!=='{}'){state=JSON.parse(e.textContent);state.hikes=normalizeDates(state.hikes);migrateRunTypes();migrateElevGain();}}catch{}
   if(!state.hikes)state.hikes=[];
 }
 function saveState(){
@@ -956,12 +999,7 @@ function hide(id){const el=document.getElementById(id);if(el)el.style.display='n
 function renderHeaderBtns(){
   const el=document.getElementById('header-btns');
   if(cur==='home'){
-    el.innerHTML=`<button class="btn btn-secondary" onclick="openModal('garmin-modal')">⌚ Garmin</button>
-    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">⚙️ Admin</button>
-    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">🔗 GitHub</button>
-    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">↑ Sync</button>
-    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">↓ Carica</button>
-    <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Esporta</button>`;
+    el.innerHTML=`<button class="btn btn-secondary btn-sm" onclick="openAdminModal()">⚙️ Admin</button>`;
   } else {
     const isHike=cur==='hiking'||cur==='trailhike';
     const color=SECT_COLOR[cur]||'var(--accent)';
@@ -971,27 +1009,23 @@ function renderHeaderBtns(){
     </span>
     <input type="file" id="csv-run" accept=".csv" style="display:none" onchange="handleRunCSV(this)">
     <input type="file" id="csv-hike" accept=".csv" style="display:none" onchange="handleHikeCSV(this)">
-    ${!isHike?`<button class="btn btn-import" onclick="document.getElementById('csv-run').click()">⬆ CSV Running</button>`:''}
-    ${isHike||cur==='trailhike'?`<button class="btn btn-import-hike" onclick="document.getElementById('csv-hike').click()">⬆ CSV Hiking</button>`:''}
-    <button class="btn btn-secondary" onclick="openModal('workout-modal')">+ Run</button>
-    <button class="btn btn-hike" onclick="openModal('hike-modal')">+ Hike</button>
-    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">⚙️ Admin</button>
-    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
-    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">↑ Sync</button>
-    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">↓ Carica</button>
-    <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Esporta</button>`;
+    ${!isHike?`<button class="btn btn-import btn-sm" onclick="document.getElementById('csv-run').click()">⬆ CSV</button>`:''}
+    ${isHike||cur==='trailhike'?`<button class="btn btn-import-hike btn-sm" onclick="document.getElementById('csv-hike').click()">⬆ CSV</button>`:''}
+    <button class="btn btn-secondary btn-sm" onclick="openModal('workout-modal')">+ Run</button>
+    <button class="btn btn-hike btn-sm" onclick="openModal('hike-modal')">+ Hike</button>
+    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">⚙️ Admin</button>`;
   }
 }
 
 // ══ TABS ══
 function switchTab(sid,name,el){
-  // generic section tabs
   document.querySelectorAll(`#${sid}-tabs .tab`).forEach(t=>t.classList.remove('active-run','active-hike','active-trail'));
-  [`${sid}-tab-dashboard`,`${sid}-tab-activities`,`${sid}-tab-coach`].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
+  [`${sid}-tab-dashboard`,`${sid}-tab-activities`,`${sid}-tab-coach`,`${sid}-tab-compare`].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
   const target=document.getElementById(`${sid}-tab-${name}`);if(target)target.style.display='block';
   const cls=sid==='hiking'||sid==='trailhike'?'active-hike':sid==='trail'?'active-trail':'active-run';
   el.classList.add(cls);
   if(name==='activities'){applyActFilters(sid);}
+  if(name==='compare'){renderCompare(sid);}
 }
 
 // ══ MODALS ══
@@ -2278,10 +2312,22 @@ async function testGitHubConnection(){
     else{const e=await res.json();st.textContent=`✗ Errore ${res.status}: ${e.message}`;st.style.color='var(--red)';}
   }catch(e){st.textContent='✗ Errore di rete: '+e.message;st.style.color='var(--red)';}
 }
+async function adminManualSync(){
+  const btn=document.getElementById('admin-sync-btn');
+  if(btn){btn.textContent='⏳ Sync…';btn.disabled=true;}
+  await manualSync();
+  if(btn){btn.textContent='↑ Carica su GitHub';btn.disabled=false;}
+}
+async function adminLoadFromGitHub(){
+  const btn=document.getElementById('admin-load-btn');
+  if(btn){btn.textContent='⏳ Carico…';btn.disabled=true;}
+  await loadFromGitHub();
+  if(btn){btn.textContent='↓ Carica da GitHub';btn.disabled=false;}
+}
 async function manualSync(){
   const cfg=getGitHubConfig();
   if(!cfg.token||!cfg.owner||!cfg.repo){
-    toast('⚠ GitHub non configurato — vai su 🔗 GitHub','err');
+    toast('⚠ GitHub non configurato — vai su ⚙️ Admin → GitHub','err');
     return;
   }
   const btn=document.getElementById('sync-btn');
@@ -2343,6 +2389,134 @@ async function syncToGitHub(){
 // ══ TOAST ══
 let toastT;
 function toast(msg,type='ok'){const el=document.getElementById('toast');el.textContent=msg;el.className=`toast ${type}`;el.style.display='block';clearTimeout(toastT);toastT=setTimeout(()=>{el.style.display='none';},4500);}
+
+// ══ COMPARE TAB ══
+function calcStats(items,fromDate,toDate){
+  const km=items.reduce((s,w)=>s+(w.distance||0),0);
+  const elev=items.reduce((s,w)=>s+(w.elevGain||0),0);
+  const dur=items.reduce((s,w)=>s+(w.duration||0),0);
+  const hrItems=items.filter(w=>w.avgHR);
+  const avgHR=hrItems.length?Math.round(hrItems.reduce((s,w)=>s+w.avgHR,0)/hrItems.length):null;
+  const pItems=items.filter(w=>w.paceSeconds&&w.paceSeconds<1200);
+  const avgP=pItems.length?Math.round(pItems.reduce((s,w)=>s+w.paceSeconds,0)/pItems.length):null;
+  const bestP=pItems.length?Math.min(...pItems.map(w=>w.paceSeconds)):null;
+  const hrPaceItems=items.filter(w=>w.avgHR&&w.paceSeconds&&w.paceSeconds<1200);
+  const avgEff=hrPaceItems.length?+(hrPaceItems.reduce((s,w)=>s+(w.paceSeconds/w.avgHR*100),0)/hrPaceItems.length).toFixed(1):null;
+  const maxElevItem=items.filter(w=>w.elevGain).sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
+  const maxDistItem=items.filter(w=>w.distance).sort((a,b)=>(b.distance||0)-(a.distance||0))[0];
+  const maxAltItem=items.filter(w=>w.maxAlt).sort((a,b)=>(b.maxAlt||0)-(a.maxAlt||0))[0];
+  const days=fromDate&&toDate?Math.max((parseLocalDate(toDate)-parseLocalDate(fromDate))/86400000,1):30;
+  const freqPerWeek=items.length>0?+(items.length/(days/7)).toFixed(1):null;
+  return{km,elev,dur,avgHR,avgP,bestP,avgEff,maxElevItem,maxDistItem,maxAltItem,freqPerWeek,count:items.length};
+}
+function renderCompare(sid){
+  const el=document.getElementById(sid+'-compare-content');
+  if(!el)return;
+  const color=SECT_COLOR[sid];
+  el.innerHTML=`<div class="card">
+    <div class="card-title">⚖️ Confronta Periodi</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-bottom:6px">PERIODO A</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <input type="date" class="form-input" id="${sid}-cmp-a-from" style="font-size:12px">
+          <input type="date" class="form-input" id="${sid}-cmp-a-to" style="font-size:12px">
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-bottom:6px">PERIODO B</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <input type="date" class="form-input" id="${sid}-cmp-b-from" style="font-size:12px">
+          <input type="date" class="form-input" id="${sid}-cmp-b-to" style="font-size:12px">
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-bottom:16px" onclick="runCompare('${sid}')">▶ Confronta</button>
+    <div id="${sid}-cmp-result"></div>
+  </div>`;
+  const today=new Date();
+  const fmt=d=>d.toISOString().split('T')[0];
+  const aTo=new Date(today);aTo.setDate(aTo.getDate()-1);
+  const aFrom=new Date(aTo);aFrom.setDate(aFrom.getDate()-29);
+  const bTo=new Date(aFrom);bTo.setDate(bTo.getDate()-1);
+  const bFrom=new Date(bTo);bFrom.setDate(bFrom.getDate()-29);
+  document.getElementById(sid+'-cmp-a-from').value=fmt(aFrom);
+  document.getElementById(sid+'-cmp-a-to').value=fmt(aTo);
+  document.getElementById(sid+'-cmp-b-from').value=fmt(bFrom);
+  document.getElementById(sid+'-cmp-b-to').value=fmt(bTo);
+}
+function runCompare(sid){
+  const aFrom=document.getElementById(sid+'-cmp-a-from').value;
+  const aTo=document.getElementById(sid+'-cmp-a-to').value;
+  const bFrom=document.getElementById(sid+'-cmp-b-from').value;
+  const bTo=document.getElementById(sid+'-cmp-b-to').value;
+  if(!aFrom||!aTo||!bFrom||!bTo){toast('Seleziona tutti e 4 i campi data','err');return;}
+  const all=getItemsForSection(sid);
+  const filterRange=(items,from,to)=>items.filter(w=>{
+    const d=parseLocalDate(w.date);
+    return d>=parseLocalDate(from)&&d<=parseLocalDate(to);
+  });
+  const A=calcStats(filterRange(all,aFrom,aTo),aFrom,aTo);
+  const B=calcStats(filterRange(all,bFrom,bTo),bFrom,bTo);
+  const color=SECT_COLOR[sid];
+  const isHike=sid==='hiking'||sid==='trailhike';
+  const delta=(a,b,higher=true)=>{
+    if(a==null&&b==null)return'';
+    if(b==null||b===0)return a>0?'<span style="color:var(--green);font-size:10px;font-weight:700">+∞</span>':'';
+    if(a==null||a===0)return'<span style="color:var(--red);font-size:10px;font-weight:700">−∞</span>';
+    const pct=((a-b)/Math.abs(b)*100);
+    const pos=higher?(pct>=0):(pct<=0);
+    const sign=pct>=0?'+':'';
+    return'<span style="color:'+(pos?'var(--green)':'var(--red)')+';font-size:11px;font-weight:700">'+sign+pct.toFixed(1)+'%</span>';
+  };
+  const row=(icon,label,va,vb,rawA,rawB,higher=true)=>
+    '<div style="display:grid;grid-template-columns:155px 1fr 54px 1fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">'+
+    '<div style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px"><span>'+icon+'</span>'+label+'</div>'+
+    '<div style="font-family:var(--font-head);font-size:15px;font-weight:700;color:'+color+'">'+va+'</div>'+
+    '<div style="text-align:center">'+delta(rawA,rawB,higher)+'</div>'+
+    '<div style="font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--muted)">'+vb+'</div></div>';
+  const section=t=>'<div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;padding:14px 0 4px;border-top:1.5px solid var(--border2);margin-top:6px">'+t+'</div>';
+  const fmtLbl=d=>d.slice(5).replace('-','/');
+  let html=
+    '<div style="display:grid;grid-template-columns:155px 1fr 54px 1fr;gap:8px;padding-bottom:12px;border-bottom:2px solid var(--border);margin-bottom:4px">'+
+    '<div></div>'+
+    '<div style="font-size:11px;font-weight:700;color:'+color+'">A: '+fmtLbl(aFrom)+' → '+fmtLbl(aTo)+'</div>'+
+    '<div></div>'+
+    '<div style="font-size:11px;font-weight:700;color:var(--muted)">B: '+fmtLbl(bFrom)+' → '+fmtLbl(bTo)+'</div></div>'+
+
+    section('📊 Volume')+
+    row('🏃‍♂️','Attività',A.count,B.count,A.count,B.count)+
+    row('🛤️','Km totali',A.km.toFixed(1)+' km',B.km.toFixed(1)+' km',A.km,B.km)+
+    row('📈','Dislivello tot.',A.elev>0?(A.elev/1000).toFixed(1)+'k m+':'0 m+',B.elev>0?(B.elev/1000).toFixed(1)+'k m+':'0 m+',A.elev,B.elev)+
+    row('⏱️','Ore totali',fmtDur(A.dur),fmtDur(B.dur),A.dur,B.dur)+
+    row('📆','Freq./settimana',A.freqPerWeek?A.freqPerWeek+' /sett':'--',B.freqPerWeek?B.freqPerWeek+' /sett':'--',A.freqPerWeek,B.freqPerWeek)+
+
+    section('🏆 Top Performance')+
+    row('📏','Distanza max',A.maxDistItem?A.maxDistItem.distance.toFixed(1)+' km':'--',B.maxDistItem?B.maxDistItem.distance.toFixed(1)+' km':'--',A.maxDistItem?.distance,B.maxDistItem?.distance)+
+    row('🏔️','Dislivello max',A.maxElevItem?.elevGain?A.maxElevItem.elevGain+'m':'--',B.maxElevItem?.elevGain?B.maxElevItem.elevGain+'m':'--',A.maxElevItem?.elevGain,B.maxElevItem?.elevGain)+
+    (A.maxAltItem||B.maxAltItem?row('⛰️','Quota max',A.maxAltItem?.maxAlt?A.maxAltItem.maxAlt+'m':'--',B.maxAltItem?.maxAlt?B.maxAltItem.maxAlt+'m':'--',A.maxAltItem?.maxAlt,B.maxAltItem?.maxAlt):'');
+
+  if(!isHike){
+    html+=section('⚡ Passo & FC');
+    if(A.avgP||B.avgP) html+=row('⚡','Passo medio',A.avgP?s2p(A.avgP)+'/km':'--',B.avgP?s2p(B.avgP)+'/km':'--',B.avgP,A.avgP,false);
+    if(A.bestP||B.bestP) html+=row('🏆','Passo migliore',A.bestP?s2p(A.bestP)+'/km':'--',B.bestP?s2p(B.bestP)+'/km':'--',B.bestP,A.bestP,false);
+    if(A.avgHR||B.avgHR) html+=row('❤️','FC media',A.avgHR?A.avgHR+' bpm':'--',B.avgHR?B.avgHR+' bpm':'--',B.avgHR,A.avgHR,false);
+    if(A.avgEff||B.avgEff) html+=row('💓','Efficienza card.',A.avgEff||'--',B.avgEff||'--',B.avgEff,A.avgEff,false);
+  } else {
+    if(A.avgHR||B.avgHR){
+      html+=section('❤️ FC');
+      html+=row('❤️','FC media',A.avgHR?A.avgHR+' bpm':'--',B.avgHR?B.avgHR+' bpm':'--',B.avgHR,A.avgHR,false);
+    }
+  }
+
+  html+='<div style="margin-top:14px;padding:10px;background:var(--bg2);border-radius:8px;font-size:12px;color:var(--muted);text-align:center">'+
+    (A.count===0&&B.count===0?'Nessuna attività in entrambi i periodi':
+     A.count===0?'Nessuna attività nel periodo A':
+     B.count===0?'Nessuna attività nel periodo B':
+     'Periodo A: <strong>'+A.count+'</strong> attività &nbsp;|&nbsp; Periodo B: <strong>'+B.count+'</strong> attività')+
+    '</div>';
+  document.getElementById(sid+'-cmp-result').innerHTML=html;
+}
 
 // ══ BOOT ══
 loadState();
