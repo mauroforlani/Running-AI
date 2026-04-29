@@ -104,6 +104,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:22p
 /* KPI avanzati */
 .kpi-adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:4px 0 16px;}
 @media(max-width:700px){.kpi-adv-grid{grid-template-columns:repeat(2,1fr);}}
+.top-perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .kpi-adv{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
 .kpi-adv::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
 .kpi-adv.kpi-red::before{background:#e05050;}
@@ -334,7 +335,7 @@ select.form-input{cursor:pointer;}
       <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="road-chart-pace" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="road-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="road-top" class="top-perf-grid"></div></div>
       <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="road-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
     </div>
   </div>
@@ -404,7 +405,7 @@ select.form-input{cursor:pointer;}
       <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="trail-chart-pace" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="trail-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="trail-top" class="top-perf-grid"></div></div>
       <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="trail-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
     </div>
   </div>
@@ -474,7 +475,7 @@ select.form-input{cursor:pointer;}
       <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="hiking-chart-pace" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="hiking-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="hiking-top" class="top-perf-grid"></div></div>
       <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="hiking-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
     </div>
   </div>
@@ -544,7 +545,7 @@ select.form-input{cursor:pointer;}
       <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="roadtrail-chart-pace" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="roadtrail-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="roadtrail-top" class="top-perf-grid"></div></div>
       <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="roadtrail-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
     </div>
   </div>
@@ -629,7 +630,7 @@ select.form-input{cursor:pointer;}
       <div class="card"><div class="card-title">⏱ Passo nel tempo</div><div id="trailhike-chart-pace" style="height:130px"></div></div>
     </div>
     <div class="dash-two-col">
-      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="trailhike-top" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"></div></div>
+      <div class="card"><div class="card-title">🏆 Top Performances</div><div id="trailhike-top" class="top-perf-grid"></div></div>
       <div class="card"><div class="card-title">📆 Distribuzione tipo</div><div id="trailhike-distrib" style="display:flex;gap:18px;flex-wrap:wrap;margin-top:6px"></div></div>
     </div>
   </div>
@@ -927,8 +928,8 @@ function detectRunType(t,ti){
   if(ti.includes('base'))return'base';
   return'running';
 }
-const RUN_ICON={running:'🏃',trail:'🏔',interval:'⚡',long:'🛣',recovery:'🧘',base:'🏃'};
-const RUN_LBL={running:'Running',trail:'Trail Running',interval:'Interval',long:'Long Run',recovery:'Recovery',base:'Base'};
+const RUN_ICON={running:'🏃‍♂️',trail:'🏔️',interval:'🔥',long:'🛤️',recovery:'🌿',base:'👟'};
+const RUN_LBL={running:'Running',trail:'Trail Running',interval:'Running',long:'Running',recovery:'Running',base:'Running'};
 const RUN_COL={running:'var(--accent)',trail:'var(--trail)',interval:'var(--yellow)',long:'var(--green)',recovery:'var(--muted)',base:'var(--muted2)'};
 const HIKE_ICON={'hike':'🥾','hike-multi':'🎒','hike-alpine':'🧗'};
 const HIKE_LBL={'hike':'Escursione','hike-multi':'Trekking','hike-alpine':'Alpinismo'};
@@ -1903,14 +1904,14 @@ function topPerf(ws,id,color){
   const fastest=runs.filter(w=>w.paceSeconds).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
   const mostElev=runs.slice().sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
   el.innerHTML=[
-    {icon:'🛣',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
+    {icon:'📏',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
     {icon:'⚡',label:'Passo Migliore',val:fastest?s2p(fastest.paceSeconds)+'/km':'--',sub:fastest?.title},
-    {icon:'🏔',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
-  ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:14px;text-align:center">
-    <div style="font-size:18px;margin-bottom:4px">${p.icon}</div>
-    <div style="font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:.5px">${p.label}</div>
-    <div style="font-family:var(--font-head);font-size:20px;font-weight:700;color:${color}">${p.val}</div>
-    <div style="font-size:10px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.sub||''}</div>
+    {icon:'📈',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
+  ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px">
+    <div style="font-size:22px">${p.icon}</div>
+    <div style="font-size:10px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;font-weight:600">${p.label}</div>
+    <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:${color};line-height:1.1">${p.val}</div>
+    <div style="font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%">${p.sub||''}</div>
   </div>`).join('');
 }
 function hikeTopPerf(hs){
@@ -1920,14 +1921,14 @@ function hikeTopPerf(hs){
   const mostElev=hikes.slice().sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
   const highest=hikes.filter(h=>h.maxAlt).sort((a,b)=>(b.maxAlt||0)-(a.maxAlt||0))[0];
   el.innerHTML=[
-    {icon:'🛣',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
-    {icon:'🏔',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
-    {icon:'⛰',label:'Quota Max',val:highest?.maxAlt?highest.maxAlt+'m':'--',sub:highest?.title},
-  ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:14px;text-align:center">
-    <div style="font-size:18px;margin-bottom:4px">${p.icon}</div>
-    <div style="font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:.5px">${p.label}</div>
-    <div style="font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--hike)">${p.val}</div>
-    <div style="font-size:10px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.sub||''}</div>
+    {icon:'📏',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
+    {icon:'📈',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
+    {icon:'🏔️',label:'Quota Max',val:highest?.maxAlt?highest.maxAlt+'m':'--',sub:highest?.title},
+  ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px">
+    <div style="font-size:22px">${p.icon}</div>
+    <div style="font-size:10px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;font-weight:600">${p.label}</div>
+    <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--hike);line-height:1.1">${p.val}</div>
+    <div style="font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%">${p.sub||''}</div>
   </div>`).join('');
 }
 function distribChart(ws,id,icons,labels,colors){
