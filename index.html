@@ -244,31 +244,31 @@ select.form-input{cursor:pointer;}
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;max-width:900px;margin:0 auto 28px">
     <div class="home-card home-card-run" onclick="openSection('road')" style="border-radius:12px;padding:24px 20px">
-      <span class="home-card-emoji" style="font-size:36px">🏃</span>
+      <span class="home-card-emoji" style="font-size:40px">🏃‍♂️</span>
       <div class="home-card-title" style="font-size:20px">Running</div>
-      <div class="home-card-desc">Road, interval, long run</div>
+      <div class="home-card-desc">Road, asfalto, pista</div>
       <div class="home-card-arrow">→</div>
     </div>
     <div class="home-card" onclick="openSection('trail')" style="border-radius:12px;padding:24px 20px;background:linear-gradient(135deg,var(--trail-bg) 0%,#e0d4f8 100%);border-color:#d0bef8">
-      <span class="home-card-emoji" style="font-size:36px">🏔</span>
+      <span class="home-card-emoji" style="font-size:40px">🏔️</span>
       <div class="home-card-title" style="font-size:20px;color:var(--trail)">Trail Running</div>
       <div class="home-card-desc">Off-road, montagna</div>
       <div class="home-card-arrow" style="color:var(--trail)">→</div>
     </div>
     <div class="home-card home-card-hike" onclick="openSection('hiking')" style="border-radius:12px;padding:24px 20px">
-      <span class="home-card-emoji" style="font-size:36px">🥾</span>
+      <span class="home-card-emoji" style="font-size:40px">🥾</span>
       <div class="home-card-title" style="font-size:20px">Hiking</div>
       <div class="home-card-desc">Escursioni, trekking</div>
       <div class="home-card-arrow">→</div>
     </div>
     <div class="home-card" onclick="openSection('roadtrail')" style="border-radius:12px;padding:24px 20px;background:linear-gradient(135deg,#fff0eb 0%,var(--trail-bg) 100%);border-color:var(--accent-mid)">
-      <span class="home-card-emoji" style="font-size:36px">🏃🏔</span>
+      <span class="home-card-emoji" style="font-size:40px">🏃‍♂️🏔️</span>
       <div class="home-card-title" style="font-size:18px;color:var(--accent)">Run + Trail</div>
       <div class="home-card-desc">Tutto il running</div>
       <div class="home-card-arrow">→</div>
     </div>
     <div class="home-card" onclick="openSection('trailhike')" style="border-radius:12px;padding:24px 20px;background:linear-gradient(135deg,var(--trail-bg) 0%,var(--hike-bg) 100%);border-color:#c0d8b0">
-      <span class="home-card-emoji" style="font-size:36px">🏔🥾</span>
+      <span class="home-card-emoji" style="font-size:40px">🏔️🥾</span>
       <div class="home-card-title" style="font-size:18px;color:var(--trail)">Trail + Hike</div>
       <div class="home-card-desc">Montagna totale</div>
       <div class="home-card-arrow">→</div>
@@ -297,9 +297,9 @@ select.form-input{cursor:pointer;}
 <!-- ═══ SECTION: ROAD ═══ -->
 <div id="page-road" style="display:none">
   <div class="tabs" id="road-tabs">
-    <button class="tab active-run" id="road-tab-btn-dash" onclick="switchTab('road','dashboard',this)">📊 Dashboard</button>
-    <button class="tab" id="road-tab-btn-act" onclick="switchTab('road','activities',this)">🏃 Attività</button>
-    <button class="tab" id="road-tab-btn-coach" onclick="switchTab('road','coach',this)">🤖 AI Coach</button>
+    <button class="tab active-run" id="road-tab-btn-dash" onclick="switchTab('road','dashboard',this)">📈 Dashboard</button>
+    <button class="tab" id="road-tab-btn-act" onclick="switchTab('road','activities',this)">🏃‍♂️ Attività</button>
+    <button class="tab" id="road-tab-btn-coach" onclick="switchTab('road','coach',this)">✨ AI Coach</button>
   </div>
   <!-- DASHBOARD -->
   <div id="road-tab-dashboard" class="section">
@@ -362,13 +362,13 @@ select.form-input{cursor:pointer;}
     </div>
     <div id="road-act-grid"></div>
   </div>
-  <!-- AI COACH --><div id="road-tab-coach" class="section" style="display:none"><div class="card"><div class="card-title">🤖 AI Coach — Analisi Stato di Forma</div><div class="api-key-section"><div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div><div style="display:flex;gap:8px;align-items:center"><input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px"><button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button></div><div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div></div><button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button><div id="ai-result" style="display:none"></div></div></div>
+  <!-- AI COACH --><div id="road-tab-coach" class="section" style="display:none"><div class="card"><div class="card-title">✨ AI Coach — Analisi Stato di Forma</div><div class="api-key-section"><div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div><div style="display:flex;gap:8px;align-items:center"><input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px"><button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button></div><div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div></div><button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button><div id="ai-result" style="display:none"></div></div></div>
 </div>
 <!-- ═══ SECTION: TRAIL ═══ -->
 <div id="page-trail" style="display:none">
   <div class="tabs" id="trail-tabs">
-    <button class="tab active-trail" id="trail-tab-btn-dash" onclick="switchTab('trail','dashboard',this)">📊 Dashboard</button>
-    <button class="tab" id="trail-tab-btn-act" onclick="switchTab('trail','activities',this)">🏔 Attività</button>
+    <button class="tab active-trail" id="trail-tab-btn-dash" onclick="switchTab('trail','dashboard',this)">📈 Dashboard</button>
+    <button class="tab" id="trail-tab-btn-act" onclick="switchTab('trail','activities',this)">🏔️ Attività</button>
     
   </div>
   <!-- DASHBOARD -->
@@ -437,7 +437,7 @@ select.form-input{cursor:pointer;}
 <!-- ═══ SECTION: HIKING ═══ -->
 <div id="page-hiking" style="display:none">
   <div class="tabs" id="hiking-tabs">
-    <button class="tab active-hike" id="hiking-tab-btn-dash" onclick="switchTab('hiking','dashboard',this)">📊 Dashboard</button>
+    <button class="tab active-hike" id="hiking-tab-btn-dash" onclick="switchTab('hiking','dashboard',this)">📈 Dashboard</button>
     <button class="tab" id="hiking-tab-btn-act" onclick="switchTab('hiking','activities',this)">🥾 Attività</button>
     
   </div>
@@ -507,9 +507,9 @@ select.form-input{cursor:pointer;}
 <!-- ═══ SECTION: ROADTRAIL ═══ -->
 <div id="page-roadtrail" style="display:none">
   <div class="tabs" id="roadtrail-tabs">
-    <button class="tab active-run" id="roadtrail-tab-btn-dash" onclick="switchTab('roadtrail','dashboard',this)">📊 Dashboard</button>
-    <button class="tab" id="roadtrail-tab-btn-act" onclick="switchTab('roadtrail','activities',this)">🏃🏔 Attività</button>
-    <button class="tab" id="roadtrail-tab-btn-coach" onclick="switchTab('roadtrail','coach',this)">🤖 AI Coach</button>
+    <button class="tab active-run" id="roadtrail-tab-btn-dash" onclick="switchTab('roadtrail','dashboard',this)">📈 Dashboard</button>
+    <button class="tab" id="roadtrail-tab-btn-act" onclick="switchTab('roadtrail','activities',this)">🏃🏔️ Attività</button>
+    <button class="tab" id="roadtrail-tab-btn-coach" onclick="switchTab('roadtrail','coach',this)">✨ AI Coach</button>
   </div>
   <!-- DASHBOARD -->
   <div id="roadtrail-tab-dashboard" class="section">
@@ -575,7 +575,7 @@ select.form-input{cursor:pointer;}
   <!-- AI COACH -->
   <div id="roadtrail-tab-coach" class="section" style="display:none">
     <div class="card">
-      <div class="card-title">🤖 AI Coach — Analisi Stato di Forma</div>
+      <div class="card-title">✨ AI Coach — Analisi Stato di Forma</div>
       <div class="api-key-section">
         <div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div>
         <div style="display:flex;gap:8px;align-items:center">
@@ -592,8 +592,8 @@ select.form-input{cursor:pointer;}
 <!-- ═══ SECTION: TRAILHIKE ═══ -->
 <div id="page-trailhike" style="display:none">
   <div class="tabs" id="trailhike-tabs">
-    <button class="tab active-trail" id="trailhike-tab-btn-dash" onclick="switchTab('trailhike','dashboard',this)">📊 Dashboard</button>
-    <button class="tab" id="trailhike-tab-btn-act" onclick="switchTab('trailhike','activities',this)">🏔🥾 Attività</button>
+    <button class="tab active-trail" id="trailhike-tab-btn-dash" onclick="switchTab('trailhike','dashboard',this)">📈 Dashboard</button>
+    <button class="tab" id="trailhike-tab-btn-act" onclick="switchTab('trailhike','activities',this)">🏔️🥾 Attività</button>
     
   </div>
   <!-- DASHBOARD -->
@@ -662,10 +662,10 @@ select.form-input{cursor:pointer;}
 
 <!-- MODALS -->
 <div class="modal-overlay" id="workout-modal" style="display:none" onclick="if(event.target===this)closeModal('workout-modal')">
-  <div class="modal"><h3>🏃 Nuovo Allenamento Running</h3>
+  <div class="modal"><h3>🏃‍♂️ Nuovo Allenamento</h3>
     <div class="form-grid">
       <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="date" id="w-date"></div>
-      <div class="form-group"><label class="form-label">Tipo</label><select class="form-input" id="w-type"><option value="running">Running</option><option value="trail">Trail Running</option><option value="interval">Interval</option><option value="long">Long Run</option><option value="base">Base</option><option value="recovery">Recovery</option></select></div>
+      <div class="form-group"><label class="form-label">Tipo</label><select class="form-input" id="w-type"><option value="running">Running</option><option value="trail">Trail Running</option></select></div>
       <div class="form-group"><label class="form-label">Titolo</label><input class="form-input" type="text" id="w-title" placeholder="es. Milan - Base"></div>
       <div class="form-group"><label class="form-label">Distanza (km)</label><input class="form-input" type="number" id="w-dist" placeholder="12.5" step="0.01"></div>
       <div class="form-group"><label class="form-label">Durata (min)</label><input class="form-input" type="number" id="w-dur" placeholder="65"></div>
@@ -722,11 +722,11 @@ select.form-input{cursor:pointer;}
 <div class="modal-overlay" id="admin-modal" style="display:none" onclick="if(event.target===this)closeModal('admin-modal')">
   <div class="modal modal-wide">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <h3 style="margin-bottom:0">🛠 Admin — Gestione Attività</h3>
+      <h3 style="margin-bottom:0">⚙️ Admin — Gestione Attività</h3>
       <button class="btn btn-secondary btn-sm" onclick="closeModal('admin-modal')">✕ Chiudi</button>
     </div>
     <div class="admin-tabs">
-      <button class="admin-tab at-run" id="at-run" onclick="switchAdminTab('run',this)">🏃 Running (<span id="admin-run-count">0</span>)</button>
+      <button class="admin-tab at-run" id="at-run" onclick="switchAdminTab('run',this)">🏃‍♂️ Running (<span id="admin-run-count">0</span>)</button>
       <button class="admin-tab" id="at-hike" onclick="switchAdminTab('hike',this)">🥾 Hiking (<span id="admin-hike-count">0</span>)</button>
     </div>
     <div id="admin-panel-run">
@@ -736,10 +736,6 @@ select.form-input{cursor:pointer;}
           <option value="">Tutti i tipi</option>
           <option value="running">Running</option>
           <option value="trail">Trail</option>
-          <option value="interval">Interval</option>
-          <option value="long">Long</option>
-          <option value="base">Base</option>
-          <option value="recovery">Recovery</option>
         </select>
         <input class="filter-input" type="date" id="admin-run-from" onchange="renderAdminTable('run')" style="width:130px">
         <span style="font-size:12px;color:var(--muted)">→</span>
@@ -759,8 +755,8 @@ select.form-input{cursor:pointer;}
       </div>
     <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;align-items:center">
         <span id="admin-run-info" style="font-size:12px;color:var(--muted);font-family:var(--font-mono)"></span>
-        <button class="btn btn-danger" onclick="adminDeleteSelected('run')">🗑 Elimina selezionati</button>
-        <button class="btn btn-danger" onclick="adminDeleteAll('run')" style="opacity:.7">⚠ Elimina TUTTI</button>
+        <button class="btn btn-danger" onclick="adminDeleteSelected('run')">🗑️ Elimina selezionati</button>
+        <button class="btn btn-danger" onclick="adminDeleteAll('run')" style="opacity:.7">⚠️ Elimina TUTTI</button>
       </div>
     </div>
     <div id="admin-panel-hike" style="display:none">
@@ -790,8 +786,8 @@ select.form-input{cursor:pointer;}
       </div>
       <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;align-items:center">
         <span id="admin-hike-info" style="font-size:12px;color:var(--muted);font-family:var(--font-mono)"></span>
-        <button class="btn btn-danger" onclick="adminDeleteSelected('hike')">🗑 Elimina selezionati</button>
-        <button class="btn btn-danger" onclick="adminDeleteAll('hike')" style="opacity:.7">⚠ Elimina TUTTI</button>
+        <button class="btn btn-danger" onclick="adminDeleteSelected('hike')">🗑️ Elimina selezionati</button>
+        <button class="btn btn-danger" onclick="adminDeleteAll('hike')" style="opacity:.7">⚠️ Elimina TUTTI</button>
       </div>
     </div>
     <!-- Cache section -->
@@ -799,7 +795,7 @@ select.form-input{cursor:pointer;}
       <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">🧹 Gestione Cache</div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <button class="btn btn-secondary btn-sm" onclick="adminClearCache('all')">🧹 Pulisci tutta la cache</button>
-        <button class="btn btn-secondary btn-sm" onclick="adminClearCache('github')">🔑 Reset config GitHub</button>
+        <button class="btn btn-secondary btn-sm" onclick="adminClearCache('github')">🔑 Reset GitHub</button>
         <button class="btn btn-secondary btn-sm" onclick="adminClearCache('apikey')">🤖 Reset API key</button>
         <span id="admin-cache-info" style="font-size:11px;color:var(--muted);font-family:var(--font-mono)"></span>
       </div>
@@ -809,7 +805,7 @@ select.form-input{cursor:pointer;}
 </div>
 
 <div class="modal-overlay" id="github-modal" style="display:none" onclick="if(event.target===this)closeModal('github-modal')">
-  <div class="modal"><h3>⚙ Configurazione GitHub Sync</h3>
+  <div class="modal"><h3>🔗 GitHub Sync</h3>
     <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">I tuoi dati verranno salvati come file JSON in un repository GitHub ad ogni import CSV o salvataggio Garmin. Usa un <strong>Personal Access Token</strong> con permesso <code>repo</code>.</p>
     <div class="form-grid">
       <div class="form-group full"><label class="form-label">GitHub Token (PAT)</label><input class="form-input" type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"></div>
@@ -841,15 +837,15 @@ let cur='home';
 const SECTIONS=['road','trail','hiking','roadtrail','trailhike'];
 // Types per section
 const SECT_TYPES={
-  road:['running','interval','long','base','recovery'],
+  road:['running'],
   trail:['trail'],
   hiking:['hike','hike-multi','hike-alpine'],
-  roadtrail:['running','interval','long','base','recovery','trail'],
+  roadtrail:['running','trail'],
   trailhike:['trail','hike','hike-multi','hike-alpine'],
 };
 const SECT_COLOR={road:'var(--accent)',trail:'var(--trail)',hiking:'var(--hike)',roadtrail:'var(--accent)',trailhike:'var(--trail)'};
 const SECT_LABEL={road:'Running',trail:'Trail Running',hiking:'Hiking',roadtrail:'Run + Trail',trailhike:'Trail + Hike'};
-const SECT_ICON={road:'🏃',trail:'🏔',hiking:'🥾',roadtrail:'🏃🏔',trailhike:'🏔🥾'};
+const SECT_ICON={road:'🏃‍♂️',trail:'🏔️',hiking:'🥾',roadtrail:'🏃🏔',trailhike:'🏔🥾'};
 const SECT_ISRUN={road:true,trail:true,hiking:false,roadtrail:true,trailhike:false};
 // period: days (0=all, 'custom'=use dfrom/dto)
 const sectPeriod={road:30,trail:30,hiking:30,roadtrail:30,trailhike:30};
@@ -880,10 +876,14 @@ function normalizeDates(hikes){
     return h;
   });
 }
+function migrateRunTypes(){
+  const legacy=['interval','long','base','recovery'];
+  (state.workouts||[]).forEach(w=>{if(legacy.includes(w.type))w.type='running';});
+}
 function loadState(){
-  try{const r=localStorage.getItem(DB_KEY);if(r){state=JSON.parse(r);state.hikes=normalizeDates(state.hikes);return;}}catch{}
+  try{const r=localStorage.getItem(DB_KEY);if(r){state=JSON.parse(r);state.hikes=normalizeDates(state.hikes);migrateRunTypes();return;}}catch{}
   try{const r=localStorage.getItem('runai-v4');if(r){const o=JSON.parse(r);state.workouts=o.workouts||[];state.garminReadings=o.garminReadings||[];}}catch{}
-  try{const e=document.getElementById('embedded-state');if(e&&e.textContent.trim()&&e.textContent.trim()!=='{}'){state=JSON.parse(e.textContent);state.hikes=normalizeDates(state.hikes);}}catch{}
+  try{const e=document.getElementById('embedded-state');if(e&&e.textContent.trim()&&e.textContent.trim()!=='{}'){state=JSON.parse(e.textContent);state.hikes=normalizeDates(state.hikes);migrateRunTypes();}}catch{}
   if(!state.hikes)state.hikes=[];
 }
 function saveState(){
@@ -922,14 +922,14 @@ function s2p(sec){if(!sec)return'--';return`${Math.floor(sec/60)}:${String(sec%6
 function detectRunType(t,ti){
   t=(t||'').toLowerCase();ti=(ti||'').toLowerCase();
   if(t.includes('trail'))return'trail';
-  if(ti.includes('vo2')||ti.includes('interval')||ti.includes('sprint'))return'interval';
-  if(ti.includes('long'))return'long';
-  if(ti.includes('recovery'))return'recovery';
-  if(ti.includes('base'))return'base';
+  if(ti.includes('vo2')||ti.includes('interval')||ti.includes('sprint'))return'running';
+  if(ti.includes('long'))return'running';
+  if(ti.includes('recovery'))return'running';
+  if(ti.includes('base'))return'running';
   return'running';
 }
-const RUN_ICON={running:'🏃‍♂️',trail:'🏔️',interval:'🔥',long:'🛤️',recovery:'🌿',base:'👟'};
-const RUN_LBL={running:'Running',trail:'Trail Running',interval:'Running',long:'Running',recovery:'Running',base:'Running'};
+const RUN_ICON={running:'🏃‍♂️',trail:'🏔️'};
+const RUN_LBL={running:'Running',trail:'Trail Running'};
 const RUN_COL={running:'var(--accent)',trail:'var(--trail)',interval:'var(--yellow)',long:'var(--green)',recovery:'var(--muted)',base:'var(--muted2)'};
 const HIKE_ICON={'hike':'🥾','hike-multi':'🎒','hike-alpine':'🧗'};
 const HIKE_LBL={'hike':'Escursione','hike-multi':'Trekking','hike-alpine':'Alpinismo'};
@@ -956,12 +956,12 @@ function hide(id){const el=document.getElementById(id);if(el)el.style.display='n
 function renderHeaderBtns(){
   const el=document.getElementById('header-btns');
   if(cur==='home'){
-    el.innerHTML=`<button class="btn btn-secondary" onclick="openModal('garmin-modal')">⌚ + Garmin</button>
-    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
-    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙ GitHub</button>
-    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">☁ Sync</button>
-    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">⬇ Carica</button>
-    <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
+    el.innerHTML=`<button class="btn btn-secondary" onclick="openModal('garmin-modal')">⌚ Garmin</button>
+    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">⚙️ Admin</button>
+    <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">🔗 GitHub</button>
+    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">↑ Sync</button>
+    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">↓ Carica</button>
+    <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Esporta</button>`;
   } else {
     const isHike=cur==='hiking'||cur==='trailhike';
     const color=SECT_COLOR[cur]||'var(--accent)';
@@ -975,11 +975,11 @@ function renderHeaderBtns(){
     ${isHike||cur==='trailhike'?`<button class="btn btn-import-hike" onclick="document.getElementById('csv-hike').click()">⬆ CSV Hiking</button>`:''}
     <button class="btn btn-secondary" onclick="openModal('workout-modal')">+ Run</button>
     <button class="btn btn-hike" onclick="openModal('hike-modal')">+ Hike</button>
-    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
+    <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">⚙️ Admin</button>
     <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
-    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">☁ Sync</button>
-    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">⬇ Carica</button>
-    <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
+    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">↑ Sync</button>
+    <button class="btn btn-secondary btn-sm" id="load-btn" onclick="loadFromGitHub()">↓ Carica</button>
+    <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Esporta</button>`;
   }
 }
 
@@ -1269,7 +1269,7 @@ function renderGarminInSection(prefix){
 function getItemsForSection(sid){
   // Returns all items (workouts + hikes) relevant to this section
   const types=SECT_TYPES[sid]||[];
-  const isRunType=t=>['running','interval','long','base','recovery','trail'].includes(t);
+  const isRunType=t=>['running','trail'].includes(t);
   const all=[
     ...state.workouts.filter(w=>types.includes(w.type)),
     ...state.hikes.filter(h=>types.includes(h.type)),
@@ -1369,22 +1369,22 @@ function renderSectionDashboard(sid){
     advEl.innerHTML=`
       <div class="kpi-adv kpi-red">
         <div class="kpi-adv-val">${avgEff||'--'}</div>
-        <div class="kpi-adv-lbl">⚡ Efficienza Cardiaca</div>
+        <div class="kpi-adv-lbl">❤️ Efficienza Cardiaca</div>
         <div class="kpi-adv-sub">sec/km per bpm ×100</div>
       </div>
       <div class="kpi-adv kpi-green">
         <div class="kpi-adv-val">${freqPerWeek||'--'}<span style="font-size:12px;font-weight:400;color:var(--muted)"> /sett</span></div>
-        <div class="kpi-adv-lbl">📅 Frequenza</div>
+        <div class="kpi-adv-lbl">📆 Frequenza</div>
         <div class="kpi-adv-sub">${items.length} attività nel periodo</div>
       </div>
       <div class="kpi-adv">
         <div class="kpi-adv-val">${bestPaceItem?s2p(bestPaceItem.paceSeconds):'--'}</div>
-        <div class="kpi-adv-lbl">🏅 Passo migliore</div>
+        <div class="kpi-adv-lbl">⚡ Passo migliore</div>
         <div class="kpi-adv-sub" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${bestPaceItem?.title||'—'}</div>
       </div>
       <div class="kpi-adv kpi-trail">
         <div class="kpi-adv-val">${maxElevItem?.elevGain?maxElevItem.elevGain+'m':'--'}</div>
-        <div class="kpi-adv-lbl">🏔 Dislivello max</div>
+        <div class="kpi-adv-lbl">📈 Dislivello max</div>
         <div class="kpi-adv-sub" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${maxElevItem?.title||'—'}</div>
       </div>`;
   }
@@ -1407,9 +1407,9 @@ function renderSectionDashboard(sid){
     const fastest=items.filter(w=>w.paceSeconds&&w.paceSeconds<900).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
     const mostElev=items.filter(w=>w.elevGain).sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
     topEl.innerHTML=[
-      {icon:'🛣',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
+      {icon:'🛤️',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
       {icon:'⚡',label:'Passo Migliore',val:fastest?s2p(fastest.paceSeconds)+'/km':'--',sub:fastest?.title},
-      {icon:'🏔',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
+      {icon:'🏔️',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
     ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:14px;text-align:center">
       <div style="font-size:18px;margin-bottom:4px">${p.icon}</div>
       <div style="font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:.5px">${p.label}</div>
@@ -1504,7 +1504,7 @@ function renderRunDashboard(){
     {val:avgHR||'--',unit:' bpm',lbl:'FC media'},
   ]);
 
-  const roadT=['running','interval','long','base','recovery'];
+  const roadT=['running'];
   const wsR=getDashRun().filter(w=>roadT.includes(w.type));
   const kmR=wsR.reduce((s,w)=>s+(w.distance||0),0);
   const minR=wsR.reduce((s,w)=>s+(w.duration||0),0);
@@ -1532,22 +1532,22 @@ function renderRunDashboard(){
   if(el_adv)el_adv.innerHTML=`
     <div class="kpi-adv kpi-red">
       <div class="kpi-adv-val">${avgEff||'--'}</div>
-      <div class="kpi-adv-lbl">⚡ Efficienza Cardiaca</div>
+      <div class="kpi-adv-lbl">❤️ Efficienza Cardiaca</div>
       <div class="kpi-adv-sub">sec/km per bpm ×100 — più basso = meglio</div>
     </div>
     <div class="kpi-adv kpi-green">
       <div class="kpi-adv-val">${freqPerWeek||'--'}<span style="font-size:13px;font-family:var(--font-body);font-weight:400;color:var(--muted)"> /sett</span></div>
-      <div class="kpi-adv-lbl">📅 Frequenza allenamenti</div>
+      <div class="kpi-adv-lbl">📆 Frequenza allenamenti</div>
       <div class="kpi-adv-sub">${allSessions} sessioni nel periodo</div>
     </div>
     <div class="kpi-adv kpi-blue">
       <div class="kpi-adv-val">${kmTrend!=null?(+kmTrend>=0?'↑':'↓')+Math.abs(kmTrend)+'%':'--'}</div>
-      <div class="kpi-adv-lbl">📈 Volume vs periodo prec.</div>
+      <div class="kpi-adv-lbl">📊 Volume vs periodo prec.</div>
       <div class="kpi-adv-sub">${kmR.toFixed(1)} km (prec. ${prevKmR.toFixed(1)} km)</div>
     </div>
     <div class="kpi-adv">
       <div class="kpi-adv-val">${bestEffW?s2p(bestEffW.paceSeconds):'--'}</div>
-      <div class="kpi-adv-lbl">🏅 Passo migliore (periodo)</div>
+      <div class="kpi-adv-lbl">⚡ Passo migliore (periodo)</div>
       <div class="kpi-adv-sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${bestEffW?.title||'—'}</div>
     </div>`;
 
@@ -1761,7 +1761,7 @@ function renderCards(list,containerId,icons,labels,sect){
     const typeTag=`<span class="tag ${isRun?'accent':'hike'}" style="font-size:9px;padding:2px 5px">${(labels[w.type]||w.type||'').toUpperCase()}</span>`;
     return`<div class="act-row">
       <div class="act-row-bar ${w.type}-type"></div>
-      <span class="act-row-icon">${icons[w.type]||'🏃'}</span>
+      <span class="act-row-icon">${icons[w.type]||'🏃‍♂️'}</span>
       <div class="act-row-main">
         <div class="act-row-title">${w.title||labels[w.type]||'—'}</div>
         <div class="act-row-meta">${fmtDate(w.date)}${w.source==='garmin_import'?' · <span class="badge-garmin">GARMIN</span>':''}</div>
@@ -1904,9 +1904,9 @@ function topPerf(ws,id,color){
   const fastest=runs.filter(w=>w.paceSeconds).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
   const mostElev=runs.slice().sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
   el.innerHTML=[
-    {icon:'📏',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
+    {icon:'🛤️',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
     {icon:'⚡',label:'Passo Migliore',val:fastest?s2p(fastest.paceSeconds)+'/km':'--',sub:fastest?.title},
-    {icon:'📈',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
+    {icon:'🏔️',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
   ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px">
     <div style="font-size:22px">${p.icon}</div>
     <div style="font-size:10px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;font-weight:600">${p.label}</div>
@@ -1921,9 +1921,9 @@ function hikeTopPerf(hs){
   const mostElev=hikes.slice().sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
   const highest=hikes.filter(h=>h.maxAlt).sort((a,b)=>(b.maxAlt||0)-(a.maxAlt||0))[0];
   el.innerHTML=[
-    {icon:'📏',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
-    {icon:'📈',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
-    {icon:'🏔️',label:'Quota Max',val:highest?.maxAlt?highest.maxAlt+'m':'--',sub:highest?.title},
+    {icon:'🛤️',label:'Distanza Max',val:longest?longest.distance.toFixed(1)+' km':'--',sub:longest?.title},
+    {icon:'🏔️',label:'Dislivello Max',val:mostElev?.elevGain?mostElev.elevGain+'m':'--',sub:mostElev?.title},
+    {icon:'⛰️',label:'Quota Max',val:highest?.maxAlt?highest.maxAlt+'m':'--',sub:highest?.title},
   ].map(p=>`<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px">
     <div style="font-size:22px">${p.icon}</div>
     <div style="font-size:10px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;font-weight:600">${p.label}</div>
@@ -2266,18 +2266,18 @@ async function testGitHubConnection(){
 async function manualSync(){
   const cfg=getGitHubConfig();
   if(!cfg.token||!cfg.owner||!cfg.repo){
-    toast('⚠ GitHub non configurato — vai su ⚙ GitHub','err');
+    toast('⚠ GitHub non configurato — vai su 🔗 GitHub','err');
     return;
   }
   const btn=document.getElementById('sync-btn');
   if(btn){btn.textContent='⏳ Sync…';btn.disabled=true;}
   await syncToGitHub();
-  if(btn){btn.textContent='☁ Sync';btn.disabled=false;}
+  if(btn){btn.textContent='↑ Sync';btn.disabled=false;}
 }
 async function loadFromGitHub(){
   const cfg=getGitHubConfig();
   if(!cfg.token||!cfg.owner||!cfg.repo){
-    toast('⚠ GitHub non configurato — vai su ⚙ GitHub','err');
+    toast('⚠ GitHub non configurato — vai su 🔗 GitHub','err');
     return;
   }
   const btn=document.getElementById('load-btn');
@@ -2302,7 +2302,7 @@ async function loadFromGitHub(){
   }catch(e){
     toast('Errore caricamento: '+e.message,'err');
   }finally{
-    if(btn){btn.textContent='⬇ Carica';btn.disabled=false;}
+    if(btn){btn.textContent='↓ Carica';btn.disabled=false;}
   }
 }
 async function syncToGitHub(){
