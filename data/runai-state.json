@@ -17631,5 +17631,17 @@
       "source": "garmin_import"
     }
   ],
-  "garminReadings": []
+  "garminReadings": [
+    {
+      "id": 1777465264311,
+      "date": "2026-04-29",
+      "hrv": "49",
+      "trainingReadiness": "39",
+      "trainingLoad": "680",
+      "bodyBattery": "44",
+      "restingHR": "50",
+      "sleepScore": "69",
+      "stressLevel": "23"
+    }
+  ]
 }
