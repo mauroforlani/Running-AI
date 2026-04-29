@@ -943,6 +943,7 @@ function renderHeaderBtns(){
     el.innerHTML=`<button class="btn btn-secondary" onclick="openModal('garmin-modal')">⌚ + Garmin</button>
     <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
     <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙ GitHub</button>
+    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">☁ Sync</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   } else {
     const isHike=cur==='hiking'||cur==='trailhike';
@@ -959,6 +960,7 @@ function renderHeaderBtns(){
     <button class="btn btn-hike" onclick="openModal('hike-modal')">+ Hike</button>
     <button class="btn btn-secondary btn-sm" onclick="openAdminModal()">🛠 Admin</button>
     <button class="btn btn-secondary btn-sm" onclick="openGitHubModal()">⚙</button>
+    <button class="btn btn-secondary btn-sm" id="sync-btn" onclick="manualSync()">☁ Sync</button>
     <button class="btn btn-secondary btn-sm" onclick="exportHTML()">💾 Salva</button>`;
   }
 }
@@ -1955,7 +1957,7 @@ HRV:${gT.hrv_o??'?'}→${gT.hrv_r??'?'} | Readiness:${gT.read_o??'?'}→${gT.rea
 Rispondi SOLO JSON:
 {"fitnessScore":<0-100>,"status":"<Ottima forma|Buona forma|Recupero|Riposo necessario>","summary":"<2-3 frasi>","insights":["<1>","<2>","<3>","<4>"],"recommendation":"<raccomandazione>","warnings":[],"weeklyVolume":"<km totali>","weeklyVolumeRun":"<km road>","weeklyVolumeTrail":"<km trail>","trend":"<miglioramento|stabile|peggioramento>","garminTrend":"<miglioramento|stabile|peggioramento|dati insufficienti>"}`;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
     if(!res.ok){const err=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(err?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
     const text=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
@@ -2237,6 +2239,17 @@ async function testGitHubConnection(){
     if(res.ok){const d=await res.json();st.textContent=`✓ Connesso: ${d.full_name} (${d.private?'privato':'pubblico'})`;st.style.color='var(--green)';}
     else{const e=await res.json();st.textContent=`✗ Errore ${res.status}: ${e.message}`;st.style.color='var(--red)';}
   }catch(e){st.textContent='✗ Errore di rete: '+e.message;st.style.color='var(--red)';}
+}
+async function manualSync(){
+  const cfg=getGitHubConfig();
+  if(!cfg.token||!cfg.owner||!cfg.repo){
+    toast('⚠ GitHub non configurato — vai su ⚙ GitHub','err');
+    return;
+  }
+  const btn=document.getElementById('sync-btn');
+  if(btn){btn.textContent='⏳ Sync…';btn.disabled=true;}
+  await syncToGitHub();
+  if(btn){btn.textContent='☁ Sync';btn.disabled=false;}
 }
 async function syncToGitHub(){
   const cfg=getGitHubConfig();
