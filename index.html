@@ -1096,7 +1096,7 @@ function handleRunCSV(input){
           date:row['Date']?row['Date'].split(' ')[0]:'',
           type:detectRunType(typeRaw,title),activityType:typeRaw,title,
           distance:parseNum(row['Distance']),duration:parseDuration(row['Time']),
-          elevGain:parseNum(row['Total Ascent']),elevLoss:parseNum(row['Total Descent']),
+          elevGain:parseGarminNum(row['Total Ascent'],true)||parseGarminNum(row['Ascent'],true),elevLoss:parseGarminNum(row['Total Descent'],true),
           avgHR:parseNum(row['Avg HR']),maxHR:parseNum(row['Max HR']),
           aerobicTE:parseNum(row['Aerobic TE']),
           avgPace:row['Avg Pace']||null,bestPace:row['Best Pace']||null,
@@ -1128,14 +1128,17 @@ function parseGarminDate(raw){
   const datetime=`${date}T${hh.padStart(2,'0')}:${mm}:00`;
   return{date,datetime};
 }
-function parseGarminNum(s){
+function parseGarminNum(s,integerField=false){
   if(!s||s==='--'||s==='')return null;
   const clean=String(s).trim();
   const dotCount=(clean.match(/\./g)||[]).length;
   const commaCount=(clean.match(/,/g)||[]).length;
   let norm;
   if(commaCount===1&&dotCount===0){norm=clean.replace(',','.');}
-  else if(dotCount===1&&commaCount===0){norm=clean;}
+  else if(dotCount===1&&commaCount===0){
+    // Se è un campo intero (es. dislivello in metri), il punto è separatore migliaia
+    norm=integerField?clean.replace(/\./g,''):clean;
+  }
   else if(dotCount>1&&commaCount===0){norm=clean.replace(/\./g,'');}
   else{norm=clean.replace(/\./g,'').replace(',','.');}
   const n=parseFloat(norm);return isNaN(n)?null:n;
@@ -1173,10 +1176,10 @@ function handleHikeCSV(input){
           title:row['Title']||'Escursione',
           distance:parseGarminNum(row['Distance']),
           duration:parseDuration(row['Time']),
-          elevGain:parseGarminNum(row['Ascent'])||parseGarminNum(row['Total Ascent']),
-          elevLoss:parseGarminNum(row['Total Descent']),
-          maxAlt:parseGarminNum(row['Max Elevation']),
-          minAlt:parseGarminNum(row['Min Elevation']),
+          elevGain:parseGarminNum(row['Ascent'],true)||parseGarminNum(row['Total Ascent'],true),
+          elevLoss:parseGarminNum(row['Total Descent'],true),
+          maxAlt:parseGarminNum(row['Max Elevation'],true),
+          minAlt:parseGarminNum(row['Min Elevation'],true),
           avgHR:parseGarminNum(row['Avg HR']),
           maxHR:parseGarminNum(row['Max HR']),
           avgPace:paceRaw||null,paceSeconds:p2s(paceRaw),
