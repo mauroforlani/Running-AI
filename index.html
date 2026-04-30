@@ -1136,6 +1136,7 @@ function handleRunCSV(input){
           type:detectRunType(typeRaw,title),activityType:typeRaw,title,
           distance:parseNum(row['Distance']),duration:parseDuration(row['Time']),
           elevGain:parseGarminNum(row['Total Ascent'],true)||parseGarminNum(row['Ascent'],true),elevLoss:parseGarminNum(row['Total Descent'],true),
+          maxAlt:parseGarminNum(row['Max Elevation'],true),minAlt:parseGarminNum(row['Min Elevation'],true),
           avgHR:parseNum(row['Avg HR']),maxHR:parseNum(row['Max HR']),
           aerobicTE:parseNum(row['Aerobic TE']),
           avgPace:row['Avg Pace']||null,bestPace:row['Best Pace']||null,
@@ -2411,8 +2412,7 @@ function calcStats(items,fromDate,toDate){
   const avgEff=hrPaceItems.length?+(hrPaceItems.reduce((s,w)=>s+(w.paceSeconds/w.avgHR*100),0)/hrPaceItems.length).toFixed(1):null;
   const maxElevItem=items.filter(w=>w.elevGain).sort((a,b)=>(b.elevGain||0)-(a.elevGain||0))[0];
   const maxDistItem=items.filter(w=>w.distance).sort((a,b)=>(b.distance||0)-(a.distance||0))[0];
-  const hikeItems=items.filter(w=>['hike','hike-multi','hike-alpine'].includes(w.type));
-  const maxAltItem=(hikeItems.length?hikeItems:items).filter(w=>w.maxAlt).sort((a,b)=>(b.maxAlt||0)-(a.maxAlt||0))[0];
+  const maxAltItem=items.filter(w=>w.maxAlt).sort((a,b)=>(b.maxAlt||0)-(a.maxAlt||0))[0];
   const days=fromDate&&toDate?Math.max((parseLocalDate(toDate)-parseLocalDate(fromDate))/86400000,1):30;
   const freqPerWeek=items.length>0?+(items.length/(days/7)).toFixed(1):null;
   return{km,elev,dur,avgHR,avgP,bestP,avgEff,maxElevItem,maxDistItem,maxAltItem,freqPerWeek,count:items.length};
