@@ -908,11 +908,11 @@ function normalizeDates(hikes){
 function migrateElevGain(){
   let fixed=0;
   const fixArr=arr=>{(arr||[]).forEach(w=>{
-    // valori come 1.056 invece di 1056 — se elevGain < 20 e non intero, era in km
-    if(w.elevGain!=null&&w.elevGain>0&&w.elevGain<20&&!Number.isInteger(w.elevGain)){
+    // valori come 1.056 invece di 1056 — se elevGain < 500 e non intero, era in km
+    if(w.elevGain!=null&&w.elevGain>0&&w.elevGain<500&&!Number.isInteger(w.elevGain)){
       w.elevGain=Math.round(w.elevGain*1000);fixed++;
     }
-    if(w.elevLoss!=null&&w.elevLoss>0&&w.elevLoss<20&&!Number.isInteger(w.elevLoss)){
+    if(w.elevLoss!=null&&w.elevLoss>0&&w.elevLoss<500&&!Number.isInteger(w.elevLoss)){
       w.elevLoss=Math.round(w.elevLoss*1000);fixed++;
     }
   });};
@@ -2350,16 +2350,18 @@ async function loadFromGitHub(){
     const d=await res.json();
     const content=decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
     const loaded=JSON.parse(content);
-    if(!loaded.workouts&&!loaded.hikes){throw new Error('File non valido o vuoto');}
-    if(!confirm(`Trovati ${(loaded.workouts||[]).length} allenamenti e ${(loaded.hikes||[]).length} escursioni su GitHub.\nSostituire i dati locali?`))return;
+    if(!loaded.workouts&&!loaded.hikes&&!loaded.garminReadings){throw new Error('File non valido o vuoto');}
+    const garminCount=(loaded.garminReadings||[]).length;
+    if(!confirm(`Trovati su GitHub:\n• ${(loaded.workouts||[]).length} allenamenti\n• ${(loaded.hikes||[]).length} escursioni\n• ${garminCount} letture Garmin\n\nSostituire i dati locali?`))return;
     state=loaded;
     state.hikes=normalizeDates(state.hikes||[]);
     state.workouts=state.workouts||[];
     state.garminReadings=state.garminReadings||[];
+    migrateRunTypes();migrateElevGain();
     saveState();
     SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});
     renderHome();renderHeaderBtns();
-    toast(`✓ Caricati ${state.workouts.length} allenamenti e ${state.hikes.length} escursioni da GitHub`,'ok');
+    toast(`✓ Caricati ${state.workouts.length} allenamenti, ${state.hikes.length} escursioni, ${state.garminReadings.length} Garmin`,'ok');
   }catch(e){
     toast('Errore caricamento: '+e.message,'err');
   }finally{
