@@ -546,7 +546,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 131
     },
     {
       "id": "g-2026-03-18 20:07:38-sps",
@@ -569,7 +571,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 131
     },
     {
       "id": "g-2026-03-17 19:40:47-whq",
@@ -592,7 +596,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 147,
+      "minAlt": 139
     },
     {
       "id": "g-2026-03-15 08:10:57-o9g",
@@ -615,7 +621,9 @@
       "bodyBatteryDrain": -28,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1549,
+      "minAlt": 547
     },
     {
       "id": "g-2026-03-13 19:49:49-cvr",
@@ -638,7 +646,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 131
     },
     {
       "id": "g-2026-03-12 19:41:23-d0h",
@@ -661,7 +671,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 131
     },
     {
       "id": "g-2026-03-11 19:42:00-o2i",
@@ -684,7 +696,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 133
     },
     {
       "id": "g-2026-03-10 19:29:05-g7r",
@@ -707,7 +721,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 133
     },
     {
       "id": "g-2026-03-08 19:42:17-nn7",
@@ -730,7 +746,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 134
     },
     {
       "id": "g-2026-03-06 20:07:08-okx",
@@ -753,7 +771,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 133
     },
     {
       "id": "g-2026-03-04 19:46:57-zz2",
@@ -776,7 +796,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 145,
+      "minAlt": 135
     },
     {
       "id": "g-2026-03-02 19:32:03-vl3",
@@ -799,7 +821,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 133
     },
     {
       "id": "g-2026-02-28 08:34:42-kwk",
@@ -822,7 +846,9 @@
       "bodyBatteryDrain": -23,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1626,
+      "minAlt": 527
     },
     {
       "id": "g-2026-02-27 19:10:34-oz3",
@@ -845,7 +871,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 132
     },
     {
       "id": "g-2026-02-26 12:35:54-f81",
@@ -868,7 +896,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 132
     },
     {
       "id": "g-2026-02-24 19:42:09-yze",
@@ -891,7 +921,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 130
     },
     {
       "id": "g-2026-02-20 12:42:51-gkt",
@@ -914,7 +946,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 132,
+      "minAlt": 122
     },
     {
       "id": "g-2026-02-18 07:43:02-0re",
@@ -937,7 +971,9 @@
       "bodyBatteryDrain": -28,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1470,
+      "minAlt": 437
     },
     {
       "id": "g-2026-02-17 13:03:31-sx6",
@@ -960,7 +996,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 133,
+      "minAlt": 124
     },
     {
       "id": "g-2026-02-15 21:16:02-jde",
@@ -983,7 +1021,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 134
     },
     {
       "id": "g-2026-02-13 13:00:45-z2f",
@@ -1006,7 +1046,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 149,
+      "minAlt": 133
     },
     {
       "id": "g-2026-02-12 19:53:02-4qj",
@@ -1029,7 +1071,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 133
     },
     {
       "id": "g-2026-02-11 19:58:04-shu",
@@ -1052,7 +1096,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 147,
+      "minAlt": 132
     },
     {
       "id": "g-2026-02-06 12:57:19-s23",
@@ -1075,7 +1121,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 126
     },
     {
       "id": "g-2026-02-05 19:40:16-t3l",
@@ -1098,7 +1146,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 145,
+      "minAlt": 132
     },
     {
       "id": "g-2026-02-04 22:03:13-zlv",
@@ -1121,7 +1171,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 166,
+      "minAlt": 151
     },
     {
       "id": "g-2026-02-03 19:40:10-xjp",
@@ -1144,7 +1196,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 132
     },
     {
       "id": "g-2026-01-30 19:05:21-ioe",
@@ -1167,7 +1221,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 147,
+      "minAlt": 134
     },
     {
       "id": "g-2026-01-29 20:09:15-5cm",
@@ -1190,7 +1246,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 133
     },
     {
       "id": "g-2026-01-27 12:45:19-wmw",
@@ -1213,7 +1271,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 146,
+      "minAlt": 134
     },
     {
       "id": "g-2026-01-23 18:42:16-ivw",
@@ -1236,7 +1296,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 130
     },
     {
       "id": "g-2026-01-21 20:17:31-ud5",
@@ -1259,7 +1321,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 129
     },
     {
       "id": "g-2026-01-20 20:37:25-vex",
@@ -1282,7 +1346,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 169,
+      "minAlt": 152
     },
     {
       "id": "g-2026-01-18 19:41:04-ogi",
@@ -1305,7 +1371,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 134
     },
     {
       "id": "g-2026-01-15 22:19:40-bf6",
@@ -1328,7 +1396,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 133
     },
     {
       "id": "g-2026-01-13 19:58:19-zqi",
@@ -1351,7 +1421,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 130
     },
     {
       "id": "g-2026-01-09 19:18:13-ol7",
@@ -1374,7 +1446,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 128
     },
     {
       "id": "g-2026-01-07 19:08:39-ct2",
@@ -1397,7 +1471,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 132
     },
     {
       "id": "g-2025-12-18 12:53:50-hfm",
@@ -1420,7 +1496,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 133
     },
     {
       "id": "g-2025-12-14 09:34:31-y6w",
@@ -1443,7 +1521,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 131
     },
     {
       "id": "g-2025-12-12 15:52:24-a48",
@@ -1466,7 +1546,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1895,
+      "minAlt": 1862
     },
     {
       "id": "g-2025-12-11 07:55:15-ujv",
@@ -1489,7 +1571,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 129
     },
     {
       "id": "g-2025-12-04 19:05:24-96j",
@@ -1512,7 +1596,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 128
     },
     {
       "id": "g-2025-12-03 20:21:45-e1m",
@@ -1535,7 +1621,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 135
     },
     {
       "id": "g-2025-12-02 19:13:20-428",
@@ -1558,7 +1646,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 147,
+      "minAlt": 136
     },
     {
       "id": "g-2025-11-30 19:19:16-v41",
@@ -1581,7 +1671,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 125
     },
     {
       "id": "g-2025-11-28 19:27:49-u9t",
@@ -1604,7 +1696,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 145,
+      "minAlt": 134
     },
     {
       "id": "g-2025-11-26 20:10:36-p3v",
@@ -1627,7 +1721,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 133
     },
     {
       "id": "g-2025-11-25 22:00:23-9on",
@@ -1650,7 +1746,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 131,
+      "minAlt": 121
     },
     {
       "id": "g-2025-11-19 19:34:26-4ni",
@@ -1673,7 +1771,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 134
     },
     {
       "id": "g-2025-11-18 12:41:45-j5n",
@@ -1696,7 +1796,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 132
     },
     {
       "id": "g-2025-11-17 20:19:46-6gb",
@@ -1719,7 +1821,9 @@
       "bodyBatteryDrain": -3,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 128
     },
     {
       "id": "g-2025-11-14 19:12:45-rp9",
@@ -1742,7 +1846,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 135
     },
     {
       "id": "g-2025-11-13 20:32:45-xtt",
@@ -1765,7 +1871,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 133
     },
     {
       "id": "g-2025-11-11 12:31:35-mlv",
@@ -1788,7 +1896,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 133
     },
     {
       "id": "g-2025-11-10 20:06:45-7k0",
@@ -1811,7 +1921,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 132
     },
     {
       "id": "g-2025-11-06 19:41:38-pv2",
@@ -1834,7 +1946,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 151,
+      "minAlt": 137
     },
     {
       "id": "g-2025-11-04 21:52:15-gop",
@@ -1857,7 +1971,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 133
     },
     {
       "id": "g-2025-11-02 08:31:52-2av",
@@ -1880,7 +1996,9 @@
       "bodyBatteryDrain": -21,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 148,
+      "minAlt": 134
     },
     {
       "id": "g-2025-11-01 08:09:54-3ht",
@@ -1903,7 +2021,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2025-10-30 19:59:12-55t",
@@ -1926,7 +2046,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 133,
+      "minAlt": 125
     },
     {
       "id": "g-2025-10-28 12:47:01-p3u",
@@ -1949,7 +2071,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2025-10-27 19:59:07-c5a",
@@ -1972,7 +2096,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 128
     },
     {
       "id": "g-2025-10-25 08:46:34-l42",
@@ -1995,7 +2121,9 @@
       "bodyBatteryDrain": -32,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2162,
+      "minAlt": 1167
     },
     {
       "id": "g-2025-10-23 19:15:39-8lg",
@@ -2018,7 +2146,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2025-10-22 12:52:32-1ej",
@@ -2041,7 +2171,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 151,
+      "minAlt": 143
     },
     {
       "id": "g-2025-10-21 12:46:51-vwu",
@@ -2064,7 +2196,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 132
     },
     {
       "id": "g-2025-10-17 12:32:13-mrl",
@@ -2087,7 +2221,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 148,
+      "minAlt": 137
     },
     {
       "id": "g-2025-10-16 21:30:19-10u",
@@ -2110,7 +2246,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 150,
+      "minAlt": 141
     },
     {
       "id": "g-2025-10-15 19:41:41-m64",
@@ -2133,7 +2271,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 137
     },
     {
       "id": "g-2025-10-14 19:11:33-mmb",
@@ -2156,7 +2296,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 134
     },
     {
       "id": "g-2025-10-12 19:02:40-c4w",
@@ -2179,7 +2321,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 131
     },
     {
       "id": "g-2025-10-10 18:55:34-c0q",
@@ -2202,7 +2346,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 128
     },
     {
       "id": "g-2025-10-08 19:48:30-l2d",
@@ -2225,7 +2371,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 127
     },
     {
       "id": "g-2025-10-07 19:17:22-iw3",
@@ -2248,7 +2396,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 129
     },
     {
       "id": "g-2025-10-05 08:00:06-vdl",
@@ -2271,7 +2421,9 @@
       "bodyBatteryDrain": -33,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2263,
+      "minAlt": 957
     },
     {
       "id": "g-2025-10-03 19:04:43-oe6",
@@ -2294,7 +2446,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 131
     },
     {
       "id": "g-2025-10-01 19:50:34-gw1",
@@ -2317,7 +2471,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 128
     },
     {
       "id": "g-2025-09-30 20:59:53-ky9",
@@ -2340,7 +2496,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 145,
+      "minAlt": 136
     },
     {
       "id": "g-2025-09-29 20:54:16-bj7",
@@ -2363,7 +2521,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 131
     },
     {
       "id": "g-2025-09-28 09:28:05-rnv",
@@ -2386,7 +2546,9 @@
       "bodyBatteryDrain": -37,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1867,
+      "minAlt": 808
     },
     {
       "id": "g-2025-09-25 19:55:28-406",
@@ -2409,7 +2571,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 131
     },
     {
       "id": "g-2025-09-24 21:38:16-4kf",
@@ -2432,7 +2596,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 153,
+      "minAlt": 140
     },
     {
       "id": "g-2025-09-23 19:28:31-761",
@@ -2455,7 +2621,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 153,
+      "minAlt": 144
     },
     {
       "id": "g-2025-09-21 17:59:49-b8p",
@@ -2478,7 +2646,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 126
     },
     {
       "id": "g-2025-09-20 08:03:36-uw7",
@@ -2501,7 +2671,9 @@
       "bodyBatteryDrain": -34,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2679,
+      "minAlt": 893
     },
     {
       "id": "g-2025-09-18 17:55:21-00c",
@@ -2524,7 +2696,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 146,
+      "minAlt": 139
     },
     {
       "id": "g-2025-09-17 07:23:25-2en",
@@ -2547,7 +2721,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 148,
+      "minAlt": 138
     },
     {
       "id": "g-2025-09-16 19:09:10-k56",
@@ -2570,7 +2746,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 149,
+      "minAlt": 142
     },
     {
       "id": "g-2025-09-12 19:04:58-x1g",
@@ -2593,7 +2771,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 132
     },
     {
       "id": "g-2025-09-10 20:06:54-x90",
@@ -2616,7 +2796,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 127
     },
     {
       "id": "g-2025-09-09 22:24:08-eyz",
@@ -2639,7 +2821,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 134
     },
     {
       "id": "g-2025-09-05 09:57:49-bva",
@@ -2662,7 +2846,9 @@
       "bodyBatteryDrain": -17,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 182,
+      "minAlt": 127
     },
     {
       "id": "g-2025-09-03 07:28:39-e7s",
@@ -2685,7 +2871,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 128
     },
     {
       "id": "g-2025-08-31 07:54:06-bwh",
@@ -2708,7 +2896,9 @@
       "bodyBatteryDrain": -30,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2010,
+      "minAlt": 1161
     },
     {
       "id": "g-2025-08-28 12:06:48-xbx",
@@ -2731,7 +2921,9 @@
       "bodyBatteryDrain": -18,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 16,
+      "minAlt": 11
     },
     {
       "id": "g-2025-08-26 18:30:45-dvd",
@@ -2754,7 +2946,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 16,
+      "minAlt": 11
     },
     {
       "id": "g-2025-08-24 18:29:38-yk9",
@@ -2777,7 +2971,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 17,
+      "minAlt": 9
     },
     {
       "id": "g-2025-08-23 18:15:35-wer",
@@ -2800,7 +2996,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 18,
+      "minAlt": 11
     },
     {
       "id": "g-2025-08-21 18:16:18-tid",
@@ -2823,7 +3021,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 15,
+      "minAlt": 9
     },
     {
       "id": "g-2025-08-20 18:13:18-zvx",
@@ -2846,7 +3046,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 13,
+      "minAlt": 8
     },
     {
       "id": "g-2025-08-15 08:16:49-c0r",
@@ -2869,7 +3071,9 @@
       "bodyBatteryDrain": -36,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 3290,
+      "minAlt": 1569
     },
     {
       "id": "g-2025-08-05 16:34:19-3d5",
@@ -2892,7 +3096,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 88,
+      "minAlt": 56
     },
     {
       "id": "g-2025-07-29 20:07:02-xes",
@@ -2915,7 +3121,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 180,
+      "minAlt": 170
     },
     {
       "id": "g-2025-07-26 09:00:23-ism",
@@ -2938,7 +3146,9 @@
       "bodyBatteryDrain": -29,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2265,
+      "minAlt": 984
     },
     {
       "id": "g-2025-07-19 16:00:47-jjb",
@@ -2961,7 +3171,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2020,
+      "minAlt": 1794
     },
     {
       "id": "g-2025-07-17 07:14:42-ue0",
@@ -2984,7 +3196,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 125
     },
     {
       "id": "g-2025-07-14 07:10:21-oho",
@@ -3007,7 +3221,9 @@
       "bodyBatteryDrain": -18,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 127
     },
     {
       "id": "g-2025-07-12 07:30:20-u8t",
@@ -3030,7 +3246,9 @@
       "bodyBatteryDrain": -31,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2413,
+      "minAlt": 773
     },
     {
       "id": "g-2025-07-11 19:15:01-pd7",
@@ -3053,7 +3271,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 128
     },
     {
       "id": "g-2025-07-09 07:10:06-veg",
@@ -3076,7 +3296,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 130
     },
     {
       "id": "g-2025-07-06 15:28:12-4vr",
@@ -3122,7 +3344,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 10,
+      "minAlt": 5
     },
     {
       "id": "g-2025-07-05 18:54:28-mpq",
@@ -3168,7 +3392,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 4,
+      "minAlt": 2
     },
     {
       "id": "g-2025-07-03 22:22:02-p7y",
@@ -3191,7 +3417,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 129
     },
     {
       "id": "g-2025-07-01 22:15:05-vpq",
@@ -3214,7 +3442,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 126
     },
     {
       "id": "g-2025-06-28 07:00:41-42q",
@@ -3237,7 +3467,9 @@
       "bodyBatteryDrain": -33,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 3259,
+      "minAlt": 1988
     },
     {
       "id": "g-2025-06-25 07:24:02-jnn",
@@ -3260,7 +3492,9 @@
       "bodyBatteryDrain": -17,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 128
     },
     {
       "id": "g-2025-06-22 08:35:18-gyf",
@@ -3283,7 +3517,9 @@
       "bodyBatteryDrain": -31,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2543,
+      "minAlt": 1161
     },
     {
       "id": "g-2025-06-20 07:34:23-5q2",
@@ -3306,7 +3542,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 125
     },
     {
       "id": "g-2025-06-17 20:10:33-e9b",
@@ -3329,7 +3567,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 128
     },
     {
       "id": "g-2025-06-13 09:17:33-on7",
@@ -3352,7 +3592,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 180,
+      "minAlt": 129
     },
     {
       "id": "g-2025-06-12 20:13:01-0xh",
@@ -3375,7 +3617,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 127
     },
     {
       "id": "g-2025-06-10 20:28:56-zfu",
@@ -3398,7 +3642,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 132
     },
     {
       "id": "g-2025-06-07 10:00:31-xdx",
@@ -3421,7 +3667,9 @@
       "bodyBatteryDrain": -30,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1845,
+      "minAlt": 767
     },
     {
       "id": "g-2025-06-05 20:08:39-mde",
@@ -3444,7 +3692,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 127
     },
     {
       "id": "g-2025-06-02 17:18:33-z91",
@@ -3467,7 +3717,9 @@
       "bodyBatteryDrain": -18,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 11,
+      "minAlt": 4
     },
     {
       "id": "g-2025-06-01 18:25:59-u4a",
@@ -3490,7 +3742,9 @@
       "bodyBatteryDrain": -17,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 17,
+      "minAlt": 12
     },
     {
       "id": "g-2025-05-31 17:56:42-jlz",
@@ -3513,7 +3767,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 12,
+      "minAlt": 8
     },
     {
       "id": "g-2025-05-29 20:13:19-rs8",
@@ -3536,7 +3792,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 135
     },
     {
       "id": "g-2025-05-28 07:31:04-ylm",
@@ -3559,7 +3817,9 @@
       "bodyBatteryDrain": -17,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 134,
+      "minAlt": 126
     },
     {
       "id": "g-2025-05-24 09:46:31-ry2",
@@ -3582,7 +3842,9 @@
       "bodyBatteryDrain": -21,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1974,
+      "minAlt": 1272
     },
     {
       "id": "g-2025-05-23 12:42:48-32o",
@@ -3605,7 +3867,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 142,
+      "minAlt": 134
     },
     {
       "id": "g-2025-05-21 13:03:07-16q",
@@ -3628,7 +3892,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 129
     },
     {
       "id": "g-2025-05-20 07:08:45-s59",
@@ -3651,7 +3917,9 @@
       "bodyBatteryDrain": -22,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 126
     },
     {
       "id": "g-2025-05-17 08:23:19-44z",
@@ -3674,7 +3942,9 @@
       "bodyBatteryDrain": -28,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2161,
+      "minAlt": 841
     },
     {
       "id": "g-2025-05-16 12:06:39-31g",
@@ -3697,7 +3967,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 129
     },
     {
       "id": "g-2025-05-15 20:12:04-y0f",
@@ -3720,7 +3992,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 127
     },
     {
       "id": "g-2025-05-12 19:20:19-1ti",
@@ -3743,7 +4017,9 @@
       "bodyBatteryDrain": -4,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 126
     },
     {
       "id": "g-2025-05-10 07:46:07-rto",
@@ -3766,7 +4042,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 15,
+      "minAlt": 7
     },
     {
       "id": "g-2025-05-08 19:43:50-skx",
@@ -3789,7 +4067,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 125
     },
     {
       "id": "g-2025-05-07 19:58:05-yqs",
@@ -3812,7 +4092,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 127
     },
     {
       "id": "g-2025-05-04 08:32:41-4bm",
@@ -3835,7 +4117,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 18,
+      "minAlt": 14
     },
     {
       "id": "g-2025-05-03 12:17:22-oto",
@@ -3858,7 +4142,9 @@
       "bodyBatteryDrain": -21,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 29,
+      "minAlt": 15
     },
     {
       "id": "g-2025-05-02 18:23:55-hz3",
@@ -3881,7 +4167,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 22,
+      "minAlt": 19
     },
     {
       "id": "g-2025-05-01 17:54:29-tj9",
@@ -3904,7 +4192,9 @@
       "bodyBatteryDrain": -25,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 15,
+      "minAlt": 9
     },
     {
       "id": "g-2025-04-29 19:14:19-uky",
@@ -3927,7 +4217,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 183,
+      "minAlt": 134
     },
     {
       "id": "g-2025-04-28 12:42:31-m9h",
@@ -3950,7 +4242,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 125
     },
     {
       "id": "g-2025-04-23 12:28:37-37n",
@@ -3973,7 +4267,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 126
     },
     {
       "id": "g-2025-04-21 08:16:47-v2z",
@@ -3996,7 +4292,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1788,
+      "minAlt": 770
     },
     {
       "id": "g-2025-04-21 08:16:47-t0e",
@@ -4017,6 +4315,33 @@
       "calories": 1368,
       "avgCadence": null,
       "bodyBatteryDrain": -23,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import",
+      "maxAlt": 1806,
+      "minAlt": 759
+    },
+    {
+      "id": "g-2025-04-21 10:38:18-y3w",
+      "date": "2025-04-21",
+      "type": "trail",
+      "activityType": "Trail Running",
+      "title": "Margno Trail Running",
+      "distance": 5.99,
+      "duration": 35.93333333333333,
+      "elevGain": null,
+      "elevLoss": 685,
+      "maxAlt": 1450,
+      "minAlt": 758,
+      "avgHR": 147,
+      "maxHR": 157,
+      "aerobicTE": 3.2,
+      "avgPace": "6:00",
+      "bestPace": "5:17",
+      "paceSeconds": 360,
+      "calories": 491,
+      "avgCadence": null,
+      "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
       "source": "garmin_import"
@@ -4042,7 +4367,9 @@
       "bodyBatteryDrain": -17,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 128
     },
     {
       "id": "g-2025-04-18 13:00:10-d1c",
@@ -4065,7 +4392,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 163,
+      "minAlt": 152
     },
     {
       "id": "g-2025-04-14 12:59:00-rju",
@@ -4088,7 +4417,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 156,
+      "minAlt": 148
     },
     {
       "id": "g-2025-04-12 08:03:28-kmz",
@@ -4111,7 +4442,9 @@
       "bodyBatteryDrain": -21,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1933,
+      "minAlt": 640
     },
     {
       "id": "g-2025-04-11 19:50:08-kdt",
@@ -4157,7 +4490,9 @@
       "bodyBatteryDrain": -3,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 133,
+      "minAlt": 125
     },
     {
       "id": "g-2025-04-09 07:28:13-tzc",
@@ -4180,7 +4515,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2025-04-04 19:54:18-qgj",
@@ -4203,7 +4540,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 153,
+      "minAlt": 144
     },
     {
       "id": "g-2025-04-02 20:13:55-9cr",
@@ -4226,7 +4565,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 157,
+      "minAlt": 147
     },
     {
       "id": "g-2025-03-29 08:11:07-4cj",
@@ -4249,7 +4590,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 15,
+      "minAlt": 2
     },
     {
       "id": "g-2025-03-27 12:39:03-8no",
@@ -4272,7 +4615,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 130
     },
     {
       "id": "g-2025-03-25 19:46:50-fw7",
@@ -4295,7 +4640,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 178,
+      "minAlt": 169
     },
     {
       "id": "g-2025-03-22 13:00:22-txt",
@@ -4318,7 +4665,9 @@
       "bodyBatteryDrain": -17,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1157,
+      "minAlt": 577
     },
     {
       "id": "g-2025-03-20 12:34:58-w1l",
@@ -4341,7 +4690,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 149,
+      "minAlt": 138
     },
     {
       "id": "g-2025-03-19 07:32:20-ypg",
@@ -4364,7 +4715,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 129
     },
     {
       "id": "g-2025-03-15 17:29:28-uza",
@@ -4387,7 +4740,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 151,
+      "minAlt": 142
     },
     {
       "id": "g-2025-03-13 12:23:03-tz1",
@@ -4410,7 +4765,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2025-03-11 12:22:14-7we",
@@ -4433,7 +4790,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 131
     },
     {
       "id": "g-2025-03-08 15:01:21-xff",
@@ -4456,7 +4815,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 706,
+      "minAlt": 245
     },
     {
       "id": "g-2025-03-05 07:27:24-is7",
@@ -4479,7 +4840,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 126
     },
     {
       "id": "g-2025-03-02 16:54:59-506",
@@ -4502,7 +4865,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 183,
+      "minAlt": 129
     },
     {
       "id": "g-2025-02-28 07:27:04-vf1",
@@ -4525,7 +4890,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 150,
+      "minAlt": 140
     },
     {
       "id": "g-2025-02-26 19:50:34-ul7",
@@ -4548,7 +4915,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 155,
+      "minAlt": 144
     },
     {
       "id": "g-2025-02-23 17:13:01-dik",
@@ -4571,7 +4940,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1316,
+      "minAlt": 1276
     },
     {
       "id": "g-2025-02-22 12:40:32-7ge",
@@ -4594,7 +4965,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1358,
+      "minAlt": 1275
     },
     {
       "id": "g-2025-02-19 19:53:30-uli",
@@ -4617,7 +4990,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 165,
+      "minAlt": 157
     },
     {
       "id": "g-2025-02-15 16:54:25-riv",
@@ -4640,7 +5015,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1617,
+      "minAlt": 1272
     },
     {
       "id": "g-2025-02-13 19:59:09-3ya",
@@ -4663,7 +5040,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 204,
+      "minAlt": 196
     },
     {
       "id": "g-2025-02-12 19:57:34-koz",
@@ -4686,7 +5065,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 128,
+      "minAlt": 120
     },
     {
       "id": "g-2025-02-09 12:37:51-fg8",
@@ -4709,7 +5090,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1593,
+      "minAlt": 1270
     },
     {
       "id": "g-2025-02-08 12:22:06-yik",
@@ -4732,7 +5115,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1551,
+      "minAlt": 1270
     },
     {
       "id": "g-2025-02-07 07:19:22-ial",
@@ -4755,7 +5140,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 134,
+      "minAlt": 124
     },
     {
       "id": "g-2025-02-04 20:15:30-hgt",
@@ -4778,7 +5165,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 188,
+      "minAlt": 184
     },
     {
       "id": "g-2025-02-01 12:13:01-fqm",
@@ -4801,7 +5190,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 187,
+      "minAlt": 134
     },
     {
       "id": "g-2025-01-30 20:14:57-o9l",
@@ -4824,7 +5215,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 170,
+      "minAlt": 164
     },
     {
       "id": "g-2025-01-28 22:05:19-qk3",
@@ -4847,7 +5240,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 169,
+      "minAlt": 162
     },
     {
       "id": "g-2025-01-25 12:14:48-qcf",
@@ -4870,7 +5265,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 179,
+      "minAlt": 120
     },
     {
       "id": "g-2025-01-23 19:58:41-3bp",
@@ -4893,7 +5290,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 127,
+      "minAlt": 120
     },
     {
       "id": "g-2025-01-20 19:56:50-xhq",
@@ -4916,7 +5315,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 160,
+      "minAlt": 155
     },
     {
       "id": "g-2025-01-19 13:35:10-t1j",
@@ -4939,7 +5340,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 170,
+      "minAlt": 158
     },
     {
       "id": "g-2025-01-05 14:29:53-5q4",
@@ -4962,7 +5365,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1581,
+      "minAlt": 1263
     },
     {
       "id": "g-2025-01-02 14:58:15-yuq",
@@ -4985,7 +5390,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1300,
+      "minAlt": 1157
     },
     {
       "id": "g-2024-12-31 12:20:13-cb7",
@@ -5008,7 +5415,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1331,
+      "minAlt": 1214
     },
     {
       "id": "g-2024-12-29 12:56:18-i9n",
@@ -5031,7 +5440,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1302,
+      "minAlt": 1207
     },
     {
       "id": "g-2024-11-16 08:23:15-bka",
@@ -5054,7 +5465,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 129
     },
     {
       "id": "g-2024-11-14 20:36:58-w6v",
@@ -5077,7 +5490,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 134
     },
     {
       "id": "g-2024-11-13 07:10:04-te9",
@@ -5100,7 +5515,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 131
     },
     {
       "id": "g-2024-11-07 06:58:48-boy",
@@ -5123,7 +5540,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 131
     },
     {
       "id": "g-2024-11-05 07:11:45-j1c",
@@ -5146,7 +5565,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 129
     },
     {
       "id": "g-2024-11-02 08:16:19-piw",
@@ -5169,7 +5590,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 152,
+      "minAlt": 144
     },
     {
       "id": "g-2024-10-31 20:09:24-nxi",
@@ -5192,7 +5615,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 138
     },
     {
       "id": "g-2024-10-29 20:11:18-t24",
@@ -5215,7 +5640,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 133
     },
     {
       "id": "g-2024-10-27 07:33:04-rba",
@@ -5238,7 +5665,9 @@
       "bodyBatteryDrain": -23,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 149,
+      "minAlt": 136
     },
     {
       "id": "g-2024-10-23 22:25:02-3i0",
@@ -5261,7 +5690,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 132
     },
     {
       "id": "g-2024-10-22 22:05:44-8qm",
@@ -5284,7 +5715,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 131
     },
     {
       "id": "g-2024-10-18 19:19:09-01z",
@@ -5307,7 +5740,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 125,
+      "minAlt": 120
     },
     {
       "id": "g-2024-10-13 09:15:22-k31",
@@ -5330,7 +5765,9 @@
       "bodyBatteryDrain": -22,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 450,
+      "minAlt": 376
     },
     {
       "id": "g-2024-10-11 07:27:45-u77",
@@ -5353,7 +5790,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 132,
+      "minAlt": 126
     },
     {
       "id": "g-2024-10-09 22:47:36-2ek",
@@ -5376,7 +5815,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 132,
+      "minAlt": 126
     },
     {
       "id": "g-2024-10-05 08:51:00-w5t",
@@ -5399,7 +5840,9 @@
       "bodyBatteryDrain": -23,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 131
     },
     {
       "id": "g-2024-10-04 19:41:24-f6p",
@@ -5422,7 +5865,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 132
     },
     {
       "id": "g-2024-10-02 20:20:23-g7c",
@@ -5445,7 +5890,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 133
     },
     {
       "id": "g-2024-09-29 10:52:27-4o2",
@@ -5468,7 +5915,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 1828,
+      "minAlt": 1117
     },
     {
       "id": "g-2024-09-27 19:47:16-wir",
@@ -5491,7 +5940,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 130
     },
     {
       "id": "g-2024-09-26 19:56:51-7ik",
@@ -5514,7 +5965,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 133,
+      "minAlt": 128
     },
     {
       "id": "g-2024-09-24 20:11:42-8xu",
@@ -5537,7 +5990,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 131
     },
     {
       "id": "g-2024-09-21 08:50:55-ikn",
@@ -5560,7 +6015,9 @@
       "bodyBatteryDrain": -20,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 132
     },
     {
       "id": "g-2024-09-19 07:24:43-ecg",
@@ -5583,7 +6040,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 132
     },
     {
       "id": "g-2024-09-17 07:21:23-zwd",
@@ -5606,7 +6065,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 119,
+      "minAlt": 112
     },
     {
       "id": "g-2024-09-15 18:00:12-2gf",
@@ -5629,7 +6090,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 131
     },
     {
       "id": "g-2024-09-12 20:26:48-h7r",
@@ -5652,7 +6115,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 130
     },
     {
       "id": "g-2024-09-07 08:08:41-fgu",
@@ -5675,7 +6140,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 711,
+      "minAlt": 434
     },
     {
       "id": "g-2024-09-06 08:44:53-3ko",
@@ -5698,7 +6165,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 713,
+      "minAlt": 443
     },
     {
       "id": "g-2024-08-29 19:18:10-5nn",
@@ -5721,7 +6190,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 6,
+      "minAlt": 2
     },
     {
       "id": "g-2024-08-28 06:49:29-ffo",
@@ -5744,7 +6215,9 @@
       "bodyBatteryDrain": -14,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2,
+      "minAlt": -2
     },
     {
       "id": "g-2024-08-26 19:22:18-wxr",
@@ -5767,7 +6240,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2,
+      "minAlt": 0
     },
     {
       "id": "g-2024-08-25 20:21:02-325",
@@ -5790,7 +6265,9 @@
       "bodyBatteryDrain": -2,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 11,
+      "minAlt": 7
     },
     {
       "id": "g-2024-08-15 14:55:27-53b",
@@ -5813,7 +6290,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 105,
+      "minAlt": 28
     },
     {
       "id": "g-2024-08-08 06:07:19-p4u",
@@ -5836,7 +6315,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 17,
+      "minAlt": -1
     },
     {
       "id": "g-2024-08-02 07:35:46-u3r",
@@ -5859,7 +6340,9 @@
       "bodyBatteryDrain": -15,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2024-07-31 19:47:29-twj",
@@ -5882,7 +6365,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 130
     },
     {
       "id": "g-2024-07-26 07:29:10-qry",
@@ -5905,7 +6390,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2024-07-25 20:17:39-g1e",
@@ -5928,7 +6415,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 129
     },
     {
       "id": "g-2024-07-20 16:00:41-2fd",
@@ -5951,7 +6440,9 @@
       "bodyBatteryDrain": -18,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 2039,
+      "minAlt": 1807
     },
     {
       "id": "g-2024-07-17 07:25:51-v7w",
@@ -5974,7 +6465,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-07-16 07:17:59-agv",
@@ -5997,7 +6490,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 129
     },
     {
       "id": "g-2024-07-11 07:22:22-jqm",
@@ -6020,7 +6515,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2024-07-07 07:56:55-tbk",
@@ -6043,7 +6540,9 @@
       "bodyBatteryDrain": -20,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 7,
+      "minAlt": 3
     },
     {
       "id": "g-2024-07-06 08:13:16-kwn",
@@ -6066,7 +6565,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 8,
+      "minAlt": 2
     },
     {
       "id": "g-2024-07-04 07:21:29-2ox",
@@ -6089,7 +6590,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2024-07-02 07:17:41-jo2",
@@ -6112,7 +6615,9 @@
       "bodyBatteryDrain": -17,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-06-26 20:08:17-0py",
@@ -6135,7 +6640,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-06-25 20:24:15-x4d",
@@ -6158,7 +6665,9 @@
       "bodyBatteryDrain": -4,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 131
     },
     {
       "id": "g-2024-06-20 07:34:06-op7",
@@ -6181,7 +6690,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-06-19 07:28:54-p5x",
@@ -6204,7 +6715,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 131
     },
     {
       "id": "g-2024-06-14 07:31:05-66z",
@@ -6227,7 +6740,9 @@
       "bodyBatteryDrain": -13,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-06-12 07:31:09-n8v",
@@ -6250,7 +6765,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-06-09 08:30:56-548",
@@ -6273,7 +6790,9 @@
       "bodyBatteryDrain": -23,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 5,
+      "minAlt": 0
     },
     {
       "id": "g-2024-06-08 08:31:38-tez",
@@ -6296,7 +6815,9 @@
       "bodyBatteryDrain": -19,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 7,
+      "minAlt": 2
     },
     {
       "id": "g-2024-06-06 20:22:29-8td",
@@ -6319,7 +6840,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-06-04 07:34:28-f2w",
@@ -6342,7 +6865,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-05-31 07:36:47-78m",
@@ -6365,7 +6890,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 130
     },
     {
       "id": "g-2024-05-29 20:04:06-vvg",
@@ -6388,7 +6915,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 135,
+      "minAlt": 129
     },
     {
       "id": "g-2024-05-25 09:22:11-qka",
@@ -6411,7 +6940,9 @@
       "bodyBatteryDrain": -16,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-05-24 07:38:37-6hs",
@@ -6434,7 +6965,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2024-05-21 20:33:14-11c",
@@ -6457,7 +6990,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 133,
+      "minAlt": 128
     },
     {
       "id": "g-2024-05-17 20:25:41-zcl",
@@ -6480,7 +7015,9 @@
       "bodyBatteryDrain": -4,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-05-16 07:28:55-2o8",
@@ -6503,7 +7040,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-05-13 20:10:10-mzh",
@@ -6526,7 +7065,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 134,
+      "minAlt": 129
     },
     {
       "id": "g-2024-05-09 07:29:20-3ry",
@@ -6549,7 +7090,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2024-05-07 20:36:35-efa",
@@ -6572,7 +7115,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-05-05 16:30:28-99e",
@@ -6595,7 +7140,9 @@
       "bodyBatteryDrain": -4,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 131
     },
     {
       "id": "g-2024-04-30 20:23:38-yxi",
@@ -6618,7 +7165,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 129
     },
     {
       "id": "g-2024-04-28 08:36:28-at5",
@@ -6641,7 +7190,9 @@
       "bodyBatteryDrain": -11,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 4,
+      "minAlt": 2
     },
     {
       "id": "g-2024-04-27 12:45:51-y1k",
@@ -6664,7 +7215,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 3,
+      "minAlt": -1
     },
     {
       "id": "g-2024-04-24 07:40:35-hot",
@@ -6687,7 +7240,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-04-19 07:36:56-fgy",
@@ -6710,7 +7265,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-04-17 07:28:12-4qn",
@@ -6733,7 +7290,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-04-14 18:52:33-c80",
@@ -6756,7 +7315,9 @@
       "bodyBatteryDrain": -2,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 130
     },
     {
       "id": "g-2024-04-12 07:35:09-bpb",
@@ -6779,7 +7340,9 @@
       "bodyBatteryDrain": -8,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-04-11 07:38:02-ads",
@@ -6802,7 +7365,9 @@
       "bodyBatteryDrain": -10,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 139,
+      "minAlt": 130
     },
     {
       "id": "g-2024-04-07 19:50:41-vqn",
@@ -6825,7 +7390,9 @@
       "bodyBatteryDrain": -4,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 131
     },
     {
       "id": "g-2024-04-05 19:56:54-f96",
@@ -6848,7 +7415,9 @@
       "bodyBatteryDrain": -5,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 128
     },
     {
       "id": "g-2024-04-01 07:33:19-esx",
@@ -6871,7 +7440,9 @@
       "bodyBatteryDrain": -23,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 240,
+      "minAlt": 209
     },
     {
       "id": "g-2024-03-31 07:43:15-2lt",
@@ -6894,7 +7465,9 @@
       "bodyBatteryDrain": -9,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 239,
+      "minAlt": 211
     },
     {
       "id": "g-2024-03-29 12:46:30-qv8",
@@ -6917,7 +7490,9 @@
       "bodyBatteryDrain": -12,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 136,
+      "minAlt": 130
     },
     {
       "id": "g-2024-03-27 20:47:33-485",
@@ -6940,7 +7515,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-03-22 20:07:13-15a",
@@ -6963,7 +7540,9 @@
       "bodyBatteryDrain": -6,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 137,
+      "minAlt": 130
     },
     {
       "id": "g-2024-03-20 21:02:32-0lg",
@@ -6986,7 +7565,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 133,
+      "minAlt": 128
     },
     {
       "id": "g-2024-03-15 19:44:07-3az",
@@ -7009,7 +7590,9 @@
       "bodyBatteryDrain": -7,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 138,
+      "minAlt": 130
     },
     {
       "id": "g-2024-03-13 21:03:36-dyg",
@@ -7032,7 +7615,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 194,
+      "minAlt": 178
     },
     {
       "id": "g-2024-03-12 20:35:26-0sz",
@@ -7055,7 +7640,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 596,
+      "minAlt": 575
     },
     {
       "id": "g-2024-03-03 09:31:54-zhr",
@@ -7078,7 +7665,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 106
     },
     {
       "id": "g-2024-03-02 13:48:06-aa3",
@@ -7101,7 +7690,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 121
     },
     {
       "id": "g-2024-02-25 09:04:05-u4i",
@@ -7124,7 +7715,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 118
     },
     {
       "id": "g-2024-02-21 19:58:29-492",
@@ -7147,7 +7740,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 122,
+      "minAlt": 95
     },
     {
       "id": "g-2024-02-19 20:10:02-og6",
@@ -7170,7 +7765,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 120,
+      "minAlt": 95
     },
     {
       "id": "g-2024-02-15 07:40:52-7lb",
@@ -7193,7 +7790,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 118,
+      "minAlt": 106
     },
     {
       "id": "g-2024-02-11 09:49:00-ob4",
@@ -7216,7 +7815,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 143,
+      "minAlt": 123
     },
     {
       "id": "g-2024-02-10 09:51:07-4tq",
@@ -7239,7 +7840,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 141,
+      "minAlt": 131
     },
     {
       "id": "g-2024-02-06 20:19:44-iys",
@@ -7262,7 +7865,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 146,
+      "minAlt": 106
     },
     {
       "id": "g-2024-01-30 20:12:58-gwd",
@@ -7285,7 +7890,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 118,
+      "minAlt": 84
     },
     {
       "id": "g-2024-01-26 20:05:36-hso",
@@ -7308,7 +7915,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 123,
+      "minAlt": 92
     },
     {
       "id": "g-2024-01-23 20:14:55-s3j",
@@ -7331,7 +7940,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 119,
+      "minAlt": 85
     },
     {
       "id": "g-2024-01-19 20:23:22-6vt",
@@ -7354,7 +7965,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 140,
+      "minAlt": 102
     },
     {
       "id": "g-2024-01-17 19:56:48-3pd",
@@ -7377,7 +7990,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 118,
+      "minAlt": 85
     },
     {
       "id": "g-2024-01-14 12:42:58-3ed",
@@ -7400,7 +8015,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 144,
+      "minAlt": 90
     },
     {
       "id": "g-2023-12-19 19:45:02-gmx",
@@ -7423,7 +8040,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 121,
+      "minAlt": 92
     },
     {
       "id": "g-2023-12-17 10:21:00-7dt",
@@ -7446,7 +8065,9 @@
       "bodyBatteryDrain": null,
       "perceivedEffort": null,
       "notes": "",
-      "source": "garmin_import"
+      "source": "garmin_import",
+      "maxAlt": 119,
+      "minAlt": 86
     },
     {
       "id": "g-2023-12-15 20:05:20-n0p",
