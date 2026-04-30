@@ -359,6 +359,7 @@ select.form-input{cursor:pointer;}
       <button class="btn btn-secondary btn-sm" onclick="setActSort('road','elevGain',this)">Dislivello</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('road','avgHR',this)">FC</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('road','paceSeconds',this)">Passo</button>
+      <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="exportActCSV('road')">⬇ CSV</button>
       <span id="road-sort-dir" style="cursor:pointer;color:var(--accent);font-size:12px;margin-left:4px" onclick="toggleActSortDir('road')">↓ Recenti</span>
     </div>
     <div id="road-act-grid"></div>
@@ -430,6 +431,7 @@ select.form-input{cursor:pointer;}
       <button class="btn btn-secondary btn-sm" onclick="setActSort('trail','elevGain',this)">Dislivello</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('trail','avgHR',this)">FC</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('trail','paceSeconds',this)">Passo</button>
+      <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="exportActCSV('trail')">⬇ CSV</button>
       <span id="trail-sort-dir" style="cursor:pointer;color:var(--trail);font-size:12px;margin-left:4px" onclick="toggleActSortDir('trail')">↓ Recenti</span>
     </div>
     <div id="trail-act-grid"></div>
@@ -500,6 +502,7 @@ select.form-input{cursor:pointer;}
       <button class="btn btn-secondary btn-sm" onclick="setActSort('hiking','elevGain',this)">Dislivello</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('hiking','avgHR',this)">FC</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('hiking','paceSeconds',this)">Passo</button>
+      <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="exportActCSV('hiking')">⬇ CSV</button>
       <span id="hiking-sort-dir" style="cursor:pointer;color:var(--hike);font-size:12px;margin-left:4px" onclick="toggleActSortDir('hiking')">↓ Recenti</span>
     </div>
     <div id="hiking-act-grid"></div>
@@ -571,6 +574,7 @@ select.form-input{cursor:pointer;}
       <button class="btn btn-secondary btn-sm" onclick="setActSort('roadtrail','elevGain',this)">Dislivello</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('roadtrail','avgHR',this)">FC</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('roadtrail','paceSeconds',this)">Passo</button>
+      <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="exportActCSV('roadtrail')">⬇ CSV</button>
       <span id="roadtrail-sort-dir" style="cursor:pointer;color:var(--accent);font-size:12px;margin-left:4px" onclick="toggleActSortDir('roadtrail')">↓ Recenti</span>
     </div>
     <div id="roadtrail-act-grid"></div>
@@ -657,6 +661,7 @@ select.form-input{cursor:pointer;}
       <button class="btn btn-secondary btn-sm" onclick="setActSort('trailhike','elevGain',this)">Dislivello</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('trailhike','avgHR',this)">FC</button>
       <button class="btn btn-secondary btn-sm" onclick="setActSort('trailhike','paceSeconds',this)">Passo</button>
+      <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="exportActCSV('trailhike')">⬇ CSV</button>
       <span id="trailhike-sort-dir" style="cursor:pointer;color:var(--trail);font-size:12px;margin-left:4px" onclick="toggleActSortDir('trailhike')">↓ Recenti</span>
     </div>
     <div id="trailhike-act-grid"></div>
@@ -2518,6 +2523,33 @@ function runCompare(sid){
      'Periodo A: <strong>'+A.count+'</strong> attività &nbsp;|&nbsp; Periodo B: <strong>'+B.count+'</strong> attività')+
     '</div>';
   document.getElementById(sid+'-cmp-result').innerHTML=html;
+}
+
+function exportActCSV(sid){
+  const items=sectFiltered[sid];
+  if(!items||!items.length){toast('Nessuna attività da esportare','err');return;}
+  const isHike=sid==='hiking'||sid==='trailhike';
+  const headers=['Data','Titolo','Tipo','Distanza (km)','Dislivello (m+)','Durata','Passo (min/km)','FC media','FC max','Quota max (m)','Note'];
+  const rows=items.map(w=>[
+    w.date||'',
+    (w.title||'').replace(/,/g,' '),
+    w.type||'',
+    w.distance!=null?w.distance.toFixed(2):'',
+    w.elevGain||'',
+    w.duration?fmtDur(w.duration):'',
+    w.paceSeconds?s2p(w.paceSeconds):'',
+    w.avgHR||'',
+    w.maxHR||'',
+    w.maxAlt||'',
+    (w.notes||'').replace(/,/g,' ').replace(/\n/g,' ')
+  ]);
+  const csv=[headers,...rows].map(r=>r.join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`${sid}-attivita-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();URL.revokeObjectURL(url);
+  toast(`✓ Esportate ${items.length} attività in CSV`,'ok');
 }
 
 // ══ BOOT ══
