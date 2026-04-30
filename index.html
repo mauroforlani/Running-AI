@@ -1145,11 +1145,25 @@ function handleRunCSV(input){
           bodyBatteryDrain:parseNum(row['Body Battery Drain']),
           perceivedEffort:null,notes:'',source:'garmin_import'};
       }).filter(w=>w.date);
-      const ex=new Set(state.workouts.map(w=>w.date+'|'+(w.title||'')));
-      const newOnes=parsed.filter(p=>!ex.has(p.date+'|'+(p.title||'')));
-      state.workouts=[...state.workouts,...newOnes].sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
+      const exMap=new Map(state.workouts.map(w=>[w.date+'|'+(w.title||''),w]));
+      let newCount=0,updCount=0;
+      parsed.forEach(p=>{
+        const key=p.date+'|'+(p.title||'');
+        if(exMap.has(key)){
+          // Aggiorna solo i campi mancanti (es. maxAlt, minAlt)
+          const ex=exMap.get(key);
+          let updated=false;
+          ['maxAlt','minAlt','elevGain','elevLoss','maxHR','avgHR','calories'].forEach(f=>{
+            if((ex[f]==null||ex[f]===undefined)&&p[f]!=null){ex[f]=p[f];updated=true;}
+          });
+          if(updated)updCount++;
+        } else {
+          state.workouts.push(p);newCount++;
+        }
+      });
+      state.workouts.sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
       saveState();syncToGitHub();SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});renderHome();
-      toast(`✓ ${newOnes.length} attività importate — ${parsed.length-newOnes.length} già presenti`,'ok');
+      toast(`✓ ${newCount} nuove attività, ${updCount} aggiornate`,'ok');
     }catch(err){toast('Errore CSV: '+err.message,'err');}
   };
   r.readAsText(file);input.value='';
