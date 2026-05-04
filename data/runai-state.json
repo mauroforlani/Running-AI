@@ -1,6 +1,31 @@
 {
   "workouts": [
     {
+      "id": "g-2026-05-03 08:30:29-9if",
+      "date": "2026-05-03",
+      "type": "running",
+      "activityType": "Running",
+      "title": "San Michele al Tagliamento Running",
+      "distance": 19,
+      "duration": 100.83333333333333,
+      "elevGain": 14,
+      "elevLoss": 12,
+      "maxAlt": 8,
+      "minAlt": 1,
+      "avgHR": 157,
+      "maxHR": 167,
+      "aerobicTE": 4.6,
+      "avgPace": "5:18",
+      "bestPace": "4:32",
+      "paceSeconds": 318,
+      "calories": 1504,
+      "avgCadence": 184,
+      "bodyBatteryDrain": -25,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-05-01 17:16:59-90j",
       "date": "2026-05-01",
       "type": "running",
