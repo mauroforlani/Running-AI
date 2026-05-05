@@ -2698,8 +2698,9 @@ async function runPiano(sid){
   const longtarget=get(`${sid}-piano-longtarget`);
   const note=get(`${sid}-piano-note`);
   const isTrail=sid==='trail';
+  const numWeeks=parseInt(durata)||8;
 
-  // Recupera statistiche reali dell'atleta
+  // Statistiche atleta
   const items=getItemsForSection(sid);
   const last90=items.filter(w=>{const d=parseLocalDate(w.date);return(Date.now()-d)/86400000<=90;});
   const totalKm90=last90.reduce((s,w)=>s+(w.distance||0),0).toFixed(0);
@@ -2710,130 +2711,106 @@ async function runPiano(sid){
   const totalElev90=last90.reduce((s,w)=>s+(w.elevGain||0),0);
   const avgHRItems=last90.filter(w=>w.avgHR);
   const avgHR=avgHRItems.length?Math.round(avgHRItems.reduce((s,w)=>s+w.avgHR,0)/avgHRItems.length):null;
-  const actCount=last90.length;
 
-  const statsStr=`
-- Ultimi 90 giorni: ${actCount} uscite, ${totalKm90} km totali (~${avgKmWeek} km/settimana)
-- Passo migliore recente: ${bestPace?s2p(bestPace.paceSeconds)+'/km':'n/d'}
-- Passo medio recente: ${avgPace?s2p(avgPace)+'/km':'n/d'}
-- FC media recente: ${avgHR?avgHR+' bpm':'n/d'}
-${isTrail?`- Dislivello totale 90gg: ${totalElev90}m`:''}`;
+  const statsStr=`Ultimi 90gg: ${last90.length} uscite, ${totalKm90}km (~${avgKmWeek}km/sett), passo migliore: ${bestPace?s2p(bestPace.paceSeconds)+'/km':'n/d'}, passo medio: ${avgPace?s2p(avgPace)+'/km':'n/d'}, FC media: ${avgHR?avgHR+'bpm':'n/d'}${isTrail?', dislivello 90gg: '+totalElev90+'m':''}`;
 
-  const prompt=`Sei un coach di corsa esperto. Crea un piano di allenamento dettagliato per un atleta con le seguenti caratteristiche:
+  const ctxStr=`Atleta: ${statsStr}. Piano: ${isTrail?'Trail':'Running'}, ${freq}x/sett${kmtarget?', target '+kmtarget+'km/sett':''}${pacetarget?', target passo '+pacetarget+'/km':''}${isTrail&&elevtarget?', target D+ '+elevtarget+'m':''}${isTrail&&longtarget?', uscite lunghe '+longtarget+'km':''}${note?'. Note: '+note:''}`;
 
-STATISTICHE ATTUALI DELL'ATLETA:
-${statsStr}
-
-PARAMETRI DEL PIANO RICHIESTO:
-- Tipo di allenamento: ${isTrail?'Trail Running':'Running su strada'}
-- Durata piano: ${durata}
-- Frequenza: ${freq} allenamenti a settimana
-${kmtarget?`- Target km/settimana: ${kmtarget} km`:''}
-${pacetarget?`- Target passo medio: ${pacetarget}/km`:''}
-${isTrail&&elevtarget?`- Target dislivello per uscita: ${elevtarget}m+`:''}
-${isTrail&&longtarget?`- Lunghezza uscite lunghe: ${longtarget} km`:''}
-${note?`\nNOTE DELL'ATLETA:\n${note}`:''}
-
-Rispondi SOLO con un oggetto JSON valido, senza testo prima o dopo, senza backtick. Struttura esatta:
-{
-  "settimane": [
-    {
-      "numero": 1,
-      "obiettivo": "stringa breve (es. Adattamento base)",
-      "km_totali": 35,
-      "sessioni": [
-        { "giorno": "Lunedì", "tipo": "Riposo", "km": null, "durata": null, "passo": null, "dislivello": null, "descrizione": "Recupero attivo" },
-        { "giorno": "Martedì", "tipo": "Facile", "km": 8, "durata": "45min", "passo": "6:00", "dislivello": null, "descrizione": "Corsa lenta per costruire base aerobica" }
-      ]
-    }
-  ],
-  "consigli": ["consiglio 1", "consiglio 2", "consiglio 3"]
-}
-I tipi sessione possono essere: Riposo, Facile, Medio, Lungo, Intervalli, Tempo, Recupero, Forza.
-Includi TUTTI i 7 giorni della settimana per ogni settimana. Il campo dislivello è in metri, usalo solo per trail.`;
+  const jsonSchema=`Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
+{"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]${numWeeks===numWeeks?',"consigli":["..."]':''}}
+Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o null.`;
 
   const btn=document.getElementById(sid+'-piano-btn');
-  btn.disabled=true;btn.innerHTML='<span class="spin"></span> Generazione piano…';
-  resultEl.style.display='none';
+  btn.disabled=true;
+  resultEl.style.display='block';
+  resultEl.innerHTML='';
 
+  const color=SECT_COLOR[sid];
+  const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
+
+  const renderSettimana=s=>{
+    const sessHtml=`<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:0">
+      <thead><tr style="background:var(--bg2)">
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Durata</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:65px">Passo</th>
+        ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:55px">D+</th>':''}
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
+      </tr></thead>
+      <tbody>${(s.sessioni||[]).map((g,i)=>`<tr style="background:${i%2?'var(--bg2)':'var(--bg)'}">
+        <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
+        <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span></td>
+        <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
+        <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
+        <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
+        ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
+        <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+    return`<div style="margin-bottom:14px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden">
+      <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo||''}</div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali||'?'} km</div>
+      </div>${sessHtml}</div>`;
+  };
+
+  // Header risultato
+  resultEl.innerHTML=`<div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}</div>
+      <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
+    </div>
+    <div id="${sid}-piano-text"></div>
+    <div id="${sid}-piano-progress" style="font-size:12px;color:var(--muted);padding:8px 0"></div>
+  </div>`;
+
+  const textEl=document.getElementById(sid+'-piano-text');
+  const progEl=document.getElementById(sid+'-piano-progress');
+
+  // Chiama API per batch di 4 settimane
+  const BATCH=4;
+  let consigli=[];
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,messages:[{role:'user',content:prompt}]})
-    });
-    if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
-    const data=await res.json();
-    let raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    // Recover truncated JSON: close any open arrays/objects
-    let piano;
-    try{ piano=JSON.parse(raw); }
-    catch(parseErr){
-      // Try to close truncated JSON gracefully
-      const stack=[];
-      for(const ch of raw){if(ch==='{'||ch==='[')stack.push(ch==='{'?'}':']');else if(ch==='}'||ch===']')stack.pop();}
-      let fixed=raw.trimEnd();
-      // If last char is inside a string, close it
-      if(!fixed.endsWith('"')&&!fixed.endsWith('}')&&!fixed.endsWith(']')){
-        fixed=fixed.replace(/,?\s*$/, '');
-        // Close open string if needed
-        const quoteCount=(fixed.match(/"/g)||[]).length;
-        if(quoteCount%2!==0) fixed+='"';
-      }
-      // Remove trailing comma before closing
-      fixed=fixed.replace(/,\s*$/, '');
-      // Close remaining open brackets/braces in reverse
-      while(stack.length) fixed+=stack.pop();
-      try{ piano=JSON.parse(fixed); }
-      catch(e2){ throw new Error('Risposta AI non valida — riprova o riduci la durata del piano'); }
+    for(let from=1;from<=numWeeks;from+=BATCH){
+      const to=Math.min(from+BATCH-1,numWeeks);
+      const isLast=to===numWeeks;
+      btn.innerHTML=`<span class="spin"></span> Settimane ${from}–${to}…`;
+      progEl.textContent=`Generazione settimane ${from}–${to} di ${numWeeks}…`;
+
+      const batchPrompt=`${ctxStr}
+
+Genera SOLO le settimane da ${from} a ${to} (su ${numWeeks} totali).
+${isLast?'Includi anche il campo "consigli" con 3-5 consigli chiave.':'NON includere il campo "consigli".'}
+Piano progressivo: le settimane precedenti ${from>1?`(1-${from-1}) hanno aumentato gradualmente il volume`:'sono il punto di partenza'}.
+
+${jsonSchema}`;
+
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:batchPrompt}]})
+      });
+      if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
+      const data=await res.json();
+      const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+      const batch=JSON.parse(raw);
+      (batch.settimane||[]).forEach(s=>{ textEl.innerHTML+=renderSettimana(s); });
+      if(batch.consigli?.length) consigli=batch.consigli;
     }
-    const color=SECT_COLOR[sid];
-    const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
-    const settHtml=piano.settimane.map(s=>{
-      const sessHtml=`<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px">
-        <thead><tr style="background:var(--bg2)">
-          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
-          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Durata</th>
-          <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Passo</th>
-          ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">D+</th>':''}
-          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
-        </tr></thead>
-        <tbody>${s.sessioni.map((g,i)=>`<tr style="background:${i%2?'var(--bg2)':'var(--bg)'}">
-          <td style="padding:7px 8px;font-weight:600;color:var(--text2)">${g.giorno}</td>
-          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span></td>
-          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
-          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
-          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
-          ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
-          <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
-        </tr>`).join('')}</tbody>
-      </table>`;
-      return`<div style="margin-bottom:18px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden">
-        <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
-          <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo}</div>
-          <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali} km</div>
-        </div>
-        ${sessHtml}
+
+    // Consigli finali
+    if(consigli.length){
+      textEl.innerHTML+=`<div style="margin-top:4px;padding:14px;background:${color}0d;border:1.5px solid ${color}33;border-radius:8px">
+        <div style="font-weight:700;color:${color};font-size:12px;margin-bottom:8px">💡 Consigli per te</div>
+        ${consigli.map(c=>`<div style="display:flex;gap:8px;margin-bottom:6px;font-size:12px"><span style="color:${color};font-weight:700;flex-shrink:0">→</span><span>${c}</span></div>`).join('')}
       </div>`;
-    }).join('');
-    const consigliHtml=piano.consigli?.length?`<div style="margin-top:4px;padding:14px;background:${color}0d;border:1.5px solid ${color}33;border-radius:8px">
-      <div style="font-weight:700;color:${color};font-size:12px;margin-bottom:8px">💡 Consigli per te</div>
-      ${piano.consigli.map(c=>`<div style="display:flex;gap:8px;margin-bottom:6px;font-size:12px"><span style="color:${color};font-weight:700;flex-shrink:0">→</span><span>${c}</span></div>`).join('')}
-    </div>`:'';
-    resultEl.style.display='block';
-    resultEl.innerHTML=`<div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}</div>
-        <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
-      </div>
-      <div id="${sid}-piano-text">${settHtml}${consigliHtml}</div>
-    </div>`;
+    }
+    progEl.textContent='';
     savePianoForm(sid);
   }catch(e){
-    resultEl.style.display='block';
-    resultEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:14px;font-size:13px">❌ ${e.message}</div>`;
+    progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:12px;font-size:13px;margin-top:8px">❌ ${e.message}</div>`;
   }
   btn.disabled=false;btn.innerHTML='✨ Genera Piano';
 }
