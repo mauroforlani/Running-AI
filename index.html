@@ -323,6 +323,7 @@ select.form-input{cursor:pointer;}
     <button class="tab" id="road-tab-btn-act" onclick="switchTab('road','activities',this)">🏃‍♂️ Attività</button>
     <button class="tab" id="road-tab-btn-coach" onclick="switchTab('road','coach',this)">✨ AI Coach</button>
     <button class="tab" id="road-tab-btn-compare" onclick="switchTab('road','compare',this)">⚖️ Confronta</button>
+    <button class="tab" id="road-tab-btn-piano" onclick="switchTab('road','piano',this)">📋 Piano</button>
   </div>
   <!-- DASHBOARD -->
   <div id="road-tab-dashboard" class="section">
@@ -388,6 +389,7 @@ select.form-input{cursor:pointer;}
   </div>
   <!-- AI COACH --><div id="road-tab-coach" class="section" style="display:none"><div class="card"><div class="card-title">✨ AI Coach — Analisi Stato di Forma</div><div class="api-key-section"><div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div><div style="display:flex;gap:8px;align-items:center"><input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px"><button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button></div><div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div></div><button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button><div id="ai-result" style="display:none"></div></div></div>
   <!-- CONFRONTA --><div id="road-tab-compare" class="section" style="display:none"><div id="road-compare-content"></div></div>
+  <!-- PIANO --><div id="road-tab-piano" class="section" style="display:none"><div id="road-piano-content"></div></div>
 </div>
 <!-- ═══ SECTION: TRAIL ═══ -->
 <div id="page-trail" style="display:none">
@@ -395,6 +397,7 @@ select.form-input{cursor:pointer;}
     <button class="tab active-trail" id="trail-tab-btn-dash" onclick="switchTab('trail','dashboard',this)">📈 Dashboard</button>
     <button class="tab" id="trail-tab-btn-act" onclick="switchTab('trail','activities',this)">🏔️ Attività</button>
     <button class="tab" id="trail-tab-btn-compare" onclick="switchTab('trail','compare',this)">⚖️ Confronta</button>
+    <button class="tab" id="trail-tab-btn-piano" onclick="switchTab('trail','piano',this)">📋 Piano</button>
   </div>
   <!-- DASHBOARD -->
   <div id="trail-tab-dashboard" class="section">
@@ -459,6 +462,7 @@ select.form-input{cursor:pointer;}
     <div id="trail-act-grid"></div>
   </div>
   <!-- CONFRONTA --><div id="trail-tab-compare" class="section" style="display:none"><div id="trail-compare-content"></div></div>
+  <!-- PIANO --><div id="trail-tab-piano" class="section" style="display:none"><div id="trail-piano-content"></div></div>
 </div>
 <!-- ═══ SECTION: HIKING ═══ -->
 <div id="page-hiking" style="display:none">
@@ -1047,12 +1051,13 @@ function renderHeaderBtns(){
 // ══ TABS ══
 function switchTab(sid,name,el){
   document.querySelectorAll(`#${sid}-tabs .tab`).forEach(t=>t.classList.remove('active-run','active-hike','active-trail'));
-  [`${sid}-tab-dashboard`,`${sid}-tab-activities`,`${sid}-tab-coach`,`${sid}-tab-compare`].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
+  [`${sid}-tab-dashboard`,`${sid}-tab-activities`,`${sid}-tab-coach`,`${sid}-tab-compare`,`${sid}-tab-piano`].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
   const target=document.getElementById(`${sid}-tab-${name}`);if(target)target.style.display='block';
   const cls=sid==='hiking'||sid==='trailhike'?'active-hike':sid==='trail'?'active-trail':'active-run';
   el.classList.add(cls);
   if(name==='activities'){applyActFilters(sid);}
   if(name==='compare'){renderCompare(sid);}
+  if(name==='piano'){renderPiano(sid);}
 }
 
 // ══ MODALS ══
@@ -2587,6 +2592,198 @@ function exportActCSV(sid){
   a.href=url;a.download=`${sid}-attivita-${new Date().toISOString().slice(0,10)}.csv`;
   a.click();URL.revokeObjectURL(url);
   toast(`✓ Esportate ${items.length} attività in CSV`,'ok');
+}
+
+// ══ PIANO TAB ══
+function renderPiano(sid){
+  const el=document.getElementById(sid+'-piano-content');
+  if(!el)return;
+  const isTrail=sid==='trail';
+  const color=SECT_COLOR[sid];
+  const savedKey=`runai-piano-${sid}`;
+  const saved=JSON.parse(localStorage.getItem(savedKey)||'{}');
+
+  // Calcola statistiche recenti per pre-popolare i suggerimenti
+  const items=getItemsForSection(sid);
+  const last90=items.filter(w=>{const d=parseLocalDate(w.date);return(Date.now()-d)/86400000<=90;});
+  const avgKmWeek=last90.length>0?(last90.reduce((s,w)=>s+(w.distance||0),0)/(90/7)).toFixed(0):0;
+  const bestPace=last90.filter(w=>w.paceSeconds&&w.paceSeconds<1200).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
+
+  el.innerHTML=`<div class="card">
+    <div class="card-title">📋 Piano di Allenamento Personalizzato</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Compila i parametri e Claude creerà un piano settimanale su misura per te.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div class="form-group">
+        <label class="form-label">⏳ Durata Piano</label>
+        <select class="form-input" id="${sid}-piano-durata">
+          ${['4 settimane','6 settimane','8 settimane','10 settimane','12 settimane','16 settimane'].map(v=>`<option value="${v}"${saved.durata===v?' selected':''}>${v}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📆 Allenamenti / settimana</label>
+        <select class="form-input" id="${sid}-piano-freq">
+          ${[2,3,4,5,6].map(v=>`<option value="${v}"${saved.freq==v?' selected':''}>${v} volte</option>`).join('')}
+        </select>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div class="form-group">
+        <label class="form-label">🎯 Target km/settimana</label>
+        <input class="form-input" type="number" id="${sid}-piano-kmtarget" min="5" max="200" step="5"
+          placeholder="es. ${Math.max(30,Math.round(+avgKmWeek*1.15/5)*5)} km"
+          value="${saved.kmtarget||''}">
+        ${avgKmWeek>0?`<div style="font-size:10px;color:var(--muted);margin-top:3px">Media attuale (90gg): ~${avgKmWeek} km/sett</div>`:''}
+      </div>
+      <div class="form-group">
+        <label class="form-label">⚡ Target passo medio</label>
+        <input class="form-input" type="text" id="${sid}-piano-pacetarget" placeholder="es. 5:30"
+          value="${saved.pacetarget||''}">
+        ${bestPace?`<div style="font-size:10px;color:var(--muted);margin-top:3px">Passo migliore (90gg): ${s2p(bestPace.paceSeconds)}/km</div>`:''}
+      </div>
+    </div>
+
+    ${isTrail?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div class="form-group">
+        <label class="form-label">🏔️ Target dislivello / uscita</label>
+        <input class="form-input" type="number" id="${sid}-piano-elevtarget" min="0" max="5000" step="50"
+          placeholder="es. 800 m+" value="${saved.elevtarget||''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">📏 Lunghezza uscite lunghe</label>
+        <input class="form-input" type="number" id="${sid}-piano-longtarget" min="5" max="100" step="1"
+          placeholder="es. 25 km" value="${saved.longtarget||''}">
+      </div>
+    </div>`:''}
+
+    <div class="form-group" style="margin-bottom:14px">
+      <label class="form-label">📝 Note aggiuntive</label>
+      <textarea class="form-input" id="${sid}-piano-note" rows="4" placeholder="Es: ho una gara il 15 giugno, mi faccio male spesso al ginocchio sinistro, preferisco correre la mattina, ho già fatto una maratona..."
+        style="resize:vertical;font-size:13px">${saved.note||''}</textarea>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-bottom:16px">
+      <button class="btn btn-primary" style="flex:1" id="${sid}-piano-btn" onclick="runPiano('${sid}')">✨ Genera Piano</button>
+      <button class="btn btn-secondary btn-sm" onclick="savePianoForm('${sid}')">💾 Salva parametri</button>
+    </div>
+
+    <div id="${sid}-piano-result"></div>
+  </div>`;
+}
+
+function savePianoForm(sid){
+  const get=id=>document.getElementById(id)?.value||'';
+  const data={
+    durata:get(`${sid}-piano-durata`),freq:get(`${sid}-piano-freq`),
+    kmtarget:get(`${sid}-piano-kmtarget`),pacetarget:get(`${sid}-piano-pacetarget`),
+    elevtarget:get(`${sid}-piano-elevtarget`),longtarget:get(`${sid}-piano-longtarget`),
+    note:get(`${sid}-piano-note`)
+  };
+  localStorage.setItem(`runai-piano-${sid}`,JSON.stringify(data));
+  toast('✓ Parametri salvati','ok');
+}
+
+async function runPiano(sid){
+  const apiKey=getApiKey();
+  const resultEl=document.getElementById(sid+'-piano-result');
+  if(!apiKey){resultEl.style.display='block';resultEl.innerHTML=`<div style="color:#b85c00;background:#fff4eb;border:1.5px solid #f5c9a0;border-radius:8px;padding:14px;font-size:13px">⚠ Inserisci la tua Anthropic API Key in ✨ AI Coach e clicca Salva.</div>`;return;}
+  const get=id=>document.getElementById(id)?.value||'';
+  const durata=get(`${sid}-piano-durata`);
+  const freq=get(`${sid}-piano-freq`);
+  const kmtarget=get(`${sid}-piano-kmtarget`);
+  const pacetarget=get(`${sid}-piano-pacetarget`);
+  const elevtarget=get(`${sid}-piano-elevtarget`);
+  const longtarget=get(`${sid}-piano-longtarget`);
+  const note=get(`${sid}-piano-note`);
+  const isTrail=sid==='trail';
+
+  // Recupera statistiche reali dell'atleta
+  const items=getItemsForSection(sid);
+  const last90=items.filter(w=>{const d=parseLocalDate(w.date);return(Date.now()-d)/86400000<=90;});
+  const totalKm90=last90.reduce((s,w)=>s+(w.distance||0),0).toFixed(0);
+  const avgKmWeek=(+totalKm90/(90/7)).toFixed(1);
+  const bestPace=last90.filter(w=>w.paceSeconds&&w.paceSeconds<1200).sort((a,b)=>a.paceSeconds-b.paceSeconds)[0];
+  const avgPaceItems=last90.filter(w=>w.paceSeconds&&w.paceSeconds<1200);
+  const avgPace=avgPaceItems.length?Math.round(avgPaceItems.reduce((s,w)=>s+w.paceSeconds,0)/avgPaceItems.length):null;
+  const totalElev90=last90.reduce((s,w)=>s+(w.elevGain||0),0);
+  const avgHRItems=last90.filter(w=>w.avgHR);
+  const avgHR=avgHRItems.length?Math.round(avgHRItems.reduce((s,w)=>s+w.avgHR,0)/avgHRItems.length):null;
+  const actCount=last90.length;
+
+  const statsStr=`
+- Ultimi 90 giorni: ${actCount} uscite, ${totalKm90} km totali (~${avgKmWeek} km/settimana)
+- Passo migliore recente: ${bestPace?s2p(bestPace.paceSeconds)+'/km':'n/d'}
+- Passo medio recente: ${avgPace?s2p(avgPace)+'/km':'n/d'}
+- FC media recente: ${avgHR?avgHR+' bpm':'n/d'}
+${isTrail?`- Dislivello totale 90gg: ${totalElev90}m`:''}`;
+
+  const prompt=`Sei un coach di corsa esperto. Crea un piano di allenamento dettagliato per un atleta con le seguenti caratteristiche:
+
+STATISTICHE ATTUALI DELL'ATLETA:
+${statsStr}
+
+PARAMETRI DEL PIANO RICHIESTO:
+- Tipo di allenamento: ${isTrail?'Trail Running':'Running su strada'}
+- Durata piano: ${durata}
+- Frequenza: ${freq} allenamenti a settimana
+${kmtarget?`- Target km/settimana: ${kmtarget} km`:''}
+${pacetarget?`- Target passo medio: ${pacetarget}/km`:''}
+${isTrail&&elevtarget?`- Target dislivello per uscita: ${elevtarget}m+`:''}
+${isTrail&&longtarget?`- Lunghezza uscite lunghe: ${longtarget} km`:''}
+${note?`\nNOTE DELL'ATLETA:\n${note}`:''}
+
+Crea un piano settimanale progressivo. Per ogni settimana indica:
+- I giorni di allenamento con tipo (facile, medio, lungo, intervalli, recupero, riposo)
+- Distanza e/o durata indicativa per ogni sessione
+- Breve descrizione dell'obiettivo della sessione
+- Il volume totale settimanale in km
+
+Concludi con 3-5 consigli chiave per questo atleta basati sui suoi dati.
+
+Rispondi in italiano, in formato chiaro e leggibile con sezioni ben separate. Usa emoji per rendere il piano visivamente gradevole.`;
+
+  const btn=document.getElementById(sid+'-piano-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span> Generazione piano…';
+  resultEl.style.display='none';
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
+    const data=await res.json();
+    const text=(data.content||[]).map(b=>b.text||'').join('');
+    // Render as formatted HTML
+    const html=text
+      .replace(/\n\n/g,'</p><p>')
+      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+      .replace(/^#{1,3} (.+)$/gm,'<h4 style="margin:14px 0 6px;color:'+SECT_COLOR[sid]+'">$1</h4>')
+      .replace(/^- (.+)$/gm,'<li style="margin:3px 0">$1</li>')
+      .replace(/(<li.*<\/li>)/gs,'<ul style="margin:6px 0 6px 16px;padding:0">$1</ul>');
+    resultEl.style.display='block';
+    resultEl.innerHTML=`
+      <div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:700;color:${SECT_COLOR[sid]}">📋 Il tuo piano — ${durata}</div>
+          <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia</button>
+        </div>
+        <div id="${sid}-piano-text" style="font-size:13px;line-height:1.7;color:var(--text)"><p>${html}</p></div>
+      </div>`;
+    savePianoForm(sid);
+  }catch(e){
+    resultEl.style.display='block';
+    resultEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:14px;font-size:13px">❌ ${e.message}</div>`;
+  }
+  btn.disabled=false;btn.innerHTML='✨ Genera Piano';
+}
+
+function copyPiano(sid){
+  const el=document.getElementById(sid+'-piano-text');
+  if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>toast('✓ Piano copiato negli appunti','ok'));
 }
 
 // ══ BOOT ══
