@@ -2666,6 +2666,7 @@ function renderPiano(sid){
     <div style="display:flex;gap:10px;margin-bottom:16px">
       <button class="btn btn-primary" style="flex:1" id="${sid}-piano-btn" onclick="runPiano('${sid}')">✨ Genera Piano</button>
       <button class="btn btn-secondary btn-sm" onclick="savePianoForm('${sid}')">💾 Salva parametri</button>
+      <button class="btn btn-secondary btn-sm" onclick="clearPiano('${sid}')">🗑️ Pulisci</button>
     </div>
 
     <div id="${sid}-piano-result"></div>
@@ -2733,15 +2734,23 @@ ${isTrail&&elevtarget?`- Target dislivello per uscita: ${elevtarget}m+`:''}
 ${isTrail&&longtarget?`- Lunghezza uscite lunghe: ${longtarget} km`:''}
 ${note?`\nNOTE DELL'ATLETA:\n${note}`:''}
 
-Crea un piano settimanale progressivo. Per ogni settimana indica:
-- I giorni di allenamento con tipo (facile, medio, lungo, intervalli, recupero, riposo)
-- Distanza e/o durata indicativa per ogni sessione
-- Breve descrizione dell'obiettivo della sessione
-- Il volume totale settimanale in km
-
-Concludi con 3-5 consigli chiave per questo atleta basati sui suoi dati.
-
-Rispondi in italiano, in formato chiaro e leggibile con sezioni ben separate. Usa emoji per rendere il piano visivamente gradevole.`;
+Rispondi SOLO con un oggetto JSON valido, senza testo prima o dopo, senza backtick. Struttura esatta:
+{
+  "settimane": [
+    {
+      "numero": 1,
+      "obiettivo": "stringa breve (es. Adattamento base)",
+      "km_totali": 35,
+      "sessioni": [
+        { "giorno": "Lunedì", "tipo": "Riposo", "km": null, "durata": null, "passo": null, "dislivello": null, "descrizione": "Recupero attivo" },
+        { "giorno": "Martedì", "tipo": "Facile", "km": 8, "durata": "45min", "passo": "6:00", "dislivello": null, "descrizione": "Corsa lenta per costruire base aerobica" }
+      ]
+    }
+  ],
+  "consigli": ["consiglio 1", "consiglio 2", "consiglio 3"]
+}
+I tipi sessione possono essere: Riposo, Facile, Medio, Lungo, Intervalli, Tempo, Recupero, Forza.
+Includi TUTTI i 7 giorni della settimana per ogni settimana. Il campo dislivello è in metri, usalo solo per trail.`;
 
   const btn=document.getElementById(sid+'-piano-btn');
   btn.disabled=true;btn.innerHTML='<span class="spin"></span> Generazione piano…';
@@ -2751,33 +2760,66 @@ Rispondi in italiano, in formato chiaro e leggibile con sezioni ben separate. Us
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content:prompt}]})
     });
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
-    const text=(data.content||[]).map(b=>b.text||'').join('');
-    // Render as formatted HTML
-    const html=text
-      .replace(/\n\n/g,'</p><p>')
-      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-      .replace(/^#{1,3} (.+)$/gm,'<h4 style="margin:14px 0 6px;color:'+SECT_COLOR[sid]+'">$1</h4>')
-      .replace(/^- (.+)$/gm,'<li style="margin:3px 0">$1</li>')
-      .replace(/(<li.*<\/li>)/gs,'<ul style="margin:6px 0 6px 16px;padding:0">$1</ul>');
-    resultEl.style.display='block';
-    resultEl.innerHTML=`
-      <div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <div style="font-size:13px;font-weight:700;color:${SECT_COLOR[sid]}">📋 Il tuo piano — ${durata}</div>
-          <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia</button>
+    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const piano=JSON.parse(raw);
+    const color=SECT_COLOR[sid];
+    const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
+    const settHtml=piano.settimane.map(s=>{
+      const sessHtml=`<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px">
+        <thead><tr style="background:var(--bg2)">
+          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
+          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
+          <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
+          <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Durata</th>
+          <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Passo</th>
+          ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">D+</th>':''}
+          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
+        </tr></thead>
+        <tbody>${s.sessioni.map((g,i)=>`<tr style="background:${i%2?'var(--bg2)':'var(--bg)'}">
+          <td style="padding:7px 8px;font-weight:600;color:var(--text2)">${g.giorno}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span></td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
+          ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
+          <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+      return`<div style="margin-bottom:18px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+          <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo}</div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali} km</div>
         </div>
-        <div id="${sid}-piano-text" style="font-size:13px;line-height:1.7;color:var(--text)"><p>${html}</p></div>
+        ${sessHtml}
       </div>`;
+    }).join('');
+    const consigliHtml=piano.consigli?.length?`<div style="margin-top:4px;padding:14px;background:${color}0d;border:1.5px solid ${color}33;border-radius:8px">
+      <div style="font-weight:700;color:${color};font-size:12px;margin-bottom:8px">💡 Consigli per te</div>
+      ${piano.consigli.map(c=>`<div style="display:flex;gap:8px;margin-bottom:6px;font-size:12px"><span style="color:${color};font-weight:700;flex-shrink:0">→</span><span>${c}</span></div>`).join('')}
+    </div>`:'';
+    resultEl.style.display='block';
+    resultEl.innerHTML=`<div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}</div>
+        <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
+      </div>
+      <div id="${sid}-piano-text">${settHtml}${consigliHtml}</div>
+    </div>`;
     savePianoForm(sid);
   }catch(e){
     resultEl.style.display='block';
     resultEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:14px;font-size:13px">❌ ${e.message}</div>`;
   }
   btn.disabled=false;btn.innerHTML='✨ Genera Piano';
+}
+
+function clearPiano(sid){
+  const el=document.getElementById(sid+'-piano-result');
+  if(el){el.style.display='none';el.innerHTML='';}
 }
 
 function copyPiano(sid){
