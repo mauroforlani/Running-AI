@@ -1860,13 +1860,13 @@ function renderCards(list,containerId,icons,labels,sect){
         ${w.distance!=null?`<div class="act-row-stat"><div class="act-row-stat-val">${w.distance.toFixed(1)}</div><div class="act-row-stat-lbl">km</div></div>`:''}
         ${w.avgPace?`<div class="act-row-stat"><div class="act-row-stat-val">${w.avgPace}</div><div class="act-row-stat-lbl">/km</div></div>`:''}
         ${w.avgHR!=null?`<div class="act-row-stat"><div class="act-row-stat-val" style="color:#c0203a">${w.avgHR}</div><div class="act-row-stat-lbl">bpm</div></div>`:''}
+        ${isRun&&effRaw!=null?`<div class="act-row-stat" title="Efficienza cardiaca: passo÷FC×100 — più basso è meglio"><div class="act-row-stat-val" style="color:var(--trail)">${effRaw}</div><div class="act-row-stat-lbl">eff♥</div></div>`:''}
         ${w.elevGain!=null&&w.elevGain>0?`<div class="act-row-stat"><div class="act-row-stat-val" style="color:var(--green)">${w.elevGain}</div><div class="act-row-stat-lbl">m+</div></div>`:''}
         ${w.duration!=null?`<div class="act-row-stat"><div class="act-row-stat-val" style="font-size:13px">${fmtDur(w.duration)}</div><div class="act-row-stat-lbl">durata</div></div>`:''}
       </div>
       <div class="act-row-tags">
         ${w.perceivedEffort!=null?`<span class="tag ${rpeC}" style="font-size:9px;padding:2px 5px">RPE ${w.perceivedEffort}</span>`:''}
         ${w.aerobicTE!=null?`<span class="tag ${+w.aerobicTE>=4?'green':+w.aerobicTE>=3?'yellow':''}" style="font-size:9px;padding:2px 5px">TE ${w.aerobicTE}</span>`:''}
-        ${effRaw?`<span class="tag" style="font-size:9px;padding:2px 5px" title="Efficienza: passo/FC">⚡${effRaw}</span>`:''}
       </div>
       <button class="act-row-delete" onclick="deleteAct('${sect}','${w.id}')">✕</button>
     </div>`;
@@ -2542,14 +2542,14 @@ function runCompare(sid){
 
   if(!isHike){
     html+=section('⚡ Passo & FC');
-    if(A.avgP||B.avgP) html+=row('⚡','Passo medio',A.avgP?s2p(A.avgP)+'/km':'--',B.avgP?s2p(B.avgP)+'/km':'--',B.avgP,A.avgP,false);
-    if(A.bestP||B.bestP) html+=row('🏆','Passo migliore',A.bestP?s2p(A.bestP)+'/km':'--',B.bestP?s2p(B.bestP)+'/km':'--',B.bestP,A.bestP,false);
-    if(A.avgHR||B.avgHR) html+=row('❤️','FC media',A.avgHR?A.avgHR+' bpm':'--',B.avgHR?B.avgHR+' bpm':'--',B.avgHR,A.avgHR,false);
-    if(A.avgEff||B.avgEff) html+=row('💓','Efficienza card.',A.avgEff||'--',B.avgEff||'--',B.avgEff,A.avgEff,false);
+    if(A.avgP||B.avgP) html+=row('⚡','Passo medio',A.avgP?s2p(A.avgP)+'/km':'--',B.avgP?s2p(B.avgP)+'/km':'--',A.avgP,B.avgP,false);
+    if(A.bestP||B.bestP) html+=row('🏆','Passo migliore',A.bestP?s2p(A.bestP)+'/km':'--',B.bestP?s2p(B.bestP)+'/km':'--',A.bestP,B.bestP,false);
+    if(A.avgHR||B.avgHR) html+=row('❤️','FC media',A.avgHR?A.avgHR+' bpm':'--',B.avgHR?B.avgHR+' bpm':'--',A.avgHR,B.avgHR,false);
+    if(A.avgEff||B.avgEff) html+=row('💓','Efficienza card.',A.avgEff||'--',B.avgEff||'--',A.avgEff,B.avgEff,false);
   } else {
     if(A.avgHR||B.avgHR){
       html+=section('❤️ FC');
-      html+=row('❤️','FC media',A.avgHR?A.avgHR+' bpm':'--',B.avgHR?B.avgHR+' bpm':'--',B.avgHR,A.avgHR,false);
+      html+=row('❤️','FC media',A.avgHR?A.avgHR+' bpm':'--',B.avgHR?B.avgHR+' bpm':'--',A.avgHR,B.avgHR,false);
     }
   }
 
