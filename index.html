@@ -2760,12 +2760,33 @@ Includi TUTTI i 7 giorni della settimana per ogni settimana. Il campo dislivello
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:8000,messages:[{role:'user',content:prompt}]})
     });
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
-    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    const piano=JSON.parse(raw);
+    let raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    // Recover truncated JSON: close any open arrays/objects
+    let piano;
+    try{ piano=JSON.parse(raw); }
+    catch(parseErr){
+      // Try to close truncated JSON gracefully
+      const stack=[];
+      for(const ch of raw){if(ch==='{'||ch==='[')stack.push(ch==='{'?'}':']');else if(ch==='}'||ch===']')stack.pop();}
+      let fixed=raw.trimEnd();
+      // If last char is inside a string, close it
+      if(!fixed.endsWith('"')&&!fixed.endsWith('}')&&!fixed.endsWith(']')){
+        fixed=fixed.replace(/,?\s*$/, '');
+        // Close open string if needed
+        const quoteCount=(fixed.match(/"/g)||[]).length;
+        if(quoteCount%2!==0) fixed+='"';
+      }
+      // Remove trailing comma before closing
+      fixed=fixed.replace(/,\s*$/, '');
+      // Close remaining open brackets/braces in reverse
+      while(stack.length) fixed+=stack.pop();
+      try{ piano=JSON.parse(fixed); }
+      catch(e2){ throw new Error('Risposta AI non valida — riprova o riduci la durata del piano'); }
+    }
     const color=SECT_COLOR[sid];
     const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
     const settHtml=piano.settimane.map(s=>{
