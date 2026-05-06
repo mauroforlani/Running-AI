@@ -2470,24 +2470,48 @@ async function loadFromGitHub(){
     if(btn){btn.textContent='↓ Carica';btn.disabled=false;}
   }
 }
-async function syncToGitHub(){
+let _ghSyncTimer=null;
+let _ghSyncing=false;
+function syncToGitHub(){
+  // Debounce: cancella sync precedente e aspetta 800ms prima di partire
+  clearTimeout(_ghSyncTimer);
+  _ghSyncTimer=setTimeout(_doSyncToGitHub,800);
+}
+async function _doSyncToGitHub(retries=3){
+  if(_ghSyncing){
+    // Già in corso: riprogramma tra 1s
+    clearTimeout(_ghSyncTimer);
+    _ghSyncTimer=setTimeout(()=>_doSyncToGitHub(retries),1000);
+    return;
+  }
   const cfg=getGitHubConfig();
-  if(!cfg.token||!cfg.owner||!cfg.repo)return; // silently skip if not configured
+  if(!cfg.token||!cfg.owner||!cfg.repo)return;
+  _ghSyncing=true;
   const path=cfg.path||'data/runai-state.json';
   const content=JSON.stringify(state,null,2);
   const b64=btoa(unescape(encodeURIComponent(content)));
   try{
-    // Get current file SHA (needed for update)
+    // Fetch sempre lo SHA fresco dal server
     let sha=null;
     const getRes=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`,{headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json'}});
     if(getRes.ok){const d=await getRes.json();sha=d.sha;}
-    // Push new content
     const body={message:`RunAI sync ${new Date().toISOString().slice(0,16).replace('T',' ')}`,content:b64};
     if(sha)body.sha=sha;
     const putRes=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`,{method:'PUT',headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(putRes.ok){toast('✓ Sincronizzato su GitHub','ok');}
-    else{const e=await putRes.json();toast('GitHub: '+e.message,'err');}
+    if(putRes.ok){
+      toast('✓ Sincronizzato su GitHub','ok');
+    }else{
+      const e=await putRes.json();
+      // SHA conflict (409 o messaggio "does not match") → riprova subito con SHA fresco
+      if(retries>0&&(putRes.status===409||putRes.status===422||(e.message||'').includes('does not match'))){
+        _ghSyncing=false;
+        await new Promise(r=>setTimeout(r,400));
+        return _doSyncToGitHub(retries-1);
+      }
+      toast('GitHub: '+e.message,'err');
+    }
   }catch(e){console.warn('GitHub sync failed:',e.message);}
+  finally{_ghSyncing=false;}
 }
 
 // ══ TOAST ══
@@ -3094,6 +3118,7 @@ async function updatePiano(sid){
   const get=id=>document.getElementById(id)?.value||'';
   const kmtarget=get(`${sid}-piano-kmtarget`);
   const pacetarget=get(`${sid}-piano-pacetarget`);
+  const giorni=getGiorniPiano(sid);
 
   const updatePrompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Stai aggiornando un piano di allenamento già in corso.
 
@@ -3103,7 +3128,7 @@ SESSIONI GIÀ COMPLETATE DEL PIANO: ${completedStr}
 SETTIMANE DA AGGIORNARE (${numInc} settimane con sessioni non ancora completate):
 ${incSummary}
 
-Rielabora SOLO le settimane indicate (${incNums}), adattando le sessioni NON completate sulla base degli ultimi allenamenti svolti. Mantieni la progressione e gli obiettivi originali. ${kmtarget?`Target km/sett: ${kmtarget}.`:''}${pacetarget?` Target passo: ${pacetarget}/km.`:''}
+Rielabora SOLO le settimane indicate (${incNums}), adattando le sessioni NON completate sulla base degli ultimi allenamenti svolti. Mantieni la progressione e gli obiettivi originali. ${kmtarget?`Target km/sett: ${kmtarget}.`:''}${pacetarget?` Target passo: ${pacetarget}/km.`:''}${giorni.length?` Giorni di allenamento OBBLIGATORI: ${giorni.join(', ')} — tutti gli altri giorni devono essere Riposo.`:''}
 
 Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
