@@ -2760,14 +2760,47 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
   btn.disabled=true;
   resultEl.style.display='block';
   resultEl.innerHTML='';
+  // Reset dati piano precedente
+  if(!window._pianoData)window._pianoData={};
+  window._pianoData[sid]=[];
 
   const color=SECT_COLOR[sid];
   const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
 
   const qualityTypes=['Intervalli','Tempo','Medio','Lungo','Forza'];
-  const renderSettimana=s=>{
+
+  // ── Stato checkbox piano ──
+  const pianoStateKey=`runai-piano-checks-${sid}`;
+  let pianoChecks=JSON.parse(localStorage.getItem(pianoStateKey)||'{}');
+  // pianoData: struttura completa delle settimane per "Aggiorna Piano"
+  if(!window._pianoData) window._pianoData={};
+  if(!window._pianoData[sid]) window._pianoData[sid]=[];
+
+  function savePianoChecks(){localStorage.setItem(pianoStateKey,JSON.stringify(pianoChecks));}
+
+  function togglePianoCheck(checkId,rowEl){
+    pianoChecks[checkId]=!pianoChecks[checkId];
+    savePianoChecks();
+    applyPianoCheckStyle(checkId,rowEl);
+  }
+
+  function applyPianoCheckStyle(checkId,rowEl){
+    const cb=document.getElementById(checkId);
+    if(!cb||!rowEl)return;
+    const done=pianoChecks[checkId];
+    cb.checked=done;
+    rowEl.style.opacity=done?'0.45':'1';
+    rowEl.style.textDecoration=done?'line-through none':'none';
+    Array.from(rowEl.querySelectorAll('td')).forEach(td=>{
+      td.style.color=done?'var(--muted2)':'';
+    });
+  }
+
+  const renderSettimana=(s,settWeekIndex)=>{
+    const weekIdx=settWeekIndex!==undefined?settWeekIndex:s.numero;
     const sessHtml=`<div class="piano-table"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:0">
       <thead><tr style="background:var(--bg2)">
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:32px">✓</th>
         <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
         <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
         <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
@@ -2779,9 +2812,14 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
       <tbody>${(s.sessioni||[]).map((g,i)=>{
         const isQuality=qualityTypes.includes(g.tipo);
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
-        return`<tr class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'}" ${isQuality?`onclick="openPianoSession(${rowData},'${sid}','${color}')"`:''}>
+        const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+        const isRest=g.tipo==='Riposo';
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'}" ${isQuality&&!isRest?`onclick="openPianoSession(${rowData},'${sid}','${color}')"`:''}>
+          <td style="padding:7px 8px;text-align:center" onclick="event.stopPropagation()">
+            ${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}
+          </td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
-          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
@@ -2790,18 +2828,48 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
         </tr>`;
       }).join('')}</tbody>
     </table></div>`;
-    return`<div style="margin-bottom:14px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden">
+
+    // calcola completamento settimana
+    const totalSess=(s.sessioni||[]).filter(g=>g.tipo!=='Riposo').length;
+    const doneSess=(s.sessioni||[]).filter((g,i)=>{
+      const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+      return g.tipo!=='Riposo'&&pianoChecks[checkId];
+    }).length;
+    const pct=totalSess>0?Math.round(doneSess/totalSess*100):0;
+    const progressBar=totalSess>0?`<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div style="width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${pct===100?'var(--green)':color};border-radius:3px;transition:width .3s"></div>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted)">${doneSess}/${totalSess}</span>
+    </div>`:'';
+
+    return`<div style="margin-bottom:14px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden" id="piano-week-${sid}-${weekIdx}">
       <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
         <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo||''}</div>
-        <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali||'?'} km</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          ${progressBar}
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali||'?'} km</div>
+        </div>
       </div>${sessHtml}</div>`;
   };
 
+  // Applica stato checkbox dopo rendering
+  function applyAllPianoChecks(){
+    Object.keys(pianoChecks).forEach(checkId=>{
+      if(!checkId.startsWith(`piano-check-${sid}-`))return;
+      const rowEl=document.getElementById('row-'+checkId);
+      if(rowEl) applyPianoCheckStyle(checkId,rowEl);
+    });
+  }
+
   // Header risultato
   resultEl.innerHTML=`<div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}</div>
-      <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-secondary btn-sm" id="${sid}-piano-update-btn" onclick="updatePiano('${sid}')" style="border-color:${color};color:${color}">🔄 Aggiorna Piano</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
+      </div>
     </div>
     <div id="${sid}-piano-text"></div>
     <div id="${sid}-piano-progress" style="font-size:12px;color:var(--muted);padding:8px 0"></div>
@@ -2837,7 +2905,11 @@ ${jsonSchema}`;
       const data=await res.json();
       const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
       const batch=JSON.parse(raw);
-      (batch.settimane||[]).forEach(s=>{ textEl.innerHTML+=renderSettimana(s); });
+      (batch.settimane||[]).forEach(s=>{
+        window._pianoData[sid].push(s);
+        textEl.innerHTML+=renderSettimana(s,s.numero);
+        setTimeout(applyAllPianoChecks,0);
+      });
       if(batch.consigli?.length) consigli=batch.consigli;
     }
 
@@ -2865,6 +2937,161 @@ function copyPiano(sid){
   const el=document.getElementById(sid+'-piano-text');
   if(!el)return;
   navigator.clipboard.writeText(el.innerText).then(()=>toast('✓ Piano copiato negli appunti','ok'));
+}
+
+async function updatePiano(sid){
+  const apiKey=getApiKey();
+  if(!apiKey){toast('⚠ Inserisci l\'API Key in ✨ AI Coach','err');return;}
+  const pianoData=window._pianoData?.[sid];
+  if(!pianoData||!pianoData.length){toast('⚠ Nessun piano da aggiornare. Genera prima il piano.','err');return;}
+
+  const pianoStateKey=`runai-piano-checks-${sid}`;
+  const pianoChecks=JSON.parse(localStorage.getItem(pianoStateKey)||'{}');
+
+  // Trova settimane con almeno una sessione NON completata (escludendo Riposo)
+  const settimaneIncomplete=pianoData.filter(s=>{
+    return (s.sessioni||[]).some((g,i)=>{
+      if(g.tipo==='Riposo')return false;
+      const checkId=`piano-check-${sid}-w${s.numero}-${i}`;
+      return !pianoChecks[checkId];
+    });
+  });
+
+  if(!settimaneIncomplete.length){
+    toast('✅ Tutte le sessioni sono già completate!','ok');
+    return;
+  }
+
+  // Allenamenti recenti (ultimi 14 giorni)
+  const items=getItemsForSection(sid);
+  const last14=items.filter(w=>{const d=parseLocalDate(w.date);return(Date.now()-d)/86400000<=14;});
+  const recentStr=last14.length?last14.slice(0,8).map(w=>`${w.date}: ${w.type||'corsa'} ${w.distance?w.distance+'km':''} ${w.paceSeconds?s2p(w.paceSeconds)+'/km':''} ${w.avgHR?w.avgHR+'bpm':''}`.trim()).join('; '):'nessuno';
+
+  // Sessioni completate da mostrare nel contesto
+  const completedStr=pianoData.flatMap(s=>(s.sessioni||[]).filter((g,i)=>{
+    if(g.tipo==='Riposo')return false;
+    return pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`];
+  }).map(g=>`S${s.numero} ${g.giorno} ${g.tipo}${g.km?' '+g.km+'km':''}`)).join(', ')||'nessuna';
+
+  const btn=document.getElementById(sid+'-piano-update-btn');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Aggiornamento…';}
+
+  const isTrail=sid==='trail';
+  const color=SECT_COLOR[sid];
+  const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
+  const qualityTypes=['Intervalli','Tempo','Medio','Lungo','Forza'];
+
+  // Ricostruisci renderSettimana locale (senza ricreare lo stato checkbox)
+  const pianoStateKey2=`runai-piano-checks-${sid}`;
+  const pianoChecks2=JSON.parse(localStorage.getItem(pianoStateKey2)||'{}');
+
+  const renderSett=(s,weekIdx)=>{
+    const sessHtml=`<div class="piano-table"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:0">
+      <thead><tr style="background:var(--bg2)">
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:32px">✓</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Durata</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:65px">Passo</th>
+        ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:55px">D+</th>':''}
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
+      </tr></thead>
+      <tbody>${(s.sessioni||[]).map((g,i)=>{
+        const isQuality=qualityTypes.includes(g.tipo);
+        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
+        const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+        const isRest=g.tipo==='Riposo';
+        const isDone=pianoChecks2[checkId];
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="openPianoSession(${rowData},'${sid}','${color}')"`:''}>
+          <td style="padding:7px 8px;text-align:center" onclick="event.stopPropagation()">
+            ${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}
+          </td>
+          <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
+          ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
+          <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`;
+    const totalSess=(s.sessioni||[]).filter(g=>g.tipo!=='Riposo').length;
+    const doneSess=(s.sessioni||[]).filter((g,i)=>g.tipo!=='Riposo'&&pianoChecks2[`piano-check-${sid}-w${weekIdx}-${i}`]).length;
+    const pct=totalSess>0?Math.round(doneSess/totalSess*100):0;
+    const progressBar=totalSess>0?`<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div style="width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${pct===100?'var(--green)':color};border-radius:3px"></div>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted)">${doneSess}/${totalSess}</span>
+    </div>`:'';
+    return`<div style="margin-bottom:14px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden" id="piano-week-${sid}-${weekIdx}">
+      <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo||''}</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          ${progressBar}
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali||'?'} km</div>
+        </div>
+      </div>${sessHtml}</div>`;
+  };
+
+  // Prompt per aggiornamento
+  const numInc=settimaneIncomplete.length;
+  const incNums=settimaneIncomplete.map(s=>s.numero).join(', ');
+  const incSummary=settimaneIncomplete.map(s=>{
+    const todo=(s.sessioni||[]).filter((g,i)=>g.tipo!=='Riposo'&&!pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`]).map(g=>`${g.giorno} ${g.tipo}${g.km?' '+g.km+'km':''}`).join(', ');
+    return`Settimana ${s.numero} (${s.obiettivo}): da rifare → ${todo}`;
+  }).join('\n');
+
+  const get=id=>document.getElementById(id)?.value||'';
+  const kmtarget=get(`${sid}-piano-kmtarget`);
+  const pacetarget=get(`${sid}-piano-pacetarget`);
+
+  const updatePrompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Stai aggiornando un piano di allenamento già in corso.
+
+ALLENAMENTI RECENTI (ultimi 14 giorni): ${recentStr}
+SESSIONI GIÀ COMPLETATE DEL PIANO: ${completedStr}
+
+SETTIMANE DA AGGIORNARE (${numInc} settimane con sessioni non ancora completate):
+${incSummary}
+
+Rielabora SOLO le settimane indicate (${incNums}), adattando le sessioni NON completate sulla base degli ultimi allenamenti svolti. Mantieni la progressione e gli obiettivi originali. ${kmtarget?`Target km/sett: ${kmtarget}.`:''}${pacetarget?` Target passo: ${pacetarget}/km.`:''}
+
+Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
+{"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
+Includi tutti e 7 i giorni per ogni settimana.`;
+
+  const progEl=document.getElementById(sid+'-piano-progress');
+  if(progEl)progEl.textContent=`Aggiornamento ${numInc} settimane…`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:updatePrompt}]})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
+    const data=await res.json();
+    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const updated=JSON.parse(raw);
+
+    // Sostituisci le settimane aggiornate nell'HTML e nei dati
+    (updated.settimane||[]).forEach(newS=>{
+      const weekEl=document.getElementById(`piano-week-${sid}-${newS.numero}`);
+      if(weekEl){
+        weekEl.outerHTML=renderSett(newS,newS.numero);
+      }
+      // Aggiorna pianoData
+      const idx=window._pianoData[sid].findIndex(s=>s.numero===newS.numero);
+      if(idx>=0) window._pianoData[sid][idx]=newS;
+    });
+    if(progEl)progEl.textContent='';
+    toast(`✅ Piano aggiornato! ${numInc} settimane rielaborate.`,'ok');
+  }catch(e){
+    if(progEl)progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:12px;font-size:13px;margin-top:8px">❌ ${e.message}</div>`;
+  }
+  if(btn){btn.disabled=false;btn.innerHTML='🔄 Aggiorna Piano';}
 }
 
 function closePianoSession(){
@@ -2912,6 +3139,33 @@ Rispondi SOLO con JSON valido senza backtick:
       (d.consigli?`<div style="margin-top:12px;padding:10px 12px;background:${color}0d;border-radius:8px;font-size:12px;color:var(--text);line-height:1.5">💡 ${d.consigli}</div>`:'');
   }catch(e){
     bodyEl.innerHTML=`<div style="color:var(--red);font-size:13px;padding:12px">❌ ${e.message}</div>`;
+  }
+}
+
+// ── Global piano check handler (called from inline onclick) ──
+function togglePianoCheck(checkId,rowEl){
+  const key=checkId.replace(/^piano-check-([^-]+)-.*$/,'runai-piano-checks-$1');
+  const checks=JSON.parse(localStorage.getItem(key)||'{}');
+  checks[checkId]=!checks[checkId];
+  localStorage.setItem(key,JSON.stringify(checks));
+  if(!rowEl)return;
+  const cb=document.getElementById(checkId);
+  const done=checks[checkId];
+  if(cb)cb.checked=done;
+  rowEl.style.opacity=done?'0.45':'1';
+  // Aggiorna barra di avanzamento settimana
+  const weekEl=rowEl.closest('[id^="piano-week-"]');
+  if(weekEl){
+    const sid=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
+    const weekNum=parseInt(checkId.replace(/^piano-check-[^-]+-w(\d+)-.*$/,'$1'));
+    const allRows=weekEl.querySelectorAll('input.piano-cb');
+    const total=allRows.length;
+    const done2=Array.from(allRows).filter(cb=>cb.checked).length;
+    const pct=total>0?Math.round(done2/total*100):0;
+    const bar=weekEl.querySelector('[style*="border-radius:3px;overflow:hidden"] div');
+    const label=weekEl.querySelector('[style*="font-family:var(--font-mono)"][style*="font-size:10px"]');
+    if(bar)bar.style.width=pct+'%';
+    if(label)label.textContent=`${done2}/${total}`;
   }
 }
 
