@@ -2664,6 +2664,22 @@ function renderPiano(sid){
       </div>
     </div>
 
+    <div class="form-group" style="margin-bottom:14px">
+      <label class="form-label">📅 Giorni di allenamento preferiti</label>
+      <div id="${sid}-piano-giorni-picker" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+        ${['Lun','Mar','Mer','Gio','Ven','Sab','Dom'].map((g,i)=>{
+          const full=['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'][i];
+          const sel=saved.giorni?saved.giorni.includes(full):false;
+          return`<button type="button" id="${sid}-giorno-${i}" data-day="${full}" data-on="${sel?'1':'0'}" onclick="toggleGiornoPiano(this,'${sid}')"
+            style="min-width:44px;padding:7px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid;transition:all .15s;font-family:var(--font-body);
+            background:${sel?color:'var(--bg2)'};color:${sel?'#fff':'var(--muted)'};border-color:${sel?color:'var(--border2)'}">${g}</button>`;
+        }).join('')}
+      </div>
+      <div id="${sid}-piano-giorni-hint" style="font-size:10px;color:var(--muted);margin-top:5px">
+        ${saved.giorni&&saved.giorni.length?`Selezionati: ${saved.giorni.join(', ')}`:'Lascia vuoto per lasciare decidere al coach'}
+      </div>
+    </div>
+
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
       <div class="form-group">
         <label class="form-label">🎯 Target km/settimana</label>
@@ -2709,13 +2725,32 @@ function renderPiano(sid){
   </div>`;
 }
 
+function toggleGiornoPiano(btn,sid){
+  const color=SECT_COLOR[sid];
+  const isOn=btn.dataset.on==='1';
+  btn.dataset.on=isOn?'0':'1';
+  btn.style.background=isOn?'var(--bg2)':color;
+  btn.style.color=isOn?'var(--muted)':'#fff';
+  btn.style.borderColor=isOn?'var(--border2)':color;
+  // aggiorna hint
+  const giorni=getGiorniPiano(sid);
+  const hint=document.getElementById(sid+'-piano-giorni-hint');
+  if(hint)hint.textContent=giorni.length?`Selezionati: ${giorni.join(', ')}`:'Lascia vuoto per lasciare decidere al coach';
+}
+
+function getGiorniPiano(sid){
+  const picker=document.getElementById(sid+'-piano-giorni-picker');
+  if(!picker)return[];
+  return Array.from(picker.querySelectorAll('button[data-on="1"]')).map(b=>b.dataset.day);
+}
+
 function savePianoForm(sid){
   const get=id=>document.getElementById(id)?.value||'';
   const data={
     durata:get(`${sid}-piano-durata`),freq:get(`${sid}-piano-freq`),
     kmtarget:get(`${sid}-piano-kmtarget`),pacetarget:get(`${sid}-piano-pacetarget`),
     elevtarget:get(`${sid}-piano-elevtarget`),longtarget:get(`${sid}-piano-longtarget`),
-    note:get(`${sid}-piano-note`)
+    note:get(`${sid}-piano-note`),giorni:getGiorniPiano(sid)
   };
   localStorage.setItem(`runai-piano-${sid}`,JSON.stringify(data));
   toast('✓ Parametri salvati','ok');
@@ -2735,6 +2770,7 @@ async function runPiano(sid){
   const note=get(`${sid}-piano-note`);
   const isTrail=sid==='trail';
   const numWeeks=parseInt(durata)||8;
+  const giorni=getGiorniPiano(sid);
 
   // Statistiche atleta
   const items=getItemsForSection(sid);
@@ -2750,7 +2786,7 @@ async function runPiano(sid){
 
   const statsStr=`Ultimi 90gg: ${last90.length} uscite, ${totalKm90}km (~${avgKmWeek}km/sett), passo migliore: ${bestPace?s2p(bestPace.paceSeconds)+'/km':'n/d'}, passo medio: ${avgPace?s2p(avgPace)+'/km':'n/d'}, FC media: ${avgHR?avgHR+'bpm':'n/d'}${isTrail?', dislivello 90gg: '+totalElev90+'m':''}`;
 
-  const ctxStr=`Atleta: ${statsStr}. Piano: ${isTrail?'Trail':'Running'}, ${freq}x/sett${kmtarget?', target '+kmtarget+'km/sett':''}${pacetarget?', target passo '+pacetarget+'/km':''}${isTrail&&elevtarget?', target D+ '+elevtarget+'m':''}${isTrail&&longtarget?', uscite lunghe '+longtarget+'km':''}${note?'. Note: '+note:''}`;
+  const ctxStr=`Atleta: ${statsStr}. Piano: ${isTrail?'Trail':'Running'}, ${freq}x/sett${kmtarget?', target '+kmtarget+'km/sett':''}${pacetarget?', target passo '+pacetarget+'/km':''}${isTrail&&elevtarget?', target D+ '+elevtarget+'m':''}${isTrail&&longtarget?', uscite lunghe '+longtarget+'km':''}${giorni.length?'. Giorni di allenamento OBBLIGATORI: '+giorni.join(', ')+' (gli altri giorni devono essere Riposo)':''}${note?'. Note: '+note:''}`;
 
   const jsonSchema=`Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]${numWeeks===numWeeks?',"consigli":["..."]':''}}
