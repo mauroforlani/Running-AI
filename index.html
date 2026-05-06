@@ -2877,10 +2877,7 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
         const isRest=g.tipo==='Riposo';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'}" ${isQuality&&!isRest?`onclick="openPianoSession(${rowData},'${sid}','${color}')"`:''}>
-          <td style="padding:7px 8px;text-align:center" onclick="event.stopPropagation()">
-            ${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}
-          </td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3074,10 +3071,7 @@ async function updatePiano(sid){
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
         const isRest=g.tipo==='Riposo';
         const isDone=pianoChecks2[checkId];
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="openPianoSession(${rowData},'${sid}','${color}')"`:''}>
-          <td style="padding:7px 8px;text-align:center" onclick="event.stopPropagation()">
-            ${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}
-          </td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3149,10 +3143,17 @@ Includi tutti e 7 i giorni per ogni settimana.`;
     const updated=JSON.parse(raw);
 
     // Sostituisci le settimane aggiornate nell'HTML e nei dati
+    // Raccogli prima tutti i riferimenti DOM (outerHTML li invalida)
+    const weekRefs={};
     (updated.settimane||[]).forEach(newS=>{
-      const weekEl=document.getElementById(`piano-week-${sid}-${newS.numero}`);
-      if(weekEl){
-        weekEl.outerHTML=renderSett(newS,newS.numero);
+      const el=document.getElementById(`piano-week-${sid}-${newS.numero}`);
+      if(el)weekRefs[newS.numero]=el;
+    });
+    (updated.settimane||[]).forEach(newS=>{
+      const el=weekRefs[newS.numero];
+      if(el){
+        const newHtml=renderSett(newS,newS.numero);
+        el.outerHTML=newHtml;
       }
       // Aggiorna pianoData
       const idx=window._pianoData[sid].findIndex(s=>s.numero===newS.numero);
