@@ -2463,6 +2463,8 @@ async function loadFromGitHub(){
     saveState();
     SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});
     renderHome();renderHeaderBtns();
+    // Ripristina UI piano per ogni sezione che ha dati piano
+    Object.keys(state.piano||{}).forEach(sid=>restorePianoFromState(sid));
     toast(`✓ Caricati ${state.workouts.length} allenamenti, ${state.hikes.length} escursioni, ${state.garminReadings.length} Garmin`,'ok');
   }catch(e){
     toast('Errore caricamento: '+e.message,'err');
@@ -3251,12 +3253,111 @@ function togglePianoCheck(checkId,rowEl){
   }
 }
 
+// ── Ripristina UI piano da state (usato dopo caricamento da GitHub) ──
+function restorePianoFromState(sid){
+  const pianoObj=state.piano?.[sid];
+  if(!pianoObj||!(pianoObj.settimane||[]).length)return;
+
+  // Assicura che il form sia renderizzato
+  const contentEl=document.getElementById(sid+'-piano-content');
+  if(!contentEl||!contentEl.innerHTML.trim())renderPiano(sid);
+
+  const resultEl=document.getElementById(sid+'-piano-result');
+  if(!resultEl)return;
+
+  const isTrail=sid==='trail';
+  const color=SECT_COLOR[sid];
+  const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
+  const qualityTypes=['Intervalli','Tempo','Medio','Lungo','Forza'];
+  const pianoChecks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
+  const settimane=pianoObj.settimane||[];
+  const durata=`${settimane.length} settimane`;
+
+  const renderSett=(s)=>{
+    const weekIdx=s.numero;
+    const sessHtml=`<div class="piano-table"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:0">
+      <thead><tr style="background:var(--bg2)">
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:32px">✓</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Durata</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:65px">Passo</th>
+        ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:55px">D+</th>':''}
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
+      </tr></thead>
+      <tbody>${(s.sessioni||[]).map((g,i)=>{
+        const isQuality=qualityTypes.includes(g.tipo);
+        const isRest=g.tipo==='Riposo';
+        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
+        const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+        const isDone=!!pianoChecks[checkId];
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+          <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
+          ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
+          <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`;
+    const totalSess=(s.sessioni||[]).filter(g=>g.tipo!=='Riposo').length;
+    const doneSess=(s.sessioni||[]).filter((g,i)=>g.tipo!=='Riposo'&&pianoChecks[`piano-check-${sid}-w${weekIdx}-${i}`]).length;
+    const pct=totalSess>0?Math.round(doneSess/totalSess*100):0;
+    const progressBar=totalSess>0?`<div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><div style="width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${pct===100?'var(--green)':color};border-radius:3px"></div></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--muted)">${doneSess}/${totalSess}</span></div>`:'';
+    return`<div style="margin-bottom:14px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden" id="piano-week-${sid}-${weekIdx}">
+      <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo||''}</div>
+        <div style="display:flex;align-items:center;gap:12px">${progressBar}<div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali||'?'} km</div></div>
+      </div>${sessHtml}</div>`;
+  };
+
+  const consigli=pianoObj.consigli||[];
+  const consigliHtml=consigli.length?`<div style="margin-top:4px;padding:14px;background:${color}0d;border:1.5px solid ${color}33;border-radius:8px">
+    <div style="font-weight:700;color:${color};font-size:12px;margin-bottom:8px">💡 Consigli per te</div>
+    ${consigli.map(c=>`<div style="display:flex;gap:8px;margin-bottom:6px;font-size:12px"><span style="color:${color};font-weight:700;flex-shrink:0">→</span><span>${c}</span></div>`).join('')}
+  </div>`:'';
+
+  const ts=pianoObj.updatedAt||pianoObj.generatedAt||'';
+  const tsLabel=ts?` <span style="font-size:10px;color:var(--muted);font-family:var(--font-mono)">(salvato ${ts.slice(0,10)})</span>`:'';
+
+  resultEl.style.display='block';
+  resultEl.innerHTML=`<div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}${tsLabel}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-secondary btn-sm" id="${sid}-piano-update-btn" onclick="updatePiano('${sid}')" style="border-color:${color};color:${color}">🔄 Aggiorna Piano</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
+      </div>
+    </div>
+    <div id="${sid}-piano-text">${settimane.map(s=>renderSett(s)).join('')}${consigliHtml}</div>
+    <div id="${sid}-piano-progress"></div>
+  </div>`;
+}
+
 // ══ BOOT ══
 loadState();
 renderHeaderBtns();
 renderHome();
 // pre-init section states
 SECTIONS.forEach(s=>{sectFiltered[s]=getItemsForSection?.(s)||[];});
+// Ripristina piano da localStorage (se presente)
+if(!window._pianoData)window._pianoData={};
+Object.keys(state.piano||{}).forEach(sid=>{
+  window._pianoData[sid]=(state.piano[sid]?.settimane)||[];
+  // Ripristina pianoChecks in localStorage
+  Object.entries(state.pianoChecks||{}).forEach(([checkId,val])=>{
+    const s=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
+    const key=`runai-piano-checks-${s}`;
+    const ex=JSON.parse(localStorage.getItem(key)||'{}');
+    ex[checkId]=val;
+    localStorage.setItem(key,JSON.stringify(ex));
+  });
+  // Renderizza il piano al prossimo tick (dopo che il DOM è pronto)
+  setTimeout(()=>restorePianoFromState(sid),0);
+});
 </script>
 </body>
 </html>
