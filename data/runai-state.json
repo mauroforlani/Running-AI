@@ -18717,16 +18717,16 @@
       "settimane": [
         {
           "numero": 1,
-          "obiettivo": "Adattamento al volume target e introduzione graduale del lavoro di qualità",
-          "km_totali": 35,
+          "obiettivo": "Adattamento al nuovo volume e giorni fissi",
+          "km_totali": 34,
           "sessioni": [
             {
               "giorno": "Lunedì",
-              "tipo": "Medio",
-              "km": 10,
-              "durata": "50min",
-              "passo": "5:00/km",
-              "descrizione": "Ritmo medio controllato, progressivo negli ultimi 3km"
+              "tipo": "Facile",
+              "km": 8,
+              "durata": "42-45 min",
+              "passo": "5:20-5:30/km",
+              "descrizione": "Corsa facile di adattamento, ritmo conversazione"
             },
             {
               "giorno": "Martedì",
@@ -18734,62 +18734,62 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "tipo": "Medio",
+              "km": 10,
+              "durata": "50-52 min",
+              "passo": "4:50-5:00/km",
+              "descrizione": "Corsa a ritmo medio, sforzo controllato"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Intervalli",
-              "km": 8,
-              "durata": "35min",
-              "passo": "4:30/km",
-              "descrizione": "Riscaldamento 2km, 4x1000m a 4:30/km rec.400m, defaticamento 2km"
+              "tipo": "Recupero",
+              "km": 6,
+              "durata": "32-35 min",
+              "passo": "5:30-5:40/km",
+              "descrizione": "Corsa di recupero molto facile"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
-              "km": 7,
-              "durata": "38min",
-              "passo": "5:25/km",
-              "descrizione": "Corsa aerobica leggera per recupero attivo"
-            },
-            {
-              "giorno": "Sabato",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Lungo",
+              "km": 10,
+              "durata": "52-55 min",
+              "passo": "5:10-5:20/km",
+              "descrizione": "Lungo facile per costruire resistenza aerobica"
             },
             {
               "giorno": "Domenica",
-              "tipo": "Lungo",
-              "km": 10,
-              "durata": "52min",
-              "passo": "5:15/km",
-              "descrizione": "Lungo progressivo, ultimi 3km a ritmo medio"
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Giorno di riposo completo"
             }
           ]
         },
         {
           "numero": 2,
-          "obiettivo": "Incremento del volume e consolidamento del ritmo medio",
-          "km_totali": 38,
+          "obiettivo": "Incremento volume e primo lavoro di velocità",
+          "km_totali": 36,
           "sessioni": [
             {
               "giorno": "Lunedì",
-              "tipo": "Tempo",
-              "km": 10,
-              "durata": "47min",
-              "passo": "4:45/km",
-              "descrizione": "Riscaldamento 2km, 6km a ritmo soglia, defaticamento 2km"
+              "tipo": "Facile",
+              "km": 8,
+              "durata": "42-44 min",
+              "passo": "5:15-5:25/km",
+              "descrizione": "Corsa facile, migliorando leggermente il ritmo"
             },
             {
               "giorno": "Martedì",
@@ -18797,62 +18797,62 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "tipo": "Intervalli",
+              "km": 10,
+              "durata": "45-48 min",
+              "passo": "4:30-4:40/km nelle ripetute",
+              "descrizione": "Riscaldamento 3km + 4x1000m rec.400m + defaticamento 3km"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Intervalli",
-              "km": 10,
-              "durata": "43min",
-              "passo": "4:25/km",
-              "descrizione": "Riscaldamento 2km, 5x1000m a 4:25/km rec.400m, defaticamento 3km"
+              "tipo": "Recupero",
+              "km": 6,
+              "durata": "32-34 min",
+              "passo": "5:25-5:35/km",
+              "descrizione": "Corsa di recupero post intervalli"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
-              "km": 6,
-              "durata": "32min",
-              "passo": "5:20/km",
-              "descrizione": "Corsa aerobica di recupero"
-            },
-            {
-              "giorno": "Sabato",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Lungo",
+              "km": 12,
+              "durata": "62-65 min",
+              "passo": "5:10-5:20/km",
+              "descrizione": "Lungo progressivo, ultimi 3km a 4:55-5:05/km"
             },
             {
               "giorno": "Domenica",
-              "tipo": "Lungo",
-              "km": 12,
-              "durata": "62min",
-              "passo": "5:10/km",
-              "descrizione": "Lungo progressivo con variazioni di ritmo negli ultimi 4km"
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Giorno di riposo completo"
             }
           ]
         },
         {
           "numero": 3,
-          "obiettivo": "Raggiungimento volume target e miglioramento velocità specifica",
-          "km_totali": 40,
+          "obiettivo": "Sviluppo soglia anaerobica e resistenza",
+          "km_totali": 38,
           "sessioni": [
             {
               "giorno": "Lunedì",
-              "tipo": "Tempo",
-              "km": 12,
-              "durata": "55min",
-              "passo": "4:35/km",
-              "descrizione": "Riscaldamento 2km, 8km a ritmo gara target, defaticamento 2km"
+              "tipo": "Facile",
+              "km": 9,
+              "durata": "46-48 min",
+              "passo": "5:10-5:20/km",
+              "descrizione": "Corsa facile con ritmo più fluido"
             },
             {
               "giorno": "Martedì",
@@ -18860,62 +18860,62 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "tipo": "Tempo",
+              "km": 11,
+              "durata": "52-55 min",
+              "passo": "4:35-4:45/km nella parte centrale",
+              "descrizione": "Riscaldamento 3km + 5km tempo + defaticamento 3km"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Intervalli",
-              "km": 10,
-              "durata": "42min",
-              "passo": "4:20/km",
-              "descrizione": "Riscaldamento 2km, 6x800m a 4:20/km rec.400m, defaticamento 2km"
+              "tipo": "Recupero",
+              "km": 6,
+              "durata": "31-33 min",
+              "passo": "5:20-5:30/km",
+              "descrizione": "Corsa molto facile di recupero"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
-              "km": 6,
-              "durata": "32min",
-              "passo": "5:25/km",
-              "descrizione": "Corsa di scarico pre lungo"
-            },
-            {
-              "giorno": "Sabato",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Lungo",
+              "km": 12,
+              "durata": "60-63 min",
+              "passo": "5:00-5:10/km",
+              "descrizione": "Lungo a ritmo sostenuto ma controllato"
             },
             {
               "giorno": "Domenica",
-              "tipo": "Lungo",
-              "km": 12,
-              "durata": "58min",
-              "passo": "4:50/km",
-              "descrizione": "Lungo a ritmo progressivo, ultimi 5km vicini al target"
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Giorno di riposo completo"
             }
           ]
         },
         {
           "numero": 4,
-          "obiettivo": "Consolidamento del ritmo gara e resistenza specifica",
-          "km_totali": 42,
+          "obiettivo": "Raggiungimento target volume settimanale",
+          "km_totali": 40,
           "sessioni": [
             {
               "giorno": "Lunedì",
-              "tipo": "Tempo",
-              "km": 12,
-              "durata": "52min",
-              "passo": "4:20/km",
-              "descrizione": "Riscaldamento 2km, 8km a ritmo gara, defaticamento 2km"
+              "tipo": "Facile",
+              "km": 10,
+              "durata": "50-52 min",
+              "passo": "5:05-5:15/km",
+              "descrizione": "Corsa facile a ritmo naturale"
             },
             {
               "giorno": "Martedì",
@@ -18923,62 +18923,62 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "tipo": "Intervalli",
+              "km": 12,
+              "durata": "52-55 min",
+              "passo": "4:25-4:35/km nelle ripetute",
+              "descrizione": "Riscaldamento 3km + 6x800m rec.400m + defaticamento 3km"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Intervalli",
-              "km": 12,
-              "durata": "50min",
-              "passo": "4:15/km",
-              "descrizione": "Riscaldamento 2km, 3x2000m a 4:15/km rec.600m, defaticamento 2km"
+              "tipo": "Recupero",
+              "km": 6,
+              "durata": "30-32 min",
+              "passo": "5:15-5:25/km",
+              "descrizione": "Corsa di recupero attivo"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
-              "km": 8,
-              "durata": "43min",
-              "passo": "5:20/km",
-              "descrizione": "Corsa aerobica di mantenimento"
-            },
-            {
-              "giorno": "Sabato",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Giorno di riposo completo"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Lungo",
+              "km": 12,
+              "durata": "58-61 min",
+              "passo": "4:50-5:00/km",
+              "descrizione": "Lungo a ritmo medio-sostenuto, simulando ritmo gara"
             },
             {
               "giorno": "Domenica",
-              "tipo": "Lungo",
-              "km": 10,
-              "durata": "43min",
-              "passo": "4:20/km",
-              "descrizione": "Test specifico a ritmo gara per consolidamento"
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Giorno di riposo completo"
             }
           ]
         },
         {
           "numero": 5,
-          "obiettivo": "Settimana di tapering - riduzione volume mantenendo intensità",
-          "km_totali": 30,
+          "obiettivo": "Intensificazione del ritmo e consolidamento della base aerobica",
+          "km_totali": 38,
           "sessioni": [
             {
               "giorno": "Lunedì",
-              "tipo": "Intervalli",
+              "tipo": "Medio",
               "km": 8,
-              "durata": "33min",
-              "passo": "4:10/km",
-              "descrizione": "Riscaldamento 2km, 4x800m a 4:10/km rec.400m, defaticamento 2km"
+              "durata": "40min",
+              "passo": "4:50/km",
+              "descrizione": "Corsa a ritmo medio con 3km centrali a passo gara mezza"
             },
             {
               "giorno": "Martedì",
@@ -18986,62 +18986,62 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Riposo completo o stretching leggero"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "tipo": "Intervalli",
+              "km": 10,
+              "durata": "50min",
+              "passo": "4:20/km negli intervalli",
+              "descrizione": "Riscaldamento 3km + 5x1000m a 4:20/km rec 90s + defaticamento 2km"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Tempo",
-              "km": 8,
+              "tipo": "Facile",
+              "km": 6,
               "durata": "35min",
-              "passo": "4:20/km",
-              "descrizione": "Riscaldamento 2km, 4km a ritmo gara, defaticamento 2km"
+              "passo": "5:30/km",
+              "descrizione": "Corsa facile di recupero attivo"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
-              "km": 6,
-              "durata": "33min",
-              "passo": "5:30/km",
-              "descrizione": "Corsa molto leggera di scarico"
-            },
-            {
-              "giorno": "Sabato",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Riposo completo"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Lungo",
+              "km": 14,
+              "durata": "75min",
+              "passo": "5:20/km",
+              "descrizione": "Lungo progressivo: primi 8km a 5:30, ultimi 6km a 5:05"
             },
             {
               "giorno": "Domenica",
-              "tipo": "Medio",
-              "km": 8,
-              "durata": "38min",
-              "passo": "4:45/km",
-              "descrizione": "Corsa media controllata con alcune progressioni"
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo completo"
             }
           ]
         },
         {
           "numero": 6,
-          "obiettivo": "Settimana gara - massimo riposo e attivazione",
-          "km_totali": 25,
+          "obiettivo": "Picco di volume e lavoro specifico su distanza",
+          "km_totali": 42,
           "sessioni": [
             {
               "giorno": "Lunedì",
-              "tipo": "Facile",
-              "km": 5,
-              "durata": "28min",
-              "passo": "5:40/km",
-              "descrizione": "Corsa molto leggera di mantenimento"
+              "tipo": "Tempo",
+              "km": 9,
+              "durata": "45min",
+              "passo": "4:35/km nella parte centrale",
+              "descrizione": "Riscaldamento 3km + 5km a passo soglia + defaticamento 1km"
             },
             {
               "giorno": "Martedì",
@@ -19049,60 +19049,185 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "descrizione": "Riposo completo"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di recupero completo"
+              "tipo": "Intervalli",
+              "km": 11,
+              "durata": "55min",
+              "passo": "4:15/km negli intervalli",
+              "descrizione": "Riscaldamento 3km + 6x800m a 4:15/km rec 75s + defaticamento 2km"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Intervalli",
+              "tipo": "Facile",
               "km": 6,
-              "durata": "25min",
-              "passo": "4:10/km",
-              "descrizione": "Riscaldamento 2km, 3x400m a 4:10/km rec.400m, defaticamento 1km"
+              "durata": "35min",
+              "passo": "5:35/km",
+              "descrizione": "Corsa facile di scarico"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
-              "km": 4,
-              "durata": "23min",
-              "passo": "5:45/km",
-              "descrizione": "Corsa di attivazione pre-gara molto leggera"
-            },
-            {
-              "giorno": "Sabato",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo pre-gara"
+              "descrizione": "Riposo completo"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Lungo",
+              "km": 16,
+              "durata": "85min",
+              "passo": "5:15/km",
+              "descrizione": "Lungo costante con ultimi 3km a passo gara mezza (4:45/km)"
             },
             {
               "giorno": "Domenica",
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo completo"
+            }
+          ]
+        },
+        {
+          "numero": 7,
+          "obiettivo": "Affinamento e simulazione gara",
+          "km_totali": 36,
+          "sessioni": [
+            {
+              "giorno": "Lunedì",
+              "tipo": "Medio",
+              "km": 8,
+              "durata": "38min",
+              "passo": "4:40/km",
+              "descrizione": "Corsa a ritmo controllato con sensazioni di gara"
+            },
+            {
+              "giorno": "Martedì",
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo completo"
+            },
+            {
+              "giorno": "Mercoledì",
+              "tipo": "Intervalli",
+              "km": 9,
+              "durata": "45min",
+              "passo": "4:10/km negli intervalli",
+              "descrizione": "Riscaldamento 3km + 4x1200m a 4:10/km rec 2min + defaticamento 1.5km"
+            },
+            {
+              "giorno": "Giovedì",
+              "tipo": "Facile",
+              "km": 5,
+              "durata": "30min",
+              "passo": "5:40/km",
+              "descrizione": "Corsa facile di mantenimento"
+            },
+            {
+              "giorno": "Venerdì",
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo completo"
+            },
+            {
+              "giorno": "Sabato",
               "tipo": "Tempo",
-              "km": 10,
-              "durata": "43min",
-              "passo": "4:20/km",
-              "descrizione": "GARA - Obiettivo 10km in 43:20"
+              "km": 14,
+              "durata": "68min",
+              "passo": "4:45/km nella parte centrale",
+              "descrizione": "Simulazione: 3km risc + 10km a passo gara + 1km defatic"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo completo"
+            }
+          ]
+        },
+        {
+          "numero": 8,
+          "obiettivo": "Tapering e preparazione finale alla gara",
+          "km_totali": 28,
+          "sessioni": [
+            {
+              "giorno": "Lunedì",
+              "tipo": "Facile",
+              "km": 6,
+              "durata": "33min",
+              "passo": "5:30/km",
+              "descrizione": "Corsa sciolta con 4x100m progressivi finali"
+            },
+            {
+              "giorno": "Martedì",
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo completo"
+            },
+            {
+              "giorno": "Mercoledì",
+              "tipo": "Intervalli",
+              "km": 7,
+              "durata": "35min",
+              "passo": "4:15/km negli intervalli",
+              "descrizione": "Risc 3km + 3x600m a 4:15/km rec 90s + defatic 1.2km"
+            },
+            {
+              "giorno": "Giovedì",
+              "tipo": "Facile",
+              "km": 4,
+              "durata": "25min",
+              "passo": "5:45/km",
+              "descrizione": "Corsa molto facile di scarico pre-gara"
+            },
+            {
+              "giorno": "Venerdì",
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo completo, preparazione mentale"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Recupero",
+              "km": 3,
+              "durata": "18min",
+              "passo": "6:00/km",
+              "descrizione": "Attivazione pre-gara con 3x20s a passo gara"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Gara",
+              "km": 21.1,
+              "durata": "100min target",
+              "passo": "4:45/km target",
+              "descrizione": "MEZZA MARATONA - Partenza conservativa, negative split"
             }
           ]
         }
       ],
       "consigli": [
-        "Durante il tapering non ridurre drasticamente l'intensità ma solo il volume per mantenere la forma",
-        "Nella settimana gara dormi almeno 8 ore per notte e mantieni un'alimentazione regolare",
-        "Non provare nulla di nuovo negli ultimi giorni: scarpe, alimentazione e routine devono essere collaudate",
-        "In gara parti conservativo nei primi 5km, mantieni il ritmo nei centrali e dai tutto negli ultimi 5km",
-        "Idratati regolarmente durante la gara ma senza esagerare per evitare problemi gastrointestinali"
+        "Nelle settimane 5-6 mantieni alta l'intensità ma ascolta il corpo: se senti affaticamento eccessivo, riduci leggermente il passo negli allenamenti facili",
+        "Durante gli intervalli delle settimane 5-7, concentrati sulla precisione del passo target (4:15-4:20/km) per abituare il corpo al ritmo gara",
+        "Il lungo della settimana 6 è cruciale: simula le condizioni di gara (orario, alimentazione, abbigliamento) per testare la strategia",
+        "Nella settimana 7 riduci gradualmente il volume mantenendo l'intensità: questo ti preparerà al tapering ottimale",
+        "Settimana 8 è di scarico completo: fidati del lavoro fatto, mantieni solo l'attivazione neuromuscolare e cura riposo/alimentazione"
       ],
-      "generatedAt": "2026-05-06T20:40:49.149Z",
-      "updatedAt": "2026-05-06T20:41:44.666Z"
+      "generatedAt": "2026-05-06T20:57:01.209Z"
     }
   },
   "pianoChecks": {
