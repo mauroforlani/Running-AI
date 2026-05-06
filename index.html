@@ -921,7 +921,7 @@ select.form-input{cursor:pointer;}
 <script>
 // ══ STATE ══
 const DB_KEY='runai-v5';
-let state={workouts:[],hikes:[],garminReadings:[]};
+let state={workouts:[],hikes:[],garminReadings:[],piano:{},pianoChecks:{}};
 let cur='home';
 // ── Per-section state ──
 const SECTIONS=['road','trail','hiking','roadtrail','trailhike'];
@@ -989,6 +989,8 @@ function loadState(){
   try{const r=localStorage.getItem('runai-v4');if(r){const o=JSON.parse(r);state.workouts=o.workouts||[];state.garminReadings=o.garminReadings||[];}}catch{}
   try{const e=document.getElementById('embedded-state');if(e&&e.textContent.trim()&&e.textContent.trim()!=='{}'){state=JSON.parse(e.textContent);state.hikes=normalizeDates(state.hikes);migrateRunTypes();migrateElevGain();}}catch{}
   if(!state.hikes)state.hikes=[];
+  if(!state.piano)state.piano={};
+  if(!state.pianoChecks)state.pianoChecks={};
 }
 function saveState(){
   try{localStorage.setItem(DB_KEY,JSON.stringify(state));}catch{}
@@ -2435,12 +2437,29 @@ async function loadFromGitHub(){
     const loaded=JSON.parse(content);
     if(!loaded.workouts&&!loaded.hikes&&!loaded.garminReadings){throw new Error('File non valido o vuoto');}
     const garminCount=(loaded.garminReadings||[]).length;
-    if(!confirm(`Trovati su GitHub:\n• ${(loaded.workouts||[]).length} allenamenti\n• ${(loaded.hikes||[]).length} escursioni\n• ${garminCount} letture Garmin\n\nSostituire i dati locali?`))return;
+    const pianoSids=Object.keys(loaded.piano||{});
+    const pianoInfo=pianoSids.length?`\n• Piano: ${pianoSids.map(s=>`${s} (${(loaded.piano[s]?.settimane||[]).length} sett.)`).join(', ')}`:'';
+    if(!confirm(`Trovati su GitHub:\n• ${(loaded.workouts||[]).length} allenamenti\n• ${(loaded.hikes||[]).length} escursioni\n• ${garminCount} letture Garmin${pianoInfo}\n\nSostituire i dati locali?`))return;
     state=loaded;
     state.hikes=normalizeDates(state.hikes||[]);
     state.workouts=state.workouts||[];
     state.garminReadings=state.garminReadings||[];
+    state.piano=state.piano||{};
+    state.pianoChecks=state.pianoChecks||{};
     migrateRunTypes();migrateElevGain();
+    // Restore pianoChecks to localStorage per-section keys
+    Object.entries(state.pianoChecks).forEach(([checkId,val])=>{
+      const sid=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
+      const key=`runai-piano-checks-${sid}`;
+      const existing=JSON.parse(localStorage.getItem(key)||'{}');
+      existing[checkId]=val;
+      localStorage.setItem(key,JSON.stringify(existing));
+    });
+    // Restore _pianoData in memory
+    if(!window._pianoData)window._pianoData={};
+    Object.entries(state.piano).forEach(([sid,pianoObj])=>{
+      window._pianoData[sid]=pianoObj.settimane||[];
+    });
     saveState();
     SECTIONS.forEach(s=>{if(document.getElementById('page-'+s)?.style.display!=='none')renderSection(s);});
     renderHome();renderHeaderBtns();
@@ -2808,29 +2827,13 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
   // ── Stato checkbox piano ──
   const pianoStateKey=`runai-piano-checks-${sid}`;
   let pianoChecks=JSON.parse(localStorage.getItem(pianoStateKey)||'{}');
+  // Merge with state.pianoChecks (from GitHub sync)
+  Object.entries(state.pianoChecks||{}).forEach(([k,v])=>{
+    if(k.startsWith(`piano-check-${sid}-`))pianoChecks[k]=v;
+  });
   // pianoData: struttura completa delle settimane per "Aggiorna Piano"
   if(!window._pianoData) window._pianoData={};
   if(!window._pianoData[sid]) window._pianoData[sid]=[];
-
-  function savePianoChecks(){localStorage.setItem(pianoStateKey,JSON.stringify(pianoChecks));}
-
-  function togglePianoCheck(checkId,rowEl){
-    pianoChecks[checkId]=!pianoChecks[checkId];
-    savePianoChecks();
-    applyPianoCheckStyle(checkId,rowEl);
-  }
-
-  function applyPianoCheckStyle(checkId,rowEl){
-    const cb=document.getElementById(checkId);
-    if(!cb||!rowEl)return;
-    const done=pianoChecks[checkId];
-    cb.checked=done;
-    rowEl.style.opacity=done?'0.45':'1';
-    rowEl.style.textDecoration=done?'line-through none':'none';
-    Array.from(rowEl.querySelectorAll('td')).forEach(td=>{
-      td.style.color=done?'var(--muted2)':'';
-    });
-  }
 
   const renderSettimana=(s,settWeekIndex)=>{
     const weekIdx=settWeekIndex!==undefined?settWeekIndex:s.numero;
@@ -2891,10 +2894,13 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
 
   // Applica stato checkbox dopo rendering
   function applyAllPianoChecks(){
-    Object.keys(pianoChecks).forEach(checkId=>{
-      if(!checkId.startsWith(`piano-check-${sid}-`))return;
+    const checks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
+    Object.keys(checks).forEach(checkId=>{
+      if(!checkId.startsWith(`piano-check-${sid}-`)||!checks[checkId])return;
+      const cb=document.getElementById(checkId);
       const rowEl=document.getElementById('row-'+checkId);
-      if(rowEl) applyPianoCheckStyle(checkId,rowEl);
+      if(cb)cb.checked=true;
+      if(rowEl)rowEl.style.opacity='0.45';
     });
   }
 
@@ -2958,6 +2964,11 @@ ${jsonSchema}`;
     }
     progEl.textContent='';
     savePianoForm(sid);
+    // Persist piano to state for GitHub sync
+    if(!state.piano)state.piano={};
+    state.piano[sid]={settimane:window._pianoData[sid],consigli,generatedAt:new Date().toISOString()};
+    saveState();
+    syncToGitHub();
   }catch(e){
     progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:12px;font-size:13px;margin-top:8px">❌ ${e.message}</div>`;
   }
@@ -3123,6 +3134,12 @@ Includi tutti e 7 i giorni per ogni settimana.`;
       if(idx>=0) window._pianoData[sid][idx]=newS;
     });
     if(progEl)progEl.textContent='';
+    // Persist updated piano to state
+    if(!state.piano)state.piano={};
+    const existing=state.piano[sid]||{};
+    state.piano[sid]={...existing,settimane:window._pianoData[sid],updatedAt:new Date().toISOString()};
+    saveState();
+    syncToGitHub();
     toast(`✅ Piano aggiornato! ${numInc} settimane rielaborate.`,'ok');
   }catch(e){
     if(progEl)progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:12px;font-size:13px;margin-top:8px">❌ ${e.message}</div>`;
@@ -3184,6 +3201,11 @@ function togglePianoCheck(checkId,rowEl){
   const checks=JSON.parse(localStorage.getItem(key)||'{}');
   checks[checkId]=!checks[checkId];
   localStorage.setItem(key,JSON.stringify(checks));
+  // Persist in state for GitHub sync
+  if(!state.pianoChecks)state.pianoChecks={};
+  state.pianoChecks[checkId]=checks[checkId];
+  saveState();
+  syncToGitHub();
   if(!rowEl)return;
   const cb=document.getElementById(checkId);
   const done=checks[checkId];
@@ -3192,8 +3214,6 @@ function togglePianoCheck(checkId,rowEl){
   // Aggiorna barra di avanzamento settimana
   const weekEl=rowEl.closest('[id^="piano-week-"]');
   if(weekEl){
-    const sid=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
-    const weekNum=parseInt(checkId.replace(/^piano-check-[^-]+-w(\d+)-.*$/,'$1'));
     const allRows=weekEl.querySelectorAll('input.piano-cb');
     const total=allRows.length;
     const done2=Array.from(allRows).filter(cb=>cb.checked).length;
