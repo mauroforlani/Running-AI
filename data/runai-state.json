@@ -18649,6 +18649,17 @@
   ],
   "garminReadings": [
     {
+      "id": 1778159949226,
+      "date": "2026-05-07",
+      "hrv": "49",
+      "trainingReadiness": "42",
+      "trainingLoad": "813",
+      "bodyBattery": "65",
+      "restingHR": "51",
+      "sleepScore": "720",
+      "stressLevel": "18"
+    },
+    {
       "id": 1778046758729,
       "date": "2026-05-06",
       "hrv": "49",
@@ -18736,5 +18747,7 @@
       "sleepScore": "69",
       "stressLevel": "23"
     }
-  ]
+  ],
+  "piano": {},
+  "pianoChecks": {}
 }
