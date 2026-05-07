@@ -407,7 +407,7 @@ select.form-input{cursor:pointer;}
     </div>
     <div id="road-act-grid"></div>
   </div>
-  <!-- AI COACH --><div id="road-tab-coach" class="section" style="display:none"><div class="card"><div class="card-title">✨ AI Coach — Analisi Stato di Forma</div><div class="api-key-section"><div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div><div style="display:flex;gap:8px;align-items:center"><input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px"><button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button></div><div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div></div><button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button><div id="ai-result" style="display:none"></div></div></div>
+  <!-- AI COACH --><div id="road-tab-coach" class="section" style="display:none"><div class="card"><div class="card-title">✨ AI Coach — Analisi Stato di Forma</div><div class="api-key-section"><div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div><div style="display:flex;gap:8px;align-items:center"><input class="form-input" type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:420px"><button class="btn btn-secondary btn-sm" onclick="saveApiKey()">Salva</button></div><div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div></div><div style="margin-bottom:14px"><div class="filter-label" style="margin-bottom:6px">📝 Note per il coach <span style="font-weight:400;color:var(--muted)">(opzionale)</span></div><textarea id="coach-note" class="form-input" rows="3" placeholder="Es: questa settimana ho sentito le gambe pesanti, ho dormito poco, voglio aumentare il volume..." style="width:100%;resize:vertical;font-size:13px" oninput="localStorage.setItem('runai-coach-note',this.value)"></textarea></div><button class="btn btn-primary" id="analyze-btn" onclick="runAIAnalysis()" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button><div id="ai-result" style="display:none"></div></div></div>
   <!-- CONFRONTA --><div id="road-tab-compare" class="section" style="display:none"><div id="road-compare-content"></div></div>
   <!-- PIANO --><div id="road-tab-piano" class="section" style="display:none"><div id="road-piano-content"></div></div>
 </div>
@@ -636,6 +636,10 @@ select.form-input{cursor:pointer;}
           <button class="btn btn-secondary btn-sm" onclick="saveApiKey('rt')">Salva</button>
         </div>
         <div class="api-key-note">La chiave viene salvata solo nel tuo browser.<br>Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.</div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div class="filter-label" style="margin-bottom:6px">📝 Note per il coach <span style="font-weight:400;color:var(--muted)">(opzionale)</span></div>
+        <textarea id="coach-note-rt" class="form-input" rows="3" placeholder="Es: questa settimana ho sentito le gambe pesanti, ho dormito poco, voglio aumentare il volume..." style="width:100%;resize:vertical;font-size:13px" oninput="localStorage.setItem('runai-coach-note',this.value)"></textarea>
       </div>
       <button class="btn btn-primary" id="analyze-btn-rt" onclick="runAIAnalysis('rt')" style="margin-bottom:14px">▶ Analizza il mio stato di forma</button>
       <div id="ai-result-rt" style="display:none"></div>
@@ -2090,6 +2094,7 @@ async function runAIAnalysis(sfx){
   if(!apiKey){resultEl.style.display='block';resultEl.innerHTML=`<div style="color:#b85c00;background:#fff4eb;border:1.5px solid #f5c9a0;border-radius:8px;padding:14px;font-size:13px">⚠ Inserisci la tua Anthropic API Key e clicca Salva.</div>`;return;}
   const btn=document.getElementById('analyze-btn'+sfxId);
   btn.disabled=true;btn.innerHTML='<span class="spin"></span> Analisi in corso...';
+  const coachNote=(document.getElementById('coach-note'+sfxId)?.value||localStorage.getItem('runai-coach-note')||'').trim();
   const recent=state.workouts.slice(0,14);
   const recentRun=recent.filter(w=>w.type!=='trail');
   const recentTrail=recent.filter(w=>w.type==='trail');
@@ -2110,6 +2115,7 @@ ${rG.length===0?'Nessuno':rG.map(g=>`- ${fmtDate(g.date)}: HRV ${g.hrv||'?'}ms|R
 
 ${gT?`EVOLUZIONE GARMIN (7gg vs 7gg precedenti):
 HRV:${gT.hrv_o??'?'}→${gT.hrv_r??'?'} | Readiness:${gT.read_o??'?'}→${gT.read_r??'?'} | Sleep:${gT.sleep_o??'?'}→${gT.sleep_r??'?'} | Stress:${gT.stress_o??'?'}→${gT.stress_r??'?'} | RHR:${gT.rhr_o??'?'}→${gT.rhr_r??'?'}bpm`:''}
+${coachNote?`\nNOTE DELL'ATLETA: ${coachNote}\nTieni conto di queste considerazioni personali nell'analisi e nella raccomandazione.`:''}
 
 Rispondi SOLO JSON:
 {"fitnessScore":<0-100>,"status":"<Ottima forma|Buona forma|Recupero|Riposo necessario>","summary":"<2-3 frasi>","insights":["<1>","<2>","<3>","<4>"],"recommendation":"<raccomandazione>","warnings":[],"weeklyVolume":"<km totali>","weeklyVolumeRun":"<km road>","weeklyVolumeTrail":"<km trail>","trend":"<miglioramento|stabile|peggioramento>","garminTrend":"<miglioramento|stabile|peggioramento|dati insufficienti>"}`;
@@ -3343,6 +3349,14 @@ renderHeaderBtns();
 renderHome();
 // pre-init section states
 SECTIONS.forEach(s=>{sectFiltered[s]=getItemsForSection?.(s)||[];});
+// Ripristina note coach
+(function(){
+  const saved=localStorage.getItem('runai-coach-note')||'';
+  ['coach-note','coach-note-rt'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.value=saved;
+  });
+})();
 // Ripristina piano da localStorage (se presente)
 if(!window._pianoData)window._pianoData={};
 Object.keys(state.piano||{}).forEach(sid=>{
