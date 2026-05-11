@@ -2731,6 +2731,26 @@ function renderPiano(sid){
       </div>
     </div>
 
+    <div class="form-group" style="margin-bottom:14px">
+      <label class="form-label">🏁 Distanza target <span style="font-weight:400;color:var(--muted)">(opzionale)</span></label>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px" id="${sid}-piano-dist-pills">
+        ${(isTrail
+          ? ['10 km','15 km','21 km','25 km','42 km','50 km','80 km','100 km','Custom']
+          : ['5 km','10 km','Mezza (21 km)','Maratona (42 km)','50 km','Custom']
+        ).map(d=>{
+          const sel=saved.distanza===d;
+          return`<button type="button" data-dist="${d}" data-on="${sel?'1':'0'}" onclick="toggleDistPiano(this,'${sid}')"
+            style="padding:7px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid;transition:all .15s;font-family:var(--font-body);
+            background:${sel?color:'var(--bg2)'};color:${sel?'#fff':'var(--muted)'};border-color:${sel?color:'var(--border2)'}">${d}</button>`;
+        }).join('')}
+      </div>
+      <div id="${sid}-piano-dist-custom" style="margin-top:8px;${saved.distanza==='Custom'?'':'display:none'}">
+        <input class="form-input" type="text" id="${sid}-piano-distcustom"
+          placeholder="es. 60 km, 100 miglia, Vertical Km…"
+          value="${saved.distcustom||''}" style="max-width:260px;font-size:13px">
+      </div>
+    </div>
+
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
       <div class="form-group">
         <label class="form-label">🎯 Target km/settimana</label>
@@ -2774,6 +2794,37 @@ function renderPiano(sid){
 
     <div id="${sid}-piano-result"></div>
   </div>`;
+
+  // Se c'è un piano salvato, ripristinalo subito dopo il rendering del form
+  if(state.piano?.[sid]?.settimane?.length){
+    setTimeout(()=>restorePianoFromState(sid),0);
+  }
+}
+
+function toggleDistPiano(btn,sid){
+  const color=SECT_COLOR[sid];
+  const pills=document.getElementById(sid+'-piano-dist-pills');
+  // deselect all
+  Array.from(pills.querySelectorAll('button')).forEach(b=>{
+    b.dataset.on='0';b.style.background='var(--bg2)';b.style.color='var(--muted)';b.style.borderColor='var(--border2)';
+  });
+  // select this
+  btn.dataset.on='1';btn.style.background=color;btn.style.color='#fff';btn.style.borderColor=color;
+  // show/hide custom input
+  const customBox=document.getElementById(sid+'-piano-dist-custom');
+  if(customBox)customBox.style.display=btn.dataset.dist==='Custom'?'':'display:none';
+  if(customBox)customBox.style.display=btn.dataset.dist==='Custom'?'block':'none';
+}
+
+function getDistanzaPiano(sid){
+  const pills=document.getElementById(sid+'-piano-dist-pills');
+  if(!pills)return'';
+  const sel=pills.querySelector('button[data-on="1"]');
+  if(!sel)return'';
+  if(sel.dataset.dist==='Custom'){
+    return document.getElementById(sid+'-piano-distcustom')?.value?.trim()||'';
+  }
+  return sel.dataset.dist;
 }
 
 function toggleGiornoPiano(btn,sid){
@@ -2797,11 +2848,14 @@ function getGiorniPiano(sid){
 
 function savePianoForm(sid){
   const get=id=>document.getElementById(id)?.value||'';
+  const pills=document.getElementById(sid+'-piano-dist-pills');
+  const selDist=pills?.querySelector('button[data-on="1"]')?.dataset?.dist||'';
   const data={
     durata:get(`${sid}-piano-durata`),freq:get(`${sid}-piano-freq`),
     kmtarget:get(`${sid}-piano-kmtarget`),pacetarget:get(`${sid}-piano-pacetarget`),
     elevtarget:get(`${sid}-piano-elevtarget`),longtarget:get(`${sid}-piano-longtarget`),
-    note:get(`${sid}-piano-note`),giorni:getGiorniPiano(sid)
+    note:get(`${sid}-piano-note`),giorni:getGiorniPiano(sid),
+    distanza:selDist,distcustom:get(`${sid}-piano-distcustom`)
   };
   localStorage.setItem(`runai-piano-${sid}`,JSON.stringify(data));
   toast('✓ Parametri salvati','ok');
@@ -2822,6 +2876,7 @@ async function runPiano(sid){
   const isTrail=sid==='trail';
   const numWeeks=parseInt(durata)||8;
   const giorni=getGiorniPiano(sid);
+  const distanza=getDistanzaPiano(sid);
 
   // Statistiche atleta
   const items=getItemsForSection(sid);
@@ -2837,7 +2892,7 @@ async function runPiano(sid){
 
   const statsStr=`Ultimi 90gg: ${last90.length} uscite, ${totalKm90}km (~${avgKmWeek}km/sett), passo migliore: ${bestPace?s2p(bestPace.paceSeconds)+'/km':'n/d'}, passo medio: ${avgPace?s2p(avgPace)+'/km':'n/d'}, FC media: ${avgHR?avgHR+'bpm':'n/d'}${isTrail?', dislivello 90gg: '+totalElev90+'m':''}`;
 
-  const ctxStr=`Atleta: ${statsStr}. Piano: ${isTrail?'Trail':'Running'}, ${freq}x/sett${kmtarget?', target '+kmtarget+'km/sett':''}${pacetarget?', target passo '+pacetarget+'/km':''}${isTrail&&elevtarget?', target D+ '+elevtarget+'m':''}${isTrail&&longtarget?', uscite lunghe '+longtarget+'km':''}${giorni.length?'. Giorni di allenamento OBBLIGATORI: '+giorni.join(', ')+' (gli altri giorni devono essere Riposo)':''}${note?'. Note: '+note:''}`;
+  const ctxStr=`Atleta: ${statsStr}. Piano: ${isTrail?'Trail':'Running'}, ${freq}x/sett${distanza?', distanza target: '+distanza:''}${kmtarget?', target '+kmtarget+'km/sett':''}${pacetarget?', target passo '+pacetarget+'/km':''}${isTrail&&elevtarget?', target D+ '+elevtarget+'m':''}${isTrail&&longtarget?', uscite lunghe '+longtarget+'km':''}${giorni.length?'. Giorni di allenamento OBBLIGATORI: '+giorni.join(', ')+' (gli altri giorni devono essere Riposo)':''}${note?'. Note: '+note:''}`;
 
   const jsonSchema=`Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]${numWeeks===numWeeks?',"consigli":["..."]':''}}
@@ -2995,7 +3050,7 @@ ${jsonSchema}`;
     savePianoForm(sid);
     // Persist piano to state for GitHub sync
     if(!state.piano)state.piano={};
-    state.piano[sid]={settimane:window._pianoData[sid],consigli,generatedAt:new Date().toISOString()};
+    state.piano[sid]={settimane:window._pianoData[sid],consigli,distanza,generatedAt:new Date().toISOString()};
     saveState();
     syncToGitHub();
   }catch(e){
@@ -3121,6 +3176,7 @@ async function updatePiano(sid){
   const kmtarget=get(`${sid}-piano-kmtarget`);
   const pacetarget=get(`${sid}-piano-pacetarget`);
   const giorni=getGiorniPiano(sid);
+  const distanza=getDistanzaPiano(sid);
 
   const updatePrompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Stai aggiornando un piano di allenamento già in corso.
 
@@ -3130,7 +3186,7 @@ SESSIONI GIÀ COMPLETATE DEL PIANO: ${completedStr}
 SETTIMANE DA AGGIORNARE (${numInc} settimane con sessioni non ancora completate):
 ${incSummary}
 
-Rielabora SOLO le settimane indicate (${incNums}), adattando le sessioni NON completate sulla base degli ultimi allenamenti svolti. Mantieni la progressione e gli obiettivi originali. ${kmtarget?`Target km/sett: ${kmtarget}.`:''}${pacetarget?` Target passo: ${pacetarget}/km.`:''}${giorni.length?` Giorni di allenamento OBBLIGATORI: ${giorni.join(', ')} — tutti gli altri giorni devono essere Riposo.`:''}
+Rielabora SOLO le settimane indicate (${incNums}), adattando le sessioni NON completate sulla base degli ultimi allenamenti svolti. Mantieni la progressione e gli obiettivi originali. ${distanza?`Distanza target: ${distanza}.`:''}${kmtarget?` Target km/sett: ${kmtarget}.`:''}${pacetarget?` Target passo: ${pacetarget}/km.`:''}${giorni.length?` Giorni di allenamento OBBLIGATORI: ${giorni.join(', ')} — tutti gli altri giorni devono essere Riposo.`:''}
 
 Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
@@ -3321,18 +3377,22 @@ function restorePianoFromState(sid){
   };
 
   const consigli=pianoObj.consigli||[];
+  const distanzaLabel=pianoObj.distanza?` · 🏁 ${pianoObj.distanza}`:'';
   const consigliHtml=consigli.length?`<div style="margin-top:4px;padding:14px;background:${color}0d;border:1.5px solid ${color}33;border-radius:8px">
     <div style="font-weight:700;color:${color};font-size:12px;margin-bottom:8px">💡 Consigli per te</div>
     ${consigli.map(c=>`<div style="display:flex;gap:8px;margin-bottom:6px;font-size:12px"><span style="color:${color};font-weight:700;flex-shrink:0">→</span><span>${c}</span></div>`).join('')}
   </div>`:'';
 
   const ts=pianoObj.updatedAt||pianoObj.generatedAt||'';
-  const tsLabel=ts?` <span style="font-size:10px;color:var(--muted);font-family:var(--font-mono)">(salvato ${ts.slice(0,10)})</span>`:'';
+  const tsLabel=ts?`<span style="font-size:10px;color:var(--muted);font-family:var(--font-mono);background:var(--bg2);padding:2px 7px;border-radius:10px;border:1px solid var(--border)">💾 salvato ${ts.slice(0,10)}</span>`:'';
 
   resultEl.style.display='block';
   resultEl.innerHTML=`<div style="border-top:1.5px solid var(--border);padding-top:16px;margin-top:4px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-      <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}${tsLabel}</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}${distanzaLabel}</div>
+        ${tsLabel}
+      </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-secondary btn-sm" id="${sid}-piano-update-btn" onclick="updatePiano('${sid}')" style="border-color:${color};color:${color}">🔄 Aggiorna Piano</button>
         <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
