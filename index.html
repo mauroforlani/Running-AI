@@ -2831,13 +2831,17 @@ function toggleDistPiano(btn,sid){
 
 function getDistanzaPiano(sid){
   const pills=document.getElementById(sid+'-piano-dist-pills');
-  if(!pills)return'';
-  const sel=pills.querySelector('button[data-on="1"]');
-  if(!sel)return'';
-  if(sel.dataset.dist==='Custom'){
-    return document.getElementById(sid+'-piano-distcustom')?.value?.trim()||'';
+  if(pills){
+    const sel=pills.querySelector('button[data-on="1"]');
+    if(sel){
+      if(sel.dataset.dist==='Custom')return document.getElementById(sid+'-piano-distcustom')?.value?.trim()||'';
+      return sel.dataset.dist;
+    }
   }
-  return sel.dataset.dist;
+  // Fallback: legge da localStorage
+  const saved=JSON.parse(localStorage.getItem(`runai-piano-${sid}`)||'{}');
+  if(saved.distanza==='Custom')return saved.distcustom||'';
+  return saved.distanza||'';
 }
 
 function toggleGiornoPiano(btn,sid){
@@ -2851,12 +2855,22 @@ function toggleGiornoPiano(btn,sid){
   const giorni=getGiorniPiano(sid);
   const hint=document.getElementById(sid+'-piano-giorni-hint');
   if(hint)hint.textContent=giorni.length?`Selezionati: ${giorni.join(', ')}`:'Lascia vuoto per lasciare decidere al coach';
+  // Auto-save in localStorage
+  const savedKey=`runai-piano-${sid}`;
+  const saved=JSON.parse(localStorage.getItem(savedKey)||'{}');
+  saved.giorni=giorni;
+  localStorage.setItem(savedKey,JSON.stringify(saved));
 }
 
 function getGiorniPiano(sid){
   const picker=document.getElementById(sid+'-piano-giorni-picker');
-  if(!picker)return[];
-  return Array.from(picker.querySelectorAll('button[data-on="1"]')).map(b=>b.dataset.day);
+  if(picker){
+    const fromDom=Array.from(picker.querySelectorAll('button[data-on="1"]')).map(b=>b.dataset.day);
+    if(fromDom.length)return fromDom;
+  }
+  // Fallback: legge da localStorage (quando il form non è nel DOM)
+  const saved=JSON.parse(localStorage.getItem(`runai-piano-${sid}`)||'{}');
+  return saved.giorni||[];
 }
 
 function savePianoForm(sid){
@@ -2949,13 +2963,16 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
         <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
-        const isQuality=qualityTypes.includes(g.tipo);
-        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
         const isRest=g.tipo==='Riposo';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        const isQuality=qualityTypes.includes(g.tipo);
+        const fb=(state.pianoFeedback||{})[checkId];
+        const hasLinked=!!(fb?.workoutId);
+        const isClickable=!isRest&&(isQuality||hasLinked);
+        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
+        return`<tr id="row-${checkId}" class="piano-session-row${isClickable?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'}" ${isClickable?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
-          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
@@ -3143,16 +3160,19 @@ async function updatePiano(sid){
         <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
-        const isQuality=qualityTypes.includes(g.tipo);
-        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
         const isRest=g.tipo==='Riposo';
+        const isQuality=qualityTypes.includes(g.tipo);
+        const fb=(state.pianoFeedback||{})[checkId];
+        const hasLinked=!!(fb?.workoutId);
+        const isClickable=!isRest&&(isQuality||hasLinked);
+        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const isDone=pianoChecks2[checkId];
         const fb2=(state.pianoFeedback||{})[checkId];
         const fbIcon=isDone?(fb2?({bene:'✅',norma:'✔️',male:'⚠️'}[fb2.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isClickable?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isClickable?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
-          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
@@ -3640,16 +3660,18 @@ Includi tutti e 7 i giorni per ogni settimana.`;
         <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:28px"></th>
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
-        const isQuality=qualityTypes.includes(g.tipo);
-        const isRest=g.tipo==='Riposo';
-        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+        const isRest=g.tipo==='Riposo';
         const isDone=pianoChecks2[checkId];
         const fb=(state.pianoFeedback||{})[checkId];
+        const hasLinked=!!(fb?.workoutId);
+        const isQuality=qualityTypes.includes(g.tipo);
+        const isClickable=!isRest&&(isQuality||hasLinked);
+        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isClickable?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isClickable?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
-          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
@@ -3737,16 +3759,18 @@ function restorePianoFromState(sid){
         <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
-        const isQuality=qualityTypes.includes(g.tipo);
-        const isRest=g.tipo==='Riposo';
-        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+        const isRest=g.tipo==='Riposo';
         const isDone=!!pianoChecks[checkId];
         const fb=(state.pianoFeedback||{})[checkId];
+        const hasLinked=!!(fb?.workoutId);
+        const isQuality=qualityTypes.includes(g.tipo);
+        const isClickable=!isRest&&(isQuality||hasLinked);
+        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isClickable?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isClickable?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
-          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
