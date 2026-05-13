@@ -19360,7 +19360,14 @@
   },
   "pianoChecks": {
     "piano-check-road-w1-0": false,
-    "piano-check-road-w1-1": false
+    "piano-check-road-w1-1": true
   },
-  "pianoFeedback": {}
+  "pianoFeedback": {
+    "piano-check-road-w1-1": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-12 07:08:20-vyn",
+      "note": "",
+      "completedAt": "2026-05-13T09:18:54.051Z"
+    }
+  }
 }
