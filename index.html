@@ -3644,6 +3644,8 @@ Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
 Includi tutti e 7 i giorni per ogni settimana.`;
 
+  console.log('[RICALIBRA] PROMPT:\n', prompt);
+
   const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
   const qualityTypes=['Intervalli','Tempo','Medio','Lungo','Forza'];
   const pianoChecks2=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
@@ -3707,6 +3709,7 @@ Includi tutti e 7 i giorni per ogni settimana.`;
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
     const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    console.log("[RICALIBRA] AI RAW:", raw);
     const updated=JSON.parse(raw);
     const weekRefs={};
     (updated.settimane||[]).forEach(s=>{const el=document.getElementById(`piano-week-${sid}-${s.numero}`);if(el)weekRefs[s.numero]=el;});
