@@ -3618,31 +3618,31 @@ async function ricalibraPiano(sid){
   console.log('[RICALIBRA] localStorage:', JSON.parse(localStorage.getItem(`runai-piano-${sid}`)||'{}'));
   console.log('[RICALIBRA] picker el:', document.getElementById(sid+'-piano-giorni-picker'));
 
-  const giorniVincolo=giorni.length
-    ? `VINCOLO GIORNI (OBBLIGATORIO, massima priorità): assegna gli allenamenti SOLO a questi giorni: ${giorni.join(', ')}. Tutti gli altri giorni DEVONO essere Riposo. Ignora completamente i giorni originali del piano — riassegna ogni sessione al giorno più appropriato tra quelli consentiti.`
-    : `Distribuisci le sessioni in modo equilibrato nella settimana.`;
+  let giorniVincolo, prompt;
+  try {
+    giorniVincolo=giorni.length
+      ? 'VINCOLO GIORNI: assegna gli allenamenti SOLO a questi giorni: '+giorni.join(', ')+'. Tutti gli altri giorni DEVONO essere Riposo. Ignora i giorni originali del piano.'
+      : 'Distribuisci le sessioni in modo equilibrato nella settimana.';
 
-  const prompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Ricalibra le settimane rimanenti di un piano in corso.
-
-${giorniVincolo}
-
-FEEDBACK SESSIONI GIÀ COMPLETATE:
-${fbSummary}
-
-ALLENAMENTI REALI RECENTI (ultimi 14 gg): ${recentStr}
-
-SESSIONI RIMANENTI DA RIASSEGNARE (${settimaneIncomplete.length} settimane):
-${incSummary}
-
-Regole:
-- Assegna ogni sessione rimanente ai giorni consentiti sopra (non usare altri giorni)
-- Considera i feedback: "male" = riduci carico, "bene" = puoi aumentare progressivamente
-- Adatta l'intensità agli allenamenti reali recenti
-- Non toccare le sessioni già completate${distanza?`\n- Distanza target: ${distanza}`:''}
-
-Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
-{"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
-Includi tutti e 7 i giorni per ogni settimana.`;
+    prompt='Sei un coach di '+(isTrail?'trail running':'running')+' esperto. Ricalibra le settimane rimanenti di un piano in corso.\n\n'
+      +giorniVincolo+'\n\n'
+      +'FEEDBACK SESSIONI GIA COMPLETATE:\n'+fbSummary+'\n\n'
+      +'ALLENAMENTI REALI RECENTI (ultimi 14 gg): '+recentStr+'\n\n'
+      +'SESSIONI RIMANENTI ('+settimaneIncomplete.length+' settimane):\n'+incSummary+'\n\n'
+      +'Regole:\n'
+      +'- Assegna ogni sessione ai giorni consentiti sopra (non usare altri giorni)\n'
+      +'- Considera i feedback: male=riduci carico, bene=puoi aumentare\n'
+      +'- Adatta intensita agli allenamenti recenti\n'
+      +'- Non toccare sessioni gia completate\n'
+      +(distanza?'- Distanza target: '+distanza+'\n':'')+'\n'
+      +'Rispondi SOLO con JSON valido, zero testo extra, zero backtick:\n'
+      +'{"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedi","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null'+(isTrail?',"dislivello":null':'')+',\"descrizione\":\"...\"}]}]}\n'
+      +'Includi tutti e 7 i giorni per ogni settimana.';
+  } catch(buildErr) {
+    console.error('[RICALIBRA] BUILD ERROR:', buildErr);
+    if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
+    return;
+  }
 
   console.log('[RICALIBRA] PROMPT:\n', prompt);
 
