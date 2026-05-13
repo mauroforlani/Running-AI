@@ -3584,33 +3584,38 @@ async function ricalibraPiano(sid){
   const recentStr=last14.slice(0,8).map(w=>`${w.date}: ${w.type||'corsa'} ${w.distance?w.distance.toFixed(1)+'km':''} ${w.paceSeconds?s2p(w.paceSeconds)+'/km':''} ${w.avgHR?w.avgHR+'bpm':''}`.trim()).join('; ')||'nessuno';
 
   const incNums=settimaneIncomplete.map(s=>s.numero).join(', ');
+  // Passa solo il TIPO di sessione, senza il giorno originale (sarà l'AI a riassegnarlo ai nuovi giorni)
   const incSummary=settimaneIncomplete.map(s=>{
     const todo=(s.sessioni||[])
       .filter((g,i)=>g.tipo!=='Riposo'&&!pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`])
-      .map(g=>`${g.giorno} ${g.tipo}${g.km?' '+g.km+'km':''}`).join(', ');
-    return`Settimana ${s.numero} (${s.obiettivo}): sessioni rimanenti → ${todo}`;
+      .map(g=>`${g.tipo}${g.km?' '+g.km+'km':''}${g.passo?' @'+g.passo+'/km':''}`).join(', ');
+    return`Settimana ${s.numero} (${s.obiettivo}, ${s.km_totali||'?'}km): sessioni rimanenti → ${todo}`;
   }).join('\n');
 
   const giorni=getGiorniPiano(sid);
   const distanza=getDistanzaPiano(sid);
 
+  const giorniVincolo=giorni.length
+    ? `VINCOLO GIORNI (OBBLIGATORIO, massima priorità): assegna gli allenamenti SOLO a questi giorni: ${giorni.join(', ')}. Tutti gli altri giorni DEVONO essere Riposo. Ignora completamente i giorni originali del piano — riassegna ogni sessione al giorno più appropriato tra quelli consentiti.`
+    : `Distribuisci le sessioni in modo equilibrato nella settimana.`;
+
   const prompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Ricalibra le settimane rimanenti di un piano in corso.
+
+${giorniVincolo}
 
 FEEDBACK SESSIONI GIÀ COMPLETATE:
 ${fbSummary}
 
 ALLENAMENTI REALI RECENTI (ultimi 14 gg): ${recentStr}
 
-SETTIMANE CON SESSIONI RIMANENTI (${settimaneIncomplete.length}):
+SESSIONI RIMANENTI DA RIASSEGNARE (${settimaneIncomplete.length} settimane):
 ${incSummary}
 
-Rigenera SOLO le settimane ${incNums}, mantenendo le sessioni già completate (non toccarle) e adattando quelle rimanenti:
-- Considera i feedback (se presenti): "male" = riduci carico, "bene" = puoi aumentare progressivamente
+Regole:
+- Assegna ogni sessione rimanente ai giorni consentiti sopra (non usare altri giorni)
+- Considera i feedback: "male" = riduci carico, "bene" = puoi aumentare progressivamente
 - Adatta l'intensità agli allenamenti reali recenti
-- ${giorni.length?`Giorni di allenamento OBBLIGATORI: ${giorni.join(', ')} — gli altri devono essere Riposo`:'Mantieni la distribuzione giorni/riposo coerente'}
-${distanza?`- Distanza target: ${distanza}`:''}
-
-IMPORTANTE: Non modificare le sessioni già completate. Solo quelle senza checkmark.
+- Non toccare le sessioni già completate${distanza?`\n- Distanza target: ${distanza}`:''}
 
 Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
