@@ -3617,6 +3617,8 @@ async function ricalibraPiano(sid){
   console.log('[RICALIBRA] sid:', sid, '| giorni:', giorni, '| distanza:', distanza);
   console.log('[RICALIBRA] localStorage:', JSON.parse(localStorage.getItem(`runai-piano-${sid}`)||'{}'));
   console.log('[RICALIBRA] picker el:', document.getElementById(sid+'-piano-giorni-picker'));
+
+  const giorniVincolo=giorni.length
     ? `VINCOLO GIORNI (OBBLIGATORIO, massima priorità): assegna gli allenamenti SOLO a questi giorni: ${giorni.join(', ')}. Tutti gli altri giorni DEVONO essere Riposo. Ignora completamente i giorni originali del piano — riassegna ogni sessione al giorno più appropriato tra quelli consentiti.`
     : `Distribuisci le sessioni in modo equilibrato nella settimana.`;
 
