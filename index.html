@@ -3258,13 +3258,54 @@ Includi tutti e 7 i giorni per ogni settimana.`;
 function closePianoSession(){
   document.getElementById('piano-session-modal').classList.remove('open');
 }
-async function openPianoSession(sessione,sid,color){
+async function openPianoSession(sessione,sid,color,checkId){
   const modal=document.getElementById('piano-session-modal');
   const titleEl=document.getElementById('piano-session-title');
   const bodyEl=document.getElementById('piano-session-body');
+  modal.classList.add('open');
+
+  // Se c'è un workout collegato tramite feedback, mostra la scheda reale
+  const feedback=checkId?(state.pianoFeedback||{})[checkId]:null;
+  if(feedback?.workoutId){
+    const items=getItemsForSection(sid);
+    const w=items.find(x=>(x.id||x.date)===feedback.workoutId);
+    if(w){
+      titleEl.innerHTML=`<span style="color:${color}">🏃 Allenamento svolto</span> — ${w.date}`;
+      const fbIcons={bene:'✅ Bene',norma:'✔️ Nella norma',male:'⚠️ Male'};
+      const isTrail=sid==='trail';
+      bodyEl.innerHTML=`
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          ${w.title?`<div style="grid-column:1/-1;font-size:15px;font-weight:700;color:var(--text)">${w.title}</div>`:''}
+          ${_statBox('📏 Distanza',w.distance?w.distance.toFixed(2)+' km':'—',color)}
+          ${_statBox('⏱ Durata',w.duration?fmtDur(w.duration):'—',color)}
+          ${_statBox('🏃 Passo medio',w.avgPace?w.avgPace+'/km':'—',color)}
+          ${_statBox('❤️ FC media',w.avgHR?w.avgHR+' bpm':'—',color)}
+          ${w.maxHR?_statBox('❤️‍🔥 FC max',w.maxHR+' bpm',color):''}
+          ${isTrail&&w.elevGain?_statBox('⛰️ D+',w.elevGain+'m',color):''}
+          ${w.aerobicTE?_statBox('🎯 Training Effect',w.aerobicTE,color):''}
+          ${w.perceivedEffort?_statBox('💪 RPE',w.perceivedEffort+'/10',color):''}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${color}0d;border:1.5px solid ${color}33;border-radius:8px;margin-bottom:12px">
+          <span style="font-size:18px">${fbIcons[feedback.valutazione]||'✔️'}</span>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:${color}">Valutazione sessione</div>
+            ${feedback.note?`<div style="font-size:12px;color:var(--muted);margin-top:2px">${feedback.note}</div>`:''}
+          </div>
+        </div>
+        <div style="padding:10px 12px;background:var(--bg2);border-radius:8px;font-size:12px;color:var(--muted)">
+          <strong style="color:var(--text)">Sessione pianificata:</strong>
+          ${sessione.tipo}${sessione.km?' · '+sessione.km+'km':''}${sessione.passo?' · '+sessione.passo+'/km':''}${sessione.descrizione?' · '+sessione.descrizione:''}
+        </div>
+        <div style="margin-top:12px;text-align:right">
+          <button class="btn btn-secondary btn-sm" onclick="openFeedbackModal('${checkId}',document.getElementById('row-${checkId}'),'${sid}');closePianoSession()">✏️ Modifica feedback</button>
+        </div>`;
+      return;
+    }
+  }
+
+  // Nessun workout collegato → mostra scheda AI allenamento pianificato
   titleEl.innerHTML=`<span style="color:${color}">${sessione.tipo}</span> — ${sessione.giorno}`;
   bodyEl.innerHTML=`<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px"><span class="spin"></span> Generazione dettaglio sessione…</div>`;
-  modal.classList.add('open');
   const apiKey=getApiKey();
   if(!apiKey){
     bodyEl.innerHTML=`<div style="color:#b85c00;background:#fff4eb;border:1.5px solid #f5c9a0;border-radius:8px;padding:14px;font-size:13px">⚠ Inserisci la tua API Key in ✨ AI Coach.</div>`;
@@ -3298,9 +3339,21 @@ Rispondi SOLO con JSON valido senza backtick:
       phase('⚡','Parte principale','',d.main.struttura+'<br><span style="font-size:12px;color:var(--muted)">'+d.main.dettaglio+'</span>',color)+
       phase('🌿','Defaticamento',d.cooldown.durata,d.cooldown.descrizione,'var(--trail)')+
       (d.consigli?`<div style="margin-top:12px;padding:10px 12px;background:${color}0d;border-radius:8px;font-size:12px;color:var(--text);line-height:1.5">💡 ${d.consigli}</div>`:'');
+    if(checkId){
+      bodyEl.innerHTML+=`<div style="margin-top:12px;text-align:right">
+        <button class="btn btn-secondary btn-sm" onclick="openFeedbackModal('${checkId}',document.getElementById('row-${checkId}'),'${sid}');closePianoSession()" style="border-color:${color};color:${color}">✓ Segna come completata</button>
+      </div>`;
+    }
   }catch(e){
     bodyEl.innerHTML=`<div style="color:var(--red);font-size:13px;padding:12px">❌ ${e.message}</div>`;
   }
+}
+
+function _statBox(label,value,color){
+  return`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
+    <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">${label}</div>
+    <div style="font-size:15px;font-weight:700;color:${color};font-family:var(--font-mono)">${value}</div>
+  </div>`;
 }
 
 // ── Global piano check handler — apre modal feedback ──
