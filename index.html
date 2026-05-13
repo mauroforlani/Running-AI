@@ -3007,8 +3007,7 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-secondary btn-sm" id="${sid}-piano-recalibra-btn" onclick="ricalibraPiano('${sid}')" style="display:none;border-color:var(--red);color:var(--red)">🔁 Ricalibra piano</button>
-        <button class="btn btn-secondary btn-sm" id="${sid}-piano-update-btn" onclick="updatePiano('${sid}')" style="border-color:${color};color:${color}">🔄 Aggiorna Piano</button>
+        <button class="btn btn-secondary btn-sm" id="${sid}-piano-recalibra-btn" onclick="ricalibraPiano('${sid}')" style="border-color:${color};color:${color}">🔁 Ricalibra piano</button>
         <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
       </div>
     </div>
@@ -3151,7 +3150,7 @@ async function updatePiano(sid){
         const isDone=pianoChecks2[checkId];
         const fb2=(state.pianoFeedback||{})[checkId];
         const fbIcon=isDone?(fb2?({bene:'✅',norma:'✔️',male:'⚠️'}[fb2.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3535,10 +3534,10 @@ function _checkRecalibra(sid){
   const feedbacks=Object.entries(state.pianoFeedback||{})
     .filter(([k])=>k.startsWith(`piano-check-${sid}-`));
   const hasBad=feedbacks.some(([,f])=>f.valutazione==='male');
-  const hasAny=feedbacks.length>0;
-  btn.style.display=hasAny?'':'none';
-  btn.style.borderColor=hasBad?'var(--red)':'var(--green)';
-  btn.style.color=hasBad?'var(--red)':'var(--green)';
+  const color=SECT_COLOR[sid];
+  btn.style.display='';
+  btn.style.borderColor=hasBad?'var(--red)':color;
+  btn.style.color=hasBad?'var(--red)':color;
   btn.innerHTML=hasBad?'🔁 Ricalibra piano':'🔁 Ricalibra piano';
 }
 
@@ -3547,11 +3546,7 @@ async function ricalibraPiano(sid){
   const apiKey=getApiKey();
   if(!apiKey){toast('⚠ Inserisci la API Key in ✨ AI Coach','err');return;}
   const pianoData=window._pianoData?.[sid];
-  if(!pianoData?.length){toast('⚠ Nessun piano da ricalibrale','err');return;}
-
-  const feedbacks=Object.entries(state.pianoFeedback||{})
-    .filter(([k])=>k.startsWith(`piano-check-${sid}-`));
-  if(!feedbacks.length){toast('⚠ Nessun feedback registrato','err');return;}
+  if(!pianoData?.length){toast('⚠ Nessun piano trovato. Genera prima un piano.','err');return;}
 
   const btn=document.getElementById(sid+'-piano-recalibra-btn');
   if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Ricalibrazione…';}
@@ -3560,20 +3555,20 @@ async function ricalibraPiano(sid){
   const color=SECT_COLOR[sid];
   const pianoChecks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
 
-  // Costruisci riepilogo feedback
-  const fbSummary=feedbacks.map(([checkId,fb])=>{
-    const parts=checkId.replace(/^piano-check-[^-]+-w(\d+)-(\d+)$/,'S$1-i$2').split('-');
-    const sessione=pianoData.flatMap(s=>
-      (s.sessioni||[]).map((g,i)=>({...g,wNum:s.numero,idx:i}))
-    ).find(g=>{
-      const cid=`piano-check-${sid}-w${g.wNum}-${g.idx}`;
-      return cid===checkId;
-    });
-    const label=sessione?`Sett.${sessione.wNum} ${sessione.giorno} ${sessione.tipo}${sessione.km?' '+sessione.km+'km':''}`:checkId;
-    return`${label}: ${fb.valutazione}${fb.note?' ('+fb.note+')':''}`;
-  }).join('\n');
+  // Sessioni COMPLETATE con feedback
+  const feedbacks=Object.entries(state.pianoFeedback||{})
+    .filter(([k])=>k.startsWith(`piano-check-${sid}-`));
+  const fbSummary=feedbacks.length
+    ? feedbacks.map(([checkId,fb])=>{
+        const sessione=pianoData.flatMap(s=>
+          (s.sessioni||[]).map((g,i)=>({...g,wNum:s.numero,idx:i}))
+        ).find(g=>`piano-check-${sid}-w${g.wNum}-${g.idx}`===checkId);
+        const label=sessione?`Sett.${sessione.wNum} ${sessione.giorno} ${sessione.tipo}${sessione.km?' '+sessione.km+'km':''}`:checkId;
+        return`${label}: ${fb.valutazione}${fb.note?' ('+fb.note+')':''}`;
+      }).join('\n')
+    : 'nessuno';
 
-  // Settimane non ancora completate
+  // Solo settimane con almeno una sessione NON completata
   const settimaneIncomplete=pianoData.filter(s=>
     (s.sessioni||[]).some((g,i)=>g.tipo!=='Riposo'&&!pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`])
   );
@@ -3590,24 +3585,32 @@ async function ricalibraPiano(sid){
 
   const incNums=settimaneIncomplete.map(s=>s.numero).join(', ');
   const incSummary=settimaneIncomplete.map(s=>{
-    const todo=(s.sessioni||[]).filter((g,i)=>g.tipo!=='Riposo'&&!pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`]).map(g=>`${g.giorno} ${g.tipo}${g.km?' '+g.km+'km':''}`).join(', ');
-    return`Settimana ${s.numero} (${s.obiettivo}): da fare → ${todo}`;
+    const todo=(s.sessioni||[])
+      .filter((g,i)=>g.tipo!=='Riposo'&&!pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`])
+      .map(g=>`${g.giorno} ${g.tipo}${g.km?' '+g.km+'km':''}`).join(', ');
+    return`Settimana ${s.numero} (${s.obiettivo}): sessioni rimanenti → ${todo}`;
   }).join('\n');
 
   const giorni=getGiorniPiano(sid);
   const distanza=getDistanzaPiano(sid);
 
-  const prompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Devi ricalibarre un piano in corso sulla base dei feedback dell'atleta.
+  const prompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Ricalibra le settimane rimanenti di un piano in corso.
 
-FEEDBACK SESSIONI COMPLETATE:
+FEEDBACK SESSIONI GIÀ COMPLETATE:
 ${fbSummary}
 
-ALLENAMENTI REALI RECENTI: ${recentStr}
+ALLENAMENTI REALI RECENTI (ultimi 14 gg): ${recentStr}
 
-SETTIMANE RIMANENTI DA RICALIBBRARE (${settimaneIncomplete.length}):
+SETTIMANE CON SESSIONI RIMANENTI (${settimaneIncomplete.length}):
 ${incSummary}
 
-Analizza i feedback (soprattutto quelli "male") e adatta le settimane rimanenti (${incNums}) di conseguenza: se l'atleta ha faticato riduci intensità/volume, se è andato bene puoi aumentare progressivamente.${distanza?` Distanza target: ${distanza}.`:''}${giorni.length?` Giorni obbligatori: ${giorni.join(', ')}.`:''}
+Rigenera SOLO le settimane ${incNums}, mantenendo le sessioni già completate (non toccarle) e adattando quelle rimanenti:
+- Considera i feedback (se presenti): "male" = riduci carico, "bene" = puoi aumentare progressivamente
+- Adatta l'intensità agli allenamenti reali recenti
+- ${giorni.length?`Giorni di allenamento OBBLIGATORI: ${giorni.join(', ')} — gli altri devono essere Riposo`:'Mantieni la distribuzione giorni/riposo coerente'}
+${distanza?`- Distanza target: ${distanza}`:''}
+
+IMPORTANTE: Non modificare le sessioni già completate. Solo quelle senza checkmark.
 
 Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
@@ -3639,7 +3642,7 @@ Includi tutti e 7 i giorni per ogni settimana.`;
         const isDone=pianoChecks2[checkId];
         const fb=(state.pianoFeedback||{})[checkId];
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3663,7 +3666,7 @@ Includi tutti e 7 i giorni per ogni settimana.`;
   };
 
   const progEl=document.getElementById(sid+'-piano-progress');
-  if(progEl)progEl.textContent=`Ricalibrazione ${settimaneIncomplete.length} settimane…`;
+  if(progEl)progEl.textContent=`Ricalibrazione ${settimaneIncomplete.length} settimane rimanenti…`;
 
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
@@ -3687,7 +3690,7 @@ Includi tutti e 7 i giorni per ogni settimana.`;
     const ex=state.piano[sid]||{};
     state.piano[sid]={...ex,settimane:window._pianoData[sid],updatedAt:new Date().toISOString()};
     saveState();syncToGitHub();
-    toast(`✅ Piano ricalibrato su ${settimaneIncomplete.length} settimane!`,'ok');
+    toast(`✅ Piano ricalibrato! ${settimaneIncomplete.length} settimane aggiornate.`,'ok');
     setTimeout(()=>_checkRecalibra(sid),100);
   }catch(e){
     if(progEl)progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:12px;font-size:13px">❌ ${e.message}</div>`;
@@ -3736,7 +3739,7 @@ function restorePianoFromState(sid){
         const isDone=!!pianoChecks[checkId];
         const fb=(state.pianoFeedback||{})[checkId];
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3777,8 +3780,7 @@ function restorePianoFromState(sid){
         ${tsLabel}
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-secondary btn-sm" id="${sid}-piano-recalibra-btn" onclick="ricalibraPiano('${sid}')" style="display:none;border-color:var(--red);color:var(--red)">🔁 Ricalibra piano</button>
-        <button class="btn btn-secondary btn-sm" id="${sid}-piano-update-btn" onclick="updatePiano('${sid}')" style="border-color:${color};color:${color}">🔄 Aggiorna Piano</button>
+        <button class="btn btn-secondary btn-sm" id="${sid}-piano-recalibra-btn" onclick="ricalibraPiano('${sid}')" style="border-color:${color};color:${color}">🔁 Ricalibra piano</button>
         <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
       </div>
     </div>
