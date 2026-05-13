@@ -3594,10 +3594,12 @@ async function ricalibraPiano(sid){
   );
 
   if(!settimaneIncomplete.length){
+    console.log('[RICALIBRA] STOP: tutte completate. pianoChecks:', pianoChecks, 'pianoData settimane:', pianoData.length);
     toast('✅ Tutte le sessioni già completate!','ok');
     if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
     return;
   }
+  console.log('[RICALIBRA] settimaneIncomplete:', settimaneIncomplete.length, settimaneIncomplete.map(s=>s.numero));
 
   const items=getItemsForSection(sid);
   const last14=items.filter(w=>{const d=parseLocalDate(w.date);return(Date.now()-d)/86400000<=14;});
