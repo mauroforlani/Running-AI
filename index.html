@@ -922,6 +922,17 @@ select.form-input{cursor:pointer;}
   </div>
 </div>
 
+<!-- MODAL FEEDBACK SESSIONE -->
+<div id="piano-feedback-modal" onclick="if(event.target===this)closeFeedbackModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:450;display:none;align-items:flex-end;justify-content:center;">
+  <div class="modal-sheet" style="border-radius:16px 16px 0 0;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div id="pfm-title" style="font-size:15px;font-weight:700;color:var(--text)"></div>
+      <button onclick="closeFeedbackModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px">✕</button>
+    </div>
+    <div id="pfm-body"></div>
+  </div>
+</div>
+
 <script>
 // ══ STATE ══
 const DB_KEY='runai-v5';
@@ -995,6 +1006,7 @@ function loadState(){
   if(!state.hikes)state.hikes=[];
   if(!state.piano)state.piano={};
   if(!state.pianoChecks)state.pianoChecks={};
+  if(!state.pianoFeedback)state.pianoFeedback={};
 }
 function saveState(){
   try{localStorage.setItem(DB_KEY,JSON.stringify(state));}catch{}
@@ -2452,6 +2464,7 @@ async function loadFromGitHub(){
     state.garminReadings=state.garminReadings||[];
     state.piano=state.piano||{};
     state.pianoChecks=state.pianoChecks||{};
+    state.pianoFeedback=state.pianoFeedback||{};
     migrateRunTypes();migrateElevGain();
     // Restore pianoChecks to localStorage per-section keys
     Object.entries(state.pianoChecks).forEach(([checkId,val])=>{
@@ -2948,6 +2961,7 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
           ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
           <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+          <td class="feedback-icon" style="padding:7px 8px;text-align:center;font-size:14px" title=""></td>
         </tr>`;
       }).join('')}</tbody>
     </table></div>`;
@@ -2993,6 +3007,7 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div style="font-size:13px;font-weight:700;color:${color}">📋 Piano — ${durata}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-secondary btn-sm" id="${sid}-piano-recalibra-btn" onclick="ricalibraPiano('${sid}')" style="display:none;border-color:var(--red);color:var(--red)">🔁 Ricalibra piano</button>
         <button class="btn btn-secondary btn-sm" id="${sid}-piano-update-btn" onclick="updatePiano('${sid}')" style="border-color:${color};color:${color}">🔄 Aggiorna Piano</button>
         <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
       </div>
@@ -3134,6 +3149,8 @@ async function updatePiano(sid){
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
         const isRest=g.tipo==='Riposo';
         const isDone=pianoChecks2[checkId];
+        const fb2=(state.pianoFeedback||{})[checkId];
+        const fbIcon=isDone?(fb2?({bene:'✅',norma:'✔️',male:'⚠️'}[fb2.valutazione]||'✔️'):'✔️'):'';
         return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
@@ -3142,6 +3159,7 @@ async function updatePiano(sid){
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
           ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
           <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+          <td class="feedback-icon" style="padding:7px 8px;text-align:center;font-size:14px" title="${fb2?.note||''}">${fbIcon}</td>
         </tr>`;
       }).join('')}</tbody>
     </table></div>`;
@@ -3285,34 +3303,338 @@ Rispondi SOLO con JSON valido senza backtick:
   }
 }
 
-// ── Global piano check handler (called from inline onclick) ──
+// ── Global piano check handler — apre modal feedback ──
 function togglePianoCheck(checkId,rowEl){
-  const key=checkId.replace(/^piano-check-([^-]+)-.*$/,'runai-piano-checks-$1');
+  const sid=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
+  const key=`runai-piano-checks-${sid}`;
   const checks=JSON.parse(localStorage.getItem(key)||'{}');
-  checks[checkId]=!checks[checkId];
-  localStorage.setItem(key,JSON.stringify(checks));
-  // Persist in state for GitHub sync
-  if(!state.pianoChecks)state.pianoChecks={};
-  state.pianoChecks[checkId]=checks[checkId];
-  saveState();
-  syncToGitHub();
-  if(!rowEl)return;
-  const cb=document.getElementById(checkId);
-  const done=checks[checkId];
-  if(cb)cb.checked=done;
-  rowEl.style.opacity=done?'0.45':'1';
-  // Aggiorna barra di avanzamento settimana
-  const weekEl=rowEl.closest('[id^="piano-week-"]');
-  if(weekEl){
-    const allRows=weekEl.querySelectorAll('input.piano-cb');
-    const total=allRows.length;
-    const done2=Array.from(allRows).filter(cb=>cb.checked).length;
-    const pct=total>0?Math.round(done2/total*100):0;
-    const bar=weekEl.querySelector('[style*="border-radius:3px;overflow:hidden"] div');
-    const label=weekEl.querySelector('[style*="font-family:var(--font-mono)"][style*="font-size:10px"]');
-    if(bar)bar.style.width=pct+'%';
-    if(label)label.textContent=`${done2}/${total}`;
+  const isChecked=!!checks[checkId];
+
+  if(isChecked){
+    // già completato → toglie il check direttamente
+    checks[checkId]=false;
+    localStorage.setItem(key,JSON.stringify(checks));
+    if(!state.pianoChecks)state.pianoChecks={};
+    state.pianoChecks[checkId]=false;
+    // Rimuove feedback
+    if(state.pianoFeedback)delete state.pianoFeedback[checkId];
+    saveState(); syncToGitHub();
+    _applyCheckVisual(checkId,rowEl,null);
+    _updateWeekProgress(rowEl);
+  } else {
+    // non ancora completato → apri modal feedback
+    // ripristina checkbox a unchecked visivamente finché non si conferma
+    const cb=document.getElementById(checkId);
+    if(cb)cb.checked=false;
+    openFeedbackModal(checkId,rowEl,sid);
   }
+}
+
+function _applyCheckVisual(checkId,rowEl,feedback){
+  const cb=document.getElementById(checkId);
+  const done=!!document.getElementById(`runai-piano-checks-${checkId.replace(/^piano-check-([^-]+)-.*$/,'$1')}`) ||
+    JSON.parse(localStorage.getItem(`runai-piano-checks-${checkId.replace(/^piano-check-([^-]+)-.*$/,'$1')}`)||'{}')[checkId];
+  if(cb)cb.checked=done;
+  if(!rowEl)return;
+  rowEl.style.opacity=done?'0.45':'1';
+  // Aggiorna icona feedback
+  const iconEl=rowEl.querySelector('.feedback-icon');
+  if(iconEl){
+    if(!done){iconEl.textContent='';iconEl.title='';}
+    else if(feedback){
+      const icons={bene:'✅',norma:'✔️',male:'⚠️'};
+      iconEl.textContent=icons[feedback.valutazione]||'✔️';
+      iconEl.title=feedback.note||feedback.valutazione;
+    } else {iconEl.textContent='✔️';iconEl.title='';}
+  }
+}
+
+function _updateWeekProgress(rowEl){
+  if(!rowEl)return;
+  const weekEl=rowEl.closest('[id^="piano-week-"]');
+  if(!weekEl)return;
+  const allCb=weekEl.querySelectorAll('input.piano-cb');
+  const total=allCb.length;
+  const done=Array.from(allCb).filter(c=>c.checked).length;
+  const pct=total>0?Math.round(done/total*100):0;
+  const bar=weekEl.querySelector('[style*="border-radius:3px;overflow:hidden"] div');
+  const label=weekEl.querySelector('[style*="font-size:10px"][style*="font-mono"]');
+  if(bar)bar.style.width=pct+'%';
+  if(label)label.textContent=`${done}/${total}`;
+}
+
+// ── Modal Feedback ──
+let _feedbackCtx={};
+function openFeedbackModal(checkId,rowEl,sid){
+  const color=SECT_COLOR[sid]||'var(--primary)';
+  _feedbackCtx={checkId,rowEl,sid,color};
+
+  // Ultimi 10 allenamenti come candidati
+  const items=getItemsForSection(sid);
+  const recent=items.slice(0,10);
+
+  const modal=document.getElementById('piano-feedback-modal');
+  const title=document.getElementById('pfm-title');
+  const body=document.getElementById('pfm-body');
+
+  // Recupera feedback esistente se c'è
+  const existing=(state.pianoFeedback||{})[checkId]||{};
+
+  title.innerHTML=`<span style="color:${color}">✓ Sessione completata</span>`;
+  body.innerHTML=`
+    <div style="margin-bottom:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Com'è andata?</div>
+      <div style="display:flex;gap:8px">
+        ${[['bene','😊 Bene','var(--green)'],['norma','😐 Nella norma','var(--muted)'],['male','😓 Male','var(--red)']].map(([v,l,c])=>`
+          <button id="pfm-val-${v}" onclick="pfmSelectVal('${v}')"
+            style="flex:1;padding:10px 6px;border-radius:8px;border:2px solid;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;
+            background:${existing.valutazione===v?c+'22':'var(--bg2)'};color:${existing.valutazione===v?c:'var(--muted)'};border-color:${existing.valutazione===v?c:'var(--border2)'}">${l}</button>
+        `).join('')}
+      </div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Collega allenamento reale</div>
+      <select id="pfm-workout" class="form-input" style="width:100%;font-size:13px">
+        <option value="">— Nessuno / manuale —</option>
+        ${recent.map(w=>`<option value="${w.id||w.date}" ${existing.workoutId===(w.id||w.date)?'selected':''}>${w.date} · ${w.type||'corsa'} · ${w.distance?w.distance.toFixed(1)+'km':''} ${w.avgPace?w.avgPace+'/km':''}</option>`).join('')}
+      </select>
+    </div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Note <span style="font-weight:400;text-transform:none">(opzionale)</span></div>
+      <textarea id="pfm-note" class="form-input" rows="2" placeholder="es. gambe pesanti, ho saltato gli intervalli, ottimo feeling…" style="width:100%;resize:vertical;font-size:13px">${existing.note||''}</textarea>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="confirmFeedback()" style="flex:1;background:${color};border-color:${color}">✓ Salva e completa</button>
+      <button class="btn btn-secondary" onclick="closeFeedbackModal()" style="flex:0 0 auto">Annulla</button>
+    </div>
+  `;
+  // Imposta valore corrente
+  if(existing.valutazione)pfmSelectVal(existing.valutazione);
+
+  modal.style.display='flex';
+}
+
+let _pfmVal='norma';
+function pfmSelectVal(v){
+  _pfmVal=v;
+  const cols={bene:'var(--green)',norma:'var(--muted)',male:'var(--red)'};
+  ['bene','norma','male'].forEach(x=>{
+    const btn=document.getElementById('pfm-val-'+x);
+    if(!btn)return;
+    const c=cols[x];
+    if(x===v){btn.style.background=c+'22';btn.style.color=c;btn.style.borderColor=c;}
+    else{btn.style.background='var(--bg2)';btn.style.color='var(--muted)';btn.style.borderColor='var(--border2)';}
+  });
+}
+
+function confirmFeedback(){
+  const {checkId,rowEl,sid,color}=_feedbackCtx;
+  const valutazione=_pfmVal||'norma';
+  const workoutId=document.getElementById('pfm-workout')?.value||'';
+  const note=document.getElementById('pfm-note')?.value?.trim()||'';
+
+  // Salva check
+  const key=`runai-piano-checks-${sid}`;
+  const checks=JSON.parse(localStorage.getItem(key)||'{}');
+  checks[checkId]=true;
+  localStorage.setItem(key,JSON.stringify(checks));
+  if(!state.pianoChecks)state.pianoChecks={};
+  state.pianoChecks[checkId]=true;
+
+  // Salva feedback
+  if(!state.pianoFeedback)state.pianoFeedback={};
+  state.pianoFeedback[checkId]={valutazione,workoutId,note,completedAt:new Date().toISOString()};
+  saveState(); syncToGitHub();
+
+  // Aggiorna visuale riga
+  const cb=document.getElementById(checkId);
+  if(cb)cb.checked=true;
+  if(rowEl){
+    rowEl.style.opacity='0.45';
+    const iconEl=rowEl.querySelector('.feedback-icon');
+    if(iconEl){
+      const icons={bene:'✅',norma:'✔️',male:'⚠️'};
+      iconEl.textContent=icons[valutazione]||'✔️';
+      iconEl.title=note||valutazione;
+    }
+  }
+  _updateWeekProgress(rowEl);
+
+  // Mostra pulsante Ricalibra se ci sono feedback "male"
+  _checkRecalibra(sid);
+
+  closeFeedbackModal();
+}
+
+function closeFeedbackModal(){
+  document.getElementById('piano-feedback-modal').style.display='none';
+  _pfmVal='norma';
+}
+
+function _checkRecalibra(sid){
+  const btn=document.getElementById(sid+'-piano-recalibra-btn');
+  if(!btn)return;
+  const feedbacks=Object.entries(state.pianoFeedback||{})
+    .filter(([k])=>k.startsWith(`piano-check-${sid}-`));
+  const hasBad=feedbacks.some(([,f])=>f.valutazione==='male');
+  const hasAny=feedbacks.length>0;
+  btn.style.display=hasAny?'':'none';
+  btn.style.borderColor=hasBad?'var(--red)':'var(--green)';
+  btn.style.color=hasBad?'var(--red)':'var(--green)';
+  btn.innerHTML=hasBad?'🔁 Ricalibra piano':'🔁 Ricalibra piano';
+}
+
+// ── Ricalibra Piano ──
+async function ricalibraPiano(sid){
+  const apiKey=getApiKey();
+  if(!apiKey){toast('⚠ Inserisci la API Key in ✨ AI Coach','err');return;}
+  const pianoData=window._pianoData?.[sid];
+  if(!pianoData?.length){toast('⚠ Nessun piano da ricalibrale','err');return;}
+
+  const feedbacks=Object.entries(state.pianoFeedback||{})
+    .filter(([k])=>k.startsWith(`piano-check-${sid}-`));
+  if(!feedbacks.length){toast('⚠ Nessun feedback registrato','err');return;}
+
+  const btn=document.getElementById(sid+'-piano-recalibra-btn');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Ricalibrazione…';}
+
+  const isTrail=sid==='trail';
+  const color=SECT_COLOR[sid];
+  const pianoChecks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
+
+  // Costruisci riepilogo feedback
+  const fbSummary=feedbacks.map(([checkId,fb])=>{
+    const parts=checkId.replace(/^piano-check-[^-]+-w(\d+)-(\d+)$/,'S$1-i$2').split('-');
+    const sessione=pianoData.flatMap(s=>
+      (s.sessioni||[]).map((g,i)=>({...g,wNum:s.numero,idx:i}))
+    ).find(g=>{
+      const cid=`piano-check-${sid}-w${g.wNum}-${g.idx}`;
+      return cid===checkId;
+    });
+    const label=sessione?`Sett.${sessione.wNum} ${sessione.giorno} ${sessione.tipo}${sessione.km?' '+sessione.km+'km':''}`:checkId;
+    return`${label}: ${fb.valutazione}${fb.note?' ('+fb.note+')':''}`;
+  }).join('\n');
+
+  // Settimane non ancora completate
+  const settimaneIncomplete=pianoData.filter(s=>
+    (s.sessioni||[]).some((g,i)=>g.tipo!=='Riposo'&&!pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`])
+  );
+
+  if(!settimaneIncomplete.length){
+    toast('✅ Tutte le sessioni già completate!','ok');
+    if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
+    return;
+  }
+
+  const items=getItemsForSection(sid);
+  const last14=items.filter(w=>{const d=parseLocalDate(w.date);return(Date.now()-d)/86400000<=14;});
+  const recentStr=last14.slice(0,8).map(w=>`${w.date}: ${w.type||'corsa'} ${w.distance?w.distance.toFixed(1)+'km':''} ${w.paceSeconds?s2p(w.paceSeconds)+'/km':''} ${w.avgHR?w.avgHR+'bpm':''}`.trim()).join('; ')||'nessuno';
+
+  const incNums=settimaneIncomplete.map(s=>s.numero).join(', ');
+  const incSummary=settimaneIncomplete.map(s=>{
+    const todo=(s.sessioni||[]).filter((g,i)=>g.tipo!=='Riposo'&&!pianoChecks[`piano-check-${sid}-w${s.numero}-${i}`]).map(g=>`${g.giorno} ${g.tipo}${g.km?' '+g.km+'km':''}`).join(', ');
+    return`Settimana ${s.numero} (${s.obiettivo}): da fare → ${todo}`;
+  }).join('\n');
+
+  const giorni=getGiorniPiano(sid);
+  const distanza=getDistanzaPiano(sid);
+
+  const prompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Devi ricalibarre un piano in corso sulla base dei feedback dell'atleta.
+
+FEEDBACK SESSIONI COMPLETATE:
+${fbSummary}
+
+ALLENAMENTI REALI RECENTI: ${recentStr}
+
+SETTIMANE RIMANENTI DA RICALIBBRARE (${settimaneIncomplete.length}):
+${incSummary}
+
+Analizza i feedback (soprattutto quelli "male") e adatta le settimane rimanenti (${incNums}) di conseguenza: se l'atleta ha faticato riduci intensità/volume, se è andato bene puoi aumentare progressivamente.${distanza?` Distanza target: ${distanza}.`:''}${giorni.length?` Giorni obbligatori: ${giorni.join(', ')}.`:''}
+
+Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
+{"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
+Includi tutti e 7 i giorni per ogni settimana.`;
+
+  const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
+  const qualityTypes=['Intervalli','Tempo','Medio','Lungo','Forza'];
+  const pianoChecks2=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
+
+  const renderSett=(s)=>{
+    const weekIdx=s.numero;
+    const sessHtml=`<div class="piano-table"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:0">
+      <thead><tr style="background:var(--bg2)">
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:32px">✓</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Durata</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:65px">Passo</th>
+        ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:55px">D+</th>':''}
+        <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:28px"></th>
+      </tr></thead>
+      <tbody>${(s.sessioni||[]).map((g,i)=>{
+        const isQuality=qualityTypes.includes(g.tipo);
+        const isRest=g.tipo==='Riposo';
+        const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
+        const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+        const isDone=pianoChecks2[checkId];
+        const fb=(state.pianoFeedback||{})[checkId];
+        const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
+        return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+          <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
+          <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
+          <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
+          ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
+          <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+          <td class="feedback-icon" style="padding:7px 8px;text-align:center;font-size:14px" title="${fb?.note||''}">${fbIcon}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`;
+    const totalSess=(s.sessioni||[]).filter(g=>g.tipo!=='Riposo').length;
+    const doneSess=(s.sessioni||[]).filter((g,i)=>g.tipo!=='Riposo'&&pianoChecks2[`piano-check-${sid}-w${weekIdx}-${i}`]).length;
+    const pct=totalSess>0?Math.round(doneSess/totalSess*100):0;
+    const progressBar=totalSess>0?`<div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><div style="width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${pct===100?'var(--green)':color};border-radius:3px"></div></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--muted)">${doneSess}/${totalSess}</span></div>`:'';
+    return`<div style="margin-bottom:14px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden" id="piano-week-${sid}-${weekIdx}">
+      <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo||''}</div>
+        <div style="display:flex;align-items:center;gap:12px">${progressBar}<div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali||'?'} km</div></div>
+      </div>${sessHtml}</div>`;
+  };
+
+  const progEl=document.getElementById(sid+'-piano-progress');
+  if(progEl)progEl.textContent=`Ricalibrazione ${settimaneIncomplete.length} settimane…`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
+    const data=await res.json();
+    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const updated=JSON.parse(raw);
+    const weekRefs={};
+    (updated.settimane||[]).forEach(s=>{const el=document.getElementById(`piano-week-${sid}-${s.numero}`);if(el)weekRefs[s.numero]=el;});
+    (updated.settimane||[]).forEach(newS=>{
+      const el=weekRefs[newS.numero];if(el){el.outerHTML=renderSett(newS);}
+      const idx=window._pianoData[sid].findIndex(s=>s.numero===newS.numero);
+      if(idx>=0)window._pianoData[sid][idx]=newS;
+    });
+    if(progEl)progEl.textContent='';
+    if(!state.piano)state.piano={};
+    const ex=state.piano[sid]||{};
+    state.piano[sid]={...ex,settimane:window._pianoData[sid],updatedAt:new Date().toISOString()};
+    saveState();syncToGitHub();
+    toast(`✅ Piano ricalibrato su ${settimaneIncomplete.length} settimane!`,'ok');
+    setTimeout(()=>_checkRecalibra(sid),100);
+  }catch(e){
+    if(progEl)progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:12px;font-size:13px">❌ ${e.message}</div>`;
+  }
+  if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
 }
 
 // ── Ripristina UI piano da state (usato dopo caricamento da GitHub) ──
@@ -3354,6 +3676,8 @@ function restorePianoFromState(sid){
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
         const isDone=!!pianoChecks[checkId];
+        const fb=(state.pianoFeedback||{})[checkId];
+        const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
         return`<tr id="row-${checkId}" class="piano-session-row${isQuality?' clickable':''}" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" ${isQuality&&!isRest?`onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}')"`:''}><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality&&!isRest?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
@@ -3362,6 +3686,7 @@ function restorePianoFromState(sid){
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
           ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
           <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
+          <td class="feedback-icon" style="padding:7px 8px;text-align:center;font-size:14px" title="${fb?.note||''}">${fbIcon}</td>
         </tr>`;
       }).join('')}</tbody>
     </table></div>`;
@@ -3394,6 +3719,7 @@ function restorePianoFromState(sid){
         ${tsLabel}
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-secondary btn-sm" id="${sid}-piano-recalibra-btn" onclick="ricalibraPiano('${sid}')" style="display:none;border-color:var(--red);color:var(--red)">🔁 Ricalibra piano</button>
         <button class="btn btn-secondary btn-sm" id="${sid}-piano-update-btn" onclick="updatePiano('${sid}')" style="border-color:${color};color:${color}">🔄 Aggiorna Piano</button>
         <button class="btn btn-secondary btn-sm" onclick="copyPiano('${sid}')">📋 Copia testo</button>
       </div>
@@ -3401,6 +3727,9 @@ function restorePianoFromState(sid){
     <div id="${sid}-piano-text">${settimane.map(s=>renderSett(s)).join('')}${consigliHtml}</div>
     <div id="${sid}-piano-progress"></div>
   </div>`;
+
+  // Ripristina stato pulsante Ricalibra
+  setTimeout(()=>_checkRecalibra(sid),0);
 }
 
 // ══ BOOT ══
