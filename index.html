@@ -3277,129 +3277,243 @@ Includi tutti e 7 i giorni per ogni settimana.`;
 function closePianoSession(){
   document.getElementById('piano-session-modal').classList.remove('open');
 }
-async function openPianoSession(sessione,sid,color,checkId){
+function openPianoSession(sessione,sid,color,checkId){
   const modal=document.getElementById('piano-session-modal');
   const titleEl=document.getElementById('piano-session-title');
   const bodyEl=document.getElementById('piano-session-body');
   modal.classList.add('open');
 
-  // Se c'è un workout collegato tramite feedback, mostra la scheda reale
-  const feedback=checkId?(state.pianoFeedback||{})[checkId]:null;
-  if(feedback?.workoutId){
-    const items=getItemsForSection(sid);
-    const w=items.find(x=>(x.id||x.date)===feedback.workoutId);
-    if(w){
-      titleEl.innerHTML=`<span style="color:${color}">🏃 Allenamento svolto</span> — ${w.date}`;
-      const fbIcons={bene:'✅ Bene',norma:'✔️ Nella norma',male:'⚠️ Male'};
-      const isTrail=sid==='trail';
-      bodyEl.innerHTML=`
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-          ${w.title?`<div style="grid-column:1/-1;font-size:15px;font-weight:700;color:var(--text)">${w.title}</div>`:''}
-          ${_statBox('📏 Distanza',w.distance?w.distance.toFixed(2)+' km':'—',color)}
-          ${_statBox('⏱ Durata',w.duration?fmtDur(w.duration):'—',color)}
-          ${_statBox('🏃 Passo medio',w.avgPace?w.avgPace+'/km':'—',color)}
-          ${_statBox('❤️ FC media',w.avgHR?w.avgHR+' bpm':'—',color)}
-          ${w.maxHR?_statBox('❤️‍🔥 FC max',w.maxHR+' bpm',color):''}
-          ${isTrail&&w.elevGain?_statBox('⛰️ D+',w.elevGain+'m',color):''}
-          ${w.aerobicTE?_statBox('🎯 Training Effect',w.aerobicTE,color):''}
-          ${w.perceivedEffort?_statBox('💪 RPE',w.perceivedEffort+'/10',color):''}
+  const isTrail=sid==='trail';
+  const checks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
+  const isDone=!!checks[checkId];
+  const fb=(state.pianoFeedback||{})[checkId]||{};
+  const tipi=['Riposo','Facile','Medio','Lungo','Intervalli','Tempo','Recupero','Forza'];
+
+  // Workout recenti per collegamento
+  const items=getItemsForSection(sid);
+  const recent=items.slice(0,15);
+
+  titleEl.innerHTML=`<span style="color:${color}">${sessione.giorno}</span>`;
+
+  bodyEl.innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div style="grid-column:1/-1">
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px">Tipo sessione</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px" id="psm-tipo-pills">
+          ${tipi.map(t=>`<button type="button" data-tipo="${t}" onclick="psmSelectTipo('${t}','${color}')"
+            style="padding:6px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid;transition:all .15s;font-family:var(--font-body);
+            background:${sessione.tipo===t?color+'22':'var(--bg2)'};color:${sessione.tipo===t?color:'var(--muted)'};border-color:${sessione.tipo===t?color:'var(--border2)'}">${t}</button>`).join('')}
         </div>
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${color}0d;border:1.5px solid ${color}33;border-radius:8px;margin-bottom:12px">
-          <span style="font-size:18px">${fbIcons[feedback.valutazione]||'✔️'}</span>
-          <div>
-            <div style="font-size:12px;font-weight:700;color:${color}">Valutazione sessione</div>
-            ${feedback.note?`<div style="font-size:12px;color:var(--muted);margin-top:2px">${feedback.note}</div>`:''}
-          </div>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px">Km</label>
+        <input class="form-input" type="number" id="psm-km" value="${sessione.km||''}" placeholder="es. 10" step="0.5" style="width:100%;font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px">Passo target</label>
+        <input class="form-input" type="text" id="psm-passo" value="${sessione.passo||''}" placeholder="es. 5:00" style="width:100%;font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px">Durata</label>
+        <input class="form-input" type="text" id="psm-durata" value="${sessione.durata||''}" placeholder="es. 60min" style="width:100%;font-size:13px">
+      </div>
+      ${isTrail?`<div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px">Dislivello (m)</label>
+        <input class="form-input" type="number" id="psm-dislivello" value="${sessione.dislivello||''}" placeholder="es. 500" style="width:100%;font-size:13px">
+      </div>`:''}
+      <div style="grid-column:1/-1">
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px">Descrizione / Note</label>
+        <textarea class="form-input" id="psm-desc" rows="2" style="width:100%;resize:vertical;font-size:13px">${sessione.descrizione||''}</textarea>
+      </div>
+    </div>
+
+    <div style="border-top:1.5px solid var(--border);padding-top:14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px">Completamento</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <input type="checkbox" id="psm-done" ${isDone?'checked':''} style="width:17px;height:17px;cursor:pointer;accent-color:${color}">
+        <label for="psm-done" style="font-size:13px;font-weight:600;cursor:pointer">Sessione completata</label>
+      </div>
+      <div id="psm-feedback-area" style="${isDone?'':'opacity:0.4;pointer-events:none'}">
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          ${[['bene','😊 Bene','var(--green)'],['norma','😐 Norma','var(--muted)'],['male','😓 Male','var(--red)']].map(([v,l,c])=>`
+            <button type="button" id="psm-val-${v}" onclick="psmSelectVal('${v}')"
+              style="flex:1;padding:8px 4px;border-radius:8px;border:2px solid;cursor:pointer;font-size:12px;font-weight:700;transition:all .15s;font-family:var(--font-body);
+              background:${(fb.valutazione||'norma')===v?c+'22':'var(--bg2)'};color:${(fb.valutazione||'norma')===v?c:'var(--muted)'};border-color:${(fb.valutazione||'norma')===v?c:'var(--border2)'}">${l}</button>
+          `).join('')}
         </div>
-        <div style="padding:10px 12px;background:var(--bg2);border-radius:8px;font-size:12px;color:var(--muted)">
-          <strong style="color:var(--text)">Sessione pianificata:</strong>
-          ${sessione.tipo}${sessione.km?' · '+sessione.km+'km':''}${sessione.passo?' · '+sessione.passo+'/km':''}${sessione.descrizione?' · '+sessione.descrizione:''}
-        </div>
-        <div style="margin-top:12px;text-align:right">
-          <button class="btn btn-secondary btn-sm" onclick="openFeedbackModal('${checkId}',document.getElementById('row-${checkId}'),'${sid}');closePianoSession()">✏️ Modifica feedback</button>
-        </div>`;
-      return;
+        <select id="psm-workout" class="form-input" style="width:100%;font-size:13px;margin-bottom:8px">
+          <option value="">— Collega allenamento reale (opzionale) —</option>
+          ${recent.map(w=>`<option value="${w.id||w.date}" ${fb.workoutId===(w.id||w.date)?'selected':''}>${w.date} · ${w.type||'corsa'} · ${w.distance?w.distance.toFixed(1)+'km':''} ${w.avgPace?w.avgPace+'/km':''}</option>`).join('')}
+        </select>
+        <textarea class="form-input" id="psm-note" rows="2" placeholder="Note sull'allenamento svolto…" style="width:100%;resize:vertical;font-size:13px">${fb.note||''}</textarea>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="savePianoSession('${checkId}','${sid}','${color}')" style="flex:1;background:${color};border-color:${color}">💾 Salva</button>
+      <button class="btn btn-secondary" onclick="closePianoSession()" style="flex:0 0 auto">Annulla</button>
+    </div>
+  `;
+
+  // Abilita/disabilita area feedback al toggle done
+  document.getElementById('psm-done').addEventListener('change',function(){
+    const area=document.getElementById('psm-feedback-area');
+    area.style.opacity=this.checked?'1':'0.4';
+    area.style.pointerEvents=this.checked?'':'none';
+  });
+
+  // Stato corrente tipo
+  window._psmTipo=sessione.tipo;
+  window._psmVal=fb.valutazione||'norma';
+}
+
+let _psmTipo='Facile', _psmVal='norma';
+
+function psmSelectTipo(tipo,color){
+  window._psmTipo=tipo;
+  document.querySelectorAll('#psm-tipo-pills button').forEach(b=>{
+    const sel=b.dataset.tipo===tipo;
+    b.style.background=sel?color+'22':'var(--bg2)';
+    b.style.color=sel?color:'var(--muted)';
+    b.style.borderColor=sel?color:'var(--border2)';
+  });
+}
+
+function psmSelectVal(v){
+  window._psmVal=v;
+  const cols={bene:'var(--green)',norma:'var(--muted)',male:'var(--red)'};
+  ['bene','norma','male'].forEach(x=>{
+    const b=document.getElementById('psm-val-'+x);
+    if(!b)return;
+    const c=cols[x];
+    b.style.background=x===v?c+'22':'var(--bg2)';
+    b.style.color=x===v?c:'var(--muted)';
+    b.style.borderColor=x===v?c:'var(--border2)';
+  });
+}
+
+function savePianoSession(checkId,sid,color){
+  const tipo=window._psmTipo||'Facile';
+  const km=parseFloat(document.getElementById('psm-km')?.value)||null;
+  const passo=document.getElementById('psm-passo')?.value?.trim()||null;
+  const durata=document.getElementById('psm-durata')?.value?.trim()||null;
+  const dislivello=parseFloat(document.getElementById('psm-dislivello')?.value)||null;
+  const descrizione=document.getElementById('psm-desc')?.value?.trim()||'';
+  const isDone=document.getElementById('psm-done')?.checked||false;
+  const valutazione=window._psmVal||'norma';
+  const workoutId=document.getElementById('psm-workout')?.value||'';
+  const note=document.getElementById('psm-note')?.value?.trim()||'';
+
+  // Parse checkId to find week/session index
+  const m=checkId.match(/^piano-check-([^-]+)-w(\d+)-(\d+)$/);
+  if(!m){closePianoSession();return;}
+  const wNum=parseInt(m[2]), idx=parseInt(m[3]);
+
+  // Update _pianoData
+  if(window._pianoData?.[sid]){
+    const week=window._pianoData[sid].find(s=>s.numero===wNum);
+    if(week?.sessioni?.[idx]){
+      week.sessioni[idx]={...week.sessioni[idx],tipo,km,passo,durata,descrizione};
+      if(dislivello!==null)week.sessioni[idx].dislivello=dislivello;
     }
   }
 
-  // Nessun workout collegato → mostra scheda AI allenamento pianificato
-  titleEl.innerHTML=`<span style="color:${color}">${sessione.tipo}</span> — ${sessione.giorno}`;
-  bodyEl.innerHTML=`<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px"><span class="spin"></span> Generazione dettaglio sessione…</div>`;
-  const apiKey=getApiKey();
-  if(!apiKey){
-    bodyEl.innerHTML=`<div style="color:#b85c00;background:#fff4eb;border:1.5px solid #f5c9a0;border-radius:8px;padding:14px;font-size:13px">⚠ Inserisci la tua API Key in ✨ AI Coach.</div>`;
-    return;
-  }
-  const prompt=`Sei un coach di corsa esperto. Devo preparare questa sessione:
-- Tipo: ${sessione.tipo}
-- Distanza: ${sessione.km?sessione.km+'km':'non specificata'}
-- Durata totale: ${sessione.durata||'non specificata'}
-- Passo target: ${sessione.passo?sessione.passo+'/km':'non specificato'}
-${sessione.dislivello?`- Dislivello: ${sessione.dislivello}m`:''}
-- Descrizione: ${sessione.descrizione||''}
+  // Update check state
+  const key=`runai-piano-checks-${sid}`;
+  const checks=JSON.parse(localStorage.getItem(key)||'{}');
+  checks[checkId]=isDone;
+  localStorage.setItem(key,JSON.stringify(checks));
+  if(!state.pianoChecks)state.pianoChecks={};
+  state.pianoChecks[checkId]=isDone;
 
-Rispondi SOLO con JSON valido senza backtick:
-{"warmup":{"durata":"...","descrizione":"..."},"main":{"struttura":"...","dettaglio":"..."},"cooldown":{"durata":"...","descrizione":"..."},"consigli":"..."}`;
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:prompt}]})
-    });
-    const data=await res.json();
-    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    const d=JSON.parse(raw);
-    const phase=(icon,title,sub,content,c)=>`<div class="session-phase" style="border-left-color:${c||'var(--accent)'}">
-      <div class="session-phase-title">${icon} ${title}${sub?` · ${sub}`:''}</div>
-      <div class="session-phase-content">${content}</div>
-    </div>`;
-    bodyEl.innerHTML=
-      phase('🔥','Riscaldamento',d.warmup.durata,d.warmup.descrizione,'var(--hike)')+
-      phase('⚡','Parte principale','',d.main.struttura+'<br><span style="font-size:12px;color:var(--muted)">'+d.main.dettaglio+'</span>',color)+
-      phase('🌿','Defaticamento',d.cooldown.durata,d.cooldown.descrizione,'var(--trail)')+
-      (d.consigli?`<div style="margin-top:12px;padding:10px 12px;background:${color}0d;border-radius:8px;font-size:12px;color:var(--text);line-height:1.5">💡 ${d.consigli}</div>`:'');
-    if(checkId){
-      bodyEl.innerHTML+=`<div style="margin-top:12px;text-align:right">
-        <button class="btn btn-secondary btn-sm" onclick="openFeedbackModal('${checkId}',document.getElementById('row-${checkId}'),'${sid}');closePianoSession()" style="border-color:${color};color:${color}">✓ Segna come completata</button>
-      </div>`;
-    }
-  }catch(e){
-    bodyEl.innerHTML=`<div style="color:var(--red);font-size:13px;padding:12px">❌ ${e.message}</div>`;
+  // Update feedback
+  if(!state.pianoFeedback)state.pianoFeedback={};
+  if(isDone){
+    state.pianoFeedback[checkId]={valutazione,workoutId,note,completedAt:new Date().toISOString()};
+  } else {
+    delete state.pianoFeedback[checkId];
   }
+
+  // Save & sync
+  if(!state.piano)state.piano={};
+  const ex=state.piano[sid]||{};
+  state.piano[sid]={...ex,settimane:window._pianoData[sid],updatedAt:new Date().toISOString()};
+  saveState();
+  syncToGitHub();
+
+  // Re-render the week
+  const weekEl=document.getElementById(`piano-week-${sid}-${wNum}`);
+  if(weekEl&&window._pianoData?.[sid]){
+    const week=window._pianoData[sid].find(s=>s.numero===wNum);
+    if(week) weekEl.outerHTML=_renderWeek(week,sid,color);
+  }
+  _checkRecalibra(sid);
+  closePianoSession();
+  toast('✓ Sessione aggiornata','ok');
 }
 
-function _statBox(label,value,color){
-  return`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">
-    <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">${label}</div>
-    <div style="font-size:15px;font-weight:700;color:${color};font-family:var(--font-mono)">${value}</div>
-  </div>`;
+function _renderWeek(s,sid,color){
+  const isTrail=sid==='trail';
+  const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
+  const pianoChecks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
+  const weekIdx=s.numero;
+  const sessHtml=`<div class="piano-table"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:0">
+    <thead><tr style="background:var(--bg2)">
+      <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:32px">✓</th>
+      <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
+      <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Tipo</th>
+      <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
+      <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:65px">Passo</th>
+      ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:55px">D+</th>':''}
+      <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:28px"></th>
+    </tr></thead>
+    <tbody>${(s.sessioni||[]).map((g,i)=>{
+      const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
+      const isDone=!!pianoChecks[checkId];
+      const fb=(state.pianoFeedback||{})[checkId];
+      const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
+      const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
+      return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')">
+        <td style="padding:7px 8px;text-align:center">
+          <input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">
+        </td>
+        <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
+        <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span><span style="font-size:9px;color:var(--muted);margin-left:3px">›</span></td>
+        <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
+        <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
+        ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
+        <td class="feedback-icon" style="padding:7px 8px;text-align:center;font-size:14px" title="${fb?.note||''}">${fbIcon}</td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div>`;
+  const totalSess=(s.sessioni||[]).filter(g=>g.tipo!=='Riposo').length;
+  const doneSess=(s.sessioni||[]).filter((g,i)=>g.tipo!=='Riposo'&&pianoChecks[`piano-check-${sid}-w${weekIdx}-${i}`]).length;
+  const pct=totalSess>0?Math.round(doneSess/totalSess*100):0;
+  const progressBar=totalSess>0?`<div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><div style="width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${pct===100?'var(--green)':color};border-radius:3px"></div></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--muted)">${doneSess}/${totalSess}</span></div>`:'';
+  return`<div style="margin-bottom:14px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden" id="piano-week-${sid}-${weekIdx}">
+    <div style="background:${color}18;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:700;color:${color};font-size:13px">Settimana ${s.numero} — ${s.obiettivo||''}</div>
+      <div style="display:flex;align-items:center;gap:12px">${progressBar}<div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);font-weight:600">${s.km_totali||'?'} km</div></div>
+    </div>${sessHtml}</div>`;
 }
 
-// ── Global piano check handler — apre modal feedback ──
+// ── Global piano check handler — toggle diretto (il modal edit gestisce feedback) ──
 function togglePianoCheck(checkId,rowEl){
   const sid=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
   const key=`runai-piano-checks-${sid}`;
   const checks=JSON.parse(localStorage.getItem(key)||'{}');
-  const isChecked=!!checks[checkId];
-
-  if(isChecked){
-    // già completato → toglie il check direttamente
-    checks[checkId]=false;
-    localStorage.setItem(key,JSON.stringify(checks));
-    if(!state.pianoChecks)state.pianoChecks={};
-    state.pianoChecks[checkId]=false;
-    // Rimuove feedback
-    if(state.pianoFeedback)delete state.pianoFeedback[checkId];
-    saveState(); syncToGitHub();
-    _applyCheckVisual(checkId,rowEl,null);
-    _updateWeekProgress(rowEl);
-  } else {
-    // non ancora completato → apri modal feedback
-    // ripristina checkbox a unchecked visivamente finché non si conferma
-    const cb=document.getElementById(checkId);
-    if(cb)cb.checked=false;
-    openFeedbackModal(checkId,rowEl,sid);
-  }
+  checks[checkId]=!checks[checkId];
+  localStorage.setItem(key,JSON.stringify(checks));
+  if(!state.pianoChecks)state.pianoChecks={};
+  state.pianoChecks[checkId]=checks[checkId];
+  saveState();
+  syncToGitHub();
+  if(!rowEl)return;
+  const cb=document.getElementById(checkId);
+  if(cb)cb.checked=checks[checkId];
+  rowEl.style.opacity=checks[checkId]?'0.45':'1';
+  _updateWeekProgress(rowEl);
+  _checkRecalibra(sid);
 }
 
 function _applyCheckVisual(checkId,rowEl,feedback){
@@ -3594,12 +3708,10 @@ async function ricalibraPiano(sid){
   );
 
   if(!settimaneIncomplete.length){
-    console.log('[RICALIBRA] STOP: tutte completate. pianoChecks:', pianoChecks, 'pianoData settimane:', pianoData.length);
     toast('✅ Tutte le sessioni già completate!','ok');
     if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
     return;
   }
-  console.log('[RICALIBRA] settimaneIncomplete:', settimaneIncomplete.length, settimaneIncomplete.map(s=>s.numero));
 
   const items=getItemsForSection(sid);
   const last14=items.filter(w=>{const d=parseLocalDate(w.date);return(Date.now()-d)/86400000<=14;});
@@ -3616,9 +3728,6 @@ async function ricalibraPiano(sid){
 
   const giorni=getGiorniPiano(sid);
   const distanza=getDistanzaPiano(sid);
-  console.log('[RICALIBRA] sid:', sid, '| giorni:', giorni, '| distanza:', distanza);
-  console.log('[RICALIBRA] localStorage:', JSON.parse(localStorage.getItem(`runai-piano-${sid}`)||'{}'));
-  console.log('[RICALIBRA] picker el:', document.getElementById(sid+'-piano-giorni-picker'));
 
   let giorniVincolo, prompt;
   try {
@@ -3641,12 +3750,10 @@ async function ricalibraPiano(sid){
       +'{"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedi","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null'+(isTrail?',"dislivello":null':'')+',\"descrizione\":\"...\"}]}]}\n'
       +'Includi tutti e 7 i giorni per ogni settimana.';
   } catch(buildErr) {
-    console.error('[RICALIBRA] BUILD ERROR:', buildErr);
     if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
     return;
   }
 
-  console.log('[RICALIBRA] PROMPT:\n', prompt);
 
   const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
   const qualityTypes=['Intervalli','Tempo','Medio','Lungo','Forza'];
@@ -3702,18 +3809,15 @@ async function ricalibraPiano(sid){
   const progEl=document.getElementById(sid+'-piano-progress');
   if(progEl)progEl.textContent=`Ricalibrazione ${settimaneIncomplete.length} settimane rimanenti…`;
 
-  console.log('[RICALIBRA] calling API...');
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:prompt}]})
     });
-    console.log('[RICALIBRA] res.status:', res.status, res.ok);
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
     const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    console.log("[RICALIBRA] AI RAW:", raw);
     const updated=JSON.parse(raw);
     const weekRefs={};
     (updated.settimane||[]).forEach(s=>{const el=document.getElementById(`piano-week-${sid}-${s.numero}`);if(el)weekRefs[s.numero]=el;});
@@ -3730,7 +3834,6 @@ async function ricalibraPiano(sid){
     toast(`✅ Piano ricalibrato! ${settimaneIncomplete.length} settimane aggiornate.`,'ok');
     setTimeout(()=>_checkRecalibra(sid),100);
   }catch(e){
-    console.error('[RICALIBRA] CATCH ERROR:', e);
     if(progEl)progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:12px;font-size:13px">❌ ${e.message}</div>`;
   }
   if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
