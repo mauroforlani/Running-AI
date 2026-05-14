@@ -2970,7 +2970,7 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
         const hasLinked=!!(fb?.workoutId);
         const isClickable=!isRest&&(isQuality||hasLinked);
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;background:transparent;flex-shrink:0"></div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3009,12 +3009,17 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
 
   // Applica stato checkbox dopo rendering
   function applyAllPianoChecks(){
-    const checks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
+    const sid2=sid;
+    const color2=color;
+    const checks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid2}`)||'{}');
     Object.keys(checks).forEach(checkId=>{
-      if(!checkId.startsWith(`piano-check-${sid}-`)||!checks[checkId])return;
-      const cb=document.getElementById(checkId);
+      if(!checkId.startsWith(`piano-check-${sid2}-`)||!checks[checkId])return;
+      const cbEl=document.getElementById(checkId);
       const rowEl=document.getElementById('row-'+checkId);
-      if(cb)cb.checked=true;
+      if(cbEl){
+        cbEl.style.background=color2;
+        cbEl.innerHTML='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
       if(rowEl)rowEl.style.opacity='0.45';
     });
   }
@@ -3170,7 +3175,7 @@ async function updatePiano(sid){
         const isDone=pianoChecks2[checkId];
         const fb2=(state.pianoFeedback||{})[checkId];
         const fbIcon=isDone?(fb2?({bene:'✅',norma:'✔️',male:'⚠️'}[fb2.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3477,7 +3482,7 @@ function _renderWeek(s,sid,color){
         <td style="padding:7px 8px;text-align:center">
           ${g.tipo==='Riposo'
             ? `<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`
-            : `<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`
+            : `<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`
           }
         </td>
         <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
@@ -3503,6 +3508,7 @@ function _renderWeek(s,sid,color){
 // ── Global piano check handler — toggle diretto (il modal edit gestisce feedback) ──
 function togglePianoCheck(checkId,rowEl){
   const sid=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
+  const color=SECT_COLOR[sid]||'var(--primary)';
   const key=`runai-piano-checks-${sid}`;
   const checks=JSON.parse(localStorage.getItem(key)||'{}');
   checks[checkId]=!checks[checkId];
@@ -3511,10 +3517,14 @@ function togglePianoCheck(checkId,rowEl){
   state.pianoChecks[checkId]=checks[checkId];
   saveState();
   syncToGitHub();
-  if(!rowEl)return;
-  const cb=document.getElementById(checkId);
-  if(cb)cb.checked=checks[checkId];
-  rowEl.style.opacity=checks[checkId]?'0.45':'1';
+  const isDone=checks[checkId];
+  // Update custom checkbox div
+  const cbEl=document.getElementById(checkId);
+  if(cbEl){
+    cbEl.style.background=isDone?color:'transparent';
+    cbEl.innerHTML=isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';
+  }
+  if(rowEl)rowEl.style.opacity=isDone?'0.45':'1';
   _updateWeekProgress(rowEl);
   _checkRecalibra(sid);
 }
@@ -3542,9 +3552,9 @@ function _updateWeekProgress(rowEl){
   if(!rowEl)return;
   const weekEl=rowEl.closest('[id^="piano-week-"]');
   if(!weekEl)return;
-  const allCb=weekEl.querySelectorAll('input.piano-cb');
+  const allCb=weekEl.querySelectorAll('div.piano-cb');
   const total=allCb.length;
-  const done=Array.from(allCb).filter(c=>c.checked).length;
+  const done=Array.from(allCb).filter(d=>d.style.background&&d.style.background!=='transparent'&&d.style.background!=='').length;
   const pct=total>0?Math.round(done/total*100):0;
   const bar=weekEl.querySelector('[style*="border-radius:3px;overflow:hidden"] div');
   const label=weekEl.querySelector('[style*="font-size:10px"][style*="font-mono"]');
@@ -3641,8 +3651,13 @@ function confirmFeedback(){
   saveState(); syncToGitHub();
 
   // Aggiorna visuale riga
-  const cb=document.getElementById(checkId);
-  if(cb)cb.checked=true;
+  const sid2=checkId.replace(/^piano-check-([^-]+)-.*$/,'$1');
+  const color2=SECT_COLOR[sid2]||'var(--primary)';
+  const cbEl=document.getElementById(checkId);
+  if(cbEl){
+    cbEl.style.background=color2;
+    cbEl.innerHTML='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
   if(rowEl){
     rowEl.style.opacity='0.45';
     const iconEl=rowEl.querySelector('.feedback-icon');
@@ -3786,7 +3801,7 @@ async function ricalibraPiano(sid){
         const isClickable=!isRest&&(isQuality||hasLinked);
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3885,7 +3900,7 @@ function restorePianoFromState(sid){
         const isClickable=!isRest&&(isQuality||hasLinked);
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<input type="checkbox" id="${checkId}" class="piano-cb" ${isDone?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:${color}" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))">`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
