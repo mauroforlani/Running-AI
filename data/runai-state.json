@@ -1,6 +1,31 @@
 {
   "workouts": [
     {
+      "id": "g-2026-05-15 07:08:17-f2l",
+      "date": "2026-05-15",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 4km@4.45min",
+      "distance": 10,
+      "duration": 50.53333333333333,
+      "elevGain": 23,
+      "elevLoss": 21,
+      "maxAlt": 144,
+      "minAlt": 132,
+      "avgHR": 152,
+      "maxHR": 174,
+      "aerobicTE": 3.1,
+      "avgPace": "5:03",
+      "bestPace": "3:35",
+      "paceSeconds": 303,
+      "calories": 861,
+      "avgCadence": 184,
+      "bodyBatteryDrain": -15,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-05-13 20:03:38-pmn",
       "date": "2026-05-13",
       "type": "running",
