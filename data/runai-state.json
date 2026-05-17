@@ -1,6 +1,31 @@
 {
   "workouts": [
     {
+      "id": "g-2026-05-17 07:33:09-tr3",
+      "date": "2026-05-17",
+      "type": "trail",
+      "activityType": "Trail Running",
+      "title": "Rifugio Lecco, Zucco Orscellera",
+      "distance": 18.86,
+      "duration": 163.4,
+      "elevGain": 1112,
+      "elevLoss": 1130,
+      "maxAlt": 1869,
+      "minAlt": 802,
+      "avgHR": 146,
+      "maxHR": 175,
+      "aerobicTE": 4,
+      "avgPace": "8:40",
+      "bestPace": "4:33",
+      "paceSeconds": 520,
+      "calories": 1834,
+      "avgCadence": 124,
+      "bodyBatteryDrain": -24,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-05-15 07:08:17-f2l",
       "date": "2026-05-15",
       "type": "running",
