@@ -2923,6 +2923,7 @@ async function runPiano(sid){
 
   const jsonSchema=`Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]${numWeeks===numWeeks?',"consigli":["..."]':''}}
+Per sessioni di tipo Intervalli/Tempo/Medio/Lungo/Forza, il campo "descrizione" deve contenere il dettaglio strutturato completo: riscaldamento, struttura principale (es. "6×1km @4:30/km rec 90s"), defaticamento. Per Facile/Recupero/Riposo una breve nota basta.
 Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o null.`;
 
   const btn=document.getElementById(sid+'-piano-btn');
@@ -3232,6 +3233,7 @@ Rielabora SOLO le settimane indicate (${incNums}), adattando le sessioni NON com
 
 Rispondi SOLO con JSON valido, zero testo extra, zero backtick:
 {"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedì","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null${isTrail?',"dislivello":null':''},"descrizione":"..."}]}]}
+Per sessioni Intervalli/Tempo/Medio/Lungo/Forza il campo "descrizione" deve contenere il dettaglio strutturato: riscaldamento, struttura principale (es. "6×1km @4:30/km rec 90s"), defaticamento.
 Includi tutti e 7 i giorni per ogni settimana.`;
 
   const progEl=document.getElementById(sid+'-piano-progress');
@@ -3828,6 +3830,7 @@ async function ricalibraPiano(sid){
       +(distanza?'- Distanza target: '+distanza+'\n':'')+'\n'
       +'Rispondi SOLO con JSON valido, zero testo extra, zero backtick:\n'
       +'{"settimane":[{"numero":N,"obiettivo":"...","km_totali":N,"sessioni":[{"giorno":"Lunedi","tipo":"Riposo|Facile|Medio|Lungo|Intervalli|Tempo|Recupero|Forza","km":null,"durata":null,"passo":null'+(isTrail?',"dislivello":null':'')+',\"descrizione\":\"...\"}]}]}\n'
+      +'Per sessioni Intervalli/Tempo/Medio/Lungo/Forza il campo "descrizione" deve contenere il dettaglio strutturato: riscaldamento, struttura principale (es. "6x1km @4:30/km rec 90s"), defaticamento.\n'
       +'Includi tutti e 7 i giorni per ogni settimana.';
   } catch(buildErr) {
     if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
