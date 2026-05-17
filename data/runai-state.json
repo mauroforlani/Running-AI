@@ -19030,7 +19030,7 @@
           "km_totali": 42,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
@@ -19038,52 +19038,52 @@
               "descrizione": "Riposo completo"
             },
             {
-              "giorno": "Martedì",
+              "giorno": "Martedi",
               "tipo": "Intervalli",
               "km": 11,
-              "durata": "55 min",
+              "durata": null,
               "passo": "4:45/km",
-              "descrizione": "Riscaldamento 3km + 5x1000m a 4:45/km (rec. 90sec) + 3km defaticamento"
+              "descrizione": "Intervalli con recuperi"
             },
             {
-              "giorno": "Mercoledì",
+              "giorno": "Mercoledi",
               "tipo": "Facile",
               "km": 8,
-              "durata": "45 min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo"
+              "descrizione": "Corsa aerobica leggera"
             },
             {
-              "giorno": "Giovedì",
+              "giorno": "Giovedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo attivo o cross training"
             },
             {
-              "giorno": "Venerdì",
+              "giorno": "Venerdi",
               "tipo": "Medio",
               "km": 10,
-              "durata": "52 min",
+              "durata": null,
               "passo": "5:15/km",
-              "descrizione": "Corsa a passo medio confortevole"
+              "descrizione": "Ritmo medio controllato"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 13,
-              "durata": "70 min",
-              "passo": "5:25/km",
-              "descrizione": "Lungo progressivo: primi 8km facili, ultimi 5km a 5:15/km"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo pre lungo"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 13,
+              "durata": null,
+              "passo": "5:25/km",
+              "descrizione": "Lungo aerobico"
             }
           ]
         },
@@ -19093,7 +19093,7 @@
           "km_totali": 44,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
@@ -19101,52 +19101,52 @@
               "descrizione": "Riposo completo"
             },
             {
-              "giorno": "Martedì",
+              "giorno": "Martedi",
               "tipo": "Tempo",
               "km": 12,
-              "durata": "58 min",
+              "durata": null,
               "passo": "4:50/km",
-              "descrizione": "Riscaldamento 3km + 6km a passo soglia (4:50/km) + 3km defaticamento"
+              "descrizione": "Prova tempo sostenuto"
             },
             {
-              "giorno": "Mercoledì",
+              "giorno": "Mercoledi",
               "tipo": "Facile",
               "km": 9,
-              "durata": "50 min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo"
+              "descrizione": "Recupero attivo"
             },
             {
-              "giorno": "Giovedì",
+              "giorno": "Giovedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo o stretching"
             },
             {
-              "giorno": "Venerdì",
+              "giorno": "Venerdi",
               "tipo": "Medio",
               "km": 10,
-              "durata": "52 min",
+              "durata": null,
               "passo": "5:10/km",
-              "descrizione": "Corsa a passo medio sostenuto"
+              "descrizione": "Ritmo medio progressivo"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 13,
-              "durata": "68 min",
-              "passo": "5:15/km",
-              "descrizione": "Lungo con variazioni: 5km facili + 6km a 5:05/km + 2km facili"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo pre lungo"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 13,
+              "durata": null,
+              "passo": "5:15/km",
+              "descrizione": "Lungo con finale medio"
             }
           ]
         },
@@ -19156,7 +19156,7 @@
           "km_totali": 45,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
@@ -19164,52 +19164,52 @@
               "descrizione": "Riposo completo"
             },
             {
-              "giorno": "Martedì",
+              "giorno": "Martedi",
               "tipo": "Intervalli",
               "km": 12,
-              "durata": "60 min",
+              "durata": null,
               "passo": "4:40/km",
-              "descrizione": "Riscaldamento 3km + 4x2000m a 4:40/km (rec. 2min) + 3km defaticamento"
+              "descrizione": "Intervalli brevi intensi"
             },
             {
-              "giorno": "Mercoledì",
+              "giorno": "Mercoledi",
               "tipo": "Facile",
               "km": 8,
-              "durata": "45 min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero"
+              "descrizione": "Defaticamento leggero"
             },
             {
-              "giorno": "Giovedì",
+              "giorno": "Giovedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo attivo"
             },
             {
-              "giorno": "Venerdì",
+              "giorno": "Venerdi",
               "tipo": "Facile",
               "km": 10,
-              "durata": "55 min",
+              "durata": null,
               "passo": "5:20/km",
-              "descrizione": "Corsa facile preparatoria"
+              "descrizione": "Preparazione al test"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 15,
-              "durata": "75 min",
-              "passo": "5:00/km",
-              "descrizione": "Test sui 15km: primi 3km progressivi + 10km a 4:55-5:00/km + 2km facili"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo pre test"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 15,
+              "durata": null,
+              "passo": "5:00/km",
+              "descrizione": "Test su 15km ritmo gara"
             }
           ]
         },
@@ -19219,60 +19219,60 @@
           "km_totali": 42,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo post test"
             },
             {
-              "giorno": "Martedì",
+              "giorno": "Martedi",
               "tipo": "Tempo",
               "km": 12,
-              "durata": "60min",
+              "durata": null,
               "passo": "4:45/km",
-              "descrizione": "Riscaldamento 3km facile + 6km a ritmo soglia anaerobica (4:45/km) + defaticamento 3km facile"
+              "descrizione": "Tempo run sostenuto"
             },
             {
-              "giorno": "Mercoledì",
+              "giorno": "Mercoledi",
               "tipo": "Facile",
               "km": 10,
-              "durata": "55min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo, ritmo molto rilassato"
+              "descrizione": "Aerobico rilassato"
             },
             {
-              "giorno": "Giovedì",
+              "giorno": "Giovedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo o mobility"
             },
             {
-              "giorno": "Venerdì",
+              "giorno": "Venerdi",
               "tipo": "Medio",
               "km": 10,
-              "durata": "50min",
+              "durata": null,
               "passo": "5:00/km",
-              "descrizione": "Corsa a ritmo medio-sostenuto, concentrazione sulla meccanica di corsa"
+              "descrizione": "Ritmo medio forte"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 16,
-              "durata": "90min",
-              "passo": "5:30/km",
-              "descrizione": "Lungo progressivo: primi 12km facili, ultimi 4km a ritmo medio (5:00/km)"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo pre lungo"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 16,
+              "durata": null,
+              "passo": "5:30/km",
+              "descrizione": "Lungo di volume"
             }
           ]
         },
@@ -19282,60 +19282,60 @@
           "km_totali": 44,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo completo"
             },
             {
-              "giorno": "Martedì",
+              "giorno": "Martedi",
               "tipo": "Intervalli",
               "km": 12,
-              "durata": "65min",
+              "durata": null,
               "passo": "4:35/km",
-              "descrizione": "Riscaldamento 3km + 5x1000m a 4:35/km (rec 400m lenti) + defaticamento 3km"
+              "descrizione": "Intervalli veloci"
             },
             {
-              "giorno": "Mercoledì",
+              "giorno": "Mercoledi",
               "tipo": "Recupero",
               "km": 8,
-              "durata": "45min",
+              "durata": null,
               "passo": "5:45/km",
-              "descrizione": "Corsa di recupero molto facile, focus su rilassamento muscolare"
+              "descrizione": "Recupero molto lento"
             },
             {
-              "giorno": "Giovedì",
+              "giorno": "Giovedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo attivo"
             },
             {
-              "giorno": "Venerdì",
+              "giorno": "Venerdi",
               "tipo": "Tempo",
               "km": 12,
-              "durata": "58min",
+              "durata": null,
               "passo": "4:50/km",
-              "descrizione": "Riscaldamento 3km + 7km a ritmo mezza maratona (4:50/km) + defaticamento 2km"
+              "descrizione": "Tempo controllato"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 18,
-              "durata": "100min",
-              "passo": "5:30/km",
-              "descrizione": "Lungo aerobico con inserimenti: ogni 5km inserire 1km a ritmo medio"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo pre lungo"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 18,
+              "durata": null,
+              "passo": "5:30/km",
+              "descrizione": "Lungo di picco volume"
             }
           ]
         },
@@ -19345,60 +19345,60 @@
           "km_totali": 46,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo completo"
             },
             {
-              "giorno": "Martedì",
+              "giorno": "Martedi",
               "tipo": "Tempo",
               "km": 14,
-              "durata": "68min",
+              "durata": null,
               "passo": "4:40/km",
-              "descrizione": "Riscaldamento 3km + 10km simulazione mezza a 4:40/km + defaticamento 1km"
+              "descrizione": "Simulazione allungo finale"
             },
             {
-              "giorno": "Mercoledì",
+              "giorno": "Mercoledi",
               "tipo": "Recupero",
               "km": 8,
-              "durata": "46min",
+              "durata": null,
               "passo": "5:45/km",
-              "descrizione": "Corsa rigenerante molto facile, stretching dinamico"
+              "descrizione": "Recupero attivo"
             },
             {
-              "giorno": "Giovedì",
+              "giorno": "Giovedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo completo"
             },
             {
-              "giorno": "Venerdì",
+              "giorno": "Venerdi",
               "tipo": "Intervalli",
               "km": 12,
-              "durata": "62min",
+              "durata": null,
               "passo": "4:30/km",
-              "descrizione": "Riscaldamento 4km + 4x2000m a 4:30/km (rec 90sec) + defaticamento 2km"
+              "descrizione": "Intervalli massima qualità"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 20,
-              "durata": "110min",
-              "passo": "5:30/km",
-              "descrizione": "Lungo specifico: primi 10km facili, centrali 8km a ritmo gara, ultimi 2km facili"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo pre simulazione"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 20,
+              "durata": null,
+              "passo": "5:30/km",
+              "descrizione": "Simulazione gara - picco volume"
             }
           ]
         },
@@ -19408,52 +19408,52 @@
           "km_totali": 35,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo post simulazione"
             },
             {
-              "giorno": "Martedì",
+              "giorno": "Martedi",
               "tipo": "Intervalli",
               "km": 10,
-              "durata": "48min",
+              "durata": null,
               "passo": "4:30/km",
-              "descrizione": "Riscaldamento 3km + 4x800m a 4:30/km (rec brevi) + defaticamento 3km"
+              "descrizione": "Richiamo qualità ridotto"
             },
             {
-              "giorno": "Mercoledì",
+              "giorno": "Mercoledi",
               "tipo": "Facile",
               "km": 8,
-              "durata": "44min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di mantenimento, gambe fresche"
+              "descrizione": "Mantenimento aerobico"
             },
             {
-              "giorno": "Giovedì",
+              "giorno": "Giovedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo completo"
             },
             {
-              "giorno": "Venerdì",
+              "giorno": "Venerdi",
               "tipo": "Medio",
               "km": 8,
-              "durata": "38min",
+              "durata": null,
               "passo": "4:45/km",
-              "descrizione": "Attivazione pre-gara: 3km facili + 3km a ritmo gara + 2km facili"
+              "descrizione": "Richiamo ritmo gara"
             },
             {
               "giorno": "Sabato",
               "tipo": "Recupero",
               "km": 6,
-              "durata": "35min",
+              "durata": null,
               "passo": "6:00/km",
-              "descrizione": "Corsa molto facile di scarico pre-gara con allunghi finali"
+              "descrizione": "Scarico pre gara"
             },
             {
               "giorno": "Domenica",
@@ -19461,7 +19461,7 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo o GARA - Mezza Maratona target 4:35/km"
+              "descrizione": "Riposo o attivazione pre gara"
             }
           ]
         }
@@ -19475,7 +19475,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-17T18:27:05.352Z"
+      "updatedAt": "2026-05-17T18:27:34.953Z"
     }
   },
   "pianoChecks": {
