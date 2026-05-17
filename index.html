@@ -3279,6 +3279,56 @@ Includi tutti e 7 i giorni per ogni settimana.`;
   if(btn){btn.disabled=false;btn.innerHTML='🔄 Aggiorna Piano';}
 }
 
+async function loadSessionDetail(btn,sid,color){
+  const detailEl=document.getElementById('psm-ai-detail');
+  if(!detailEl)return;
+  detailEl.innerHTML=`<div style="text-align:center;padding:14px;color:var(--muted);font-size:13px"><span class="spin"></span> Generazione dettaglio…</div>`;
+  btn.disabled=true;
+  const apiKey=getApiKey();
+  if(!apiKey){
+    detailEl.innerHTML=`<div style="color:#b85c00;background:#fff4eb;border:1.5px solid #f5c9a0;border-radius:8px;padding:12px;font-size:13px">⚠ Inserisci la API Key in ✨ AI Coach.</div>`;
+    btn.disabled=false;return;
+  }
+  const tipo=window._psmTipo||document.querySelector('#psm-tipo-pills button[style*="22"]')?.dataset?.tipo||'';
+  const km=document.getElementById('psm-km')?.value||'';
+  const passo=document.getElementById('psm-passo')?.value||'';
+  const durata=document.getElementById('psm-durata')?.value||'';
+  const desc=document.getElementById('psm-desc')?.value||'';
+  const isTrail=sid==='trail';
+  const prompt=`Sei un coach di ${isTrail?'trail running':'running'} esperto. Fornisci il dettaglio di questa sessione:
+- Tipo: ${tipo}
+- Distanza: ${km?km+'km':'non specificata'}
+- Durata: ${durata||'non specificata'}
+- Passo target: ${passo?passo+'/km':'non specificato'}
+- Note: ${desc||'nessuna'}
+
+Rispondi SOLO con JSON valido senza backtick:
+{"warmup":{"durata":"...","descrizione":"..."},"main":{"struttura":"...","dettaglio":"..."},"cooldown":{"durata":"...","descrizione":"..."},"consigli":"..."}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const d=JSON.parse(raw);
+    const phase=(icon,title,sub,content,c)=>`<div class="session-phase" style="border-left-color:${c||'var(--accent)'}">
+      <div class="session-phase-title">${icon} ${title}${sub?` · ${sub}`:''}</div>
+      <div class="session-phase-content">${content}</div>
+    </div>`;
+    detailEl.innerHTML=`<div style="border-top:1.5px solid var(--border);padding-top:12px;margin-top:4px">`+
+      phase('🔥','Riscaldamento',d.warmup.durata,d.warmup.descrizione,'var(--hike)')+
+      phase('⚡','Parte principale','',d.main.struttura+'<br><span style="font-size:12px;color:var(--muted)">'+d.main.dettaglio+'</span>',color)+
+      phase('🌿','Defaticamento',d.cooldown.durata,d.cooldown.descrizione,'var(--trail)')+
+      (d.consigli?`<div style="margin-top:10px;padding:10px 12px;background:${color}0d;border-radius:8px;font-size:12px;color:var(--text);line-height:1.5">💡 ${d.consigli}</div>`:'')+
+      `</div>`;
+  }catch(e){
+    detailEl.innerHTML=`<div style="color:var(--red);font-size:13px;padding:8px">❌ ${e.message}</div>`;
+  }
+  btn.disabled=false;
+}
+
 function closePianoSession(){
   document.getElementById('piano-session-modal').classList.remove('open');
 }
@@ -3355,10 +3405,13 @@ function openPianoSession(sessione,sid,color,checkId){
       </div>
     </div>
 
-    <div style="display:flex;gap:10px">
-      <button class="btn btn-primary" onclick="savePianoSession('${checkId}','${sid}','${color}')" style="flex:1;background:${color};border-color:${color}">💾 Salva</button>
-      <button class="btn btn-secondary" onclick="closePianoSession()" style="flex:0 0 auto">Annulla</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      ${['Intervalli','Tempo','Medio','Lungo','Forza'].includes(sessione.tipo)?`<button class="btn btn-secondary btn-sm" onclick="loadSessionDetail(this,'${sid}','${color}')" style="border-color:${color};color:${color}">⚡ Dettaglio sessione AI</button>`:''}
+      <div style="flex:1"></div>
+      <button class="btn btn-primary" onclick="savePianoSession('${checkId}','${sid}','${color}')" style="background:${color};border-color:${color}">💾 Salva</button>
+      <button class="btn btn-secondary" onclick="closePianoSession()">Annulla</button>
     </div>
+    <div id="psm-ai-detail" style="margin-top:12px"></div>
   `;
 
   // Abilita/disabilita area feedback al toggle done
@@ -3463,14 +3516,17 @@ function _renderWeek(s,sid,color){
   const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#e07b00',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#8b5cf6'};
   const pianoChecks=JSON.parse(localStorage.getItem(`runai-piano-checks-${sid}`)||'{}');
   const weekIdx=s.numero;
+  const qualityTypes=['Intervalli','Tempo','Medio','Lungo','Forza'];
   const sessHtml=`<div class="piano-table"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:0">
     <thead><tr style="background:var(--bg2)">
       <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:32px">✓</th>
       <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:80px">Giorno</th>
-      <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Tipo</th>
+      <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:90px">Tipo</th>
       <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:50px">Km</th>
+      <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:60px">Durata</th>
       <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:65px">Passo</th>
       ${isTrail?'<th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:55px">D+</th>':''}
+      <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border)">Note</th>
       <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1.5px solid var(--border);width:28px"></th>
     </tr></thead>
     <tbody>${(s.sessioni||[]).map((g,i)=>{
@@ -3478,6 +3534,7 @@ function _renderWeek(s,sid,color){
       const isDone=!!pianoChecks[checkId];
       const fb=(state.pianoFeedback||{})[checkId];
       const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
+      const isQuality=qualityTypes.includes(g.tipo);
       const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
       return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')">
         <td style="padding:7px 8px;text-align:center">
@@ -3487,10 +3544,12 @@ function _renderWeek(s,sid,color){
           }
         </td>
         <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
-        <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span><span style="font-size:9px;color:var(--muted);margin-left:3px">›</span></td>
+        <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isQuality?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
         <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
+        <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.durata||'—'}</td>
         <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.passo?g.passo+'/km':'—'}</td>
         ${isTrail?`<td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.dislivello?g.dislivello+'m':'—'}</td>`:''}
+        <td style="padding:7px 8px;color:var(--muted);font-size:11px">${g.descrizione||''}</td>
         <td class="feedback-icon" style="padding:7px 8px;text-align:center;font-size:14px" title="${fb?.note||''}">${fbIcon}</td>
       </tr>`;
     }).join('')}</tbody>
