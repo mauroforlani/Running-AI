@@ -3294,9 +3294,10 @@ function openPianoSession(sessione,sid,color,checkId){
   const fb=(state.pianoFeedback||{})[checkId]||{};
   const tipi=['Riposo','Facile','Medio','Lungo','Intervalli','Tempo','Recupero','Forza'];
 
-  // Workout recenti per collegamento
-  const items=getItemsForSection(sid);
-  const recent=items.slice(0,15);
+  // Tutti gli allenamenti recenti (road + trail) per collegamento
+  const allItems=[...getItemsForSection('road'),...getItemsForSection('trail')]
+    .sort((a,b)=>b.date.localeCompare(a.date))
+    .slice(0,20);
 
   titleEl.innerHTML=`<span style="color:${color}">${sessione.giorno}</span>`;
 
@@ -3348,7 +3349,7 @@ function openPianoSession(sessione,sid,color,checkId){
         </div>
         <select id="psm-workout" class="form-input" style="width:100%;font-size:13px;margin-bottom:8px">
           <option value="">— Collega allenamento reale (opzionale) —</option>
-          ${recent.map(w=>`<option value="${w.id||w.date}" ${fb.workoutId===(w.id||w.date)?'selected':''}>${w.date} · ${w.type||'corsa'} · ${w.distance?w.distance.toFixed(1)+'km':''} ${w.avgPace?w.avgPace+'/km':''}</option>`).join('')}
+          ${allItems.map(w=>`<option value="${w.id||w.date}" ${fb.workoutId===(w.id||w.date)?'selected':''}>${w.date} · ${w.type||'corsa'} · ${w.distance?w.distance.toFixed(1)+'km':''} ${w.avgPace?w.avgPace+'/km':''}</option>`).join('')}
         </select>
         <textarea class="form-input" id="psm-note" rows="2" placeholder="Note sull'allenamento svolto…" style="width:100%;resize:vertical;font-size:13px">${fb.note||''}</textarea>
       </div>
@@ -3568,9 +3569,11 @@ function openFeedbackModal(checkId,rowEl,sid){
   const color=SECT_COLOR[sid]||'var(--primary)';
   _feedbackCtx={checkId,rowEl,sid,color};
 
-  // Ultimi 10 allenamenti come candidati
-  const items=getItemsForSection(sid);
-  const recent=items.slice(0,10);
+  // Tutti gli allenamenti recenti (road + trail)
+  const allItems=[...getItemsForSection('road'),...getItemsForSection('trail')]
+    .sort((a,b)=>b.date.localeCompare(a.date))
+    .slice(0,15);
+  const recent=allItems;
 
   const modal=document.getElementById('piano-feedback-modal');
   const title=document.getElementById('pfm-title');
