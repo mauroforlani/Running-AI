@@ -19533,7 +19533,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-17T18:41:36.278Z"
+      "updatedAt": "2026-05-20T12:21:15.516Z"
     }
   },
   "pianoChecks": {
@@ -19575,6 +19575,12 @@
       "workoutId": "g-2026-05-17 07:33:09-tr3",
       "note": "",
       "completedAt": "2026-05-17T18:27:05.352Z"
+    },
+    "piano-check-road-w2-1": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-19 20:22:09-jt6",
+      "note": "",
+      "completedAt": "2026-05-20T12:21:15.516Z"
     }
   }
 }
