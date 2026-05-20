@@ -1,6 +1,31 @@
 {
   "workouts": [
     {
+      "id": "g-2026-05-19 20:22:09-jt6",
+      "date": "2026-05-19",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 6x800m@4.30",
+      "distance": 10.7,
+      "duration": 54.71666666666667,
+      "elevGain": 25,
+      "elevLoss": 24,
+      "maxAlt": 140,
+      "minAlt": 132,
+      "avgHR": 161,
+      "maxHR": 177,
+      "aerobicTE": 4.2,
+      "avgPace": "5:07",
+      "bestPace": "3:56",
+      "paceSeconds": 307,
+      "calories": 844,
+      "avgCadence": 180,
+      "bodyBatteryDrain": -7,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-05-17 07:33:09-tr3",
       "date": "2026-05-17",
       "type": "trail",
