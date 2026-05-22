@@ -19591,7 +19591,7 @@
     "piano-check-road-w1-5": true,
     "piano-check-road-w1-6": true,
     "piano-check-road-w2-2": true,
-    "piano-check-road-w2-4": true
+    "piano-check-road-w2-4": false
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
