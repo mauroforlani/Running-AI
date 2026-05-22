@@ -19160,11 +19160,11 @@
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Riposo",
+              "tipo": "Tempo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo per recupero"
+              "descrizione": "4x4km @4.45"
             },
             {
               "giorno": "Venerdì",
@@ -19580,7 +19580,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-22T07:44:55.008Z"
+      "updatedAt": "2026-05-22T07:45:30.761Z"
     }
   },
   "pianoChecks": {
@@ -19591,7 +19591,8 @@
     "piano-check-road-w1-5": true,
     "piano-check-road-w1-6": true,
     "piano-check-road-w2-2": true,
-    "piano-check-road-w2-4": false
+    "piano-check-road-w2-4": false,
+    "piano-check-road-w2-3": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19635,6 +19636,12 @@
       "workoutId": "g-2026-05-21 19:45:57-oo4",
       "note": "",
       "completedAt": "2026-05-22T07:44:55.008Z"
+    },
+    "piano-check-road-w2-3": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-21 19:45:57-oo4",
+      "note": "",
+      "completedAt": "2026-05-22T07:45:30.761Z"
     }
   }
 }
