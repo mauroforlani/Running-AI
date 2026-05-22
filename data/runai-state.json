@@ -19152,7 +19152,7 @@
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Facile",
+              "tipo": "Riposo",
               "km": 8,
               "durata": null,
               "passo": "5:30/km",
@@ -19580,7 +19580,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-17T18:41:36.278Z"
+      "updatedAt": "2026-05-22T07:44:31.353Z"
     }
   },
   "pianoChecks": {
@@ -19622,6 +19622,12 @@
       "workoutId": "g-2026-05-17 07:33:09-tr3",
       "note": "",
       "completedAt": "2026-05-17T18:27:05.352Z"
+    },
+    "piano-check-road-w2-2": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-22T07:44:31.353Z"
     }
   }
 }
