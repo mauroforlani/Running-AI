@@ -3399,7 +3399,7 @@ function openPianoSession(sessione,sid,color,checkId){
               background:${(fb.valutazione||'norma')===v?c+'22':'var(--bg2)'};color:${(fb.valutazione||'norma')===v?c:'var(--muted)'};border-color:${(fb.valutazione||'norma')===v?c:'var(--border2)'}">${l}</button>
           `).join('')}
         </div>
-        <select id="psm-workout" class="form-input" style="width:100%;font-size:13px;margin-bottom:8px">
+        <select id="psm-workout" class="form-input" style="width:100%;font-size:13px;margin-bottom:8px" onchange="psmFillFromWorkout(this.value,'${sid}')">
           <option value="">— Collega allenamento reale (opzionale) —</option>
           ${allItems.map(w=>`<option value="${w.id||w.date}" ${fb.workoutId===(w.id||w.date)?'selected':''}>${w.date} · ${w.type||'corsa'} · ${w.distance?w.distance.toFixed(1)+'km':''} ${w.avgPace?w.avgPace+'/km':''}</option>`).join('')}
         </select>
@@ -3426,6 +3426,11 @@ function openPianoSession(sessione,sid,color,checkId){
   // Stato corrente tipo
   window._psmTipo=sessione.tipo;
   window._psmVal=fb.valutazione||'norma';
+
+  // Se c'è già un workout collegato, auto-riempi i campi con i dati reali
+  if(fb.workoutId){
+    setTimeout(()=>psmFillFromWorkout(fb.workoutId,sid),50);
+  }
 }
 
 let _psmTipo='Facile', _psmVal='norma';
@@ -3453,17 +3458,52 @@ function psmSelectVal(v){
   });
 }
 
+function psmFillFromWorkout(workoutId,sid){
+  if(!workoutId)return;
+  const all=[...getItemsForSection('road'),...getItemsForSection('trail')];
+  const w=all.find(x=>(x.id||x.date)===workoutId);
+  if(!w)return;
+  // Auto-fill fields with real values
+  const kmEl=document.getElementById('psm-km');
+  const durEl=document.getElementById('psm-durata');
+  const passoEl=document.getElementById('psm-passo');
+  if(kmEl&&w.distance)kmEl.value=w.distance.toFixed(2);
+  if(durEl&&w.duration){
+    const m=Math.round(w.duration/60);
+    durEl.value=m+'min';
+  }
+  if(passoEl&&w.avgPace)passoEl.value=w.avgPace;
+  // Visual feedback
+  [kmEl,durEl,passoEl].forEach(el=>{
+    if(!el)return;
+    el.style.background='var(--green)22';
+    el.style.borderColor='var(--green)';
+    setTimeout(()=>{el.style.background='';el.style.borderColor='';},1500);
+  });
+}
+
 function savePianoSession(checkId,sid,color){
   const tipo=window._psmTipo||'Facile';
-  const km=parseFloat(document.getElementById('psm-km')?.value)||null;
-  const passo=document.getElementById('psm-passo')?.value?.trim()||null;
-  const durata=document.getElementById('psm-durata')?.value?.trim()||null;
+  let km=parseFloat(document.getElementById('psm-km')?.value)||null;
+  let passo=document.getElementById('psm-passo')?.value?.trim()||null;
+  let durata=document.getElementById('psm-durata')?.value?.trim()||null;
   const dislivello=parseFloat(document.getElementById('psm-dislivello')?.value)||null;
   const descrizione=document.getElementById('psm-desc')?.value?.trim()||'';
   const isDone=document.getElementById('psm-done')?.checked||false;
   const valutazione=window._psmVal||'norma';
   const workoutId=document.getElementById('psm-workout')?.value||'';
   const note=document.getElementById('psm-note')?.value?.trim()||'';
+
+  // Se c'è un workout collegato, usa sempre i dati reali
+  if(workoutId){
+    const all=[...getItemsForSection('road'),...getItemsForSection('trail')];
+    const realW=all.find(x=>(x.id||x.date)===workoutId);
+    if(realW){
+      if(realW.distance)km=parseFloat(realW.distance.toFixed(2));
+      if(realW.duration)durata=Math.round(realW.duration/60)+'min';
+      if(realW.avgPace)passo=realW.avgPace;
+    }
+  }
 
   // Parse checkId to find week/session index
   const m=checkId.match(/^piano-check-([^-]+)-w(\d+)-(\d+)$/);
@@ -3922,6 +3962,32 @@ async function ricalibraPiano(sid){
   if(btn){btn.disabled=false;btn.innerHTML='🔁 Ricalibra piano';}
 }
 
+function _syncWorkoutDataToPiano(sid){
+  if(!window._pianoData?.[sid]||!state.pianoFeedback)return;
+  const all=[...getItemsForSection('road'),...getItemsForSection('trail')];
+  let changed=false;
+  window._pianoData[sid].forEach(s=>{
+    (s.sessioni||[]).forEach((g,i)=>{
+      const checkId=`piano-check-${sid}-w${s.numero}-${i}`;
+      const fb=state.pianoFeedback[checkId];
+      if(!fb?.workoutId)return;
+      const realW=all.find(x=>(x.id||x.date)===fb.workoutId);
+      if(!realW)return;
+      let updated=false;
+      if(realW.distance){const km=parseFloat(realW.distance.toFixed(2));if(g.km!==km){g.km=km;updated=true;}}
+      if(realW.duration){const dur=Math.round(realW.duration/60)+'min';if(g.durata!==dur){g.durata=dur;updated=true;}}
+      if(realW.avgPace&&g.passo!==realW.avgPace){g.passo=realW.avgPace;updated=true;}
+      if(updated)changed=true;
+    });
+  });
+  if(changed){
+    if(!state.piano)state.piano={};
+    const ex=state.piano[sid]||{};
+    state.piano[sid]={...ex,settimane:window._pianoData[sid],updatedAt:new Date().toISOString()};
+    saveState();syncToGitHub();
+  }
+}
+
 // ── Ripristina UI piano da state (usato dopo caricamento da GitHub) ──
 function restorePianoFromState(sid){
   const pianoObj=state.piano?.[sid];
@@ -4015,7 +4081,7 @@ function restorePianoFromState(sid){
   </div>`;
 
   // Ripristina stato pulsante Ricalibra
-  setTimeout(()=>_checkRecalibra(sid),0);
+  setTimeout(()=>{_checkRecalibra(sid);_syncWorkoutDataToPiano(sid);},0);
 }
 
 // ══ BOOT ══
@@ -4045,7 +4111,7 @@ Object.keys(state.piano||{}).forEach(sid=>{
     localStorage.setItem(key,JSON.stringify(ex));
   });
   // Renderizza il piano al prossimo tick (dopo che il DOM è pronto)
-  setTimeout(()=>restorePianoFromState(sid),0);
+  setTimeout(()=>{restorePianoFromState(sid);_syncWorkoutDataToPiano(sid);},0);
 });
 </script>
 </body>
