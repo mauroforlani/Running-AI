@@ -19163,7 +19163,7 @@
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Facile",
+              "tipo": "Riposo",
               "km": 8,
               "durata": null,
               "passo": "5:30/km",
@@ -19591,7 +19591,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-23T18:15:23.472Z"
+      "updatedAt": "2026-05-23T18:15:29.097Z"
     }
   },
   "pianoChecks": {
@@ -19652,7 +19652,7 @@
       "valutazione": "norma",
       "workoutId": "",
       "note": "",
-      "completedAt": "2026-05-23T18:15:23.472Z"
+      "completedAt": "2026-05-23T18:15:29.097Z"
     }
   }
 }
