@@ -19167,7 +19167,7 @@
               "km": 8,
               "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo"
+              "descrizione": "Riposo"
             },
             {
               "giorno": "Giovedì",
@@ -19591,7 +19591,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-23T18:14:45.250Z"
+      "updatedAt": "2026-05-23T18:15:23.472Z"
     }
   },
   "pianoChecks": {
@@ -19602,7 +19602,8 @@
     "piano-check-road-w1-5": true,
     "piano-check-road-w1-6": true,
     "piano-check-road-w2-4": true,
-    "piano-check-road-w2-3": true
+    "piano-check-road-w2-3": true,
+    "piano-check-road-w2-2": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19646,6 +19647,12 @@
       "workoutId": "g-2026-05-21 19:45:57-hvr",
       "note": "",
       "completedAt": "2026-05-23T18:14:45.250Z"
+    },
+    "piano-check-road-w2-2": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-23T18:15:23.472Z"
     }
   }
 }
