@@ -1,6 +1,56 @@
 {
   "workouts": [
     {
+      "id": "g-2026-05-21 19:45:57-hvr",
+      "date": "2026-05-21",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 4km@4.45min",
+      "distance": 10,
+      "duration": 50.36666666666667,
+      "elevGain": 21,
+      "elevLoss": 20,
+      "maxAlt": 137,
+      "minAlt": 128,
+      "avgHR": 160,
+      "maxHR": 175,
+      "aerobicTE": 4.1,
+      "avgPace": "5:02",
+      "bestPace": "3:33",
+      "paceSeconds": 302,
+      "calories": 783,
+      "avgCadence": 179,
+      "bodyBatteryDrain": -8,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-19 20:22:09-gx0",
+      "date": "2026-05-19",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 6x800m@4.30",
+      "distance": 10.7,
+      "duration": 54.71666666666667,
+      "elevGain": 25,
+      "elevLoss": 24,
+      "maxAlt": 140,
+      "minAlt": 132,
+      "avgHR": 161,
+      "maxHR": 177,
+      "aerobicTE": 4.2,
+      "avgPace": "5:07",
+      "bestPace": "3:56",
+      "paceSeconds": 307,
+      "calories": 844,
+      "avgCadence": 180,
+      "bodyBatteryDrain": -7,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-05-17 07:33:09-tr3",
       "date": "2026-05-17",
       "type": "trail",
@@ -19121,15 +19171,15 @@
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Riposo per recupero"
+              "tipo": "Tempo",
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:02",
+              "descrizione": "4km@4.45sec"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Medio",
+              "tipo": "Riposo",
               "km": 10,
               "durata": null,
               "passo": "5:15/km",
@@ -19541,7 +19591,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-23T18:08:08.896Z"
+      "updatedAt": "2026-05-23T18:14:45.250Z"
     }
   },
   "pianoChecks": {
@@ -19551,7 +19601,8 @@
     "piano-check-road-w1-4": true,
     "piano-check-road-w1-5": true,
     "piano-check-road-w1-6": true,
-    "piano-check-road-w2-4": true
+    "piano-check-road-w2-4": true,
+    "piano-check-road-w2-3": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19583,6 +19634,18 @@
       "workoutId": "g-2026-05-17 07:33:09-tr3",
       "note": "",
       "completedAt": "2026-05-17T18:27:05.352Z"
+    },
+    "piano-check-road-w2-4": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-23T18:11:51.717Z"
+    },
+    "piano-check-road-w2-3": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-21 19:45:57-hvr",
+      "note": "",
+      "completedAt": "2026-05-23T18:14:45.250Z"
     }
   }
 }
