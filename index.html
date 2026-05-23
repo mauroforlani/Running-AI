@@ -3469,8 +3469,7 @@ function psmFillFromWorkout(workoutId,sid){
   const passoEl=document.getElementById('psm-passo');
   if(kmEl&&w.distance)kmEl.value=w.distance.toFixed(2);
   if(durEl&&w.duration){
-    const m=Math.round(w.duration/60);
-    durEl.value=m+'min';
+    durEl.value=Math.round(w.duration)+'min';
   }
   if(passoEl&&w.avgPace)passoEl.value=w.avgPace;
   // Visual feedback
@@ -3500,7 +3499,7 @@ function savePianoSession(checkId,sid,color){
     const realW=all.find(x=>(x.id||x.date)===workoutId);
     if(realW){
       if(realW.distance)km=parseFloat(realW.distance.toFixed(2));
-      if(realW.duration)durata=Math.round(realW.duration/60)+'min';
+      if(realW.duration)durata=Math.round(realW.duration)+'min';
       if(realW.avgPace)passo=realW.avgPace;
     }
   }
@@ -3975,7 +3974,7 @@ function _syncWorkoutDataToPiano(sid){
       if(!realW)return;
       let updated=false;
       if(realW.distance){const km=parseFloat(realW.distance.toFixed(2));if(g.km!==km){g.km=km;updated=true;}}
-      if(realW.duration){const dur=Math.round(realW.duration/60)+'min';if(g.durata!==dur){g.durata=dur;updated=true;}}
+      if(realW.duration){const dur=Math.round(realW.duration)+'min';if(g.durata!==dur){g.durata=dur;updated=true;}}
       if(realW.avgPace&&g.passo!==realW.avgPace){g.passo=realW.avgPace;updated=true;}
       if(updated)changed=true;
     });
