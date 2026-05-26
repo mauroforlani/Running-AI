@@ -1,6 +1,81 @@
 {
   "workouts": [
     {
+      "id": "g-2026-05-24 08:04:34-9c7",
+      "date": "2026-05-24",
+      "type": "trail",
+      "activityType": "Trail Running",
+      "title": "Rifugio Laghi Gemelli, Rifugio Calvi, Rifugio Longo",
+      "distance": 35.12,
+      "duration": 337.35,
+      "elevGain": 1714,
+      "elevLoss": 1696,
+      "maxAlt": 1988,
+      "minAlt": 1101,
+      "avgHR": 145,
+      "maxHR": 174,
+      "aerobicTE": 4.9,
+      "avgPace": "9:36",
+      "bestPace": "4:38",
+      "paceSeconds": 576,
+      "calories": 3537,
+      "avgCadence": 117,
+      "bodyBatteryDrain": -37,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-21 19:45:57-hvr",
+      "date": "2026-05-21",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 4km@4.45min",
+      "distance": 10,
+      "duration": 50.36666666666667,
+      "elevGain": 21,
+      "elevLoss": 20,
+      "maxAlt": 137,
+      "minAlt": 128,
+      "avgHR": 160,
+      "maxHR": 175,
+      "aerobicTE": 4.1,
+      "avgPace": "5:02",
+      "bestPace": "3:33",
+      "paceSeconds": 302,
+      "calories": 783,
+      "avgCadence": 179,
+      "bodyBatteryDrain": -8,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-19 20:22:09-gx0",
+      "date": "2026-05-19",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 6x800m@4.30",
+      "distance": 10.7,
+      "duration": 54.71666666666667,
+      "elevGain": 25,
+      "elevLoss": 24,
+      "maxAlt": 140,
+      "minAlt": 132,
+      "avgHR": 161,
+      "maxHR": 177,
+      "aerobicTE": 4.2,
+      "avgPace": "5:07",
+      "bestPace": "3:56",
+      "paceSeconds": 307,
+      "calories": 844,
+      "avgCadence": 180,
+      "bodyBatteryDrain": -7,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-05-17 07:33:09-tr3",
       "date": "2026-05-17",
       "type": "trail",
@@ -11722,6 +11797,31 @@
   ],
   "hikes": [
     {
+      "id": "h-20260523084419-1ztn",
+      "date": "2026-05-23 08:44:19",
+      "datetime": "2026-05-23 08:44:19",
+      "type": "hike",
+      "activityType": "Hiking",
+      "title": "Rifugio Curò",
+      "distance": 15.98,
+      "duration": 258.95,
+      "elevGain": 1015,
+      "elevLoss": 995,
+      "maxAlt": 1888,
+      "minAlt": 890,
+      "avgHR": 114,
+      "maxHR": 143,
+      "avgPace": "16:13",
+      "paceSeconds": 973,
+      "calories": 1722,
+      "aerobicTE": 2.3,
+      "avgCadence": 89,
+      "bodyBatteryDrain": -28,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "h-20260321073400-k8jz",
       "date": "2026-03-21",
       "datetime": "2026-03-21T07:34:00",
@@ -18749,15 +18849,103 @@
   ],
   "garminReadings": [
     {
-      "id": 1779774476386,
+      "id": 1779802693252,
       "date": "2026-05-26",
       "hrv": "51",
       "trainingReadiness": "45",
-      "trainingLoad": "687",
+      "trainingLoad": "680",
       "bodyBattery": "80",
       "restingHR": "51",
       "sleepScore": "70",
       "stressLevel": "11"
+    },
+    {
+      "id": 1779687971472,
+      "date": "2026-05-25",
+      "hrv": "51",
+      "trainingReadiness": "15",
+      "trainingLoad": "687",
+      "bodyBattery": "54",
+      "restingHR": "56",
+      "sleepScore": "70",
+      "stressLevel": "20"
+    },
+    {
+      "id": 1779602129841,
+      "date": "2026-05-24",
+      "hrv": "50",
+      "trainingReadiness": "79",
+      "trainingLoad": "455",
+      "bodyBattery": "60",
+      "restingHR": "51",
+      "sleepScore": "79",
+      "stressLevel": "26"
+    },
+    {
+      "id": 1779512338621,
+      "date": "2026-05-23",
+      "hrv": "50",
+      "trainingReadiness": "70",
+      "trainingLoad": "490",
+      "bodyBattery": "83",
+      "restingHR": "51",
+      "sleepScore": "79",
+      "stressLevel": "12"
+    },
+    {
+      "id": 1779427674386,
+      "date": "2026-05-22",
+      "hrv": "50",
+      "trainingReadiness": "34",
+      "trainingLoad": "569",
+      "bodyBattery": "69",
+      "restingHR": "53",
+      "sleepScore": "73",
+      "stressLevel": "12"
+    },
+    {
+      "id": 1779340145615,
+      "date": "2026-05-21",
+      "hrv": "50",
+      "trainingReadiness": "41",
+      "trainingLoad": "468",
+      "bodyBattery": "60",
+      "restingHR": "54",
+      "sleepScore": "66",
+      "stressLevel": "17"
+    },
+    {
+      "id": 1779253634695,
+      "date": "2026-05-20",
+      "hrv": "50",
+      "trainingReadiness": "26",
+      "trainingLoad": "572",
+      "bodyBattery": "54",
+      "restingHR": "53",
+      "sleepScore": "51",
+      "stressLevel": "18"
+    },
+    {
+      "id": 1779168169501,
+      "date": "2026-05-19",
+      "hrv": "50",
+      "trainingReadiness": "72",
+      "trainingLoad": "585",
+      "bodyBattery": "80",
+      "restingHR": "50",
+      "sleepScore": "74",
+      "stressLevel": "12"
+    },
+    {
+      "id": 1779079487614,
+      "date": "2026-05-18",
+      "hrv": "50",
+      "trainingReadiness": "61",
+      "trainingLoad": "585",
+      "bodyBattery": "78",
+      "restingHR": "50",
+      "sleepScore": "85",
+      "stressLevel": "15"
     },
     {
       "id": 1778995610601,
@@ -19058,23 +19246,23 @@
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Facile",
+              "tipo": "Riposo",
               "km": 8,
               "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo"
+              "descrizione": "Riposo"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Riposo per recupero"
+              "tipo": "Tempo",
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:02",
+              "descrizione": "4km@4.45sec"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Medio",
+              "tipo": "Riposo",
               "km": 10,
               "durata": null,
               "passo": "5:15/km",
@@ -19091,9 +19279,9 @@
             {
               "giorno": "Domenica",
               "tipo": "Lungo",
-              "km": 13,
-              "durata": null,
-              "passo": "5:25/km",
+              "km": 35.12,
+              "durata": "337min",
+              "passo": "9:36",
               "descrizione": "Long run per sviluppare resistenza aerobica"
             }
           ]
@@ -19486,7 +19674,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-25T19:03:23.920Z"
+      "updatedAt": "2026-05-25T14:20:26.027Z"
     }
   },
   "pianoChecks": {
@@ -19495,7 +19683,11 @@
     "piano-check-road-w1-2": true,
     "piano-check-road-w1-4": true,
     "piano-check-road-w1-5": true,
-    "piano-check-road-w1-6": true
+    "piano-check-road-w1-6": true,
+    "piano-check-road-w2-4": true,
+    "piano-check-road-w2-3": true,
+    "piano-check-road-w2-2": true,
+    "piano-check-road-w2-6": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19527,6 +19719,30 @@
       "workoutId": "g-2026-05-17 07:33:09-tr3",
       "note": "",
       "completedAt": "2026-05-17T18:27:05.352Z"
+    },
+    "piano-check-road-w2-4": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-23T18:11:51.717Z"
+    },
+    "piano-check-road-w2-3": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-21 19:45:57-hvr",
+      "note": "",
+      "completedAt": "2026-05-23T18:14:45.250Z"
+    },
+    "piano-check-road-w2-2": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-23T18:15:29.097Z"
+    },
+    "piano-check-road-w2-6": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-24 08:04:34-9c7",
+      "note": "",
+      "completedAt": "2026-05-25T14:20:26.027Z"
     }
   }
 }
