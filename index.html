@@ -1361,11 +1361,15 @@ function renderGarminHome(){
     if(g.bodyBattery)html+=radialGauge(+g.bodyBattery,100,'Body Battery',scoreColor(+g.bodyBattery));
     if(g.sleepScore)html+=radialGauge(+g.sleepScore,100,'Sleep',scoreColor(+g.sleepScore));
     if(g.hrv)html+=radialGauge(+g.hrv,80,'HRV ms','var(--accent)');
+    if(g.restingHR)html+=radialGauge(+g.restingHR,100,'FC Riposo','var(--red)');
+    if(g.trainingLoad)html+=radialGauge(+g.trainingLoad,500,'Training Load','var(--hike)');
+    if(g.stressLevel)html+=radialGauge(+g.stressLevel,100,'Stress',scoreColor(100-+g.stressLevel));
     document.getElementById('home-garmin-gauges').innerHTML=html;
   }
   const el=document.getElementById('home-garmin-list');
   if(!state.garminReadings.length){el.innerHTML='<div style="color:var(--muted);padding:16px 0;text-align:center;font-size:13px">Nessun dato — clicca "+ Aggiungi"</div>';return;}
   const ct=v=>{const p=+v;return p>=75?'green':p>=50?'yellow':p>=30?'orange':'red';};
+  const ctStress=v=>{const p=+v;return p>=75?'red':p>=50?'orange':p>=30?'yellow':'green';};
   el.innerHTML=state.garminReadings.slice(0,6).map(g=>`
     <div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
       <span>⌚</span>
@@ -1375,6 +1379,9 @@ function renderGarminHome(){
         ${g.trainingReadiness?`<span class="tag ${ct(g.trainingReadiness)}" style="font-size:10px">R ${g.trainingReadiness}</span>`:''}
         ${g.bodyBattery?`<span class="tag ${ct(g.bodyBattery)}" style="font-size:10px">🔋${g.bodyBattery}%</span>`:''}
         ${g.sleepScore?`<span class="tag" style="font-size:10px">😴${g.sleepScore}</span>`:''}
+        ${g.restingHR?`<span class="tag" style="font-size:10px;color:var(--red)">❤️ ${g.restingHR}bpm</span>`:''}
+        ${g.trainingLoad?`<span class="tag" style="font-size:10px">⚡${g.trainingLoad}</span>`:''}
+        ${g.stressLevel?`<span class="tag ${ctStress(g.stressLevel)}" style="font-size:10px">😤${g.stressLevel}</span>`:''}
       </div>
       <button style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:12px" onclick="deleteGarmin('${g.id}')">✕</button>
     </div>`).join('');
@@ -1398,6 +1405,9 @@ function renderGarminInSection(prefix){
   if(g.bodyBattery)html+=radialGauge(+g.bodyBattery,100,'Body Battery',scoreColor(+g.bodyBattery));
   if(g.sleepScore)html+=radialGauge(+g.sleepScore,100,'Sleep',scoreColor(+g.sleepScore));
   if(g.hrv)html+=radialGauge(+g.hrv,80,'HRV ms','var(--accent)');
+  if(g.restingHR)html+=radialGauge(+g.restingHR,100,'FC Riposo','var(--red)');
+  if(g.trainingLoad)html+=radialGauge(+g.trainingLoad,500,'Training Load','var(--hike)');
+  if(g.stressLevel)html+=radialGauge(+g.stressLevel,100,'Stress',scoreColor(100-+g.stressLevel));
   const gEl=document.getElementById(prefix+'-garmin-gauges');if(gEl)gEl.innerHTML=html;
 }
 
