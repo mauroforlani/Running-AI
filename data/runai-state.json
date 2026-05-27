@@ -19345,11 +19345,11 @@
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Facile",
-              "km": 9,
-              "durata": null,
-              "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo"
+              "tipo": "Tempo",
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:01",
+              "descrizione": "6km@4.50"
             },
             {
               "giorno": "Giovedì",
@@ -19710,7 +19710,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-27T13:44:46.721Z"
+      "updatedAt": "2026-05-27T13:45:12.329Z"
     }
   },
   "pianoChecks": {
@@ -19724,7 +19724,8 @@
     "piano-check-road-w2-3": true,
     "piano-check-road-w2-2": true,
     "piano-check-road-w2-6": true,
-    "piano-check-road-w3-1": true
+    "piano-check-road-w3-1": true,
+    "piano-check-road-w3-2": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19786,6 +19787,12 @@
       "workoutId": "",
       "note": "",
       "completedAt": "2026-05-27T13:44:46.721Z"
+    },
+    "piano-check-road-w3-2": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-27 07:08:12-ida",
+      "note": "",
+      "completedAt": "2026-05-27T13:45:12.329Z"
     }
   }
 }
