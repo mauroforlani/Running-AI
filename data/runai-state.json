@@ -19440,9 +19440,9 @@
             {
               "giorno": "Mercoledi",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:01",
               "descrizione": "Riposo completo"
             },
             {
@@ -19456,17 +19456,17 @@
             {
               "giorno": "Venerdi",
               "tipo": "Lungo",
-              "km": 13,
-              "durata": null,
-              "passo": "5:15/km",
+              "km": 8.15,
+              "durata": "44min",
+              "passo": "5:21",
               "descrizione": "2km riscaldamento @5:45/km, 10km @5:15/km ritmo costante, 1km defaticamento @6:00/km"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "tipo": "Intervalli",
+              "km": 7.15,
+              "durata": "35min",
+              "passo": "4:53",
               "descrizione": "Riposo completo"
             },
             {
@@ -19804,7 +19804,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-31T08:01:39.688Z"
+      "updatedAt": "2026-05-31T08:02:40.136Z"
     }
   },
   "pianoChecks": {
@@ -19900,7 +19900,7 @@
       "valutazione": "bene",
       "workoutId": "g-2026-05-30 18:23:17-ip6",
       "note": "",
-      "completedAt": "2026-05-31T06:20:02.385Z"
+      "completedAt": "2026-05-31T08:02:40.132Z"
     }
   }
 }
