@@ -2977,13 +2977,13 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
-        const isRest=g.tipo==='Riposo';
+        const isRest=g.tipo==='Riposo'&&!g.km;
         const isQuality=qualityTypes.includes(g.tipo);
         const fb=(state.pianoFeedback||{})[checkId];
         const hasLinked=!!(fb?.workoutId);
         const isClickable=!isRest&&(isQuality||hasLinked);
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;background:transparent;flex-shrink:0"></div>`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<div style="width:18px;height:18px;border-radius:4px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:auto;opacity:0.4" onclick="event.stopPropagation()"><svg width="8" height="2" viewBox="0 0 8 2"><rect width="8" height="2" rx="1" fill="var(--muted)"/></svg></div>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;background:transparent;flex-shrink:0"></div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3179,7 +3179,7 @@ async function updatePiano(sid){
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
-        const isRest=g.tipo==='Riposo';
+        const isRest=g.tipo==='Riposo'&&!g.km;
         const isQuality=qualityTypes.includes(g.tipo);
         const fb=(state.pianoFeedback||{})[checkId];
         const hasLinked=!!(fb?.workoutId);
@@ -3188,7 +3188,7 @@ async function updatePiano(sid){
         const isDone=pianoChecks2[checkId];
         const fb2=(state.pianoFeedback||{})[checkId];
         const fbIcon=isDone?(fb2?({bene:'✅',norma:'✔️',male:'⚠️'}[fb2.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<div style="width:18px;height:18px;border-radius:4px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:auto;opacity:0.4" onclick="event.stopPropagation()"><svg width="8" height="2" viewBox="0 0 8 2"><rect width="8" height="2" rx="1" fill="var(--muted)"/></svg></div>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3559,6 +3559,8 @@ function savePianoSession(checkId,sid,color){
     const week=window._pianoData[sid].find(s=>s.numero===wNum);
     if(week) weekEl.outerHTML=_renderWeek(week,sid,color);
   }
+  // Sync all linked workouts data across the whole plan
+  _syncWorkoutDataToPiano(sid);
   _checkRecalibra(sid);
   closePianoSession();
   toast('✓ Sessione aggiornata','ok');
@@ -3591,8 +3593,8 @@ function _renderWeek(s,sid,color){
       const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
       return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')">
         <td style="padding:7px 8px;text-align:center">
-          ${g.tipo==='Riposo'
-            ? `<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`
+          ${(g.tipo==='Riposo'&&!g.km&&!isDone)
+            ? `<div style="width:18px;height:18px;border-radius:4px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:auto;opacity:0.4" onclick="event.stopPropagation()"><svg width="8" height="2" viewBox="0 0 8 2"><rect width="8" height="2" rx="1" fill="var(--muted)"/></svg></div>`
             : `<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`
           }
         </td>
@@ -3909,7 +3911,7 @@ async function ricalibraPiano(sid){
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
-        const isRest=g.tipo==='Riposo';
+        const isRest=g.tipo==='Riposo'&&!g.km;
         const isDone=pianoChecks2[checkId];
         const fb=(state.pianoFeedback||{})[checkId];
         const hasLinked=!!(fb?.workoutId);
@@ -3917,7 +3919,7 @@ async function ricalibraPiano(sid){
         const isClickable=!isRest&&(isQuality||hasLinked);
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<div style="width:18px;height:18px;border-radius:4px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:auto;opacity:0.4" onclick="event.stopPropagation()"><svg width="8" height="2" viewBox="0 0 8 2"><rect width="8" height="2" rx="1" fill="var(--muted)"/></svg></div>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
@@ -3976,7 +3978,8 @@ async function ricalibraPiano(sid){
 function _syncWorkoutDataToPiano(sid){
   if(!window._pianoData?.[sid]||!state.pianoFeedback)return;
   const all=[...getItemsForSection('road'),...getItemsForSection('trail')];
-  let changed=false;
+  const color=SECT_COLOR[sid];
+  let changedWeeks=new Set();
   window._pianoData[sid].forEach(s=>{
     (s.sessioni||[]).forEach((g,i)=>{
       const checkId=`piano-check-${sid}-w${s.numero}-${i}`;
@@ -3988,10 +3991,17 @@ function _syncWorkoutDataToPiano(sid){
       if(realW.distance){const km=parseFloat(realW.distance.toFixed(2));if(g.km!==km){g.km=km;updated=true;}}
       if(realW.duration){const dur=Math.round(realW.duration)+'min';if(g.durata!==dur){g.durata=dur;updated=true;}}
       if(realW.avgPace&&g.passo!==realW.avgPace){g.passo=realW.avgPace;updated=true;}
-      if(updated)changed=true;
+      if(updated)changedWeeks.add(s.numero);
     });
   });
-  if(changed){
+  if(changedWeeks.size>0){
+    // Re-render changed weeks in DOM
+    changedWeeks.forEach(wNum=>{
+      const week=window._pianoData[sid].find(s=>s.numero===wNum);
+      const weekEl=document.getElementById(`piano-week-${sid}-${wNum}`);
+      if(week&&weekEl) weekEl.outerHTML=_renderWeek(week,sid,color);
+    });
+    // Persist
     if(!state.piano)state.piano={};
     const ex=state.piano[sid]||{};
     state.piano[sid]={...ex,settimane:window._pianoData[sid],updatedAt:new Date().toISOString()};
@@ -4034,7 +4044,7 @@ function restorePianoFromState(sid){
       </tr></thead>
       <tbody>${(s.sessioni||[]).map((g,i)=>{
         const checkId=`piano-check-${sid}-w${weekIdx}-${i}`;
-        const isRest=g.tipo==='Riposo';
+        const isRest=g.tipo==='Riposo'&&!g.km;
         const isDone=!!pianoChecks[checkId];
         const fb=(state.pianoFeedback||{})[checkId];
         const hasLinked=!!(fb?.workoutId);
@@ -4042,7 +4052,7 @@ function restorePianoFromState(sid){
         const isClickable=!isRest&&(isQuality||hasLinked);
         const rowData=JSON.stringify(g).replace(/'/g,"\\'").replace(/"/g,'&quot;');
         const fbIcon=isDone?(fb?({bene:'✅',norma:'✔️',male:'⚠️'}[fb.valutazione]||'✔️'):'✔️'):'';
-        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<span style="font-size:13px" onclick="event.stopPropagation()">😴</span>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
+        return`<tr id="row-${checkId}" class="piano-session-row clickable" style="background:${i%2?'var(--bg2)':'var(--bg)'};opacity:${isDone?'0.45':'1'}" onclick="if(event.target.closest('td:first-child'))return;openPianoSession(${rowData},'${sid}','${color}','${checkId}')"><td style="padding:7px 8px;text-align:center">${isRest?`<div style="width:18px;height:18px;border-radius:4px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:auto;opacity:0.4" onclick="event.stopPropagation()"><svg width="8" height="2" viewBox="0 0 8 2"><rect width="8" height="2" rx="1" fill="var(--muted)"/></svg></div>`:`<div id="${checkId}" class="piano-cb" onclick="event.stopPropagation();togglePianoCheck('${checkId}',document.getElementById('row-${checkId}'))" style="width:18px;height:18px;border-radius:4px;border:2px solid ${color};cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;flex-shrink:0;background:${isDone?color:'transparent'}">${isDone?'<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>`}</td>
           <td style="padding:7px 8px;font-weight:600;color:var(--text2);white-space:nowrap">${g.giorno}</td>
           <td style="padding:7px 8px"><span style="color:${tipoColor[g.tipo]||color};font-weight:700;font-size:11px">${g.tipo}</span>${isClickable?'<span style="font-size:9px;color:var(--muted);margin-left:3px">›</span>':''}</td>
           <td style="padding:7px 8px;text-align:center;font-family:var(--font-mono)">${g.km!=null?g.km+'km':'—'}</td>
