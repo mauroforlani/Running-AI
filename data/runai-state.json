@@ -19444,10 +19444,10 @@
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Medio",
-              "km": 10,
-              "durata": null,
-              "passo": "5:10/km",
+              "tipo": "Facile",
+              "km": 8.15,
+              "durata": "44min",
+              "passo": "5:21",
               "descrizione": "Corsa a ritmo medio progressivo"
             },
             {
@@ -19793,7 +19793,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-27T13:45:12.329Z"
+      "updatedAt": "2026-05-31T06:19:46.257Z"
     }
   },
   "pianoChecks": {
@@ -19808,7 +19808,8 @@
     "piano-check-road-w2-2": true,
     "piano-check-road-w2-6": true,
     "piano-check-road-w3-1": true,
-    "piano-check-road-w3-2": true
+    "piano-check-road-w3-2": true,
+    "piano-check-road-w3-4": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19876,6 +19877,12 @@
       "workoutId": "g-2026-05-27 07:08:12-ida",
       "note": "",
       "completedAt": "2026-05-27T13:45:12.329Z"
+    },
+    "piano-check-road-w3-4": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-29 17:59:57-l52",
+      "note": "",
+      "completedAt": "2026-05-31T06:19:46.257Z"
     }
   }
 }
