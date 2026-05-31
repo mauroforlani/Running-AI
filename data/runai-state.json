@@ -19452,10 +19452,10 @@
             },
             {
               "giorno": "Sabato",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "tipo": "Intervalli",
+              "km": 7.15,
+              "durata": "35min",
+              "passo": "4:53",
               "descrizione": "Riposo pre lungo"
             },
             {
@@ -19793,7 +19793,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-05-31T06:19:46.257Z"
+      "updatedAt": "2026-05-31T06:20:02.385Z"
     }
   },
   "pianoChecks": {
@@ -19809,7 +19809,8 @@
     "piano-check-road-w2-6": true,
     "piano-check-road-w3-1": true,
     "piano-check-road-w3-2": true,
-    "piano-check-road-w3-4": true
+    "piano-check-road-w3-4": true,
+    "piano-check-road-w3-5": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19883,6 +19884,12 @@
       "workoutId": "g-2026-05-29 17:59:57-l52",
       "note": "",
       "completedAt": "2026-05-31T06:19:46.257Z"
+    },
+    "piano-check-road-w3-5": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-30 18:23:17-ip6",
+      "note": "",
+      "completedAt": "2026-05-31T06:20:02.385Z"
     }
   }
 }
