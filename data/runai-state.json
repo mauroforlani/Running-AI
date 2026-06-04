@@ -19630,10 +19630,10 @@
           "sessioni": [
             {
               "giorno": "Lunedi",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "tipo": "Lungo",
+              "km": 18.5,
+              "durata": "95min",
+              "passo": "5:10",
               "descrizione": "Riposo completo"
             },
             {
@@ -19948,7 +19948,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-04T18:10:15.649Z"
+      "updatedAt": "2026-06-04T18:10:26.663Z"
     }
   },
   "pianoChecks": {
@@ -19966,7 +19966,8 @@
     "piano-check-road-w3-2": true,
     "piano-check-road-w3-4": true,
     "piano-check-road-w3-5": true,
-    "piano-check-road-w3-6": true
+    "piano-check-road-w3-6": true,
+    "piano-check-road-w4-0": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20052,6 +20053,12 @@
       "workoutId": "g-2026-05-31 18:16:25-rhg",
       "note": "",
       "completedAt": "2026-06-04T18:10:15.649Z"
+    },
+    "piano-check-road-w4-0": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-06-01 11:14:00-phe",
+      "note": "",
+      "completedAt": "2026-06-04T18:10:26.663Z"
     }
   }
 }
