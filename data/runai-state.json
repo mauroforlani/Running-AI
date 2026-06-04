@@ -19615,7 +19615,7 @@
             },
             {
               "giorno": "Domenica",
-              "tipo": "Lungo",
+              "tipo": "Tempo",
               "km": 10,
               "durata": "49min",
               "passo": "4:55",
@@ -19948,7 +19948,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-04T18:10:07.881Z"
+      "updatedAt": "2026-06-04T18:10:15.649Z"
     }
   },
   "pianoChecks": {
@@ -20051,7 +20051,7 @@
       "valutazione": "bene",
       "workoutId": "g-2026-05-31 18:16:25-rhg",
       "note": "",
-      "completedAt": "2026-06-04T18:10:07.881Z"
+      "completedAt": "2026-06-04T18:10:15.649Z"
     }
   }
 }
