@@ -19595,7 +19595,7 @@
             },
             {
               "giorno": "Martedì",
-              "tipo": "Intervalli",
+              "tipo": "Riposo",
               "km": 11,
               "durata": null,
               "passo": "4:45/km",
@@ -20031,7 +20031,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-07T19:27:34.221Z"
+      "updatedAt": "2026-06-07T19:28:16.180Z"
     }
   },
   "pianoChecks": {
@@ -20054,7 +20054,7 @@
     "piano-check-road-w4-1": true,
     "piano-check-road-w4-2": true,
     "piano-check-road-w4-4": true,
-    "piano-check-road-w2-1": false,
+    "piano-check-road-w2-1": true,
     "piano-check-road-w4-6": true
   },
   "pianoFeedback": {
@@ -20165,6 +20165,12 @@
       "workoutId": "g-2026-06-06 08:00:47-bqb",
       "note": "",
       "completedAt": "2026-06-07T19:27:34.221Z"
+    },
+    "piano-check-road-w2-1": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-06-07T19:28:16.180Z"
     }
   }
 }
