@@ -19842,10 +19842,10 @@
             },
             {
               "giorno": "Martedì",
-              "tipo": "Tempo",
-              "km": 12,
-              "durata": null,
-              "passo": "4:45/km",
+              "tipo": "Facile",
+              "km": 8.2,
+              "durata": "44min",
+              "passo": "5:20",
               "descrizione": "Corsa tempo per consolidare soglia anaerobica"
             },
             {
@@ -20089,7 +20089,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-07T19:28:16.180Z"
+      "updatedAt": "2026-06-10T08:31:48.508Z"
     }
   },
   "pianoChecks": {
@@ -20113,7 +20113,8 @@
     "piano-check-road-w4-2": true,
     "piano-check-road-w4-4": true,
     "piano-check-road-w2-1": true,
-    "piano-check-road-w4-6": true
+    "piano-check-road-w4-6": true,
+    "piano-check-road-w5-1": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20229,6 +20230,12 @@
       "workoutId": "",
       "note": "",
       "completedAt": "2026-06-07T19:28:16.180Z"
+    },
+    "piano-check-road-w5-1": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-06-09 19:55:38-z0c",
+      "note": "8.2 km a 5.20",
+      "completedAt": "2026-06-10T08:31:48.508Z"
     }
   }
 }
