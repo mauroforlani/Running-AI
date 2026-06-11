@@ -1,6 +1,56 @@
 {
   "workouts": [
     {
+      "id": "g-2026-06-11 07:04:43-hh5",
+      "date": "2026-06-11",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 4km@4.45min",
+      "distance": 10,
+      "duration": 50.983333333333334,
+      "elevGain": 16,
+      "elevLoss": 19,
+      "maxAlt": 141,
+      "minAlt": 132,
+      "avgHR": 156,
+      "maxHR": 172,
+      "aerobicTE": 3.9,
+      "avgPace": "5:06",
+      "bestPace": "2:30",
+      "paceSeconds": 306,
+      "calories": 769,
+      "avgCadence": 182,
+      "bodyBatteryDrain": -14,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-06-09 19:55:38-z0c",
+      "date": "2026-06-09",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan Running",
+      "distance": 8.2,
+      "duration": 43.7,
+      "elevGain": 18,
+      "elevLoss": 16,
+      "maxAlt": 139,
+      "minAlt": 130,
+      "avgHR": 151,
+      "maxHR": 160,
+      "aerobicTE": 3.5,
+      "avgPace": "5:20",
+      "bestPace": "3:44",
+      "paceSeconds": 320,
+      "calories": 636,
+      "avgCadence": 178,
+      "bodyBatteryDrain": -6,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-06-06 08:00:47-bqb",
       "date": "2026-06-06",
       "type": "trail",
@@ -19074,17 +19124,6 @@
   ],
   "garminReadings": [
     {
-      "id": 1781153295376,
-      "date": "2026-06-11",
-      "hrv": "51",
-      "trainingReadiness": "78",
-      "trainingLoad": "453",
-      "bodyBattery": "90",
-      "restingHR": "49",
-      "sleepScore": "77",
-      "stressLevel": "8"
-    },
-    {
       "id": 1781068579052,
       "date": "2026-06-10",
       "hrv": "51",
@@ -19828,10 +19867,10 @@
             },
             {
               "giorno": "Martedì",
-              "tipo": "Tempo",
-              "km": 12,
-              "durata": null,
-              "passo": "4:45/km",
+              "tipo": "Facile",
+              "km": 8.2,
+              "durata": "44min",
+              "passo": "5:20",
               "descrizione": "Corsa tempo per consolidare soglia anaerobica"
             },
             {
@@ -20075,7 +20114,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-07T19:28:16.180Z"
+      "updatedAt": "2026-06-10T08:31:48.508Z"
     }
   },
   "pianoChecks": {
@@ -20099,7 +20138,8 @@
     "piano-check-road-w4-2": true,
     "piano-check-road-w4-4": true,
     "piano-check-road-w2-1": true,
-    "piano-check-road-w4-6": true
+    "piano-check-road-w4-6": true,
+    "piano-check-road-w5-1": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20215,6 +20255,12 @@
       "workoutId": "",
       "note": "",
       "completedAt": "2026-06-07T19:28:16.180Z"
+    },
+    "piano-check-road-w5-1": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-06-09 19:55:38-z0c",
+      "note": "8.2 km a 5.20",
+      "completedAt": "2026-06-10T08:31:48.508Z"
     }
   }
 }
