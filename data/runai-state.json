@@ -1,6 +1,281 @@
 {
   "workouts": [
     {
+      "id": "g-2026-06-06 08:00:47-bqb",
+      "date": "2026-06-06",
+      "type": "trail",
+      "activityType": "Trail Running",
+      "title": "Top Dolomites 50K",
+      "distance": 49.55,
+      "duration": 508.1666666666667,
+      "elevGain": 2702,
+      "elevLoss": 2704,
+      "maxAlt": 2217,
+      "minAlt": 766,
+      "avgHR": 151,
+      "maxHR": 167,
+      "aerobicTE": 5,
+      "avgPace": "10:15",
+      "bestPace": "4:16",
+      "paceSeconds": 615,
+      "calories": 5040,
+      "avgCadence": 111,
+      "bodyBatteryDrain": -42,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-06-01 11:14:00-phe",
+      "date": "2026-06-01",
+      "type": "running",
+      "activityType": "Running",
+      "title": "San Michele al Tagliamento Running",
+      "distance": 18.5,
+      "duration": 95.46666666666667,
+      "elevGain": 17,
+      "elevLoss": 11,
+      "maxAlt": 10,
+      "minAlt": 3,
+      "avgHR": 158,
+      "maxHR": 169,
+      "aerobicTE": 4.7,
+      "avgPace": "5:10",
+      "bestPace": "4:09",
+      "paceSeconds": 310,
+      "calories": 1441,
+      "avgCadence": 183,
+      "bodyBatteryDrain": -24,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-31 18:16:25-rhg",
+      "date": "2026-05-31",
+      "type": "running",
+      "activityType": "Running",
+      "title": "San Michele al Tagliamento Running",
+      "distance": 10,
+      "duration": 49.18333333333333,
+      "elevGain": 7,
+      "elevLoss": 11,
+      "maxAlt": 10,
+      "minAlt": 2,
+      "avgHR": 157,
+      "maxHR": 166,
+      "aerobicTE": 4.2,
+      "avgPace": "4:55",
+      "bestPace": "4:05",
+      "paceSeconds": 295,
+      "calories": 757,
+      "avgCadence": 182,
+      "bodyBatteryDrain": -12,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-30 18:23:17-ip6",
+      "date": "2026-05-30",
+      "type": "running",
+      "activityType": "Running",
+      "title": "San Michele al Tagliamento - 8x400m@4.05",
+      "distance": 7.15,
+      "duration": 34.96666666666667,
+      "elevGain": 9,
+      "elevLoss": 3,
+      "maxAlt": 11,
+      "minAlt": 3,
+      "avgHR": 158,
+      "maxHR": 178,
+      "aerobicTE": 3.7,
+      "avgPace": "4:53",
+      "bestPace": "3:44",
+      "paceSeconds": 293,
+      "calories": 544,
+      "avgCadence": 182,
+      "bodyBatteryDrain": -8,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-29 17:59:57-l52",
+      "date": "2026-05-29",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan Running",
+      "distance": 8.15,
+      "duration": 43.61666666666667,
+      "elevGain": 23,
+      "elevLoss": 16,
+      "maxAlt": 140,
+      "minAlt": 132,
+      "avgHR": 157,
+      "maxHR": 168,
+      "aerobicTE": 3.8,
+      "avgPace": "5:21",
+      "bestPace": "4:03",
+      "paceSeconds": 321,
+      "calories": 657,
+      "avgCadence": 181,
+      "bodyBatteryDrain": -7,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-27 07:08:12-ida",
+      "date": "2026-05-27",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 6km@4.50min",
+      "distance": 10,
+      "duration": 50.25,
+      "elevGain": 18,
+      "elevLoss": 17,
+      "maxAlt": 141,
+      "minAlt": 134,
+      "avgHR": 162,
+      "maxHR": 173,
+      "aerobicTE": 4.2,
+      "avgPace": "5:01",
+      "bestPace": "3:46",
+      "paceSeconds": 301,
+      "calories": 788,
+      "avgCadence": 181,
+      "bodyBatteryDrain": -13,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-24 08:04:34-9c7",
+      "date": "2026-05-24",
+      "type": "trail",
+      "activityType": "Trail Running",
+      "title": "Rifugio Laghi Gemelli, Rifugio Calvi, Rifugio Longo",
+      "distance": 35.12,
+      "duration": 337.35,
+      "elevGain": 1714,
+      "elevLoss": 1696,
+      "maxAlt": 1988,
+      "minAlt": 1101,
+      "avgHR": 145,
+      "maxHR": 174,
+      "aerobicTE": 4.9,
+      "avgPace": "9:36",
+      "bestPace": "4:38",
+      "paceSeconds": 576,
+      "calories": 3537,
+      "avgCadence": 117,
+      "bodyBatteryDrain": -37,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-21 19:45:57-hvr",
+      "date": "2026-05-21",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 4km@4.45min",
+      "distance": 10,
+      "duration": 50.36666666666667,
+      "elevGain": 21,
+      "elevLoss": 20,
+      "maxAlt": 137,
+      "minAlt": 128,
+      "avgHR": 160,
+      "maxHR": 175,
+      "aerobicTE": 4.1,
+      "avgPace": "5:02",
+      "bestPace": "3:33",
+      "paceSeconds": 302,
+      "calories": 783,
+      "avgCadence": 179,
+      "bodyBatteryDrain": -8,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-19 20:22:09-gx0",
+      "date": "2026-05-19",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 6x800m@4.30",
+      "distance": 10.7,
+      "duration": 54.71666666666667,
+      "elevGain": 25,
+      "elevLoss": 24,
+      "maxAlt": 140,
+      "minAlt": 132,
+      "avgHR": 161,
+      "maxHR": 177,
+      "aerobicTE": 4.2,
+      "avgPace": "5:07",
+      "bestPace": "3:56",
+      "paceSeconds": 307,
+      "calories": 844,
+      "avgCadence": 180,
+      "bodyBatteryDrain": -7,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-17 07:33:09-tr3",
+      "date": "2026-05-17",
+      "type": "trail",
+      "activityType": "Trail Running",
+      "title": "Rifugio Lecco, Zucco Orscellera",
+      "distance": 18.86,
+      "duration": 163.4,
+      "elevGain": 1112,
+      "elevLoss": 1130,
+      "maxAlt": 1869,
+      "minAlt": 802,
+      "avgHR": 146,
+      "maxHR": 175,
+      "aerobicTE": 4,
+      "avgPace": "8:40",
+      "bestPace": "4:33",
+      "paceSeconds": 520,
+      "calories": 1834,
+      "avgCadence": 124,
+      "bodyBatteryDrain": -24,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "g-2026-05-15 07:08:17-f2l",
+      "date": "2026-05-15",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 4km@4.45min",
+      "distance": 10,
+      "duration": 50.53333333333333,
+      "elevGain": 23,
+      "elevLoss": 21,
+      "maxAlt": 144,
+      "minAlt": 132,
+      "avgHR": 152,
+      "maxHR": 174,
+      "aerobicTE": 3.1,
+      "avgPace": "5:03",
+      "bestPace": "3:35",
+      "paceSeconds": 303,
+      "calories": 861,
+      "avgCadence": 184,
+      "bodyBatteryDrain": -15,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-05-13 20:03:38-pmn",
       "date": "2026-05-13",
       "type": "running",
@@ -11672,6 +11947,106 @@
   ],
   "hikes": [
     {
+      "id": "h-20260607111252-4t2y",
+      "date": "2026-06-07 11:12:52",
+      "datetime": "2026-06-07 11:12:52",
+      "type": "hike",
+      "activityType": "Hiking",
+      "title": "Rifugio Lago Nambino",
+      "distance": 4.35,
+      "duration": 74.25,
+      "elevGain": 159,
+      "elevLoss": 156,
+      "maxAlt": 1779,
+      "minAlt": 1625,
+      "avgHR": 96,
+      "maxHR": 140,
+      "avgPace": "17:04",
+      "paceSeconds": 1024,
+      "calories": 407,
+      "aerobicTE": 1.3,
+      "avgCadence": 79,
+      "bodyBatteryDrain": -7,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "h-20260601111400-855x",
+      "date": "2026-06-01 11:14:00",
+      "datetime": "2026-06-01 11:14:00",
+      "type": "hike",
+      "activityType": "Running",
+      "title": "San Michele al Tagliamento Running",
+      "distance": 18.5,
+      "duration": 95.46666666666667,
+      "elevGain": 17,
+      "elevLoss": 11,
+      "maxAlt": 10,
+      "minAlt": 3,
+      "avgHR": 158,
+      "maxHR": 169,
+      "avgPace": "5:10",
+      "paceSeconds": 310,
+      "calories": 1441,
+      "aerobicTE": 4.7,
+      "avgCadence": null,
+      "bodyBatteryDrain": -24,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "h-20260531181625-6mm3",
+      "date": "2026-05-31 18:16:25",
+      "datetime": "2026-05-31 18:16:25",
+      "type": "hike",
+      "activityType": "Running",
+      "title": "San Michele al Tagliamento Running",
+      "distance": 10,
+      "duration": 49.18333333333333,
+      "elevGain": 7,
+      "elevLoss": 11,
+      "maxAlt": 10,
+      "minAlt": 2,
+      "avgHR": 157,
+      "maxHR": 166,
+      "avgPace": "4:55",
+      "paceSeconds": 295,
+      "calories": 757,
+      "aerobicTE": 4.2,
+      "avgCadence": null,
+      "bodyBatteryDrain": -12,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
+      "id": "h-20260523084419-1ztn",
+      "date": "2026-05-23 08:44:19",
+      "datetime": "2026-05-23 08:44:19",
+      "type": "hike",
+      "activityType": "Hiking",
+      "title": "Rifugio Curò",
+      "distance": 15.98,
+      "duration": 258.95,
+      "elevGain": 1015,
+      "elevLoss": 995,
+      "maxAlt": 1888,
+      "minAlt": 890,
+      "avgHR": 114,
+      "maxHR": 143,
+      "avgPace": "16:13",
+      "paceSeconds": 973,
+      "calories": 1722,
+      "aerobicTE": 2.3,
+      "avgCadence": 89,
+      "bodyBatteryDrain": -28,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "h-20260321073400-k8jz",
       "date": "2026-03-21",
       "datetime": "2026-03-21T07:34:00",
@@ -18699,6 +19074,325 @@
   ],
   "garminReadings": [
     {
+      "id": 1781153295376,
+      "date": "2026-06-11",
+      "hrv": "51",
+      "trainingReadiness": "78",
+      "trainingLoad": "453",
+      "bodyBattery": "90",
+      "restingHR": "49",
+      "sleepScore": "77",
+      "stressLevel": "8"
+    },
+    {
+      "id": 1781068579052,
+      "date": "2026-06-10",
+      "hrv": "51",
+      "trainingReadiness": "57",
+      "trainingLoad": "582",
+      "bodyBattery": "62",
+      "restingHR": "54",
+      "sleepScore": "72",
+      "stressLevel": "18"
+    },
+    {
+      "id": 1780983112809,
+      "date": "2026-06-09",
+      "hrv": "50",
+      "trainingReadiness": "71",
+      "trainingLoad": "563",
+      "bodyBattery": "88",
+      "restingHR": "50",
+      "sleepScore": "77",
+      "stressLevel": "11"
+    },
+    {
+      "id": 1780894745288,
+      "date": "2026-06-08",
+      "hrv": "51",
+      "trainingReadiness": "50",
+      "trainingLoad": "738",
+      "bodyBattery": "91",
+      "restingHR": "50",
+      "sleepScore": "80",
+      "stressLevel": "7"
+    },
+    {
+      "id": 1780812502002,
+      "date": "2026-06-07",
+      "hrv": "50",
+      "trainingReadiness": "4",
+      "trainingLoad": "909",
+      "bodyBattery": "57",
+      "restingHR": "55",
+      "sleepScore": "72",
+      "stressLevel": "21"
+    },
+    {
+      "id": 1780720531977,
+      "date": "2026-06-06",
+      "hrv": "52",
+      "trainingReadiness": "63",
+      "trainingLoad": "700",
+      "bodyBattery": "68",
+      "restingHR": "52",
+      "sleepScore": "72",
+      "stressLevel": "15"
+    },
+    {
+      "id": 1780638153824,
+      "date": "2026-06-05",
+      "hrv": "52",
+      "trainingReadiness": "63",
+      "trainingLoad": "700",
+      "bodyBattery": "66",
+      "restingHR": "52",
+      "sleepScore": "70",
+      "stressLevel": "19"
+    },
+    {
+      "id": 1780550368816,
+      "date": "2026-06-04",
+      "hrv": "53",
+      "trainingReadiness": "53",
+      "trainingLoad": "1025",
+      "bodyBattery": "88",
+      "restingHR": "48",
+      "sleepScore": "77",
+      "stressLevel": "8"
+    },
+    {
+      "id": 1780464838604,
+      "date": "2026-06-03",
+      "hrv": "53",
+      "trainingReadiness": "22",
+      "trainingLoad": "1025",
+      "bodyBattery": "53",
+      "restingHR": "55",
+      "sleepScore": "58",
+      "stressLevel": "19"
+    },
+    {
+      "id": 1780382615539,
+      "date": "2026-06-02",
+      "hrv": "54",
+      "trainingReadiness": "21",
+      "trainingLoad": "1033",
+      "bodyBattery": "100",
+      "restingHR": "49",
+      "sleepScore": "83",
+      "stressLevel": "10"
+    },
+    {
+      "id": 1780293657703,
+      "date": "2026-06-01",
+      "hrv": "55",
+      "trainingReadiness": "40",
+      "trainingLoad": "881",
+      "bodyBattery": "100",
+      "restingHR": "49",
+      "sleepScore": "81",
+      "stressLevel": "8"
+    },
+    {
+      "id": 1780208482406,
+      "date": "2026-05-31",
+      "hrv": "53",
+      "trainingReadiness": "56",
+      "trainingLoad": "780",
+      "bodyBattery": "98",
+      "restingHR": "51",
+      "sleepScore": "90",
+      "stressLevel": "10"
+    },
+    {
+      "id": 1780122536013,
+      "date": "2026-05-30",
+      "hrv": "53",
+      "trainingReadiness": "52",
+      "trainingLoad": "561",
+      "bodyBattery": "77",
+      "restingHR": "51",
+      "sleepScore": "81",
+      "stressLevel": "14"
+    },
+    {
+      "id": 1780036499454,
+      "date": "2026-05-29",
+      "hrv": "54",
+      "trainingReadiness": "68",
+      "trainingLoad": "591",
+      "bodyBattery": "95",
+      "restingHR": "52",
+      "sleepScore": "85",
+      "stressLevel": "12"
+    },
+    {
+      "id": 1779949568084,
+      "date": "2026-05-28",
+      "hrv": "54",
+      "trainingReadiness": "38",
+      "trainingLoad": "591",
+      "bodyBattery": "79",
+      "restingHR": "52",
+      "sleepScore": "65",
+      "stressLevel": "14"
+    },
+    {
+      "id": 1779857956621,
+      "date": "2026-05-27",
+      "hrv": "53",
+      "trainingReadiness": "61",
+      "trainingLoad": "449",
+      "bodyBattery": "82",
+      "restingHR": "49",
+      "sleepScore": "77",
+      "stressLevel": "13"
+    },
+    {
+      "id": 1779802693252,
+      "date": "2026-05-26",
+      "hrv": "51",
+      "trainingReadiness": "45",
+      "trainingLoad": "680",
+      "bodyBattery": "80",
+      "restingHR": "51",
+      "sleepScore": "70",
+      "stressLevel": "11"
+    },
+    {
+      "id": 1779687971472,
+      "date": "2026-05-25",
+      "hrv": "51",
+      "trainingReadiness": "15",
+      "trainingLoad": "687",
+      "bodyBattery": "54",
+      "restingHR": "56",
+      "sleepScore": "70",
+      "stressLevel": "20"
+    },
+    {
+      "id": 1779602129841,
+      "date": "2026-05-24",
+      "hrv": "50",
+      "trainingReadiness": "79",
+      "trainingLoad": "455",
+      "bodyBattery": "60",
+      "restingHR": "51",
+      "sleepScore": "79",
+      "stressLevel": "26"
+    },
+    {
+      "id": 1779512338621,
+      "date": "2026-05-23",
+      "hrv": "50",
+      "trainingReadiness": "70",
+      "trainingLoad": "490",
+      "bodyBattery": "83",
+      "restingHR": "51",
+      "sleepScore": "79",
+      "stressLevel": "12"
+    },
+    {
+      "id": 1779427674386,
+      "date": "2026-05-22",
+      "hrv": "50",
+      "trainingReadiness": "34",
+      "trainingLoad": "569",
+      "bodyBattery": "69",
+      "restingHR": "53",
+      "sleepScore": "73",
+      "stressLevel": "12"
+    },
+    {
+      "id": 1779340145615,
+      "date": "2026-05-21",
+      "hrv": "50",
+      "trainingReadiness": "41",
+      "trainingLoad": "468",
+      "bodyBattery": "60",
+      "restingHR": "54",
+      "sleepScore": "66",
+      "stressLevel": "17"
+    },
+    {
+      "id": 1779253634695,
+      "date": "2026-05-20",
+      "hrv": "50",
+      "trainingReadiness": "26",
+      "trainingLoad": "572",
+      "bodyBattery": "54",
+      "restingHR": "53",
+      "sleepScore": "51",
+      "stressLevel": "18"
+    },
+    {
+      "id": 1779168169501,
+      "date": "2026-05-19",
+      "hrv": "50",
+      "trainingReadiness": "72",
+      "trainingLoad": "585",
+      "bodyBattery": "80",
+      "restingHR": "50",
+      "sleepScore": "74",
+      "stressLevel": "12"
+    },
+    {
+      "id": 1779079487614,
+      "date": "2026-05-18",
+      "hrv": "50",
+      "trainingReadiness": "61",
+      "trainingLoad": "585",
+      "bodyBattery": "78",
+      "restingHR": "50",
+      "sleepScore": "85",
+      "stressLevel": "15"
+    },
+    {
+      "id": 1778995610601,
+      "date": "2026-05-17",
+      "hrv": "48",
+      "trainingReadiness": "64",
+      "trainingLoad": "478",
+      "bodyBattery": "59",
+      "restingHR": "50",
+      "sleepScore": "67",
+      "stressLevel": "22"
+    },
+    {
+      "id": 1778910867501,
+      "date": "2026-05-16",
+      "hrv": "48",
+      "trainingReadiness": "60",
+      "trainingLoad": "609",
+      "bodyBattery": "66",
+      "restingHR": "51",
+      "sleepScore": "70",
+      "stressLevel": "17"
+    },
+    {
+      "id": 1778821288455,
+      "date": "2026-05-15",
+      "hrv": "48",
+      "trainingReadiness": "74",
+      "trainingLoad": "615",
+      "bodyBattery": "81",
+      "restingHR": "49",
+      "sleepScore": "80",
+      "stressLevel": "13"
+    },
+    {
+      "id": 1778733933556,
+      "date": "2026-05-14",
+      "hrv": "47",
+      "trainingReadiness": "59",
+      "trainingLoad": "753",
+      "bodyBattery": "65",
+      "restingHR": "53",
+      "sleepScore": "73",
+      "stressLevel": "22"
+    },
+    {
       "id": 1778647950981,
       "date": "2026-05-13",
       "hrv": "48",
@@ -18906,15 +19600,15 @@
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
+              "tipo": "Tempo",
               "km": 10,
-              "durata": "55 min",
-              "passo": "5:30/km",
+              "durata": "51min",
+              "passo": "5:03",
               "descrizione": "Corsa facile base aerobica"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
+              "tipo": "Riposo",
               "km": 12,
               "durata": "65 min",
               "passo": "5:25/km",
@@ -18922,11 +19616,11 @@
             },
             {
               "giorno": "Domenica",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Riposo completo"
+              "tipo": "Lungo",
+              "km": 18.86,
+              "durata": "163min",
+              "passo": "8:40",
+              "descrizione": "Oggi allenamento di trail, poco tempo a disposizione, quindi dislivello contenuto"
             }
           ]
         },
@@ -18936,7 +19630,7 @@
           "km_totali": 42,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
@@ -18945,51 +19639,51 @@
             },
             {
               "giorno": "Martedì",
-              "tipo": "Intervalli",
+              "tipo": "Riposo",
               "km": 11,
-              "durata": "55 min",
+              "durata": null,
               "passo": "4:45/km",
-              "descrizione": "Riscaldamento 3km + 5x1000m a 4:45/km (rec. 90sec) + 3km defaticamento"
+              "descrizione": "Lavori di velocità per introdurre stimoli neuromuscollari"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Facile",
+              "tipo": "Riposo",
               "km": 8,
-              "durata": "45 min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo"
+              "descrizione": "Riposo"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Riposo completo"
+              "tipo": "Tempo",
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:02",
+              "descrizione": "4km@4.45sec"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Medio",
+              "tipo": "Riposo",
               "km": 10,
-              "durata": "52 min",
+              "durata": null,
               "passo": "5:15/km",
-              "descrizione": "Corsa a passo medio confortevole"
+              "descrizione": "Corsa a ritmo medio per consolidare base aerobica"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 13,
-              "durata": "70 min",
-              "passo": "5:25/km",
-              "descrizione": "Lungo progressivo: primi 8km facili, ultimi 5km a 5:15/km"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo pre lungo"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 35.12,
+              "durata": "337min",
+              "passo": "9:36",
+              "descrizione": "Long run per sviluppare resistenza aerobica"
             }
           ]
         },
@@ -18999,7 +19693,7 @@
           "km_totali": 44,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
@@ -19008,19 +19702,19 @@
             },
             {
               "giorno": "Martedì",
-              "tipo": "Tempo",
+              "tipo": "Riposo",
               "km": 12,
-              "durata": "58 min",
+              "durata": null,
               "passo": "4:50/km",
-              "descrizione": "Riscaldamento 3km + 6km a passo soglia (4:50/km) + 3km defaticamento"
+              "descrizione": "Corsa a ritmo sostenuto per migliorare soglia"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Facile",
-              "km": 9,
-              "durata": "50 min",
-              "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo"
+              "tipo": "Tempo",
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:01",
+              "descrizione": "6km@4.50"
             },
             {
               "giorno": "Giovedì",
@@ -19028,31 +19722,31 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo per recupero"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Medio",
-              "km": 10,
-              "durata": "52 min",
-              "passo": "5:10/km",
-              "descrizione": "Corsa a passo medio sostenuto"
+              "tipo": "Facile",
+              "km": 8.15,
+              "durata": "44min",
+              "passo": "5:21",
+              "descrizione": "Corsa a ritmo medio progressivo"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 13,
-              "durata": "68 min",
-              "passo": "5:15/km",
-              "descrizione": "Lungo con variazioni: 5km facili + 6km a 5:05/km + 2km facili"
+              "tipo": "Intervalli",
+              "km": 7.15,
+              "durata": "35min",
+              "passo": "4:53",
+              "descrizione": "Riposo pre lungo"
             },
             {
               "giorno": "Domenica",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
-              "descrizione": "Riposo completo"
+              "tipo": "Tempo",
+              "km": 10,
+              "durata": "49min",
+              "passo": "4:55",
+              "descrizione": "Long run a ritmo progressivo"
             }
           ]
         },
@@ -19062,26 +19756,26 @@
           "km_totali": 45,
           "sessioni": [
             {
-              "giorno": "Lunedì",
-              "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "giorno": "Lunedi",
+              "tipo": "Lungo",
+              "km": 18.5,
+              "durata": "95min",
+              "passo": "5:10",
               "descrizione": "Riposo completo"
             },
             {
               "giorno": "Martedì",
-              "tipo": "Intervalli",
+              "tipo": "Riposo",
               "km": 12,
-              "durata": "60 min",
+              "durata": null,
               "passo": "4:40/km",
-              "descrizione": "Riscaldamento 3km + 4x2000m a 4:40/km (rec. 2min) + 3km defaticamento"
+              "descrizione": "Intervalli per test velocità e potenza aerobica"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Facile",
+              "tipo": "Riposo",
               "km": 8,
-              "durata": "45 min",
+              "durata": null,
               "passo": "5:30/km",
               "descrizione": "Corsa facile di recupero"
             },
@@ -19091,31 +19785,31 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo per recupero"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Facile",
+              "tipo": "Riposo",
               "km": 10,
-              "durata": "55 min",
+              "durata": null,
               "passo": "5:20/km",
-              "descrizione": "Corsa facile preparatoria"
+              "descrizione": "Corsa facile pre test lungo"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 15,
-              "durata": "75 min",
-              "passo": "5:00/km",
-              "descrizione": "Test sui 15km: primi 3km progressivi + 10km a 4:55-5:00/km + 2km facili"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo"
+              "descrizione": "Riposo pre test"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 49.55,
+              "durata": "508min",
+              "passo": "10:15",
+              "descrizione": "Test su distanza lunga a ritmo gara simulato"
             }
           ]
         },
@@ -19125,28 +19819,28 @@
           "km_totali": 42,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo completo"
             },
             {
               "giorno": "Martedì",
               "tipo": "Tempo",
               "km": 12,
-              "durata": "60min",
+              "durata": null,
               "passo": "4:45/km",
-              "descrizione": "Riscaldamento 3km facile + 6km a ritmo soglia anaerobica (4:45/km) + defaticamento 3km facile"
+              "descrizione": "Corsa tempo per consolidare soglia anaerobica"
             },
             {
               "giorno": "Mercoledì",
               "tipo": "Facile",
               "km": 10,
-              "durata": "55min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di recupero attivo, ritmo molto rilassato"
+              "descrizione": "Corsa facile di volume"
             },
             {
               "giorno": "Giovedì",
@@ -19154,31 +19848,31 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo per recupero"
             },
             {
               "giorno": "Venerdì",
               "tipo": "Medio",
               "km": 10,
-              "durata": "50min",
+              "durata": null,
               "passo": "5:00/km",
-              "descrizione": "Corsa a ritmo medio-sostenuto, concentrazione sulla meccanica di corsa"
+              "descrizione": "Corsa media a ritmo sostenuto"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 16,
-              "durata": "90min",
-              "passo": "5:30/km",
-              "descrizione": "Lungo progressivo: primi 12km facili, ultimi 4km a ritmo medio (5:00/km)"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo pre lungo"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 16,
+              "durata": null,
+              "passo": "5:30/km",
+              "descrizione": "Long run di volume moderato"
             }
           ]
         },
@@ -19188,28 +19882,28 @@
           "km_totali": 44,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo completo"
             },
             {
               "giorno": "Martedì",
               "tipo": "Intervalli",
               "km": 12,
-              "durata": "65min",
+              "durata": null,
               "passo": "4:35/km",
-              "descrizione": "Riscaldamento 3km + 5x1000m a 4:35/km (rec 400m lenti) + defaticamento 3km"
+              "descrizione": "Intervalli intensi per picco di velocità"
             },
             {
               "giorno": "Mercoledì",
               "tipo": "Recupero",
               "km": 8,
-              "durata": "45min",
+              "durata": null,
               "passo": "5:45/km",
-              "descrizione": "Corsa di recupero molto facile, focus su rilassamento muscolare"
+              "descrizione": "Corsa di recupero molto facile"
             },
             {
               "giorno": "Giovedì",
@@ -19217,31 +19911,31 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo per recupero"
             },
             {
               "giorno": "Venerdì",
               "tipo": "Tempo",
               "km": 12,
-              "durata": "58min",
+              "durata": null,
               "passo": "4:50/km",
-              "descrizione": "Riscaldamento 3km + 7km a ritmo mezza maratona (4:50/km) + defaticamento 2km"
+              "descrizione": "Doppia seduta qualità - tempo run"
             },
             {
               "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 18,
-              "durata": "100min",
-              "passo": "5:30/km",
-              "descrizione": "Lungo aerobico con inserimenti: ogni 5km inserire 1km a ritmo medio"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo pre lungo importante"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 18,
+              "durata": null,
+              "passo": "5:30/km",
+              "descrizione": "Long run di picco volume"
             }
           ]
         },
@@ -19251,60 +19945,60 @@
           "km_totali": 46,
           "sessioni": [
             {
-              "giorno": "Lunedì",
-              "tipo": "Riposo",
-              "km": null,
+              "giorno": "Lunedi",
+              "tipo": "Recupero",
+              "km": 8,
               "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "passo": "5:45/km",
+              "descrizione": "Recupero attivo dopo carico intenso"
             },
             {
               "giorno": "Martedì",
               "tipo": "Tempo",
               "km": 14,
-              "durata": "68min",
+              "durata": null,
               "passo": "4:40/km",
-              "descrizione": "Riscaldamento 3km + 10km simulazione mezza a 4:40/km + defaticamento 1km"
+              "descrizione": "Test tempo lungo a ritmo gara"
             },
             {
               "giorno": "Mercoledì",
-              "tipo": "Recupero",
-              "km": 8,
-              "durata": "46min",
-              "passo": "5:45/km",
-              "descrizione": "Corsa rigenerante molto facile, stretching dinamico"
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo per recupero"
             },
             {
               "giorno": "Giovedì",
-              "tipo": "Riposo",
-              "km": null,
+              "tipo": "Intervalli",
+              "km": 12,
               "durata": null,
-              "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "passo": "4:30/km",
+              "descrizione": "Intervalli di picco qualità"
             },
             {
               "giorno": "Venerdì",
-              "tipo": "Intervalli",
-              "km": 12,
-              "durata": "62min",
-              "passo": "4:30/km",
-              "descrizione": "Riscaldamento 4km + 4x2000m a 4:30/km (rec 90sec) + defaticamento 2km"
-            },
-            {
-              "giorno": "Sabato",
-              "tipo": "Lungo",
-              "km": 20,
-              "durata": "110min",
-              "passo": "5:30/km",
-              "descrizione": "Lungo specifico: primi 10km facili, centrali 8km a ritmo gara, ultimi 2km facili"
-            },
-            {
-              "giorno": "Domenica",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo pre long run cruciale"
+            },
+            {
+              "giorno": "Sabato",
+              "tipo": "Riposo",
+              "km": null,
+              "durata": null,
+              "passo": null,
+              "descrizione": "Riposo pre simulazione gara"
+            },
+            {
+              "giorno": "Domenica",
+              "tipo": "Lungo",
+              "km": 20,
+              "durata": null,
+              "passo": "5:30/km",
+              "descrizione": "Long run di picco - simulazione gara"
             }
           ]
         },
@@ -19314,28 +20008,28 @@
           "km_totali": 35,
           "sessioni": [
             {
-              "giorno": "Lunedì",
+              "giorno": "Lunedi",
               "tipo": "Riposo",
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo completo tapering"
             },
             {
               "giorno": "Martedì",
               "tipo": "Intervalli",
               "km": 10,
-              "durata": "48min",
+              "durata": null,
               "passo": "4:30/km",
-              "descrizione": "Riscaldamento 3km + 4x800m a 4:30/km (rec brevi) + defaticamento 3km"
+              "descrizione": "Intervalli corti per mantenere velocità"
             },
             {
               "giorno": "Mercoledì",
               "tipo": "Facile",
               "km": 8,
-              "durata": "44min",
+              "durata": null,
               "passo": "5:30/km",
-              "descrizione": "Corsa facile di mantenimento, gambe fresche"
+              "descrizione": "Corsa facile tapering"
             },
             {
               "giorno": "Giovedì",
@@ -19343,23 +20037,23 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Giorno di riposo completo"
+              "descrizione": "Riposo tapering"
             },
             {
               "giorno": "Venerdì",
               "tipo": "Medio",
               "km": 8,
-              "durata": "38min",
+              "durata": null,
               "passo": "4:45/km",
-              "descrizione": "Attivazione pre-gara: 3km facili + 3km a ritmo gara + 2km facili"
+              "descrizione": "Richiamo di ritmo pre-gara"
             },
             {
               "giorno": "Sabato",
               "tipo": "Recupero",
               "km": 6,
-              "durata": "35min",
+              "durata": null,
               "passo": "6:00/km",
-              "descrizione": "Corsa molto facile di scarico pre-gara con allunghi finali"
+              "descrizione": "Scioglimento pre-gara"
             },
             {
               "giorno": "Domenica",
@@ -19367,7 +20061,7 @@
               "km": null,
               "durata": null,
               "passo": null,
-              "descrizione": "Riposo completo o GARA - Mezza Maratona target 4:35/km"
+              "descrizione": "Riposo finale pre-gara"
             }
           ]
         }
@@ -19381,13 +20075,31 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-10T19:47:56.869Z"
+      "updatedAt": "2026-06-07T19:28:16.180Z"
     }
   },
   "pianoChecks": {
     "piano-check-road-w1-0": false,
     "piano-check-road-w1-1": true,
-    "piano-check-road-w1-2": true
+    "piano-check-road-w1-2": true,
+    "piano-check-road-w1-4": true,
+    "piano-check-road-w1-5": true,
+    "piano-check-road-w1-6": true,
+    "piano-check-road-w2-4": true,
+    "piano-check-road-w2-3": true,
+    "piano-check-road-w2-2": true,
+    "piano-check-road-w2-6": true,
+    "piano-check-road-w3-1": true,
+    "piano-check-road-w3-2": true,
+    "piano-check-road-w3-4": true,
+    "piano-check-road-w3-5": true,
+    "piano-check-road-w3-6": true,
+    "piano-check-road-w4-0": true,
+    "piano-check-road-w4-1": true,
+    "piano-check-road-w4-2": true,
+    "piano-check-road-w4-4": true,
+    "piano-check-road-w2-1": true,
+    "piano-check-road-w4-6": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -19400,7 +20112,109 @@
       "valutazione": "norma",
       "workoutId": "g-2026-05-12 07:08:20-vyn",
       "note": "",
-      "completedAt": "2026-05-13T19:49:51.499Z"
+      "completedAt": "2026-05-15T12:45:29.081Z"
+    },
+    "piano-check-road-w1-4": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-15 07:08:17-f2l",
+      "note": "",
+      "completedAt": "2026-05-15T12:45:07.668Z"
+    },
+    "piano-check-road-w1-5": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-17T18:21:47.901Z"
+    },
+    "piano-check-road-w1-6": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-17 07:33:09-tr3",
+      "note": "",
+      "completedAt": "2026-05-17T18:27:05.352Z"
+    },
+    "piano-check-road-w2-4": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-23T18:11:51.717Z"
+    },
+    "piano-check-road-w2-3": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-21 19:45:57-hvr",
+      "note": "",
+      "completedAt": "2026-05-23T18:14:45.250Z"
+    },
+    "piano-check-road-w2-2": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-23T18:15:29.097Z"
+    },
+    "piano-check-road-w2-6": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-24 08:04:34-9c7",
+      "note": "",
+      "completedAt": "2026-05-25T14:20:26.027Z"
+    },
+    "piano-check-road-w3-1": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-05-27T13:44:46.721Z"
+    },
+    "piano-check-road-w3-2": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-27 07:08:12-ida",
+      "note": "",
+      "completedAt": "2026-05-27T13:45:12.329Z"
+    },
+    "piano-check-road-w3-4": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-05-29 17:59:57-l52",
+      "note": "",
+      "completedAt": "2026-05-31T06:19:46.257Z"
+    },
+    "piano-check-road-w3-5": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-30 18:23:17-ip6",
+      "note": "",
+      "completedAt": "2026-05-31T06:20:02.385Z"
+    },
+    "piano-check-road-w3-6": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-05-31 18:16:25-rhg",
+      "note": "",
+      "completedAt": "2026-06-04T18:10:15.649Z"
+    },
+    "piano-check-road-w4-0": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-06-01 11:14:00-phe",
+      "note": "",
+      "completedAt": "2026-06-04T18:10:26.663Z"
+    },
+    "piano-check-road-w4-1": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-06-04T18:10:34.191Z"
+    },
+    "piano-check-road-w4-4": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-06-04T18:11:09.628Z"
+    },
+    "piano-check-road-w4-6": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-06-06 08:00:47-bqb",
+      "note": "",
+      "completedAt": "2026-06-07T19:27:34.221Z"
+    },
+    "piano-check-road-w2-1": {
+      "valutazione": "norma",
+      "workoutId": "",
+      "note": "",
+      "completedAt": "2026-06-07T19:28:16.180Z"
     }
   }
 }
