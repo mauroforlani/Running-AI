@@ -19868,9 +19868,9 @@
             {
               "giorno": "Martedì",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 8.2,
+              "durata": "44min",
+              "passo": "5:20",
               "descrizione": "Riposo completo"
             },
             {
@@ -19884,9 +19884,9 @@
             {
               "giorno": "Giovedì",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 10,
+              "durata": "51min",
+              "passo": "5:06",
               "descrizione": "Riposo completo"
             },
             {
@@ -20114,7 +20114,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-11T08:52:49.158Z"
+      "updatedAt": "2026-06-11T08:53:06.246Z"
     }
   },
   "pianoChecks": {
