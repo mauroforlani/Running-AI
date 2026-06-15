@@ -20012,10 +20012,10 @@
             },
             {
               "giorno": "Domenica",
-              "tipo": "Lungo",
-              "km": 16,
-              "durata": null,
-              "passo": "5:30/km",
+              "tipo": "Intervalli",
+              "km": 11,
+              "durata": "55min",
+              "passo": "4:59",
               "descrizione": "Long run di volume moderato"
             }
           ]
@@ -20219,7 +20219,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-15T10:19:01.067Z"
+      "updatedAt": "2026-06-15T10:19:10.832Z"
     }
   },
   "pianoChecks": {
@@ -20244,7 +20244,8 @@
     "piano-check-road-w4-4": true,
     "piano-check-road-w2-1": true,
     "piano-check-road-w4-6": true,
-    "piano-check-road-w5-4": true
+    "piano-check-road-w5-4": true,
+    "piano-check-road-w5-6": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20366,6 +20367,12 @@
       "workoutId": "g-2026-06-12 19:40:25-tv5",
       "note": "",
       "completedAt": "2026-06-15T10:19:01.067Z"
+    },
+    "piano-check-road-w5-6": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-06-14 20:02:24-vgd",
+      "note": "",
+      "completedAt": "2026-06-15T10:19:10.832Z"
     }
   }
 }
