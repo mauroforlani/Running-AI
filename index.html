@@ -334,6 +334,43 @@ select.form-input{cursor:pointer;}
       </div>
     </div>
   </div>
+
+  <!-- ═══ STATO DI FORMA AI ═══ -->
+  <div style="margin-top:24px" id="home-ai-coach-section">
+    <div class="card" style="border:1.5px solid var(--border);position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--trail),var(--hike))"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+        <div>
+          <div class="card-title" style="margin-bottom:2px">✨ Stato di Forma AI</div>
+          <div style="font-size:12px;color:var(--muted)">Analisi intelligente basata su dati Garmin + allenamenti recenti</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <div id="home-ai-api-status" style="font-size:11px;font-family:var(--font-mono);color:var(--muted)"></div>
+          <button class="btn btn-secondary btn-sm" onclick="toggleHomeApiKeySection()" id="home-ai-key-toggle">🔑 API Key</button>
+          <button class="btn btn-primary btn-sm" id="home-ai-analyze-btn" onclick="runHomeAIAnalysis()" style="background:linear-gradient(135deg,var(--accent),#c03a08)">▶ Analizza</button>
+        </div>
+      </div>
+
+      <!-- API Key (collassabile) -->
+      <div id="home-ai-key-section" style="display:none;margin-bottom:16px;background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:14px">
+        <div class="filter-label" style="margin-bottom:6px">Anthropic API Key</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="form-input" type="password" id="home-api-key-input" placeholder="sk-ant-..." style="flex:1;max-width:380px">
+          <button class="btn btn-secondary btn-sm" onclick="saveHomeApiKey()">Salva</button>
+        </div>
+        <div class="api-key-note">La chiave viene salvata solo nel tuo browser. Ottienila su <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></div>
+      </div>
+
+      <!-- Note aggiuntive -->
+      <div style="margin-bottom:14px">
+        <div class="filter-label" style="margin-bottom:5px">📝 Come ti senti? <span style="font-weight:400;color:var(--muted)">(opzionale)</span></div>
+        <textarea id="home-ai-notes" class="form-input" rows="2" placeholder="Es: gambe pesanti questa settimana, poco sonno, voglio prepararmi per una gara..." style="width:100%;resize:vertical;font-size:13px" oninput="localStorage.setItem('runai-home-ai-notes',this.value)"></textarea>
+      </div>
+
+      <!-- Risultato analisi -->
+      <div id="home-ai-result" style="display:none"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ SECTION: ROAD ═══ -->
@@ -4105,10 +4142,185 @@ function restorePianoFromState(sid){
   setTimeout(()=>{_checkRecalibra(sid);_syncWorkoutDataToPiano(sid);},0);
 }
 
+// ══ HOME AI COACH ══
+function toggleHomeApiKeySection(){
+  const s=document.getElementById('home-ai-key-section');
+  s.style.display=s.style.display==='none'?'block':'none';
+  loadHomeApiKey();
+}
+function loadHomeApiKey(){
+  const k=localStorage.getItem('runai-api-key')||'';
+  const el=document.getElementById('home-api-key-input');
+  if(el)el.value=k;
+  const status=document.getElementById('home-ai-api-status');
+  if(status)status.textContent=k?'✓ API Key salvata':'⚠ Nessuna API Key';
+}
+function saveHomeApiKey(){
+  const v=document.getElementById('home-api-key-input').value.trim();
+  if(!v){toast('Inserisci una API key valida','err');return;}
+  localStorage.setItem('runai-api-key',v);
+  loadHomeApiKey();
+  document.getElementById('home-ai-key-section').style.display='none';
+  toast('✓ API Key salvata','ok');
+}
+
+function buildHomeAIPrompt(){
+  const now=new Date();
+  const days30=new Date(now-30*86400000);
+  const days7=new Date(now-7*86400000);
+
+  // Dati Garmin (ultimi 7)
+  const garmin=state.garminReadings.slice(0,7);
+  const latestG=garmin[0];
+
+  // Allenamenti ultimi 30gg
+  const recentWorkouts=state.workouts.filter(w=>parseLocalDate(w.date)>=days30)
+    .sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date)).slice(0,20);
+  const recentHikes=state.hikes.filter(h=>parseLocalDate(h.date)>=days30)
+    .sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date)).slice(0,15);
+
+  // Ultimi 7gg per carico acuto
+  const week7W=state.workouts.filter(w=>parseLocalDate(w.date)>=days7);
+  const week7H=state.hikes.filter(h=>parseLocalDate(h.date)>=days7);
+  const acuteKm=(week7W.reduce((s,w)=>s+(w.distance||0),0)+week7H.reduce((s,h)=>s+(h.distance||0),0)).toFixed(1);
+  const acuteElev=(week7W.reduce((s,w)=>s+(w.elevGain||0),0)+week7H.reduce((s,h)=>s+(h.elevGain||0),0));
+
+  // Riepilogo mensile
+  const monthKm=(recentWorkouts.reduce((s,w)=>s+(w.distance||0),0)+recentHikes.reduce((s,h)=>s+(h.distance||0),0)).toFixed(1);
+  const monthElev=(recentWorkouts.reduce((s,w)=>s+(w.elevGain||0),0)+recentHikes.reduce((s,h)=>s+(h.elevGain||0),0));
+  const avgHRr=recentWorkouts.filter(w=>w.avgHR).map(w=>w.avgHR);
+  const avgHR=avgHRr.length?Math.round(avgHRr.reduce((a,b)=>a+b,0)/avgHRr.length):null;
+
+  let prompt=`Sei un coach di running e trail/hiking esperto. Analizza i seguenti dati di un atleta e fornisci:
+1. **Stato di forma attuale** (con punteggio da 1-10 e valutazione: Ottimo/Buono/Discreto/Critico)
+2. **Punti di forza** (2-3 bullet)
+3. **Aree di attenzione** (2-3 bullet)
+4. **3 allenamenti suggeriti per la settimana prossima** — ognuno con: tipo, durata/distanza, intensità, obiettivo e descrizione dettagliata
+5. **Un consiglio chiave** su recupero, nutrizione o mentalità
+
+Rispondi in italiano, in modo diretto e personale. Usa emoji moderatamente. Formatta con markdown.
+
+## DATI GARMIN RECENTI`;
+
+  if(garmin.length){
+    prompt+=`\nUltima lettura (${garmin[0].date}):`;
+    if(latestG.trainingReadiness) prompt+=`\n- Training Readiness: ${latestG.trainingReadiness}/100`;
+    if(latestG.bodyBattery) prompt+=`\n- Body Battery: ${latestG.bodyBattery}%`;
+    if(latestG.hrv) prompt+=`\n- HRV: ${latestG.hrv} ms`;
+    if(latestG.restingHR) prompt+=`\n- FC a riposo: ${latestG.restingHR} bpm`;
+    if(latestG.sleepScore) prompt+=`\n- Sleep Score: ${latestG.sleepScore}/100`;
+    if(latestG.trainingLoad) prompt+=`\n- Training Load: ${latestG.trainingLoad}`;
+    if(latestG.stressLevel) prompt+=`\n- Stress: ${latestG.stressLevel}/100`;
+    if(garmin.length>1){
+      prompt+=`\nTrend ultime ${garmin.length} letture:`;
+      const hrvArr=garmin.filter(g=>g.hrv).map(g=>+g.hrv);
+      if(hrvArr.length>1)prompt+=`\n- HRV trend: ${hrvArr.join(' → ')}`;
+      const rbArr=garmin.filter(g=>g.bodyBattery).map(g=>+g.bodyBattery);
+      if(rbArr.length>1)prompt+=`\n- Body Battery trend: ${rbArr.join(' → ')}`;
+    }
+  } else {
+    prompt+=`\nNessun dato Garmin disponibile.`;
+  }
+
+  prompt+=`\n\n## CARICO DI ALLENAMENTO
+- Ultimi 7 giorni: ${acuteKm} km, ${acuteElev} m D+
+- Ultimi 30 giorni: ${monthKm} km, ${monthElev} m D+
+- Numero attività (30gg): ${recentWorkouts.length} run/trail + ${recentHikes.length} hike`;
+  if(avgHR) prompt+=`\n- FC media allenamenti: ${avgHR} bpm`;
+
+  if(recentWorkouts.length){
+    prompt+=`\n\n## ULTIMI ALLENAMENTI (running/trail)`;
+    recentWorkouts.slice(0,8).forEach(w=>{
+      prompt+=`\n- ${w.date} | ${w.type} | ${w.distance||'?'}km`;
+      if(w.duration) prompt+=` | ${fmtDur(w.duration)}`;
+      if(w.avgPace) prompt+=` | ${w.avgPace}/km`;
+      if(w.avgHR) prompt+=` | FC${w.avgHR}`;
+      if(w.elevGain) prompt+=` | D+${w.elevGain}m`;
+      if(w.perceivedEffort) prompt+=` | RPE${w.perceivedEffort}`;
+    });
+  }
+  if(recentHikes.length){
+    prompt+=`\n\n## ULTIME ESCURSIONI`;
+    recentHikes.slice(0,5).forEach(h=>{
+      prompt+=`\n- ${h.date} | ${h.type} | ${h.distance||'?'}km`;
+      if(h.elevGain) prompt+=` | D+${h.elevGain}m`;
+      if(h.duration) prompt+=` | ${fmtDur(h.duration)}`;
+    });
+  }
+
+  const notes=document.getElementById('home-ai-notes')?.value?.trim();
+  if(notes) prompt+=`\n\n## NOTE DELL'ATLETA\n${notes}`;
+
+  prompt+=`\n\nData odierna: ${now.toISOString().split('T')[0]}`;
+  return prompt;
+}
+
+async function runHomeAIAnalysis(){
+  const apiKey=localStorage.getItem('runai-api-key');
+  if(!apiKey){
+    document.getElementById('home-ai-key-section').style.display='block';
+    loadHomeApiKey();
+    toast('Inserisci prima la API Key Anthropic','err');
+    return;
+  }
+  const btn=document.getElementById('home-ai-analyze-btn');
+  const result=document.getElementById('home-ai-result');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span> Analisi in corso...';
+  result.style.display='block';
+  result.innerHTML=`<div style="text-align:center;padding:32px;color:var(--muted)"><span class="spin" style="width:20px;height:20px;border-width:3px"></span><div style="margin-top:12px;font-size:13px">Claude sta analizzando i tuoi dati...</div></div>`;
+
+  try{
+    const prompt=buildHomeAIPrompt();
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1800,messages:[{role:'user',content:prompt}]})
+    });
+    if(!resp.ok){const e=await resp.json();throw new Error(e.error?.message||resp.statusText);}
+    const data=await resp.json();
+    const text=data.content[0]?.text||'';
+    result.innerHTML=renderHomeAIResult(text);
+  } catch(err){
+    result.innerHTML=`<div style="background:var(--red-bg);border:1.5px solid #f0b8c4;border-radius:8px;padding:14px;color:var(--red);font-size:13px">❌ Errore: ${err.message}</div>`;
+  }
+  btn.disabled=false;
+  btn.innerHTML='▶ Analizza';
+}
+
+function renderHomeAIResult(text){
+  // Semplice markdown → HTML
+  const html=text
+    .replace(/^### (.+)$/gm,'<h4 style="font-family:var(--font-head);font-size:15px;font-weight:700;margin:16px 0 6px;color:var(--text)">$1</h4>')
+    .replace(/^## (.+)$/gm,'<h3 style="font-family:var(--font-head);font-size:17px;font-weight:700;margin:18px 0 8px;color:var(--text)">$1</h3>')
+    .replace(/^# (.+)$/gm,'<h2 style="font-family:var(--font-head);font-size:20px;font-weight:700;margin:0 0 14px;color:var(--text)">$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/^- (.+)$/gm,'<li style="margin:4px 0 4px 0;padding-left:4px">$1</li>')
+    .replace(/(<li[^>]*>.*<\/li>\n?)+/gs,m=>`<ul style="list-style:none;padding:0;margin:6px 0">${m}</ul>`)
+    .replace(/\n\n/g,'</p><p style="margin:0 0 10px;font-size:13.5px;line-height:1.65;color:var(--text2)">')
+    .replace(/\n/g,'<br>');
+  const ts=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  return`<div style="border-top:1.5px solid var(--border);padding-top:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">✨ Analisi generata alle ${ts}</div>
+      <button class="btn btn-secondary btn-sm" onclick="document.getElementById('home-ai-result').style.display='none'">✕ Chiudi</button>
+    </div>
+    <div style="font-size:13.5px;line-height:1.65;color:var(--text2)">${html}</div>
+  </div>`;
+}
+
 // ══ BOOT ══
 loadState();
 renderHeaderBtns();
 renderHome();
+// Init home AI coach
+(function(){
+  loadHomeApiKey();
+  const savedNotes=localStorage.getItem('runai-home-ai-notes')||'';
+  const notesEl=document.getElementById('home-ai-notes');
+  if(notesEl&&savedNotes)notesEl.value=savedNotes;
+})();
 // pre-init section states
 SECTIONS.forEach(s=>{sectFiltered[s]=getItemsForSection?.(s)||[];});
 // Ripristina note coach
