@@ -3359,11 +3359,28 @@ Rispondi SOLO con JSON valido senza backtick:
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]})
     });
+    if(!res.ok){const errBody=await res.json().catch(()=>null);throw new Error(errBody?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
-    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    const d=JSON.parse(raw);
+    if(data.error)throw new Error(data.error.message||'Errore API');
+    let raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    // Estrae solo l'oggetto JSON, scartando eventuale testo prima/dopo
+    const firstBrace=raw.indexOf('{');
+    const lastBrace=raw.lastIndexOf('}');
+    if(firstBrace===-1||lastBrace===-1||lastBrace<firstBrace){
+      throw new Error('Risposta AI non valida o vuota. Riprova.');
+    }
+    raw=raw.slice(firstBrace,lastBrace+1);
+    let d;
+    try{
+      d=JSON.parse(raw);
+    }catch(parseErr){
+      throw new Error('La risposta AI è stata troncata. Riprova (eventualmente con note più brevi).');
+    }
+    if(!d.warmup||!d.main||!d.cooldown){
+      throw new Error('Risposta AI incompleta. Riprova.');
+    }
     const phase=(icon,title,sub,content,c)=>`<div class="session-phase" style="border-left-color:${c||'var(--accent)'}">
       <div class="session-phase-title">${icon} ${title}${sub?` · ${sub}`:''}</div>
       <div class="session-phase-content">${content}</div>
