@@ -2181,7 +2181,7 @@ ${coachNote?`\nNOTE DELL'ATLETA: ${coachNote}\nTieni conto di queste considerazi
 Rispondi SOLO JSON:
 {"fitnessScore":<0-100>,"status":"<Ottima forma|Buona forma|Recupero|Riposo necessario>","summary":"<2-3 frasi>","insights":["<1>","<2>","<3>","<4>"],"recommendation":"<raccomandazione>","warnings":[],"weeklyVolume":"<km totali>","weeklyVolumeRun":"<km road>","weeklyVolumeTrail":"<km trail>","trend":"<miglioramento|stabile|peggioramento>","garminTrend":"<miglioramento|stabile|peggioramento|dati insufficienti>"}`;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
     if(!res.ok){const err=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(err?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
     const text=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
@@ -3111,7 +3111,7 @@ ${jsonSchema}`;
       const res=await fetch('https://api.anthropic.com/v1/messages',{
         method:'POST',
         headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:batchPrompt}]})
+        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:3000,messages:[{role:'user',content:batchPrompt}]})
       });
       if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
       const data=await res.json();
@@ -3292,7 +3292,7 @@ Includi tutti e 7 i giorni per ogni settimana.`;
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:updatePrompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:3000,messages:[{role:'user',content:updatePrompt}]})
     });
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
@@ -3359,7 +3359,7 @@ Rispondi SOLO con JSON valido senza backtick:
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1200,messages:[{role:'user',content:prompt}]})
     });
     if(!res.ok){const errBody=await res.json().catch(()=>null);throw new Error(errBody?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
@@ -4003,7 +4003,7 @@ async function ricalibraPiano(sid){
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:3000,messages:[{role:'user',content:prompt}]})
     });
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
@@ -4292,7 +4292,7 @@ async function runHomeAIAnalysis(){
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1800,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1800,messages:[{role:'user',content:prompt}]})
     });
     if(!resp.ok){const e=await resp.json();throw new Error(e.error?.message||resp.statusText);}
     const data=await resp.json();
