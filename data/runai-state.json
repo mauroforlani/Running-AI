@@ -1,6 +1,31 @@
 {
   "workouts": [
     {
+      "id": "g-2026-06-16 20:13:18-4r0",
+      "date": "2026-06-16",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - 4x1000@4.40",
+      "distance": 9.25,
+      "duration": 46.81666666666667,
+      "elevGain": 22,
+      "elevLoss": 22,
+      "maxAlt": 135,
+      "minAlt": 127,
+      "avgHR": 157,
+      "maxHR": 174,
+      "aerobicTE": 3.9,
+      "avgPace": "5:04",
+      "bestPace": "3:18",
+      "paceSeconds": 304,
+      "calories": 718,
+      "avgCadence": 177,
+      "bodyBatteryDrain": null,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-06-14 20:02:24-vgd",
       "date": "2026-06-14",
       "type": "running",
