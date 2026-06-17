@@ -20083,9 +20083,9 @@
             {
               "giorno": "Martedì",
               "tipo": "Intervalli",
-              "km": 12,
-              "durata": null,
-              "passo": "4:35/km",
+              "km": 9.25,
+              "durata": "47min",
+              "passo": "5:04",
               "descrizione": "Intervalli intensi per picco di velocità"
             },
             {
@@ -20266,7 +20266,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-15T10:19:10.832Z"
+      "updatedAt": "2026-06-17T13:05:11.499Z"
     }
   },
   "pianoChecks": {
@@ -20292,7 +20292,8 @@
     "piano-check-road-w2-1": true,
     "piano-check-road-w4-6": true,
     "piano-check-road-w5-4": true,
-    "piano-check-road-w5-6": true
+    "piano-check-road-w5-6": true,
+    "piano-check-road-w6-1": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20420,6 +20421,12 @@
       "workoutId": "g-2026-06-14 20:02:24-vgd",
       "note": "",
       "completedAt": "2026-06-15T10:19:10.832Z"
+    },
+    "piano-check-road-w6-1": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-06-16 20:13:18-4r0",
+      "note": "",
+      "completedAt": "2026-06-17T13:05:11.499Z"
     }
   }
 }
