@@ -20116,9 +20116,9 @@
             {
               "giorno": "Mercoledì",
               "tipo": "Recupero",
-              "km": 8,
-              "durata": null,
-              "passo": "5:45/km",
+              "km": 8.2,
+              "durata": "44min",
+              "passo": "5:24",
               "descrizione": "Corsa di recupero molto facile"
             },
             {
@@ -20291,7 +20291,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-17T13:05:11.499Z"
+      "updatedAt": "2026-06-17T19:39:02.545Z"
     }
   },
   "pianoChecks": {
@@ -20318,7 +20318,8 @@
     "piano-check-road-w4-6": true,
     "piano-check-road-w5-4": true,
     "piano-check-road-w5-6": true,
-    "piano-check-road-w6-1": true
+    "piano-check-road-w6-1": true,
+    "piano-check-road-w6-2": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20452,6 +20453,12 @@
       "workoutId": "g-2026-06-16 20:13:18-4r0",
       "note": "",
       "completedAt": "2026-06-17T13:05:11.499Z"
+    },
+    "piano-check-road-w6-2": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-06-17 20:14:01-683",
+      "note": "",
+      "completedAt": "2026-06-17T19:39:02.545Z"
     }
   }
 }
