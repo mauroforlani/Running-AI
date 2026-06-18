@@ -1,56 +1,6 @@
 {
   "workouts": [
     {
-      "id": "g-2026-06-17 20:14:01-683",
-      "date": "2026-06-17",
-      "type": "running",
-      "activityType": "Running",
-      "title": "Milan - Base",
-      "distance": 8.2,
-      "duration": 44.266666666666666,
-      "elevGain": 15,
-      "elevLoss": 16,
-      "maxAlt": 136,
-      "minAlt": 129,
-      "avgHR": 150,
-      "maxHR": 160,
-      "aerobicTE": 3.5,
-      "avgPace": "5:24",
-      "bestPace": "4:04",
-      "paceSeconds": 324,
-      "calories": 643,
-      "avgCadence": 178,
-      "bodyBatteryDrain": null,
-      "perceivedEffort": null,
-      "notes": "",
-      "source": "garmin_import"
-    },
-    {
-      "id": "g-2026-06-16 20:13:18-4r0",
-      "date": "2026-06-16",
-      "type": "running",
-      "activityType": "Running",
-      "title": "Milan - 4x1000@4.40",
-      "distance": 9.25,
-      "duration": 46.81666666666667,
-      "elevGain": 22,
-      "elevLoss": 22,
-      "maxAlt": 135,
-      "minAlt": 127,
-      "avgHR": 157,
-      "maxHR": 174,
-      "aerobicTE": 3.9,
-      "avgPace": "5:04",
-      "bestPace": "3:18",
-      "paceSeconds": 304,
-      "calories": 718,
-      "avgCadence": 177,
-      "bodyBatteryDrain": null,
-      "perceivedEffort": null,
-      "notes": "",
-      "source": "garmin_import"
-    },
-    {
       "id": "g-2026-06-14 20:02:24-vgd",
       "date": "2026-06-14",
       "type": "running",
@@ -19224,6 +19174,17 @@
   ],
   "garminReadings": [
     {
+      "id": 1781761292868,
+      "date": "2026-06-18",
+      "hrv": "52",
+      "trainingReadiness": "42",
+      "trainingLoad": "803",
+      "bodyBattery": "72",
+      "restingHR": "53",
+      "sleepScore": "65",
+      "stressLevel": "12"
+    },
+    {
       "id": 1781673235592,
       "date": "2026-06-17",
       "hrv": "53",
@@ -20108,17 +20069,17 @@
             {
               "giorno": "Martedì",
               "tipo": "Intervalli",
-              "km": 9.25,
-              "durata": "47min",
-              "passo": "5:04",
+              "km": 12,
+              "durata": null,
+              "passo": "4:35/km",
               "descrizione": "Intervalli intensi per picco di velocità"
             },
             {
               "giorno": "Mercoledì",
               "tipo": "Recupero",
-              "km": 8.2,
-              "durata": "44min",
-              "passo": "5:24",
+              "km": 8,
+              "durata": null,
+              "passo": "5:45/km",
               "descrizione": "Corsa di recupero molto facile"
             },
             {
@@ -20291,7 +20252,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-17T19:39:02.545Z"
+      "updatedAt": "2026-06-15T10:19:10.832Z"
     }
   },
   "pianoChecks": {
@@ -20317,9 +20278,7 @@
     "piano-check-road-w2-1": true,
     "piano-check-road-w4-6": true,
     "piano-check-road-w5-4": true,
-    "piano-check-road-w5-6": true,
-    "piano-check-road-w6-1": true,
-    "piano-check-road-w6-2": true
+    "piano-check-road-w5-6": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20447,18 +20406,6 @@
       "workoutId": "g-2026-06-14 20:02:24-vgd",
       "note": "",
       "completedAt": "2026-06-15T10:19:10.832Z"
-    },
-    "piano-check-road-w6-1": {
-      "valutazione": "bene",
-      "workoutId": "g-2026-06-16 20:13:18-4r0",
-      "note": "",
-      "completedAt": "2026-06-17T13:05:11.499Z"
-    },
-    "piano-check-road-w6-2": {
-      "valutazione": "bene",
-      "workoutId": "g-2026-06-17 20:14:01-683",
-      "note": "",
-      "completedAt": "2026-06-17T19:39:02.545Z"
     }
   }
 }
