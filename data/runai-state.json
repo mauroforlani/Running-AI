@@ -20328,10 +20328,10 @@
           "sessioni": [
             {
               "giorno": "Lunedi",
-              "tipo": "Recupero",
-              "km": 8,
-              "durata": null,
-              "passo": "5:45/km",
+              "tipo": "Facile",
+              "km": 8.2,
+              "durata": "42min",
+              "passo": "5:06",
               "descrizione": "Recupero attivo dopo carico intenso"
             },
             {
@@ -20457,7 +20457,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-23T11:41:28.951Z"
+      "updatedAt": "2026-06-23T11:41:40.790Z"
     }
   },
   "pianoChecks": {
@@ -20485,7 +20485,8 @@
     "piano-check-road-w5-4": true,
     "piano-check-road-w5-6": true,
     "piano-check-road-w6-4": true,
-    "piano-check-road-w6-6": true
+    "piano-check-road-w6-6": true,
+    "piano-check-road-w7-0": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20625,6 +20626,12 @@
       "workoutId": "",
       "note": "",
       "completedAt": "2026-06-23T11:41:28.951Z"
+    },
+    "piano-check-road-w7-0": {
+      "valutazione": "male",
+      "workoutId": "g-2026-06-22 20:00:21-4q1",
+      "note": "",
+      "completedAt": "2026-06-23T11:41:40.790Z"
     }
   }
 }
