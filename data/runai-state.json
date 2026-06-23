@@ -20298,9 +20298,9 @@
             {
               "giorno": "Venerdì",
               "tipo": "Tempo",
-              "km": 12,
-              "durata": null,
-              "passo": "4:50/km",
+              "km": 8.2,
+              "durata": "41min",
+              "passo": "5:02",
               "descrizione": "Doppia seduta qualità - tempo run"
             },
             {
@@ -20457,7 +20457,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-15T10:19:10.832Z"
+      "updatedAt": "2026-06-23T11:41:18.080Z"
     }
   },
   "pianoChecks": {
@@ -20612,6 +20612,12 @@
       "workoutId": "g-2026-06-14 20:02:24-vgd",
       "note": "",
       "completedAt": "2026-06-15T10:19:10.832Z"
+    },
+    "piano-check-road-w6-4": {
+      "valutazione": "bene",
+      "workoutId": "g-2026-06-19 19:45:22-a68",
+      "note": "",
+      "completedAt": "2026-06-23T11:41:18.080Z"
     }
   }
 }
