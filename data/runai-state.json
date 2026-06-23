@@ -20336,10 +20336,10 @@
             },
             {
               "giorno": "Martedì",
-              "tipo": "Tempo",
-              "km": 14,
-              "durata": null,
-              "passo": "4:40/km",
+              "tipo": "Facile",
+              "km": 8,
+              "durata": "45min",
+              "passo": "5:36",
               "descrizione": "Test tempo lungo a ritmo gara"
             },
             {
@@ -20457,7 +20457,7 @@
       ],
       "distanza": "Mezza (21 km)",
       "generatedAt": "2026-05-11T16:14:03.123Z",
-      "updatedAt": "2026-06-23T11:41:40.790Z"
+      "updatedAt": "2026-06-23T11:41:53.923Z"
     }
   },
   "pianoChecks": {
@@ -20486,7 +20486,8 @@
     "piano-check-road-w5-6": true,
     "piano-check-road-w6-4": true,
     "piano-check-road-w6-6": true,
-    "piano-check-road-w7-0": true
+    "piano-check-road-w7-0": true,
+    "piano-check-road-w7-1": true
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
@@ -20632,6 +20633,12 @@
       "workoutId": "g-2026-06-22 20:00:21-4q1",
       "note": "",
       "completedAt": "2026-06-23T11:41:40.790Z"
+    },
+    "piano-check-road-w7-1": {
+      "valutazione": "norma",
+      "workoutId": "g-2026-06-23 07:03:36-1fc",
+      "note": "",
+      "completedAt": "2026-06-23T11:41:53.923Z"
     }
   }
 }
