@@ -1,6 +1,31 @@
 {
   "workouts": [
     {
+      "id": "g-2026-07-11 09:01:06-g0g",
+      "date": "2026-07-11",
+      "type": "trail",
+      "activityType": "Trail Running",
+      "title": "GTC 30K",
+      "distance": 27.6,
+      "duration": 354.8,
+      "elevGain": 1897,
+      "elevLoss": 1915,
+      "maxAlt": 2475,
+      "minAlt": 1205,
+      "avgHR": 155,
+      "maxHR": 171,
+      "aerobicTE": 5,
+      "avgPace": "12:51",
+      "bestPace": "4:10",
+      "paceSeconds": 771,
+      "calories": 3612,
+      "avgCadence": 95,
+      "bodyBatteryDrain": null,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-07-08 07:10:27-lle",
       "date": "2026-07-08",
       "type": "running",
