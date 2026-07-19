@@ -12347,6 +12347,31 @@
   ],
   "hikes": [
     {
+      "id": "h-20260718084008-u79b",
+      "date": "2026-07-18 08:40:08",
+      "datetime": "2026-07-18 08:40:08",
+      "type": "hike",
+      "activityType": "Hiking",
+      "title": "Colle della Rho, Punta Nera",
+      "distance": 20.44,
+      "duration": 377.4,
+      "elevGain": 1738,
+      "elevLoss": 1740,
+      "maxAlt": 3002,
+      "minAlt": 1480,
+      "avgHR": 131,
+      "maxHR": 172,
+      "avgPace": "18:27",
+      "paceSeconds": 1107,
+      "calories": 3168,
+      "aerobicTE": 4.5,
+      "avgCadence": 78,
+      "bodyBatteryDrain": null,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "h-20260714090644-7n7d",
       "date": "2026-07-14 09:06:44",
       "datetime": "2026-07-14 09:06:44",
@@ -19498,28 +19523,6 @@
     }
   ],
   "garminReadings": [
-    {
-      "id": 1784440113804,
-      "date": "2026-07-19",
-      "hrv": "56",
-      "trainingReadiness": "41",
-      "trainingLoad": "719",
-      "bodyBattery": "63",
-      "restingHR": "53",
-      "sleepScore": "78",
-      "stressLevel": "17"
-    },
-    {
-      "id": 1784349592522,
-      "date": "2026-07-18",
-      "hrv": "55",
-      "trainingReadiness": "77",
-      "trainingLoad": "482",
-      "bodyBattery": "67",
-      "restingHR": "49",
-      "sleepScore": "72",
-      "stressLevel": "18"
-    },
     {
       "id": 1784264611170,
       "date": "2026-07-17",
