@@ -1,6 +1,31 @@
 {
   "workouts": [
     {
+      "id": "g-2026-07-20 07:02:12-c7k",
+      "date": "2026-07-20",
+      "type": "running",
+      "activityType": "Running",
+      "title": "Milan - Base",
+      "distance": 8.2,
+      "duration": 43.68333333333333,
+      "elevGain": 30,
+      "elevLoss": 31,
+      "maxAlt": 144,
+      "minAlt": 134,
+      "avgHR": 152,
+      "maxHR": 163,
+      "aerobicTE": 3.6,
+      "avgPace": "5:20",
+      "bestPace": "4:15",
+      "paceSeconds": 320,
+      "calories": 646,
+      "avgCadence": 177,
+      "bodyBatteryDrain": null,
+      "perceivedEffort": null,
+      "notes": "",
+      "source": "garmin_import"
+    },
+    {
       "id": "g-2026-07-11 09:01:06-g0g",
       "date": "2026-07-11",
       "type": "trail",
