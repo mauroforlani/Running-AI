@@ -335,13 +335,20 @@ select.form-input{cursor:pointer;}
     <div id="home-garmin-wrap">
       <div class="card" id="home-garmin-card" style="display:none">
         <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-          <span>Garmin — ultimi 30 giorni</span>
+          <span id="home-garmin-title">Garmin — ultimi 30 giorni</span>
           <div style="display:flex;align-items:center;gap:10px">
             <span id="home-garmin-summary" style="text-transform:none;letter-spacing:0;font-weight:400;font-family:var(--font-mono);font-size:11px;color:var(--muted)"></span>
             <button class="btn btn-secondary btn-sm" onclick="openModal('garmin-modal')">+ Aggiungi</button>
           </div>
         </div>
-        <div class="filter-pill-bar" id="home-garmin-pills" style="margin:2px 0 14px;box-shadow:none;padding:4px 8px"></div>
+        <div class="filter-pill-bar" id="home-garmin-pills" style="margin:2px 0 8px;box-shadow:none;padding:4px 8px"></div>
+        <div class="filter-pill-bar" id="home-garmin-period-pills" style="margin:2px 0 14px;box-shadow:none;padding:4px 8px">
+          <button class="filter-pill pill-active" data-gp="30" onclick="setGarminPeriod('home',30,this)">30 gg</button>
+          <button class="filter-pill" data-gp="90" onclick="setGarminPeriod('home',90,this)">3 mesi</button>
+          <button class="filter-pill" data-gp="180" onclick="setGarminPeriod('home',180,this)">6 mesi</button>
+          <button class="filter-pill" data-gp="365" onclick="setGarminPeriod('home',365,this)">1 anno</button>
+          <button class="filter-pill" data-gp="0" onclick="setGarminPeriod('home',0,this)">Tutto</button>
+        </div>
         <div id="home-garmin-chart"></div>
         <div style="margin-top:10px;border-top:1px solid var(--border);padding-top:8px">
           <button class="btn btn-secondary btn-sm" onclick="toggleGarminManage('home')" id="home-garmin-manage-btn" style="font-size:11px">Gestisci dati</button>
@@ -1400,12 +1407,16 @@ const GARMIN_METRICS=[
   {key:'stressLevel',label:'Stress',color:'var(--yellow)'},
 ];
 let garminMetricSel={};
+let garminPeriodSel={};
 
-function garminReadingsLastNDays(n){
-  const cutoff=Date.now()-n*86400000;
-  return state.garminReadings
-    .filter(g=>parseLocalDate(g.date).getTime()>=cutoff)
-    .slice().sort((a,b)=>parseLocalDate(a.date)-parseLocalDate(b.date));
+function garminReadingsInPeriod(prefix){
+  const n=garminPeriodSel[prefix]!=null?garminPeriodSel[prefix]:30;
+  let list=state.garminReadings.slice();
+  if(n>0){
+    const cutoff=Date.now()-n*86400000;
+    list=list.filter(g=>parseLocalDate(g.date).getTime()>=cutoff);
+  }
+  return list.sort((a,b)=>parseLocalDate(a.date)-parseLocalDate(b.date));
 }
 
 function renderGarminHome(){
@@ -1415,6 +1426,15 @@ function renderGarminHome(){
 
 function renderGarminInSection(prefix){
   renderGarminCard(prefix);
+}
+
+function setGarminPeriod(prefix,days,btn){
+  garminPeriodSel[prefix]=days;
+  if(btn){
+    document.querySelectorAll(`#${prefix}-garmin-period-pills [data-gp]`).forEach(b=>b.classList.remove('pill-active'));
+    btn.classList.add('pill-active');
+  }
+  renderGarminChart(prefix);
 }
 
 function renderGarminCard(prefix){
@@ -1452,10 +1472,14 @@ function renderGarminChart(prefix){
   if(!el)return;
   const metric=garminMetricSel[prefix]||'trainingReadiness';
   const meta=GARMIN_METRICS.find(m=>m.key===metric)||GARMIN_METRICS[0];
-  const data=garminReadingsLastNDays(30).filter(g=>g[metric]!=null);
+  const periodDays=garminPeriodSel[prefix]!=null?garminPeriodSel[prefix]:30;
+  const periodTxt=periodLabelText(periodDays,null,null);
+  const titleEl=document.getElementById(prefix+'-garmin-title');
+  if(titleEl)titleEl.textContent=`Garmin — ${periodTxt}`;
+  const data=garminReadingsInPeriod(prefix).filter(g=>g[metric]!=null);
   const sumEl=document.getElementById(prefix+'-garmin-summary');
   if(!data.length){
-    el.innerHTML='<div style="color:var(--muted);padding:28px 0;text-align:center;font-size:13px">Nessun dato per questo indicatore negli ultimi 30 giorni</div>';
+    el.innerHTML=`<div style="color:var(--muted);padding:28px 0;text-align:center;font-size:13px">Nessun dato per questo indicatore nel periodo selezionato (${periodTxt})</div>`;
     if(sumEl)sumEl.textContent='';
     return;
   }
@@ -1463,7 +1487,7 @@ function renderGarminChart(prefix){
   const vals=data.map(g=>+g[metric]);
   const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
   const last=vals[vals.length-1];
-  if(sumEl)sumEl.textContent=`${meta.label} · ultimo ${Math.round(last)} · media 30gg ${avg.toFixed(0)}`;
+  if(sumEl)sumEl.textContent=`${meta.label} · ultimo ${Math.round(last)} · media ${avg.toFixed(0)}`;
 }
 
 function toggleGarminManage(prefix){
