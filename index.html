@@ -101,6 +101,18 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 .act-row-tags{display:flex;gap:4px;flex-shrink:0;align-items:center;flex-wrap:wrap;max-width:130px;}
 .act-row-delete{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:12px;padding:4px 6px;transition:color .1s;flex-shrink:0;}
 .act-row-delete:hover{color:var(--red);}
+@media(max-width:700px){
+  .act-row{flex-wrap:wrap;row-gap:5px;padding:11px 12px;}
+  .act-row-bar{order:0;flex-basis:100%;width:auto;height:3px;border-radius:2px 2px 0 0;}
+  .act-row-icon{display:none;}
+  .act-row-main{order:1;flex-basis:calc(100% - 30px);min-width:0;}
+  .act-row-delete{order:2;margin-left:auto;padding:4px 4px 4px 10px;}
+  .act-row-title{font-size:14px;white-space:normal;overflow:visible;text-overflow:clip;}
+  .act-row-meta{font-size:11px;white-space:normal;}
+  .act-row-stats{order:3;flex-basis:100%;flex-wrap:wrap;justify-content:flex-start;gap:16px 20px;margin-top:2px;}
+  .act-row-stat{text-align:left;min-width:auto;}
+  .act-row-tags{order:4;flex-basis:100%;max-width:none;margin-top:2px;}
+}
 /* KPI avanzati */
 .kpi-adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:4px 0 16px;}
 @media(max-width:700px){.kpi-adv-grid{grid-template-columns:repeat(2,1fr);}}@media(max-width:380px){.kpi-adv-grid{grid-template-columns:1fr 1fr;}}
