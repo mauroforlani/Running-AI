@@ -20135,6 +20135,17 @@
       "stressLevel": null
     },
     {
+      "id": 1787379841656,
+      "date": "2026-08-22",
+      "hrv": "49",
+      "trainingReadiness": "22",
+      "trainingLoad": "931",
+      "bodyBattery": "87",
+      "restingHR": "50",
+      "sleepScore": "81",
+      "stressLevel": "14"
+    },
+    {
       "id": 1787295639048,
       "date": "2026-08-21",
       "hrv": "48",
