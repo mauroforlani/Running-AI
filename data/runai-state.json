@@ -20624,6 +20624,17 @@
   ],
   "garminReadings": [
     {
+      "id": 1790660072609,
+      "date": "2026-09-29",
+      "hrv": "51",
+      "trainingReadiness": "75",
+      "trainingLoad": "401",
+      "bodyBattery": "86",
+      "restingHR": "50",
+      "sleepScore": "80",
+      "stressLevel": "12"
+    },
+    {
       "id": 1790576277311,
       "date": "2026-09-28",
       "hrv": "51",
