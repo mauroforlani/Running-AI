@@ -3144,6 +3144,17 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
   // Reset dati piano precedente
   if(!window._pianoData)window._pianoData={};
   window._pianoData[sid]=[];
+  // Reset completo: check e feedback del piano precedente (gli allenamenti reali restano nello storico)
+  try{
+    localStorage.removeItem(`runai-piano-checks-${sid}`);
+    const pfx=`piano-check-${sid}-`;
+    ['pianoChecks','pianoFeedback'].forEach(k=>{
+      if(!state[k])return;
+      Object.keys(state[k]).forEach(id=>{if(id.startsWith(pfx))delete state[k][id];});
+    });
+    if(state.piano)delete state.piano[sid];
+    saveState();
+  }catch(e){console.warn('Reset piano precedente fallito',e);}
 
   const color=SECT_COLOR[sid];
   const tipoColor={Riposo:'var(--muted)',Facile:'var(--green)',Medio:color,Lungo:'#c08a1a',Intervalli:'var(--red)',Tempo:'var(--trail)',Recupero:'var(--muted)',Forza:'#5566b0'};
