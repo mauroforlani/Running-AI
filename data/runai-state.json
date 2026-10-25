@@ -22987,17 +22987,17 @@
             {
               "giorno": "Martedì",
               "tipo": "Facile",
-              "km": 8,
-              "durata": 45,
-              "passo": "5:30/km",
+              "km": 10,
+              "durata": "51min",
+              "passo": "5:07",
               "descrizione": "Corsa facile a ritmo blando. Mantieni FC sotto 155bpm. Obiettivo: attivazione settimanale senza stress."
             },
             {
               "giorno": "Mercoledì",
               "tipo": "Medio",
-              "km": 10,
-              "durata": 55,
-              "passo": "5:10/km",
+              "km": 8,
+              "durata": "43min",
+              "passo": "5:25",
               "descrizione": "Riscaldamento: 2km @5:40/km. Struttura principale: 6km @5:05-5:10/km (ritmo medio sostenuto, FC ~165-170bpm). Defaticamento: 2km @5:40/km. Obiettivo: abituarsi al ritmo marathon-pace superiore."
             },
             {
@@ -23011,9 +23011,9 @@
             {
               "giorno": "Venerdì",
               "tipo": "Lungo",
-              "km": 12,
-              "durata": 70,
-              "passo": "5:30/km",
+              "km": 10,
+              "durata": "51min",
+              "passo": "5:03",
               "descrizione": "Riscaldamento: 1km @5:50/km. Struttura principale: 10km @5:25-5:30/km costante, ritmo conversazionale, FC ~155-162bpm. Defaticamento: 1km @6:00/km camminata finale 3 minuti. Obiettivo: costruzione resistenza aerobica di base."
             },
             {
@@ -23027,9 +23027,9 @@
             {
               "giorno": "Domenica",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 18.86,
+              "durata": "163min",
+              "passo": "8:40",
               "descrizione": "Riposo. Se si svolge hiking/trail (~20km), considerarlo come recupero attivo a bassa intensità."
             }
           ]
@@ -23066,9 +23066,9 @@
             {
               "giorno": "Giovedì",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:02",
               "descrizione": "Riposo obbligatorio. Stretching e mobilità consigliati, attenzione ai polpacci e agli ischiocrurali."
             },
             {
@@ -23090,9 +23090,9 @@
             {
               "giorno": "Domenica",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 35.12,
+              "durata": "337min",
+              "passo": "9:36",
               "descrizione": "Riposo. Se si svolge hiking/trail (~20km), considerarlo come recupero attivo a bassa intensità."
             }
           ]
@@ -23121,9 +23121,9 @@
             {
               "giorno": "Mercoledì",
               "tipo": "Facile",
-              "km": 8,
-              "durata": 48,
-              "passo": "5:40/km",
+              "km": 10,
+              "durata": "50min",
+              "passo": "5:01",
               "descrizione": "Corsa rigenerante a ritmo facile, FC sotto 145bpm. Recupero attivo dopo le ripetute del martedì."
             },
             {
@@ -23137,17 +23137,17 @@
             {
               "giorno": "Venerdì",
               "tipo": "Medio",
-              "km": 14,
-              "durata": 78,
-              "passo": "5:05/km",
+              "km": 8.15,
+              "durata": "44min",
+              "passo": "5:21",
               "descrizione": "Riscaldamento: 2km @5:40/km. Struttura principale: 10km a ritmo medio-maratona @5:05/km (FC attesa 155-162bpm), mantenendo passo costante senza accelerazioni. Defaticamento: 2km @5:50/km + stretching statico 10 min."
             },
             {
               "giorno": "Sabato",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 7.15,
+              "durata": "35min",
+              "passo": "4:53",
               "descrizione": "Riposo obbligatorio. Il volume del fine settimana è coperto dall'uscita hiking/trail di domenica."
             },
             {
@@ -23216,9 +23216,9 @@
             {
               "giorno": "Domenica",
               "tipo": "Lungo",
-              "km": 20,
-              "durata": 130,
-              "passo": "6:00/km",
+              "km": 49.55,
+              "durata": "508min",
+              "passo": "10:15",
               "descrizione": "Uscita hiking o trail running da ~20km a ritmo libero e conversazionale. Terreno variato con eventuale dislivello. L'obiettivo rimane il tempo sui piedi e la resistenza aerobica di base, complementare al lavoro di qualità della settimana. Idratazione attenta durante tutta l'uscita."
             }
           ]
@@ -23263,9 +23263,9 @@
             {
               "giorno": "Venerdì",
               "tipo": "Intervalli",
-              "km": 12,
-              "durata": 65,
-              "passo": "4:45/km (tratti veloci)",
+              "km": 8.1,
+              "durata": "42min",
+              "passo": "5:13",
               "descrizione": "Riscaldamento: 3km a 5:40/km con 4 strides di 80m. Struttura principale: 5×1600m @4:45/km con recupero 90s di camminata/jogging lento tra ogni ripetuta. Obiettivo: abituare il corpo al ritmo obiettivo maratona e oltre. Defaticamento: 2km a 5:50/km + stretching gambe 10 min."
             },
             {
@@ -23279,9 +23279,9 @@
             {
               "giorno": "Domenica",
               "tipo": "Lungo",
-              "km": 20,
-              "durata": 130,
-              "passo": "variabile (hiking/trail)",
+              "km": 11,
+              "durata": "55min",
+              "passo": "4:59",
               "descrizione": "Uscita hiking o trail running da ~20km come da abitudine. Non contabilizzata nei 30km settimanali del piano running. Passo libero, goditi il percorso. Ottimo stimolo aerobico complementare."
             }
           ]
@@ -23326,9 +23326,9 @@
             {
               "giorno": "Venerdì",
               "tipo": "Intervalli",
-              "km": 10,
-              "durata": 55,
-              "passo": "4:35/km (tratti veloci)",
+              "km": 8.2,
+              "durata": "41min",
+              "passo": "5:02",
               "descrizione": "Riscaldamento: 2.5km a 5:40/km con 4 strides progressivi. Struttura principale: 6×800m @4:35/km con recupero 75s jogging lento. Volume ridotto rispetto alla settimana 5 per favorire lo scarico, ma intensità mantenuta per preservare le adattazioni neuromuscolari. Defaticamento: 2km a 5:50/km + stretching completo 10 min."
             },
             {
@@ -23357,17 +23357,17 @@
             {
               "giorno": "Lunedì",
               "tipo": "Riposo",
-              "km": null,
-              "durata": null,
-              "passo": null,
+              "km": 8.2,
+              "durata": "42min",
+              "passo": "5:06",
               "descrizione": "Riposo completo. Recupero attivo leggero se necessario (stretching, mobilità)."
             },
             {
               "giorno": "Martedì",
               "tipo": "Intervalli",
-              "km": 10,
-              "durata": 60,
-              "passo": "4:30/km (ripetute)",
+              "km": 8,
+              "durata": "45min",
+              "passo": "5:36",
               "descrizione": "Riscaldamento: 2km facile @5:40/km + 5' mobilità dinamica. Struttura principale: 6×1km @4:30/km con recupero 90s jogging lento tra le ripetute. Defaticamento: 2km lento @5:50/km + stretching 5'."
             },
             {
@@ -23736,7 +23736,8 @@
         "SEGNALI D'ALLARME: se durante la settimana 11 percepisci dolori tendinei (tendine d'Achille, ginocchio) o affaticamento anomalo, riduci il lungo del venerdì a 18-20km senza forzare — arrivare integro alla partenza vale più di qualsiasi km extra in allenamento."
       ],
       "distanza": "Maratona (42 km)",
-      "generatedAt": "2026-10-25T19:28:03.177Z"
+      "generatedAt": "2026-10-25T19:28:03.177Z",
+      "updatedAt": "2026-10-25T19:32:42.757Z"
     }
   },
   "pianoChecks": {
