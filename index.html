@@ -3253,7 +3253,7 @@ Includi tutti e 7 i giorni per ogni settimana. Km e dislivello sono numeri o nul
   const progEl=document.getElementById(sid+'-piano-progress');
 
   // Chiama API per batch di 4 settimane
-  const BATCH=4;
+  const BATCH=2;
   let consigli=[];
   try{
     for(let from=1;from<=numWeeks;from+=BATCH){
@@ -3273,12 +3273,11 @@ ${jsonSchema}`;
       const res=await fetch('https://api.anthropic.com/v1/messages',{
         method:'POST',
         headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:3000,messages:[{role:'user',content:batchPrompt}]})
+        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:8000,messages:[{role:'user',content:batchPrompt}]})
       });
       if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
       const data=await res.json();
-      const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-      const batch=JSON.parse(raw);
+      const batch=parseAIJson(data);
       (batch.settimane||[]).forEach(s=>{
         window._pianoData[sid].push(s);
         textEl.innerHTML+=renderSettimana(s,s.numero);
@@ -3305,6 +3304,16 @@ ${jsonSchema}`;
     progEl.innerHTML=`<div style="color:var(--red);background:var(--red-bg);border:1.5px solid #eabfc7;border-radius:8px;padding:12px;font-size:13px;margin-top:8px">❌ ${e.message}</div>`;
   }
   btn.disabled=false;btn.innerHTML='Genera Piano';
+}
+
+function parseAIJson(data){
+  if(data&&data.error)throw new Error(data.error.message||'Errore API');
+  const raw=((data&&data.content)||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+  if(data&&data.stop_reason==='max_tokens')throw new Error('La risposta AI è stata troncata (troppo lunga). Riprova con meno settimane o note più brevi.');
+  const a=raw.indexOf('{'),b=raw.lastIndexOf('}');
+  if(!raw||a===-1||b<a)throw new Error('Risposta AI vuota o non valida. Riprova.');
+  try{return JSON.parse(raw.slice(a,b+1));}
+  catch(e){throw new Error('JSON non valido nella risposta AI. Riprova.');}
 }
 
 function clearPiano(sid){
@@ -3454,12 +3463,11 @@ Includi tutti e 7 i giorni per ogni settimana.`;
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:3000,messages:[{role:'user',content:updatePrompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:8000,messages:[{role:'user',content:updatePrompt}]})
     });
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
-    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    const updated=JSON.parse(raw);
+    const updated=parseAIJson(data);
 
     // Sostituisci le settimane aggiornate nell'HTML e nei dati
     // Raccogli prima tutti i riferimenti DOM (outerHTML li invalida)
@@ -4165,12 +4173,11 @@ async function ricalibraPiano(sid){
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:3000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:8000,messages:[{role:'user',content:prompt}]})
     });
     if(!res.ok){const e=await res.json().catch(()=>({error:{message:res.statusText}}));throw new Error(e?.error?.message||`HTTP ${res.status}`);}
     const data=await res.json();
-    const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    const updated=JSON.parse(raw);
+    const updated=parseAIJson(data);
     const weekRefs={};
     (updated.settimane||[]).forEach(s=>{const el=document.getElementById(`piano-week-${sid}-${s.numero}`);if(el)weekRefs[s.numero]=el;});
     (updated.settimane||[]).forEach(newS=>{
