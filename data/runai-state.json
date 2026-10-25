@@ -23763,10 +23763,10 @@
     "piano-check-road-w4-6": false,
     "piano-check-road-w5-4": false,
     "piano-check-road-w5-6": false,
-    "piano-check-road-w6-4": true,
-    "piano-check-road-w6-6": true,
+    "piano-check-road-w6-4": false,
+    "piano-check-road-w6-6": false,
     "piano-check-road-w7-0": true,
-    "piano-check-road-w7-1": true
+    "piano-check-road-w7-1": false
   },
   "pianoFeedback": {
     "piano-check-road-w1-2": {
